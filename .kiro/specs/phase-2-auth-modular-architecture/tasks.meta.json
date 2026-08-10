@@ -1,0 +1,93 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "Cleanup on unmount": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783670939966
+      }
+    ],
+    "Returns: `{ data, loading, error, execute }`": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783670940225
+      }
+    ],
+    "2.4 Implement useLocalStorage hook": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783670954200
+      },
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783671481792
+      }
+    ],
+    "Handle JSON serialization": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783671490748
+      },
+      {
+        "executionId": "7d321350-3e8a-487a-ae65-3fcc96c58f58",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783686042466
+      },
+      {
+        "executionId": "7d321350-3e8a-487a-ae65-3fcc96c58f58",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783686042972
+      },
+      {
+        "executionId": "7d321350-3e8a-487a-ae65-3fcc96c58f58",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783686095218
+      }
+    ],
+    "Persist to localStorage": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783671491583
+      }
+    ],
+    "Returns: `[value, setValue]`": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783671492577
+      }
+    ],
+    "File: `/lib/hooks/index.ts`": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783671493533
+      }
+    ],
+    "Export all hooks": [
+      {
+        "executionId": "328bce36-7596-42d6-b5f1-d7750c522f6e",
+        "chatSessionId": "sess_69ddf87c-5961-440d-9183-0521c6b1d223",
+        "timestamp": 1783671494242
+      }
+    ],
+    "3.1 Implement email validator": [
+      {
+        "executionId": "f2572170-535a-4fc7-b8f2-2544ec0aa6d4",
+        "chatSessionId": "sess_b41510a8-4c25-473f-9eaf-1bb57a9365dc",
+        "timestamp": 1783693676148
+      },
+      {
+        "executionId": "f2572170-535a-4fc7-b8f2-2544ec0aa6d4",
+        "chatSessionId": "sess_b41510a8-4c25-473f-9eaf-1bb57a9365dc",
+        "timestamp": 1783693923983
+      }
+    ]
+  }
+}

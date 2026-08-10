@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Dark background pill matching splash colour -->
+  <rect width="32" height="32" rx="8" fill="#0f0c29"/>
+
+  <!-- Infinity symbol — bold, gradient blue→purple, centred in the tile -->
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+
+  <!--
+    Infinity drawn as two tangent circles' outlines merged into a figure-8.
+    Left loop centre (10,16) r=5.5, right loop centre (22,16) r=5.5, stroke-width=2.8
+    We use a path that traces the infinity figure smoothly.
+  -->
+  <path
+    d="M16 16
+       C16 16 13.5 10.5 10 10.5
+       C6.5 10.5 4 13 4 16
+       C4 19 6.5 21.5 10 21.5
+       C13.5 21.5 16 16 16 16
+       C16 16 18.5 10.5 22 10.5
+       C25.5 10.5 28 13 28 16
+       C28 19 25.5 21.5 22 21.5
+       C18.5 21.5 16 16 16 16Z"
+    stroke="url(#g)"
+    stroke-width="2.6"
+    stroke-linecap="round"
+    fill="none"
+  />
+</svg>

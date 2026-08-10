@@ -1,0 +1,1952 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model School {
+  id                String             @id @default(cuid())
+  name              String
+  shortCode         String             @unique
+  location          String
+  country           String             @default("Nigeria")
+  logoUrl           String?
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  faculties         Faculty[]
+  users             User[]
+  events            SchoolEvent[]
+  mapLocations      MapLocation[]
+  campusFeatures    CampusFeature[]
+  campusEntrances   CampusEntrance[]
+  campusPaths       CampusPath[]
+  campusRouteNodes  CampusRouteNode[]
+  campusRouteEdges  CampusRouteEdge[]
+  campusIndoorLevels CampusIndoorLevel[]
+  campusIndoorFeatures CampusIndoorFeature[]
+  campusEvents      CampusSpatialEvent[]
+  campusLiveAssets  CampusLiveAsset[]
+  shuttles          ShuttleRoute[]
+  emergencyContacts EmergencyContact[]
+  communityPosts      CommunityPost[]
+  questions           Question[]
+  timetableEntries    TimetableEntry[]
+  accommodationPosts  AccommodationPost[]
+  roommateRequests    RoommateRequest[]
+  serviceListings     ServiceListing[]
+  jobListings         JobListing[]
+  freshersFaqs        FreshersFaq[]
+
+  @@map("schools")
+}
+
+model Faculty {
+  id          String       @id @default(cuid())
+  name        String
+  schoolId    String
+  school      School       @relation(fields: [schoolId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  departments Department[]
+  users       User[]
+
+  @@unique([name, schoolId])
+  @@map("faculties")
+}
+
+model Department {
+  id               String           @id @default(cuid())
+  name             String
+  shortCode        String
+  facultyId        String
+  faculty          Faculty          @relation(fields: [facultyId], references: [id])
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  users            User[]
+  materials        Material[]
+  quizzes          Quiz[]
+  posts            Post[]
+  reminders        DeptReminder[]
+  communityPosts   CommunityPost[]
+  questions        Question[]
+  studyGroups      StudyGroup[]
+  timetableEntries TimetableEntry[]
+  courseMentors    CourseMentor[]
+  events           SchoolEvent[]
+
+  @@unique([shortCode, facultyId])
+  @@map("departments")
+}
+
+model User {
+  id                  String              @id @default(cuid())
+  fullName            String
+  email               String              @unique
+  phone               String?             @unique
+  matricNumber        String              @unique
+  passwordHash        String
+  role                UserRole            @default(STUDENT)
+  level               String
+  schoolId            String
+  school              School              @relation(fields: [schoolId], references: [id])
+  facultyId           String
+  faculty             Faculty             @relation(fields: [facultyId], references: [id])
+  departmentId        String
+  department          Department          @relation(fields: [departmentId], references: [id])
+  bio                 String?
+  profilePictureUrl   String?
+  fcmToken            String?
+  isVerified          Boolean             @default(false)
+  isActive            Boolean             @default(true)
+  isDeleted           Boolean             @default(false)
+  deletedAt           DateTime?
+  isBlocked           Boolean             @default(false)
+  blockedAt           DateTime?
+  blockedById         String?
+  lastSeenAt          DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  refreshTokens       RefreshToken[]
+  otpCodes            OTPCode[]
+  materials           Material[]          @relation("UploadedMaterials")
+  ratings             MaterialRating[]
+  bookmarks           Bookmark[]
+  quizAttempts        QuizAttempt[]
+  posts               Post[]
+  comments            Comment[]
+  listings            Listing[]
+  shop                Shop?
+  shopFollows         ShopFollow[]
+  sellerRatings       SellerRating[]      @relation("RaterUser")
+  receivedRatings     SellerRating[]      @relation("RatedUser")
+  reminders           Reminder[]
+  plannerEntries      PlannerEntry[]
+  timetableEntries    TimetableEntry[]    @relation("TimetableCreator")
+  personalTimetable   TimetableEntry[]    @relation()
+  eventsCreated       SchoolEvent[]       @relation("EventCreator")
+  eventTickets        EventTicket[]       @relation()
+  ticketsApproved     EventTicket[]       @relation("TicketApprover")
+  eventReminders      EventReminder[]
+  mapLocationsCreated MapLocation[]       @relation("MapLocationCreator")
+  emergencyContacts   EmergencyContact[]  @relation("EmergencyContactCreator")
+  aiSummaryRequests   AISummaryRequest[]
+  personalStudySessions PersonalStudySession[]
+  lostFoundItems          LostFoundItem[]
+  agentProfile            AgentProfile?
+  marketplaceReports      MarketplaceReport[]    @relation("ReportedBy")
+  savedListings           SavedListing[]
+  accommodationPosts      AccommodationPost[]  @relation("AccommodationPoster")
+  roommateRequests        RoommateRequest[]    @relation("RoommateRequester")
+  serviceListings         ServiceListing[]     @relation("ServiceProvider")
+  jobListings             JobListing[]         @relation("JobPoster")
+  notifications           Notification[]
+  settings            UserSettings?
+  cgpaCourses         CGPACourse[]
+  cgpaRecords         CGPARecord[]
+  communityPosts      CommunityPost[]
+  communityComments   CommunityComment[]
+  communityBookmarks  CommunityBookmark[]
+  academicPostCount   Int                 @default(0)
+  courseMentors       CourseMentor[]
+  questions           Question[]
+  answers             Answer[]
+  reactions           Reaction[]
+  reports             Report[]
+  studyGroupsCreated  StudyGroup[]        @relation("GroupCreator")
+  studyGroupMembers   StudyGroupMember[]
+  studyGroupMessages  StudyGroupMessage[]
+  groupInvitesCreated GroupInvite[]       @relation("InviteCreator")
+  quizAnalytics       QuizAnalytics?
+  auditLogsPerformed  AuditLog[]          @relation("AuditPerformer")
+  auditLogsReceived   AuditLog[]          @relation("AuditTarget")
+  agentProfilesReviewed AgentProfile[]    @relation("AgentReviewer")
+
+  @@index([schoolId, departmentId, level])
+  @@index([email])
+  @@map("users")
+}
+
+enum UserRole {
+  STUDENT
+  COURSE_REP
+  AUTHORIZED_UPLOADER
+  EVENT_ORCHESTRATOR
+  HOUSE_AGENT
+  SCHOOL_ADMIN
+  SUPER_ADMIN
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  expiresAt  DateTime
+  deviceInfo String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model OTPCode {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  code      String
+  type      OTPType
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, type])
+  @@map("otp_codes")
+}
+
+enum OTPType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+model UserSettings {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  darkMode             Boolean  @default(false)
+  lowDataMode          Boolean  @default(false)
+  notificationsEnabled Boolean  @default(true)
+  emailNotifications   Boolean  @default(true)
+  pushNotifications    Boolean  @default(true)
+  reminderPush         Boolean  @default(true)
+  eventPush            Boolean  @default(true)
+  whatsappOptIn        Boolean  @default(false)
+  announcementPush     Boolean  @default(true)
+  quietHoursEnabled    Boolean  @default(false)
+  quietHoursStart      String   @default("22:00") // HH:MM
+  quietHoursEnd        String   @default("07:00") // HH:MM
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("user_settings")
+}
+
+model Material {
+  id                String             @id @default(cuid())
+  title             String
+  type              MaterialType
+  courseCode        String
+  courseTitle       String
+  year              Int?
+  level             String?
+  description       String?
+  fileUrl           String
+  fileKey           String
+  fileSize          Int
+  mimeType          String
+  contentHash            String?
+  extractedText          String?            @db.Text
+  extractedTextPreview   String?            @db.Text
+  textExtractionStatus   TextExtractionStatus @default(PENDING)
+  isVerified             Boolean            @default(false)
+  verifiedAt             DateTime?
+  verifiedById           String?
+  reviewStatus           MaterialReviewStatus @default(APPROVED)
+  reviewedAt             DateTime?
+  reviewedById           String?
+  reviewNote             String?
+  uploadedById           String
+  uploadedBy             User               @relation("UploadedMaterials", fields: [uploadedById], references: [id])
+  departmentId           String
+  department             Department         @relation(fields: [departmentId], references: [id])
+  downloadCount          Int                @default(0)
+  viewCount              Int                @default(0)
+  avgRating              Float              @default(0)
+  visibility             MaterialVisibility @default(PUBLIC)
+  studyGroupId           String?
+  isDeleted              Boolean            @default(false)
+  deletedAt              DateTime?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+  ratings                MaterialRating[]
+  bookmarks              Bookmark[]
+  aiSummary              AISummary?
+  aiSummaryRequests      AISummaryRequest[]
+  personalStudySessions  PersonalStudySession[]
+
+  @@index([departmentId, type, level])
+  @@index([departmentId, visibility, isDeleted, createdAt(sort: Desc)])
+  @@index([reviewStatus, isDeleted])
+  @@index([courseCode])
+  @@index([uploadedById])
+  @@map("materials")
+}
+
+enum MaterialReviewStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum TextExtractionStatus {
+  PENDING
+  READABLE
+  EMPTY
+}
+
+enum MaterialType {
+  PAST_QUESTION
+  NOTE
+  HANDOUT
+  ASSIGNMENT
+  SUMMARY
+  SLIDES
+  OTHER
+}
+
+enum MaterialVisibility {
+  PUBLIC
+  DEPARTMENT
+  LEVEL
+  STUDY_GROUP
+  PRIVATE
+}
+
+model MaterialRating {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  materialId String
+  material   Material @relation(fields: [materialId], references: [id])
+  rating     Int
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, materialId])
+  @@map("material_ratings")
+}
+
+model Bookmark {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id])
+  materialId String?
+  material   Material?    @relation(fields: [materialId], references: [id])
+  postId     String?
+  post       Post?        @relation(fields: [postId], references: [id])
+  type       BookmarkType
+  createdAt  DateTime     @default(now())
+
+  @@unique([userId, materialId])
+  @@unique([userId, postId])
+  @@map("bookmarks")
+}
+
+enum BookmarkType {
+  MATERIAL
+  POST
+}
+
+model AISummary {
+  id                    String           @id @default(cuid())
+  materialId            String           @unique
+  material              Material         @relation(fields: [materialId], references: [id])
+  status                AISummaryStatus  @default(PENDING)
+  progress              Int              @default(0)
+  totalChunks           Int              @default(0)
+  processedChunks       Int              @default(0)
+  shortSummary          String?          @db.Text
+  keyPoints             Json?
+  likelyExamTopics      Json?
+  simplifiedExplanation String?          @db.Text
+  finalSummary          String?          @db.Text
+  combinedKeyPoints     Json?
+  combinedExamTopics    Json?
+  revisionSheet         String?          @db.Text
+  revisionRoadmap       Json?            // Array of { step, topic, description, estimatedMinutes }
+  quizApprovalStatus    QuizApprovalStatus @default(PENDING_REVIEW)
+  masterQuizId          String?
+  processingTimeMs      Int?
+  errorMessage          String?
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  chunks                AISummaryChunk[]
+
+  @@map("ai_summaries")
+}
+
+model AISummaryChunk {
+  id                  String          @id @default(cuid())
+  aiSummaryId         String
+  aiSummary           AISummary       @relation(fields: [aiSummaryId], references: [id], onDelete: Cascade)
+  chunkNumber         Int
+  summary             String?         @db.Text
+  keyPoints           Json?
+  examTopics          Json?
+  quizQuestions       Json?
+  beginnerExplanation String?         @db.Text
+  status              AISummaryStatus @default(PENDING)
+  createdAt           DateTime        @default(now())
+
+  @@unique([aiSummaryId, chunkNumber])
+  @@map("ai_summary_chunks")
+}
+
+model AISummaryRequest {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  materialId String
+  material   Material @relation(fields: [materialId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@map("ai_summary_requests")
+}
+
+// ── Personal Study Workspace ──────────────────────────────────────────────
+// A private space where any student can upload a file or pin an existing
+// material and then generate personalised quizzes / ask AI questions.
+
+model PersonalStudySession {
+  id          String                       @id @default(cuid())
+  userId      String
+  user        User                         @relation(fields: [userId], references: [id])
+  // Either points to a platform material or owns a private upload
+  materialId  String?
+  material    Material?                    @relation(fields: [materialId], references: [id])
+  // For private uploads not in the main material catalogue
+  privateFileUrl  String?
+  privateFileKey  String?
+  privateFileSize Int?
+  privateMimeType String?
+  privateFileName String?
+  extractedText   String?                  @db.Text
+  title           String
+  courseCode      String
+  createdAt   DateTime                     @default(now())
+  updatedAt   DateTime                     @updatedAt
+  questions   PersonalQuizQuestion[]
+  chatHistory PersonalStudyChat[]
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("personal_study_sessions")
+}
+
+model PersonalQuizQuestion {
+  id            String               @id @default(cuid())
+  sessionId     String
+  session       PersonalStudySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question      String
+  options       Json                 // string[]
+  correctAnswer Int
+  explanation   String?
+  topic         String?
+  order         Int
+  createdAt     DateTime             @default(now())
+
+  @@index([sessionId])
+  @@map("personal_quiz_questions")
+}
+
+model PersonalStudyChat {
+  id        String               @id @default(cuid())
+  sessionId String
+  session   PersonalStudySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role      PersonalChatRole
+  content   String               @db.Text
+  createdAt DateTime             @default(now())
+
+  @@index([sessionId, createdAt(sort: Asc)])
+  @@map("personal_study_chats")
+}
+
+enum PersonalChatRole {
+  USER
+  ASSISTANT
+}
+
+
+enum AISummaryStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum QuizApprovalStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum QuizVisibility {
+  PUBLIC
+  DEPARTMENT
+  LEVEL
+  STUDY_GROUP
+  PRIVATE
+}
+
+model Quiz {
+  id           String         @id @default(cuid())
+  title        String
+  courseCode   String
+  description  String?
+  level        String?
+  timeLimit    Int
+  departmentId String
+  department   Department     @relation(fields: [departmentId], references: [id])
+  createdById  String
+  creatorRole  String         @default("COURSE_REP")
+  visibility   QuizVisibility @default(DEPARTMENT)
+  studyGroupId String?
+  studyGroup   StudyGroup?    @relation(fields: [studyGroupId], references: [id], onDelete: SetNull)
+  isAiGenerated      Boolean        @default(false)
+  isDraft            Boolean        @default(false)
+  quizApprovalStatus QuizApprovalStatus @default(APPROVED) // manual quizzes auto-approved
+  isActive           Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  questions    QuizQuestion[]
+  attempts     QuizAttempt[]
+  questionStats QuizQuestionStat[]
+
+  @@index([departmentId, courseCode])
+  @@index([departmentId, visibility, isDraft, isActive, createdAt(sort: Desc)])
+  @@index([studyGroupId])
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id            String   @id @default(cuid())
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  question      String   @db.Text
+  options       Json
+  correctAnswer Int
+  explanation   String?  @db.Text
+  order         Int
+  createdAt     DateTime @default(now())
+
+  @@index([quizId])
+  @@map("quiz_questions")
+}
+
+model QuizAttempt {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  quizId         String
+  quiz           Quiz     @relation(fields: [quizId], references: [id])
+  score          Int
+  totalQuestions Int
+  percentage     Float
+  timeTaken      Int
+  answers        Json     // Array of { questionId, selected, correct, topic? }
+  completedAt    DateTime @default(now())
+
+  @@index([userId, quizId])
+  @@index([quizId, completedAt(sort: Desc)])
+  @@map("quiz_attempts")
+}
+
+// Per-user quiz analytics profile
+model QuizAnalytics {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalAttempts    Int      @default(0)
+  totalCorrect     Int      @default(0)
+  totalQuestions   Int      @default(0)
+  weakTopics       Json     @default("[]")  // string[]
+  topicAttempts    Json     @default("{}")  // { [topic]: { attempts, wrong } }
+  updatedAt        DateTime @updatedAt
+
+  @@map("quiz_analytics")
+}
+
+// Per-question aggregate stats (updated on every attempt)
+model QuizQuestionStat {
+  id             String @id @default(cuid())
+  quizId         String
+  quiz           Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  questionId     String @unique
+  topic          String @default("General")
+  totalAttempts  Int    @default(0)
+  totalWrong     Int    @default(0)
+
+  @@index([quizId])
+  @@map("quiz_question_stats")
+}
+
+enum TimetableType {
+  PERSONAL
+  DEPARTMENTAL
+  GENERAL
+}
+
+enum ClassType {
+  LECTURE
+  PRACTICAL
+  SEMINAR
+  EXAM
+  TEST
+}
+
+model TimetableEntry {
+  id            String        @id @default(cuid())
+  timetableType TimetableType @default(PERSONAL)
+  courseCode    String
+  courseTitle   String
+  venue         String?
+  dayOfWeek     Int
+  startTime     String
+  endTime       String
+  type          ClassType     @default(LECTURE)
+  isRecurring   Boolean       @default(true)
+  level         String? // for DEPARTMENTAL — e.g. "300"
+  userId        String? // only for PERSONAL
+  user          User?         @relation(fields: [userId], references: [id])
+  departmentId  String? // only for DEPARTMENTAL
+  department    Department?   @relation(fields: [departmentId], references: [id])
+  schoolId      String? // only for GENERAL
+  school        School?       @relation(fields: [schoolId], references: [id])
+  createdById   String
+  createdBy     User          @relation("TimetableCreator", fields: [createdById], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([departmentId, level])
+  @@index([schoolId])
+  @@map("timetable_entries")
+}
+
+model SchoolEvent {
+  id             String          @id @default(cuid())
+  title          String
+  description    String?         @db.Text
+  type           EventType
+  startDate      DateTime
+  endDate        DateTime?
+  venue          String?
+  imageUrl       String?
+  schoolId       String
+  school         School          @relation(fields: [schoolId], references: [id])
+  departmentId   String?
+  department     Department?     @relation(fields: [departmentId], references: [id])
+  level          String?
+  createdById    String
+  createdBy      User            @relation("EventCreator", fields: [createdById], references: [id])
+  isActive       Boolean         @default(true)
+  requiresTicket Boolean         @default(false)
+  ticketPrice    Decimal?        @db.Decimal(10, 2)
+  bankName       String?
+  accountNumber  String?
+  accountName    String?
+  totalTickets   Int?
+  ticketsSold    Int             @default(0)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  tickets        EventTicket[]
+  eventReminders EventReminder[]
+
+  @@index([schoolId, startDate])
+  @@index([departmentId, level, startDate])
+  @@map("school_events")
+}
+
+enum EventType {
+  INFO_ONLY
+  EXAM
+  DEPARTMENTAL
+  SEMINAR
+  PROGRAM
+  DEADLINE
+  HOLIDAY
+  OTHER
+}
+
+enum MapLocationType {
+  BUILDING
+  HOSTEL
+  CAFETERIA
+  LIBRARY
+  CLINIC
+  SPORTS
+  GATE
+  PARKING
+  OFFICE
+  LAB
+  LECTURE_HALL
+  OTHER
+  UNKNOWN
+}
+
+model MapLocation {
+  id          String          @id @default(cuid())
+  name        String
+  type        MapLocationType @default(UNKNOWN)
+  description String?
+  latitude    Float
+  longitude   Float
+  floor       String?
+  tags        Json? // String[]
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id])
+  imageUrl    String?
+  createdById String
+  createdBy   User     @relation("MapLocationCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([schoolId])
+  @@map("map_locations")
+}
+
+enum CampusFeatureCategory {
+  BUILDING
+  HOSTEL
+  LECTURE_HALL
+  LIBRARY
+  CLINIC
+  CAFETERIA
+  ATM
+  SPORTS
+  SHUTTLE_STOP
+  GATE
+  PARKING
+  LANDMARK
+  OFFICE
+  LAB
+  ROAD
+  PATH
+  OTHER
+}
+
+enum CampusEntranceKind {
+  MAIN
+  ACCESSIBLE
+  SERVICE
+  EMERGENCY
+  SECONDARY
+}
+
+enum CampusRouteMode {
+  WALKING
+  ACCESSIBLE
+}
+
+enum CampusLiveAssetType {
+  SHUTTLE
+  CROWD_HEATMAP
+  EMERGENCY
+  SENSOR
+}
+
+model CampusFeature {
+  id            String                @id
+  schoolId      String
+  school        School                @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  category      CampusFeatureCategory @default(OTHER)
+  name          String
+  description   String?
+  aliases       Json                  @default("[]")
+  tags          Json                  @default("[]")
+  metadata      Json                  @default("{}")
+  images        Json                  @default("[]")
+  routing       Json                  @default("{\"routable\":true}")
+  accessibility Json                  @default("{\"wheelchair\":false,\"stepFree\":false,\"ramp\":false}")
+  importance    Int                   @default(0)
+  isActive      Boolean               @default(true)
+  geometry      Unsupported("geometry")
+  centroid      Unsupported("geometry")?
+  entrances     CampusEntrance[]
+  routeNodes    CampusRouteNode[]
+  indoorLevels  CampusIndoorLevel[]
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  @@index([schoolId, category, isActive])
+  @@map("campus_features")
+}
+
+model CampusEntrance {
+  id           String             @id
+  schoolId     String
+  school       School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  featureId    String?
+  feature      CampusFeature?     @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  kind         CampusEntranceKind @default(SECONDARY)
+  name         String?
+  priority     Int                @default(50)
+  isAccessible Boolean            @default(false)
+  metadata     Json               @default("{}")
+  geometry     Unsupported("geometry")
+  routeNodes   CampusRouteNode[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@index([featureId, priority])
+  @@map("campus_entrances")
+}
+
+model CampusPath {
+  id           String             @id
+  schoolId     String
+  school       School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name         String?
+  kind         String             @default("walkway")
+  isAccessible Boolean            @default(true)
+  metadata     Json               @default("{}")
+  geometry     Unsupported("geometry")
+  routeEdges   CampusRouteEdge[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@map("campus_paths")
+}
+
+model CampusRouteNode {
+  id         String             @id
+  schoolId   String
+  school     School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  featureId  String?
+  feature    CampusFeature?     @relation(fields: [featureId], references: [id], onDelete: SetNull)
+  entranceId String?
+  entrance   CampusEntrance?    @relation(fields: [entranceId], references: [id], onDelete: SetNull)
+  metadata   Json               @default("{}")
+  geometry   Unsupported("geometry")
+  fromEdges  CampusRouteEdge[]  @relation("RouteEdgeFromNode")
+  toEdges    CampusRouteEdge[]  @relation("RouteEdgeToNode")
+
+  @@map("campus_route_nodes")
+}
+
+model CampusRouteEdge {
+  id             String            @id
+  schoolId       String
+  school         School            @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  fromNodeId     String
+  fromNode       CampusRouteNode   @relation("RouteEdgeFromNode", fields: [fromNodeId], references: [id], onDelete: Cascade)
+  toNodeId       String
+  toNode         CampusRouteNode   @relation("RouteEdgeToNode", fields: [toNodeId], references: [id], onDelete: Cascade)
+  pathId         String?
+  path           CampusPath?       @relation(fields: [pathId], references: [id], onDelete: SetNull)
+  distanceMeters Float
+  isAccessible   Boolean           @default(true)
+  slope          Float?
+  restrictions   Json              @default("[]")
+  metadata       Json              @default("{}")
+  geometry       Unsupported("geometry")
+
+  @@index([schoolId, fromNodeId, toNodeId])
+  @@map("campus_route_edges")
+}
+
+model CampusIndoorLevel {
+  id             String                @id
+  schoolId       String
+  school         School                @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  featureId      String
+  feature        CampusFeature         @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  levelIndex     Int
+  label          String
+  metadata       Json                  @default("{}")
+  indoorFeatures CampusIndoorFeature[]
+
+  @@map("campus_indoor_levels")
+}
+
+model CampusIndoorFeature {
+  id       String                @id
+  schoolId String
+  school   School                @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  levelId  String
+  level    CampusIndoorLevel     @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  category String
+  name     String
+  metadata Json                  @default("{}")
+  geometry Unsupported("geometry")
+
+  @@map("campus_indoor_features")
+}
+
+model CampusSpatialEvent {
+  id        String                 @id
+  schoolId  String
+  school    School                 @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title     String
+  category  String                 @default("event")
+  startsAt  DateTime?
+  endsAt    DateTime?
+  metadata  Json                   @default("{}")
+  geometry  Unsupported("geometry")?
+
+  @@map("campus_events")
+}
+
+model CampusLiveAsset {
+  id        String              @id
+  schoolId  String
+  school    School              @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  type      CampusLiveAssetType
+  label     String?
+  metadata  Json                @default("{}")
+  geometry  Unsupported("geometry")?
+  updatedAt DateTime            @updatedAt
+
+  @@map("campus_live_assets")
+}
+
+model ShuttleRoute {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id])
+  isActive    Boolean  @default(true)
+  schedule    Json
+  createdAt   DateTime @default(now())
+
+  @@map("shuttle_routes")
+}
+
+enum EmergencyCategory {
+  SECURITY
+  CLINIC
+  STUDENT_AFFAIRS
+  OTHER
+}
+
+model EmergencyContact {
+  id              String            @id @default(cuid())
+  name            String
+  role            String
+  phone           String
+  whatsappNumber  String?
+  extension       String?
+  category        EmergencyCategory @default(OTHER)
+  schoolId        String
+  school          School            @relation(fields: [schoolId], references: [id])
+  order           Int               @default(0)
+  createdById     String
+  createdBy       User              @relation("EmergencyContactCreator", fields: [createdById], references: [id])
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([schoolId])
+  @@map("emergency_contacts")
+}
+
+enum TicketStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model EventTicket {
+  id              String       @id @default(cuid())
+  ticketRef       String       @unique
+  userId          String
+  user            User         @relation(fields: [userId], references: [id])
+  eventId         String
+  event           SchoolEvent  @relation(fields: [eventId], references: [id])
+  receiptUrl      String
+  receiptKey      String
+  status          TicketStatus @default(PENDING)
+  qrCode          String?      @db.Text
+  rejectionReason String?
+  approvedById    String?
+  approvedBy      User?        @relation("TicketApprover", fields: [approvedById], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@unique([userId, eventId])
+  @@index([eventId, status])
+  @@map("event_tickets")
+}
+
+model EventReminder {
+  id               String      @id @default(cuid())
+  userId           String
+  user             User        @relation(fields: [userId], references: [id])
+  eventId          String
+  event            SchoolEvent @relation(fields: [eventId], references: [id])
+  notifyAt         DateTime
+  notificationSent Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+
+  @@unique([userId, eventId])
+  @@index([notifyAt, notificationSent])
+  @@map("event_reminders")
+}
+
+model Shop {
+  id          String         @id @default(cuid())
+  name        String
+  description String?        @db.Text
+  logoUrl     String?
+  ownerId     String         @unique
+  owner       User           @relation(fields: [ownerId], references: [id])
+  isActive    Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  listings    Listing[]
+  followers   ShopFollow[]
+  ratings     SellerRating[]
+
+  @@map("shops")
+}
+
+model ShopFollow {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  shopId    String
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, shopId])
+  @@map("shop_follows")
+}
+
+model Listing {
+  id             String                    @id @default(cuid())
+  title          String
+  description    String                    @db.Text
+  price          Decimal                   @db.Decimal(10, 2)
+  category       ListingCategory
+  condition      ItemCondition
+  images         Json
+  location       String?
+  whatsapp       String?
+  isAvailable    Boolean                   @default(true)
+  viewCount      Int                       @default(0)
+  approvalStatus MarketplaceApprovalStatus @default(PENDING)
+  isFlagged      Boolean                   @default(false)
+  reportCount    Int                       @default(0)
+  sellerId       String
+  seller         User                      @relation(fields: [sellerId], references: [id])
+  shopId         String?
+  shop           Shop?                     @relation(fields: [shopId], references: [id])
+  isDeleted      Boolean                   @default(false)
+  deletedAt      DateTime?
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  savedBy        SavedListing[]
+  reports        MarketplaceReport[]
+
+  @@index([sellerId])
+  @@index([category, isAvailable, approvalStatus])
+  @@index([category, isAvailable, isDeleted, createdAt(sort: Desc)])
+  @@map("listings")
+}
+
+enum ListingCategory {
+  BOOKS
+  ELECTRONICS
+  CLOTHING
+  FOOD
+  FURNITURE
+  HANDOUTS
+  SERVICES
+  OTHER
+}
+
+enum ItemCondition {
+  NEW
+  LIKE_NEW
+  GOOD
+  FAIR
+}
+
+model LostFoundItem {
+  id           String        @id @default(cuid())
+  type         LostFoundType
+  title        String
+  description  String        @db.Text
+  imageUrl     String?
+  location     String?
+  contactInfo  String
+  isResolved   Boolean       @default(false)
+  reportedById String
+  reportedBy   User          @relation(fields: [reportedById], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("lost_found_items")
+}
+
+enum LostFoundType {
+  LOST
+  FOUND
+}
+
+model SavedListing {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+  @@map("saved_listings")
+}
+
+// ============================================================
+// MARKETPLACE PHASE 5
+// ============================================================
+
+enum AccommodationType {
+  SELF_CONTAIN
+  ROOM_AND_PARLOUR
+  SINGLE_ROOM
+  SHARED_ROOM
+  HOSTEL
+  FLAT
+  OTHER
+}
+
+enum ServiceCategory {
+  TUTORING
+  GRAPHICS
+  CODING
+  PHOTOGRAPHY
+  PRINTING
+  LAUNDRY
+  FOOD
+  DELIVERY
+  OTHER
+}
+
+model AccommodationPost {
+  id             String                     @id @default(cuid())
+  title          String
+  description    String                     @db.Text
+  type           AccommodationType
+  price          Decimal                    @db.Decimal(10, 2)
+  period         String                     @default("year") // year, month, semester
+  location       String
+  images         Json                       @default("[]")
+  whatsapp       String
+  isAvailable    Boolean                    @default(true)
+  isDeleted      Boolean                    @default(false)
+  deletedAt      DateTime?
+  approvalStatus MarketplaceApprovalStatus  @default(APPROVED)
+  isFlagged      Boolean                    @default(false)
+  reportCount    Int                        @default(0)
+  postedById     String
+  postedBy       User                       @relation("AccommodationPoster", fields: [postedById], references: [id])
+  schoolId       String
+  school         School                     @relation(fields: [schoolId], references: [id])
+  createdAt      DateTime                   @default(now())
+  updatedAt      DateTime                   @updatedAt
+  reports        MarketplaceReport[]
+
+  @@index([schoolId, isAvailable, approvalStatus, isDeleted])
+  @@map("accommodation_posts")
+}
+
+model RoommateRequest {
+  id           String   @id @default(cuid())
+  description   String   @db.Text
+  budget        Decimal? @db.Decimal(10, 2)
+  preferredArea String
+  gender        String
+  level         String
+  whatsapp      String
+  isActive     Boolean  @default(true)
+  userId       String
+  user         User     @relation("RoommateRequester", fields: [userId], references: [id])
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([schoolId, isActive])
+  @@map("roommate_requests")
+}
+
+model ServiceListing {
+  id             String                    @id @default(cuid())
+  title          String
+  description    String                    @db.Text
+  category       ServiceCategory
+  price          Decimal?                  @db.Decimal(10, 2)
+  priceNote      String?
+  images         Json                      @default("[]")
+  whatsapp       String
+  approvalStatus MarketplaceApprovalStatus @default(PENDING)
+  isFlagged      Boolean                   @default(false)
+  reportCount    Int                       @default(0)
+  isActive       Boolean                   @default(true)
+  isDeleted      Boolean                   @default(false)
+  deletedAt      DateTime?
+  providerId     String
+  provider       User                      @relation("ServiceProvider", fields: [providerId], references: [id])
+  schoolId       String
+  school         School                    @relation(fields: [schoolId], references: [id])
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  reports        MarketplaceReport[]
+
+  @@index([schoolId, category, isActive, approvalStatus])
+  @@map("service_listings")
+}
+
+// ============================================================
+// JOBS & INTERNSHIPS
+// ============================================================
+
+enum JobType {
+  INTERNSHIP
+  PART_TIME
+  CAMPUS_JOB
+  FREELANCE
+}
+
+enum JobApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model JobListing {
+  id             String            @id @default(cuid())
+  title          String
+  description    String            @db.Text
+  type           JobType
+  pay            String?           // e.g. "₦50,000/month", "negotiable"
+  location       String
+  whatsapp       String
+  approvalStatus JobApprovalStatus @default(PENDING)
+  rejectionReason String?
+  isActive       Boolean           @default(true)
+  isDeleted      Boolean           @default(false)
+  deletedAt      DateTime?
+  postedById     String
+  postedBy       User              @relation("JobPoster", fields: [postedById], references: [id])
+  schoolId       String
+  school         School            @relation(fields: [schoolId], references: [id])
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([schoolId, approvalStatus, type])
+  @@index([postedById])
+  @@map("job_listings")
+}
+
+model SellerRating {
+  id        String   @id @default(cuid())
+  raterId   String
+  rater     User     @relation("RaterUser", fields: [raterId], references: [id])
+  sellerId  String
+  seller    User     @relation("RatedUser", fields: [sellerId], references: [id])
+  shopId    String?
+  shop      Shop?    @relation(fields: [shopId], references: [id])
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@unique([raterId, sellerId])
+  @@map("seller_ratings")
+}
+
+// ── Agent Verification ────────────────────────────────────────────────────
+
+enum AgentVerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum MarketplaceApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum MarketplaceReportReason {
+  SPAM
+  FAKE_LISTING
+  INAPPROPRIATE_CONTENT
+  SCAM
+  WRONG_CATEGORY
+  OTHER
+}
+
+model AgentProfile {
+  id              String                  @id @default(cuid())
+  userId          String                  @unique
+  user            User                    @relation(fields: [userId], references: [id])
+  businessName    String
+  businessAddress String
+  phoneNumber     String
+  studentIdUrl    String                  // uploaded student ID card for verification
+  status          AgentVerificationStatus @default(PENDING)
+  rejectionReason String?
+  reviewedById    String?
+  reviewedBy      User?                   @relation("AgentReviewer", fields: [reviewedById], references: [id])
+  reviewedAt      DateTime?
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+
+  @@index([status])
+  @@map("agent_profiles")
+}
+
+model MarketplaceReport {
+  id              String                    @id @default(cuid())
+  reportedById    String
+  reportedBy      User                      @relation("ReportedBy", fields: [reportedById], references: [id])
+  reason          MarketplaceReportReason
+  details         String?                   @db.Text
+  listingId       String?
+  listing         Listing?                  @relation(fields: [listingId], references: [id])
+  accommodationId String?
+  accommodation   AccommodationPost?        @relation(fields: [accommodationId], references: [id])
+  serviceId       String?
+  service         ServiceListing?           @relation(fields: [serviceId], references: [id])
+  isResolved      Boolean                   @default(false)
+  resolvedAt      DateTime?
+  createdAt       DateTime                  @default(now())
+
+  @@index([isResolved, createdAt(sort: Desc)])
+  @@map("marketplace_reports")
+}
+
+model Post {
+  id           String         @id @default(cuid())
+  content      String         @db.Text
+  type         PostType       @default(DISCUSSION)
+  attachments  Json?
+  isPinned     Boolean        @default(false)
+  authorId     String
+  author       User           @relation(fields: [authorId], references: [id])
+  departmentId String
+  department   Department     @relation(fields: [departmentId], references: [id])
+  isDeleted    Boolean        @default(false)
+  deletedAt    DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  comments     Comment[]
+  bookmarks    Bookmark[]
+  reminders    DeptReminder[]
+
+  @@index([departmentId, createdAt(sort: Desc)])
+  @@index([authorId])
+  @@map("posts")
+}
+
+enum PostType {
+  ANNOUNCEMENT
+  DISCUSSION
+  REMINDER
+  FILE_SHARE
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  content   String    @db.Text
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentReplies")
+  isDeleted Boolean   @default(false)
+  createdAt DateTime  @default(now())
+
+  @@index([postId])
+  @@map("comments")
+}
+
+model DeptReminder {
+  id               String     @id @default(cuid())
+  title            String
+  description      String?
+  dueDate          DateTime
+  postId           String?
+  post             Post?      @relation(fields: [postId], references: [id])
+  departmentId     String
+  department       Department @relation(fields: [departmentId], references: [id])
+  createdById      String
+  notificationSent Boolean    @default(false)
+  createdAt        DateTime   @default(now())
+
+  @@index([departmentId, dueDate])
+  @@map("dept_reminders")
+}
+
+model Reminder {
+  id               String           @id @default(cuid())
+  title            String
+  description      String?
+  dueDate          DateTime
+  notifyAt         DateTime
+  priority         Priority         @default(MEDIUM)
+  category         ReminderCategory
+  isCompleted      Boolean          @default(false)
+  completedAt      DateTime?
+  notificationSent Boolean          @default(false)
+  isRecurring      Boolean          @default(false)
+  recurringDays    Json?            // Int[] — 0=Sun..6=Sat for weekly recurrence
+  userId           String
+  user             User             @relation(fields: [userId], references: [id])
+  isDeleted        Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@index([userId, isCompleted, dueDate])
+  @@index([notifyAt, notificationSent])
+  @@map("reminders")
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum ReminderCategory {
+  ASSIGNMENT
+  TEST
+  EXAM
+  PROJECT
+  PRACTICAL
+  OTHER
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  title     String
+  body      String
+  type      NotificationType
+  data      Json?
+  isRead    Boolean          @default(false)
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+// ============================================================
+// PLANNER MODULE
+// ============================================================
+
+enum PlannerSourceType {
+  TIMETABLE
+  REMINDER
+  EVENT
+  DEPT_REMINDER
+}
+
+model PlannerEntry {
+  id         String           @id @default(cuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String
+  sourceType PlannerSourceType
+  sourceId   String           // FK to the originating record
+  date       DateTime         // date only (time stored in startTime)
+  startTime  String?          // HH:MM
+  endTime    String?          // HH:MM
+  isAllDay   Boolean          @default(false)
+  isDone     Boolean          @default(false)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([userId, sourceType, sourceId])
+  @@index([userId, date])
+  @@map("planner_entries")
+}
+
+enum NotificationType {
+  REMINDER
+  ANNOUNCEMENT
+  MARKETPLACE
+  AI_SUMMARY
+  SHUTTLE
+  EVENT
+  TIMETABLE
+  SYSTEM
+}
+
+// ============================================================
+// CGPA MODULE
+// ============================================================
+
+model CGPACourse {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseCode  String
+  courseTitle String
+  creditUnit  Int
+  score       Float?
+  grade       String?
+  gradePoint  Float?
+  passmark    Float        @default(40)
+  semester    SemesterType
+  session     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([userId, semester, session])
+  @@map("cgpa_courses")
+}
+
+model CGPARecord {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  semester   SemesterType
+  session    String
+  gpa        Float
+  cgpa       Float
+  totalUnits Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@unique([userId, semester, session])
+  @@index([userId])
+  @@map("cgpa_records")
+}
+
+enum SemesterType {
+  FIRST
+  SECOND
+}
+
+// ============================================================
+// COMMUNITY MODULE
+// ============================================================
+
+enum SectionType {
+  NOTICE_BOARD
+  QNA
+  STUDY_GROUPS
+  DEPT_UPDATES
+  CROSS_LEVEL
+  FRESHERS_CORNER
+  ANONYMOUS
+  CAMPUS_CULTURE
+  LOUNGE
+}
+
+// Mentor signup for cross-level mentoring
+model CourseMentor {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseCode   String
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+  isActive     Boolean  @default(true)
+  mentorPoints Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, courseCode])
+  @@index([departmentId, courseCode])
+  @@map("course_mentors")
+}
+
+// Pre-populated FAQ for Freshers Corner
+model FreshersFaq {
+  id           String   @id @default(cuid())
+  question     String
+  answer       String   @db.Text
+  category     String   @default("general")
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id])
+  order        Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@index([schoolId, category])
+  @@map("freshers_faqs")
+}
+
+enum SectionScope {
+  DEPARTMENT
+  UNIVERSITY
+}
+
+enum PostPriority {
+  URGENT
+  ACADEMIC
+  GENERAL
+}
+
+enum QuestionType {
+  COURSE_HELP
+  ASSIGNMENT_HELP
+  CONCEPT_EXPLANATION
+  EXAM_PREP
+  PROJECT_GUIDANCE
+}
+
+enum ReactionType {
+  LIKE
+  HELPFUL
+  INSIGHTFUL
+  FUNNY
+  SUPPORT
+}
+
+enum ReportReason {
+  SPAM
+  INAPPROPRIATE
+  HARASSMENT
+  MISINFORMATION
+  OTHER
+}
+
+enum StudyGroupType {
+  EXAM_PREP
+  ASSIGNMENT
+  TUTORIAL
+  PROJECT
+  GENERAL
+}
+
+// Update Post model with new fields
+model CommunityPost {
+  id           String              @id @default(cuid())
+  content      String              @db.Text
+  section      SectionType
+  scope        SectionScope        @default(DEPARTMENT)
+  priority     PostPriority        @default(GENERAL)
+  attachments  Json?
+  isPinned     Boolean             @default(false)
+  isAnonymous  Boolean             @default(false)
+  authorId     String?
+  author       User?               @relation(fields: [authorId], references: [id])
+  departmentId String?
+  department   Department?         @relation(fields: [departmentId], references: [id])
+  schoolId     String?
+  school       School?             @relation(fields: [schoolId], references: [id])
+  courseTag    String?
+  expiresAt    DateTime?
+  upvoteCount  Int                 @default(0)
+  viewCount    Int                 @default(0)
+  isDeleted    Boolean             @default(false)
+  deletedAt    DateTime?
+  isMentorQuestion Boolean         @default(false)
+  mentorCourseCode String?
+  targetLevel  String?             // for level-targeted announcements
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  comments     CommunityComment[]
+  reactions    Reaction[]
+  reports      Report[]
+  bookmarks    CommunityBookmark[]
+
+  @@index([section, departmentId, createdAt(sort: Desc)])
+  @@index([section, schoolId, createdAt(sort: Desc)])
+  @@index([section, departmentId, isDeleted, createdAt(sort: Desc)])
+  @@index([section, schoolId, isDeleted, createdAt(sort: Desc)])
+  @@index([authorId])
+  @@map("community_posts")
+}
+
+model CommunityComment {
+  id          String             @id @default(cuid())
+  content     String             @db.Text
+  postId      String
+  post        CommunityPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      User               @relation(fields: [authorId], references: [id])
+  parentId    String?
+  parent      CommunityComment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies     CommunityComment[] @relation("CommentReplies")
+  upvoteCount Int                @default(0)
+  isDeleted   Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  reactions   Reaction[]
+
+  @@index([postId])
+  @@map("community_comments")
+}
+
+model CommunityBookmark {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  postId    String
+  post      CommunityPost @relation(fields: [postId], references: [id])
+  createdAt DateTime      @default(now())
+
+  @@unique([userId, postId])
+  @@map("community_bookmarks")
+}
+
+model Question {
+  id               String       @id @default(cuid())
+  title            String
+  content          String       @db.Text
+  type             QuestionType
+  courseTag        String?
+  attachments      Json?
+  isAnonymous      Boolean      @default(false)
+  authorId         String?
+  author           User?        @relation(fields: [authorId], references: [id])
+  departmentId     String?
+  department       Department?  @relation(fields: [departmentId], references: [id])
+  schoolId         String?
+  school           School?      @relation(fields: [schoolId], references: [id])
+  upvoteCount      Int          @default(0)
+  viewCount        Int          @default(0)
+  isSolved         Boolean      @default(false)
+  acceptedAnswerId String?
+  isMentorQuestion Boolean      @default(false)
+  isDeleted        Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  answers          Answer[]
+  reactions        Reaction[]
+  reports          Report[]
+
+  @@index([departmentId, createdAt(sort: Desc)])
+  @@index([schoolId, createdAt(sort: Desc)])
+  @@map("questions")
+}
+
+model Answer {
+  id          String     @id @default(cuid())
+  content     String     @db.Text
+  attachments Json?
+  questionId  String
+  question    Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      User       @relation(fields: [authorId], references: [id])
+  isAccepted  Boolean    @default(false)
+  upvoteCount Int        @default(0)
+  isDeleted   Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  reactions   Reaction[]
+  reports     Report[]
+
+  @@index([questionId])
+  @@map("answers")
+}
+
+model Reaction {
+  id         String            @id @default(cuid())
+  type       ReactionType
+  userId     String
+  user       User              @relation(fields: [userId], references: [id])
+  postId     String?
+  post       CommunityPost?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId  String?
+  comment    CommunityComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  questionId String?
+  question   Question?         @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answerId   String?
+  answer     Answer?           @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime          @default(now())
+
+  @@unique([userId, postId, type])
+  @@unique([userId, commentId, type])
+  @@unique([userId, questionId, type])
+  @@unique([userId, answerId, type])
+  @@map("reactions")
+}
+
+model Report {
+  id         String         @id @default(cuid())
+  reason     ReportReason
+  details    String?
+  reporterId String
+  reporter   User           @relation(fields: [reporterId], references: [id])
+  postId     String?
+  post       CommunityPost? @relation(fields: [postId], references: [id])
+  questionId String?
+  question   Question?      @relation(fields: [questionId], references: [id])
+  answerId   String?
+  answer     Answer?        @relation(fields: [answerId], references: [id])
+  isResolved Boolean        @default(false)
+  createdAt  DateTime       @default(now())
+
+  @@map("reports")
+}
+
+model StudyGroup {
+  id           String              @id @default(cuid())
+  name         String
+  description  String?
+  type         StudyGroupType
+  isPrivate    Boolean             @default(false)
+  courseTag    String?
+  departmentId String
+  department   Department          @relation(fields: [departmentId], references: [id])
+  createdById  String
+  createdBy    User                @relation("GroupCreator", fields: [createdById], references: [id])
+  memberCount  Int                 @default(1)
+  isActive     Boolean             @default(true)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  members      StudyGroupMember[]
+  messages     StudyGroupMessage[]
+  quizzes      Quiz[]
+  invites      GroupInvite[]
+  challengesInitiated GroupChallenge[] @relation("ChallengeInitiator")
+  challengesReceived  GroupChallenge[] @relation("ChallengeReceiver")
+
+  @@index([departmentId])
+  @@index([departmentId, isActive, createdAt(sort: Desc)])
+  @@map("study_groups")
+}
+
+model StudyGroupMember {
+  id       String     @id @default(cuid())
+  groupId  String
+  group    StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User       @relation(fields: [userId], references: [id])
+  role     String     @default("MEMBER") // ADMIN, MEMBER
+  joinedAt DateTime   @default(now())
+
+  @@unique([groupId, userId])
+  @@map("study_group_members")
+}
+
+model StudyGroupMessage {
+  id          String     @id @default(cuid())
+  groupId     String
+  group       StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  senderId    String
+  sender      User       @relation(fields: [senderId], references: [id])
+  content     String     @db.Text
+  attachments Json?
+  isAiReply   Boolean    @default(false)
+  aiContext   String?    @db.Text  // source attribution e.g. "based on file X by member Y"
+  createdAt   DateTime   @default(now())
+
+  @@index([groupId, createdAt(sort: Desc)])
+  @@map("study_group_messages")
+}
+
+model GroupInvite {
+  id        String      @id @default(cuid())
+  groupId   String
+  group     StudyGroup  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  createdById String
+  createdBy   User      @relation("InviteCreator", fields: [createdById], references: [id])
+  token     String      @unique @default(cuid())
+  maxUses   Int         @default(1)
+  useCount  Int         @default(0)
+  expiresAt DateTime?
+  isRevoked Boolean     @default(false)
+  createdAt DateTime    @default(now())
+
+  @@index([groupId])
+  @@map("group_invites")
+}
+
+enum ChallengeStatus {
+  PENDING
+  ACCEPTED
+  COMPLETED
+  EXPIRED
+  DECLINED
+}
+
+model GroupChallenge {
+  id              String          @id @default(cuid())
+  initiatorGroupId String
+  initiatorGroup  StudyGroup      @relation("ChallengeInitiator", fields: [initiatorGroupId], references: [id])
+  receiverGroupId  String
+  receiverGroup   StudyGroup      @relation("ChallengeReceiver", fields: [receiverGroupId], references: [id])
+  quizId          String
+  status          ChallengeStatus @default(PENDING)
+  expiresAt       DateTime
+  initiatorAvgScore Float?
+  receiverAvgScore  Float?
+  winnerGroupId   String?
+  initiatorBadgeAwarded Boolean  @default(false)
+  receiverBadgeAwarded  Boolean  @default(false)
+  createdById     String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([initiatorGroupId])
+  @@index([receiverGroupId])
+  @@map("group_challenges")
+}
+
+// ============================================================
+// AUDIT LOG
+// ============================================================
+
+enum AuditAction {
+  ADMIN_CREATED
+  ADMIN_DELETED
+  ADMIN_DEACTIVATED
+  ADMIN_REACTIVATED
+  ADMIN_PASSWORD_RESET
+  ROLE_ASSIGNED
+  COURSE_REP_NOMINATED
+  USER_BLOCKED
+  USER_UNBLOCKED
+  MATERIAL_UPLOADED
+  MATERIAL_DELETED
+  MATERIAL_VERIFIED
+  MATERIAL_VISIBILITY_CHANGED
+  MATERIAL_REVIEW_APPROVED
+  MATERIAL_REVIEW_REJECTED
+  QUIZ_DELETED
+  QUIZ_APPROVED
+  QUIZ_REJECTED
+  POST_DELETED
+  LISTING_DELETED
+  SHOP_DELETED
+  AGENT_APPROVED
+  AGENT_REJECTED
+  LISTING_APPROVED
+  LISTING_REJECTED
+  ACCOMMODATION_APPROVED
+  ACCOMMODATION_REJECTED
+  SERVICE_APPROVED
+  SERVICE_REJECTED
+  JOB_APPROVED
+  JOB_REJECTED
+  REPORT_RESOLVED
+  STUDY_GROUP_DELETED
+  GROUP_MEMBER_KICKED
+  GROUP_ROLE_CHANGED
+  GROUP_CHALLENGE_CREATED
+  GROUP_CHALLENGE_COMPLETED
+  SCHOOL_CREATED
+  SCHOOL_UPDATED
+}
+
+model AuditLog {
+  id           String      @id @default(cuid())
+  action       AuditAction
+  performedById String
+  performedBy  User        @relation("AuditPerformer", fields: [performedById], references: [id])
+  targetUserId String?
+  targetUser   User?       @relation("AuditTarget", fields: [targetUserId], references: [id])
+  targetId     String?     // generic ref (schoolId, materialId, etc.)
+  targetType   String?     // e.g. "School", "Material"
+  meta         Json?       // extra context
+  ipAddress    String?
+  createdAt    DateTime    @default(now())
+
+  @@index([performedById])
+  @@index([action])
+  @@index([createdAt(sort: Desc)])
+  @@map("audit_logs")
+}

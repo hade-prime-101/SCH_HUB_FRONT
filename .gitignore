@@ -1,0 +1,69 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Production
+.env.production.local
+.env.production
+
+# Misc
+.DS_Store
+.AppleDouble
+.LSOverride
+*.pem
+.env*.local
+.env
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+.sublime-workspace
+.sublime-project
+
+# OS
+Thumbs.db
+.DS_Store
+.env.*.local
+
+# Vercel
+.vercel
+
+# Cache
+.eslintcache
+.turbo
+
+# Lock files (optional - uncomment to track)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Logs
+logs/
+*.log
+
+# Kiro IDE
+.kiro/hooks/
