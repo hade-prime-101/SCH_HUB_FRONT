@@ -1,6 +1,6 @@
-// lib/marketplace.api.ts
+// lib/api/marketplace.api.ts
 
-import { apiGet, apiPost, apiPatch, apiDelete } from '@/lib/api';
+import { apiGet, apiPost, apiPatch, apiDelete } from '@/lib/api/base';
 import type {
   Listing,
   CreateListingPayload,
@@ -16,6 +16,7 @@ import type {
   CreateAccommodationPayload,
   UpdateAccommodationPayload,
   AgentProfile,
+  ApplyAgentPayload,
   ReviewAgentPayload,
   RoommateRequest,
   CreateRoommatePayload,
@@ -208,3 +209,93 @@ export const listReports = () =>
 
 export const resolveReport = (id: string) =>
   apiPost<{ message: string }>(`/marketplace/reports/${id}/resolve`);
+
+// ─── Marketplace API Object (for backward compatibility) ──────
+export const marketplaceApi = {
+  // Listings
+  listListings,
+  getListing,
+  createListing,
+  updateListing,
+  deleteListing: (id: string) => deleteListing(id),
+  toggleSaveListing,
+  getSavedListings,
+  listPendingListings,
+  moderateListing,
+  uploadListingImage,
+  // Alias for admin page
+  getListings: (params: any) => listListings(params),
+  getPendingListings: listPendingListings,
+  
+  // Shops
+  listShops,
+  getMyShop,
+  getShop,
+  createShop,
+  updateShop,
+  adminDeleteShop,
+  followShop,
+  rateSeller,
+  
+  // Lost & Found
+  listLostFound,
+  createLostFound,
+  resolveLostFound,
+  
+  // Accommodation
+  listAccommodation,
+  getAccommodation,
+  createAccommodation,
+  updateAccommodation,
+  deleteAccommodation,
+  moderateAccommodation,
+  listPendingAccommodation,
+  
+  // Agent
+  applyForAgent: (payload: ApplyAgentPayload, file?: File) => applyForAgent(payload, file),
+  // Alias for agent page
+  applyAsAgent: (data: any) => {
+    return applyForAgent({
+      fullName: data.businessName,
+      studentId: data.businessAddress,
+      department: data.phoneNumber,
+    }, data.studentIdFile);
+  },
+  getMyAgentProfile,
+  listPendingAgents,
+  getPendingAgents: listPendingAgents,
+  reviewAgent,
+  
+  // Roommate
+  listRoommates,
+  createRoommateRequest,
+  updateRoommateRequest,
+  deleteRoommateRequest,
+  
+  // Services
+  listServices,
+  getService,
+  createService,
+  updateService,
+  deleteService,
+  listPendingServices,
+  getPendingServices: listPendingServices,
+  moderateService,
+  
+  // Jobs
+  listJobs,
+  getJob,
+  createJob,
+  updateJob,
+  deleteJob,
+  listPendingJobs,
+  getPendingJobs: listPendingJobs,
+  getJobs: (params: any) => listJobs(params),
+  approveJob,
+  rejectJob: (id: string, reason: string) => rejectJob(id, { reason }),
+  
+  // Reports
+  reportContent,
+  listReports,
+  resolveReport,
+};

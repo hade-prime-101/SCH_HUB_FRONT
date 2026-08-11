@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getMyShop, createShop, updateShop } from "@/lib/marketplace.api";
+import { getMyShop, createShop, updateShop } from "@/lib/api/marketplace.api";
 import type { Shop } from "@/types/marketplace";
 
 export default function MyShopPage() {

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listRoommates, deleteRoommateRequest } from "@/lib/marketplace.api";
+import { listRoommates, deleteRoommateRequest } from "@/lib/api/marketplace.api";
 import type { RoommateRequest } from "@/types/marketplace";
 import Link from "next/link";
 

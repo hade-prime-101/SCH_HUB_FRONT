@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { listShops } from "@/lib/marketplace.api";
+import { listShops } from "@/lib/api/marketplace.api";
 import type { Shop } from "@/types/marketplace";
 
 export default function ShopsPage() {

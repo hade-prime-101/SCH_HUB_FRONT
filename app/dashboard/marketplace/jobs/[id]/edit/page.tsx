@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getJob, updateJob } from "@/lib/marketplace.api";
+import { getJob, updateJob } from "@/lib/api/marketplace.api";
 
 export default function EditJobPage() {
   const { id } = useParams<{ id: string }>();

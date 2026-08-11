@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { communityApi } from "@/lib/api/community";
+import { communityApi } from "@/lib/api/community.api";
 import { Users2, Trash2, AlertCircle, Lock, Globe } from "lucide-react";
 
 interface Group {

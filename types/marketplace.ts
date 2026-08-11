@@ -16,6 +16,7 @@ export interface Listing {
   schoolId: string;
   createdAt: string;
   updatedAt: string;
+  saved?: boolean;
 }
 
 export interface CreateListingPayload {

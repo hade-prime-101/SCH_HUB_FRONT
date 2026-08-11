@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { applyForAgent } from "@/lib/marketplace.api";
+import { applyForAgent } from "@/lib/api/marketplace.api";
 
 export default function ApplyAgentPage() {
   const router = useRouter();

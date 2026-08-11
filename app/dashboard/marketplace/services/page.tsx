@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { listServices, deleteService } from "@/lib/marketplace.api";
+import { listServices, deleteService } from "@/lib/api/marketplace.api";
 import type { Service } from "@/types/marketplace";
 
 export default function ServicesPage() {

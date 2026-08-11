@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listPendingListings, moderateListing } from "@/lib/marketplace.api";
+import { listPendingListings, moderateListing } from "@/lib/api/marketplace.api";
 import type { Listing } from "@/types/marketplace";
 
 export default function PendingListingsPage() {

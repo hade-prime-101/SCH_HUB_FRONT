@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getService, updateService } from "@/lib/marketplace.api";
+import { getService, updateService } from "@/lib/api/marketplace.api";
 import type { ServiceCategory } from "@/types/marketplace";
 
 const categories: ServiceCategory[] = ["TUTORING", "TECH", "BEAUTY", "FASHION", "OTHER"];

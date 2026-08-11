@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listPendingServices, moderateService } from "@/lib/marketplace.api";
+import { listPendingServices, moderateService } from "@/lib/api/marketplace.api";
 import type { Service } from "@/types/marketplace";
 
 export default function AdminServicesPage() {
@@ -9,7 +9,7 @@ export default function AdminServicesPage() {
   useEffect(() => { listPendingServices().then(setServices); }, []);
 
   const handleModerate = async (id: string, decision: 'APPROVE' | 'REJECT') => {
-    const reason = decision === 'REJECT' ? prompt('Reason?') : undefined;
+    const reason = decision === 'REJECT' ? (prompt('Reason?') || undefined) : undefined;
     await moderateService(id, { decision, reason });
     setServices(prev => prev.filter(s => s.id !== id));
   };

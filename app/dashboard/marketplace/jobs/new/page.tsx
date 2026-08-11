@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createJob } from "@/lib/marketplace.api";
+import { createJob } from "@/lib/api/marketplace.api";
 
 export default function NewJobPage() {
   const router = useRouter();

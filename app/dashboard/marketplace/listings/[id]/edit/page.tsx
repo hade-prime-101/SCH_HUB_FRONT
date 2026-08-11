@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getListing, updateListing, uploadListingImage } from "@/lib/marketplace.api";
+import { getListing, updateListing, uploadListingImage } from "@/lib/api/marketplace.api";
 
 export default function EditListingPage() {
   const { id } = useParams<{ id: string }>();

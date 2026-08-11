@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { listJobs, deleteJob } from "@/lib/marketplace.api";
+import { listJobs, deleteJob } from "@/lib/api/marketplace.api";
 import type { Job } from "@/types/marketplace";
 
 export default function JobsPage() {

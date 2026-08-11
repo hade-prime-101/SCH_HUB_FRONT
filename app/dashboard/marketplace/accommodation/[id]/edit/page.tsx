@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getAccommodation, updateAccommodation } from "@/lib/marketplace.api";
+import { getAccommodation, updateAccommodation } from "@/lib/api/marketplace.api";
 import type { AccommodationType } from "@/types/marketplace";
 
 const types: AccommodationType[] = ["HOSTEL", "APARTMENT", "SINGLE_ROOM", "SELF_CONTAINED"];

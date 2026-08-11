@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listReports, resolveReport } from "@/lib/marketplace.api";
+import { listReports, resolveReport } from "@/lib/api/marketplace.api";
 import type { ContentReport } from "@/types/marketplace";
 
 export default function AdminReportsPage() {

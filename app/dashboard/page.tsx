@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { plannerApi, notificationsApi } from "@/lib/api/planner";
 import { schoolApi } from "@/lib/api/school";
-import { communityApi } from "@/lib/api/community";
+import { communityApi } from "@/lib/api/community.api";
 
 const QUICK_LINKS = [
   { icon: CalendarDays, label: "Timetable",   href: "/dashboard/timetable",         accent: "bg-blue-100   text-blue-600" },

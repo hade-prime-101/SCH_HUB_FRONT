@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createRoommateRequest } from "@/lib/marketplace.api";
+import { createRoommateRequest } from "@/lib/api/marketplace.api";
 
 export default function NewRoommatePage() {
   const router = useRouter();

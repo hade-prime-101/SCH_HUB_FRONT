@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listLostFound, createLostFound, resolveLostFound } from "@/lib/marketplace.api";
+import { listLostFound, createLostFound, resolveLostFound } from "@/lib/api/marketplace.api";
 import type { LostFoundItem, CreateLostFoundPayload } from "@/types/marketplace";
 
 export default function LostFoundPage() {

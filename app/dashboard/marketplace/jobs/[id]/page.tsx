@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getJob, deleteJob, reportContent } from "@/lib/marketplace.api";
+import { getJob, deleteJob, reportContent } from "@/lib/api/marketplace.api";
 import type { Job } from "@/types/marketplace";
 import Link from "next/link";
 

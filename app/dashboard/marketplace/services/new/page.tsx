@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createService } from "@/lib/marketplace.api";
+import { createService } from "@/lib/api/marketplace.api";
 import type { ServiceCategory } from "@/types/marketplace";
 
 const categories: ServiceCategory[] = ["TUTORING", "TECH", "BEAUTY", "FASHION", "OTHER"];

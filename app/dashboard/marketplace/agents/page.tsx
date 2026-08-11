@@ -6,7 +6,7 @@ import {
   ArrowLeft, Building2, ShieldCheck, Clock, CheckCircle2, XCircle,
   Loader2, AlertTriangle, RefreshCw, Phone, MapPin, Upload, X, Image as ImageIcon,
 } from "lucide-react";
-import { marketplaceApi } from "@/lib/api/marketplace";
+import { marketplaceApi } from "@/lib/api/marketplace.api";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -99,7 +99,7 @@ function ApplyForm({ onSuccess }: { onSuccess: (p: AgentProfile) => void }) {
         phoneNumber:     form.phoneNumber.trim(),
         studentIdFile:   idFile,
       });
-      onSuccess(data as AgentProfile);
+      onSuccess(data as unknown as AgentProfile);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Application failed. Please try again.");
     } finally {
@@ -321,8 +321,8 @@ export default function AgentProfilePage() {
     setLoading(true); setError(null);
     try {
       const data = await marketplaceApi.getMyAgentProfile();
-      if (data?.id) {
-        setProfile(data as AgentProfile);
+      if ((data as any)?.id) {
+        setProfile(data as unknown as AgentProfile);
         setHasProfile(true);
       } else {
         // API returned something but no id — treat as no profile

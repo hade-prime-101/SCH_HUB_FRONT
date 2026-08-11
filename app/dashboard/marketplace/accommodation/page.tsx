@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { listAccommodation } from "@/lib/marketplace.api";
+import { listAccommodation } from "@/lib/api/marketplace.api";
 import type { Accommodation } from "@/types/marketplace";
 
 export default function AccommodationPage() {

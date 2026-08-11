@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getSavedListings } from "@/lib/marketplace.api";
+import { getSavedListings } from "@/lib/api/marketplace.api";
 import type { Listing } from "@/types/marketplace";
 
 export default function SavedListingsPage() {

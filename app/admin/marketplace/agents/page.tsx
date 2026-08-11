@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listPendingAgents, reviewAgent } from "@/lib/marketplace.api";
+import { listPendingAgents, reviewAgent } from "@/lib/api/marketplace.api";
 import type { AgentProfile } from "@/types/marketplace";
 
 export default function AdminAgentsPage() {

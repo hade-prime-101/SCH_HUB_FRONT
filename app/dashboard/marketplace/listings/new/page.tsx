@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createListing, uploadListingImage } from "@/lib/marketplace.api";
+import { createListing, uploadListingImage } from "@/lib/api/marketplace.api";
 
 export default function NewListingPage() {
   const router = useRouter();

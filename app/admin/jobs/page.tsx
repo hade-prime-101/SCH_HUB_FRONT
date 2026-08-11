@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { marketplaceApi } from "@/lib/api/marketplace";
+import { marketplaceApi } from "@/lib/api/marketplace.api";
 import { Briefcase, CheckCircle, XCircle, Trash2, AlertCircle, X } from "lucide-react";
 
 interface Job {

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listPendingJobs, approveJob, rejectJob } from "@/lib/marketplace.api";
+import { listPendingJobs, approveJob, rejectJob } from "@/lib/api/marketplace.api";
 import type { Job } from "@/types/marketplace";
 
 export default function AdminJobsPage() {

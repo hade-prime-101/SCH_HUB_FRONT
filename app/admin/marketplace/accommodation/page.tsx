@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listPendingAccommodation, moderateAccommodation } from "@/lib/marketplace.api";
+import { listPendingAccommodation, moderateAccommodation } from "@/lib/api/marketplace.api";
 import type { Accommodation } from "@/types/marketplace";
 
 export default function AdminAccommodationPage() {
@@ -14,7 +14,7 @@ export default function AdminAccommodationPage() {
   }, []);
 
   const handleModerate = async (id: string, decision: 'APPROVE' | 'REJECT') => {
-    const reason = decision === 'REJECT' ? prompt('Reason for rejection?') : undefined;
+    const reason = decision === 'REJECT' ? (prompt('Reason for rejection?') || undefined) : undefined;
     await moderateAccommodation(id, { decision, reason });
     setItems(prev => prev.filter(a => a.id !== id));
   };

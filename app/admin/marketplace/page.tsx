@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { marketplaceApi } from "@/lib/api/marketplace";
+import { marketplaceApi } from "@/lib/api/marketplace.api";
 import { ShoppingBag, Store, Trash2, AlertCircle, Search, ChevronLeft, ChevronRight, ShieldCheck, ExternalLink } from "lucide-react";
 
 interface Listing {
