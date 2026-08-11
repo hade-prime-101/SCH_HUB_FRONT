@@ -191,3 +191,6 @@ export const getSummary = (materialId: string) =>
 
 export const getUserSummaries = () =>
   apiGet<AISummary[]>("/ai/summaries");
+
+// lib/study.api.ts (add at the bottom)
+

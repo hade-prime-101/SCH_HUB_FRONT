@@ -1,122 +1,74 @@
+// app/dashboard/admin/community/questions/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
-import { Loader2, Trash2, CheckCircle } from "lucide-react";
-import { communityApi } from "@/lib/api/community";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { listQuestions, deleteQuestion } from "@/lib/api/community.api";
 import type { Question } from "@/types/community";
 
 export default function AdminQuestionsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "solved" | "unsolved">("all");
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const limit = 10;
 
   useEffect(() => {
-    const loadQuestions = async () => {
-      try {
-        const data = await communityApi.getQuestions({ limit: "100" });
-        setQuestions(Array.isArray(data) ? data : data?.data ?? []);
-      } catch (error) {
-        console.error("Failed to load questions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadQuestions();
-  }, []);
+    listQuestions({ page, limit }).then((res) => {
+      setQuestions(res.data);
+      setTotal(res.total);
+    });
+  }, [page]);
 
-  const handleDelete = async (questionId: string) => {
-    if (!confirm("Are you sure you want to delete this question?")) return;
-    try {
-      await communityApi.deleteQuestion(questionId);
-      setQuestions(questions.filter((q) => q.id !== questionId));
-    } catch (error) {
-      console.error("Failed to delete question:", error);
-    }
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this question?")) return;
+    await deleteQuestion(id);
+    setQuestions((prev) => prev.filter((q) => q.id !== id));
   };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-12">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
-
-  const filteredQuestions = questions.filter((question) => {
-    if (filter === "solved") return question.isSolved;
-    if (filter === "unsolved") return !question.isSolved;
-    return true;
-  });
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-foreground">Questions Management</h2>
-        <span className="text-sm text-muted-foreground">{filteredQuestions.length} questions</span>
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="flex gap-3 mb-6">
-        {(["all", "solved", "unsolved"] as const).map((tab) => (
+      <h1 className="text-2xl font-bold mb-4">All Questions</h1>
+      {questions.map((q) => (
+        <div
+          key={q.id}
+          className="bg-white shadow rounded p-4 mb-3 flex justify-between items-center"
+        >
+          <div>
+            <Link
+              href={`/dashboard/community/questions/${q.id}`}
+              className="font-medium text-blue-600 hover:underline"
+            >
+              {q.title}
+            </Link>
+            <p className="text-sm text-gray-500">
+              {q.upvotes} upvotes · {q.answers.length} answers · by {q.author.name}
+            </p>
+          </div>
           <button
-            key={tab}
-            onClick={() => setFilter(tab)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
-              filter === tab
-                ? "bg-primary text-primary-foreground"
-                : "bg-card text-foreground hover:bg-accent"
-            }`}
+            onClick={() => handleDelete(q.id)}
+            className="text-sm bg-red-100 text-red-700 px-2 py-1 rounded"
           >
-            {tab}
+            Delete
           </button>
-        ))}
-      </div>
-
-      {filteredQuestions.length === 0 ? (
-        <div className="bg-card rounded-2xl p-12 text-center">
-          <p className="text-muted-foreground">No questions found</p>
         </div>
-      ) : (
-        <div className="space-y-4">
-          {filteredQuestions.map((question) => (
-            <div key={question.id} className="bg-card rounded-2xl p-6 border border-border">
-              <div className="flex justify-between items-start gap-4 mb-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="font-bold text-foreground line-clamp-1">
-                      {question.title}
-                    </h3>
-                    {question.isSolved && (
-                      <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">
-                        Solved
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-muted-foreground line-clamp-1">
-                    {question.content}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {question.author?.fullName ?? "Anonymous"} • {new Date(question.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 justify-between">
-                <div className="flex gap-4 text-sm text-muted-foreground">
-                  <span>👍 {question.upvotes}</span>
-                  <span>💬 {question.answerCount ?? 0} answers</span>
-                  {question.courseTag && <span>📚 {question.courseTag}</span>}
-                </div>
-
-                <button
-                  onClick={() => handleDelete(question.id)}
-                  className="p-2 hover:bg-red-100 rounded-lg transition-colors"
-                >
-                  <Trash2 className="w-5 h-5 text-red-600" />
-                </button>
-              </div>
-            </div>
-          ))}
+      ))}
+      {total > limit && (
+        <div className="flex justify-between mt-4">
+          <button
+            disabled={page <= 1}
+            onClick={() => setPage((p) => p - 1)}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span>Page {page}</span>
+          <button
+            disabled={page * limit >= total}
+            onClick={() => setPage((p) => p + 1)}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       )}
     </div>
