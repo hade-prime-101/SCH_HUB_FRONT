@@ -1,0 +1,151 @@
+services:
+  - type: web
+    name: sch-hub-api
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      # ── Database (Supabase Postgres — supports PostGIS required by campus map) ──
+      # Paste your Supabase connection strings in the Render dashboard.
+      # Find them at: Supabase → Project Settings → Database → Connection string
+      #
+      # Use the "Transaction" pooler URL for DATABASE_URL (port 6543).
+      # Use the "Session" / direct URL for DIRECT_URL (port 5432).
+      # Both URLs look like:
+      #   postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+
+      # ── Redis (Bull job queues) ───────────────────────────────────────────
+      - key: REDIS_URL
+        fromService:
+          name: sch-hub-redis
+          type: redis
+          property: connectionString
+
+      # ── Server ────────────────────────────────────────────────────────────
+      - key: PORT
+        value: "10000"
+      # Required: Render sits behind a reverse proxy
+      - key: TRUST_PROXY
+        value: "true"
+
+      # ── Auth (auto-generated on first deploy) ─────────────────────────────
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: ACCESS_TOKEN_TTL
+        value: 15m
+      - key: REFRESH_TOKEN_TTL_DAYS
+        value: "30"
+
+      # ── CORS ──────────────────────────────────────────────────────────────
+      # Comma-separated list of allowed frontend origins.
+      # Example: https://myapp.com,https://www.myapp.com
+      - key: CORS_ORIGIN
+        sync: false
+
+      # ── Supabase Storage ──────────────────────────────────────────────────
+      # Enable S3 access in: Supabase dashboard → Project Settings → Storage → S3 Access
+      # Copy the endpoint, region, access key, and secret key shown there.
+      - key: SUPABASE_S3_ENDPOINT
+        sync: false
+      - key: SUPABASE_S3_REGION
+        sync: false
+      - key: SUPABASE_S3_ACCESS_KEY
+        sync: false
+      - key: SUPABASE_S3_SECRET_KEY
+        sync: false
+      - key: SUPABASE_STORAGE_BUCKET
+        value: sch-hub
+      # Public URL for public buckets (optional — omit to use presigned URLs).
+      # Format: https://<project_ref>.storage.supabase.co/storage/v1/object/public/<bucket>
+      - key: SUPABASE_PUBLIC_URL
+        sync: false
+
+      # ── Brevo Email (required in production) ─────────────────────────────
+      # Get API key at: https://app.brevo.com → Settings → API Keys
+      - key: BREVO_API_KEY
+        sync: false
+      - key: BREVO_SENDER_EMAIL
+        sync: false
+      - key: BREVO_SENDER_NAME
+        sync: false
+
+      # ── Firebase Admin (optional — FCM push notifications) ────────────────
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      # Paste the private key with literal \n characters, not real newlines.
+      # The app does .replace(/\\n/g, '\n') internally.
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false
+
+      # ── Sentry (optional — error tracking) ────────────────────────────────
+      - key: SENTRY_DSN
+        sync: false
+
+      # ── AI providers ──────────────────────────────────────────────────────
+      # Primary: Groq — fast inference, generous free tier
+      # Get key at: https://console.groq.com/keys
+      - key: GROQ_API_KEY
+        sync: false
+      # Fallback: OpenRouter — activates automatically when Groq fails or is absent
+      # Get key at: https://openrouter.ai/keys
+      - key: OPENROUTER_API_KEY
+        sync: false
+      # Override default fallback model (default: meta-llama/llama-3.3-70b-instruct:free)
+      # Full model list: https://openrouter.ai/models
+      - key: OPENROUTER_MODEL
+        sync: false
+
+      # ── Campus Map ────────────────────────────────────────────────────────
+      - key: ORS_API_KEY
+        sync: false
+      - key: MAPTILER_API_KEY
+        sync: false
+
+      # ── WhatsApp broadcast (optional) ─────────────────────────────────────
+      # Set to: fonnte | twilio | wati
+      - key: WHATSAPP_PROVIDER
+        sync: false
+
+      # Fonnte — recommended open-source friendly option
+      # Connect your WhatsApp number at https://fonnte.com, copy the device token.
+      - key: FONNTE_TOKEN
+        sync: false
+
+      # Twilio (legacy alternative)
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM
+        sync: false
+
+      # WATI (legacy alternative)
+      - key: WATI_API_URL
+        sync: false
+      - key: WATI_API_TOKEN
+        sync: false
+
+      # ── Single-school mode (optional) ─────────────────────────────────────
+      # After seeding the DB, paste the school cuid here to lock to one school.
+      - key: SCHOOL_ID
+        sync: false
+
+databases:
+  # Render managed Redis (used by Bull job queues)
+  - name: sch-hub-redis
+    plan: starter
+    ipAllowList: []

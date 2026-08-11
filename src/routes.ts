@@ -1,0 +1,38 @@
+import { Router } from 'express';
+import { authRoutes } from '@/modules/auth/auth.routes.js';
+import { healthRoutes } from '@/modules/health/health.routes.js';
+import { schoolLookupRoutes } from '@/modules/school/school.routes.js';
+import { usersRoutes } from '@/modules/users/users.routes.js';
+import { studyRoutes } from '@/modules/study/study.routes.js';
+import { cgpaRoutes } from '@/modules/cgpa/cgpa.routes.js';
+import { aiRoutes } from '@/modules/ai/ai.routes.js';
+import { personalStudyRoutes } from '@/modules/ai/personal-study.routes.js';
+import { communityRoutes } from '@/modules/community/community.routes.js';
+import { studyGroupRoutes } from '@/modules/study-groups/study-groups.routes.js';
+import { marketplaceRoutes } from '@/modules/marketplace/marketplace.routes.js';
+import { remindersRoutes } from '@/modules/reminders/reminders.routes.js';
+import { notificationsRoutes } from '@/modules/notifications/notifications.routes.js';
+import { plannerRoutes } from '@/modules/planner/planner.routes.js';
+import { superAdminRoutes } from '@/modules/super-admin/super-admin.routes.js';
+import { schoolAdminRoutes } from '@/modules/super-admin/school-admin.routes.js';
+import { campusMapRoutes } from '@/modules/campus-map/campus-map.routes.js';
+
+export const routes = Router();
+
+routes.use('/health', healthRoutes);
+routes.use('/auth', authRoutes);
+routes.use('/school', schoolLookupRoutes);
+routes.use('/users', usersRoutes);
+routes.use('/study', studyRoutes);
+routes.use('/cgpa', cgpaRoutes);
+routes.use('/ai', aiRoutes);
+routes.use('/ai/personal-study', personalStudyRoutes);
+routes.use('/community', communityRoutes);
+routes.use('/community/groups', studyGroupRoutes);
+routes.use('/marketplace', marketplaceRoutes);
+routes.use('/reminders', remindersRoutes);
+routes.use('/notifications', notificationsRoutes);
+routes.use('/planner', plannerRoutes);
+routes.use('/super-admin', superAdminRoutes);
+routes.use('/school-admin', schoolAdminRoutes);
+routes.use('/campus-map', campusMapRoutes);

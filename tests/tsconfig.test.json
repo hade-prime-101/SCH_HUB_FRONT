@@ -1,0 +1,31 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module"          : "CommonJS",
+    "moduleResolution": "Node",
+    "outDir"          : "../dist-test",
+    "rootDir"         : "..",
+    "strict"          : true,
+    "noImplicitAny"   : false,
+    "esModuleInterop" : true,
+    "skipLibCheck"    : true,
+
+    "baseUrl"         : "..",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "../src/**/*",
+    "./**/*"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../dist"
+  ]
+}

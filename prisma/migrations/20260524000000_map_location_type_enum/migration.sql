@@ -1,0 +1,10 @@
+CREATE TYPE "MapLocationType" AS ENUM (
+  'BUILDING', 'HOSTEL', 'CAFETERIA', 'LIBRARY', 'CLINIC',
+  'SPORTS', 'GATE', 'PARKING', 'OFFICE', 'LAB', 'LECTURE_HALL',
+  'OTHER', 'UNKNOWN'
+);
+
+ALTER TABLE "map_locations"
+  ALTER COLUMN "type" DROP DEFAULT,
+  ALTER COLUMN "type" TYPE "MapLocationType" USING "type"::"MapLocationType",
+  ALTER COLUMN "type" SET DEFAULT 'UNKNOWN';
