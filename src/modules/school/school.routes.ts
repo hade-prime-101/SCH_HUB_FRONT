@@ -86,18 +86,6 @@ schoolLookupRoutes.get('/events/:id/tickets', authorize('SCHOOL_ADMIN', 'SUPER_A
 schoolLookupRoutes.patch('/events/:id/tickets/:ticketId/approve', authorize('SCHOOL_ADMIN', 'SUPER_ADMIN'), c.approveTicket);
 schoolLookupRoutes.patch('/events/:id/tickets/:ticketId/reject', authorize('SCHOOL_ADMIN', 'SUPER_ADMIN'), c.rejectTicket);
 
-// ── Map Locations ──────────────────────────────────────────
-schoolLookupRoutes.get('/map-config', (req, res) => {
-  res.json({ success: true, data: { maptilerApiKey: env.MAPTILER_API_KEY ?? null } });
-});
-schoolLookupRoutes.get('/map-locations', c.listMapLocations);
-schoolLookupRoutes.get('/map-locations/route', c.getRoute);
-schoolLookupRoutes.get('/map-locations/:id', c.getMapLocation);
-schoolLookupRoutes.post('/map-locations', authorize('SUPER_ADMIN'), c.createMapLocation);
-schoolLookupRoutes.patch('/map-locations/bulk', authorize('SUPER_ADMIN'), c.bulkUpdateMapLocations);
-schoolLookupRoutes.patch('/map-locations/:id', authorize('SUPER_ADMIN'), c.updateMapLocation);
-schoolLookupRoutes.delete('/map-locations/:id', authorize('SUPER_ADMIN'), c.deleteMapLocation);
-
 // ── Emergency Contacts ─────────────────────────────────────
 schoolLookupRoutes.get('/emergency-contacts', c.listEmergencyContacts);
 schoolLookupRoutes.post('/emergency-contacts', authorize('SCHOOL_ADMIN', 'SUPER_ADMIN'), c.createEmergencyContact);

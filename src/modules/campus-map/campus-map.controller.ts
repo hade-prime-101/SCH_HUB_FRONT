@@ -9,7 +9,12 @@ import {
   routeProgressSchema,
   routeRequestSchema,
   searchQuerySchema,
+  createMapLocationSchema,
+  updateMapLocationSchema,
+  bulkUpdateMapLocationsSchema,
+  simpleRouteQuerySchema,
 } from './campus-map.validators.js';
+import { env } from '@/config/env.js';
 
 function schoolIdFromRequest(req: Request) {
   const schoolId = req.user?.schoolId;
@@ -94,4 +99,69 @@ export const categories = async (req: Request, res: Response, next: NextFunction
 
 export const tilesMetadata = (_req: Request, res: Response) => {
   return sendSuccess(res, campusMapService.tilesMetadata());
+};
+
+// ── Map Config ─────────────────────────────────────────────
+
+export const mapConfig = (_req: Request, res: Response) => {
+  return sendSuccess(res, { maptilerApiKey: env.MAPTILER_API_KEY ?? null });
+};
+
+// ── Map Locations (simple POI management) ───────────────────
+
+export const listMapLocations = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const type = req.query.type as string | undefined;
+    const search = req.query.search as string | undefined;
+    const locations = await campusMapService.listMapLocations(req.user!.schoolId, type, search);
+    return sendSuccess(res, locations);
+  } catch (e) { return next(e); }
+};
+
+export const getMapLocation = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const location = await campusMapService.getMapLocation(req.params.id);
+    return sendSuccess(res, location);
+  } catch (e) { return next(e); }
+};
+
+export const createMapLocation = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const input = createMapLocationSchema.parse(req.body);
+    const location = await campusMapService.createMapLocation(input, req.user!.id, req.user!.schoolId);
+    return sendSuccess(res, location, 201);
+  } catch (e) { return next(e); }
+};
+
+export const updateMapLocation = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const input = updateMapLocationSchema.parse(req.body);
+    const location = await campusMapService.updateMapLocation(req.params.id, input);
+    return sendSuccess(res, location);
+  } catch (e) { return next(e); }
+};
+
+export const bulkUpdateMapLocations = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const input = bulkUpdateMapLocationsSchema.parse(req.body);
+    const result = await campusMapService.bulkUpdateMapLocations(input);
+    return sendSuccess(res, result);
+  } catch (e) { return next(e); }
+};
+
+export const deleteMapLocation = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await campusMapService.deleteMapLocation(req.params.id);
+    return sendSuccess(res, result);
+  } catch (e) { return next(e); }
+};
+
+// ── Simple Routing (direct ORS wrapper) ─────────────────────
+
+export const simpleRoute = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const query = simpleRouteQuerySchema.parse(req.query);
+    const route = await campusMapService.simpleRoute(query);
+    return sendSuccess(res, route);
+  } catch (e) { return next(e); }
 };

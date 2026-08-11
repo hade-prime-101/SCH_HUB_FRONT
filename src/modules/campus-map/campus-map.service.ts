@@ -539,4 +539,106 @@ export const campusMapService = {
       supportedLayers  : ['buildings', 'pois', 'entrances', 'routes', 'live', 'indoor'],
     };
   },
+
+  // ── Map Locations (simple POI management) ───────────────────
+
+  async listMapLocations(schoolId: string, type?: string, search?: string) {
+    const { prisma } = await import('@/config/prisma.js');
+    return prisma.mapLocation.findMany({
+      where: {
+        schoolId,
+        ...(type && { type: type as any }),
+        ...(search && { name: { contains: search, mode: 'insensitive' } }),
+      },
+      select: {
+        id: true, name: true, type: true, description: true,
+        latitude: true, longitude: true, floor: true, tags: true, imageUrl: true,
+      },
+      orderBy: { name: 'asc' },
+    });
+  },
+
+  async getMapLocation(id: string) {
+    const { prisma } = await import('@/config/prisma.js');
+    const loc = await prisma.mapLocation.findUnique({ where: { id } });
+    if (!loc) throw new AppError('Location not found', 404);
+    return loc;
+  },
+
+  async createMapLocation(input: any, userId: string, schoolId: string) {
+    const { prisma } = await import('@/config/prisma.js');
+    return prisma.mapLocation.create({
+      data: { ...input, tags: input.tags ?? [], schoolId, createdById: userId },
+    });
+  },
+
+  async updateMapLocation(id: string, input: any) {
+    const { prisma } = await import('@/config/prisma.js');
+    const loc = await prisma.mapLocation.findUnique({ where: { id } });
+    if (!loc) throw new AppError('Location not found', 404);
+    return prisma.mapLocation.update({ where: { id }, data: input });
+  },
+
+  async bulkUpdateMapLocations(input: any) {
+    const { prisma } = await import('@/config/prisma.js');
+    const results = await prisma.$transaction(
+      input.updates.map(({ id, ...data }: any) =>
+        prisma.mapLocation.update({ where: { id }, data })
+      )
+    );
+    return { updated: results.length };
+  },
+
+  async deleteMapLocation(id: string) {
+    const { prisma } = await import('@/config/prisma.js');
+    const loc = await prisma.mapLocation.findUnique({ where: { id } });
+    if (!loc) throw new AppError('Location not found', 404);
+    await prisma.mapLocation.delete({ where: { id } });
+    return { deleted: true };
+  },
+
+  // ── Simple Routing (direct ORS wrapper) ─────────────────────
+
+  async simpleRoute(query: any) {
+    if (!env.ORS_API_KEY) {
+      // Dev fallback — return straight line coordinates
+      return {
+        type: 'FeatureCollection',
+        features: [{
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: [
+              [query.fromLng, query.fromLat],
+              [query.toLng, query.toLat],
+            ],
+          },
+          properties: { fallback: true },
+        }],
+      };
+    }
+
+    const url = 'https://api.openrouteservice.org/v2/directions/foot-walking/geojson';
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': env.ORS_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        coordinates: [
+          [query.fromLng, query.fromLat],  // ORS uses [lng, lat] order
+          [query.toLng, query.toLat],
+        ],
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new AppError(`Routing service error: ${err}`, 502);
+    }
+
+    return await response.json();
+  },
 };

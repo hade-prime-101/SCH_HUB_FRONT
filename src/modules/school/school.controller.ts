@@ -5,7 +5,6 @@ import {
   createTimetableEntrySchema, updateTimetableEntrySchema,
   createEventSchema, updateEventSchema,
   submitReceiptSchema, rejectTicketSchema, setEventReminderSchema,
-  createMapLocationSchema, updateMapLocationSchema, bulkUpdateMapLocationsSchema, routeQuerySchema,
   createEmergencyContactSchema, updateEmergencyContactSchema,
 } from './school.validators.js';
 
@@ -136,63 +135,6 @@ export const rejectTicket = async (req: Request, res: Response, next: NextFuncti
     const input = rejectTicketSchema.parse(req.body);
     const ticket = await schoolService.rejectTicket(req.params.ticketId, req.user!.id, input);
     return sendSuccess(res, ticket);
-  } catch (e) { return next(e); }
-};
-
-// ── Map Locations ──────────────────────────────────────────
-
-export const listMapLocations = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const type = req.query.type as string | undefined;
-    const search = req.query.search as string | undefined;
-    const locations = await schoolService.listMapLocations(req.user!.schoolId, type, search);
-    return sendSuccess(res, locations);
-  } catch (e) { return next(e); }
-};
-
-export const getMapLocation = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const location = await schoolService.getMapLocation(req.params.id);
-    return sendSuccess(res, location);
-  } catch (e) { return next(e); }
-};
-
-export const createMapLocation = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const input = createMapLocationSchema.parse(req.body);
-    const location = await schoolService.createMapLocation(input, req.user!.id, req.user!.schoolId);
-    return sendSuccess(res, location, 201);
-  } catch (e) { return next(e); }
-};
-
-export const updateMapLocation = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const input = updateMapLocationSchema.parse(req.body);
-    const location = await schoolService.updateMapLocation(req.params.id, input);
-    return sendSuccess(res, location);
-  } catch (e) { return next(e); }
-};
-
-export const bulkUpdateMapLocations = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const input = bulkUpdateMapLocationsSchema.parse(req.body);
-    const result = await schoolService.bulkUpdateMapLocations(input);
-    return sendSuccess(res, result);
-  } catch (e) { return next(e); }
-};
-
-export const deleteMapLocation = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await schoolService.deleteMapLocation(req.params.id);
-    return sendSuccess(res, result);
-  } catch (e) { return next(e); }
-};
-
-export const getRoute = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const query = routeQuerySchema.parse(req.query);
-    const route = await schoolService.getRoute(query);
-    return sendSuccess(res, route);
   } catch (e) { return next(e); }
 };
 

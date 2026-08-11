@@ -14,12 +14,8 @@ import type {
   submitReceiptSchema,
   rejectTicketSchema,
   setEventReminderSchema,
-  createMapLocationSchema,
-  updateMapLocationSchema,
-  bulkUpdateMapLocationsSchema,
   createEmergencyContactSchema,
   updateEmergencyContactSchema,
-  routeQuerySchema,
 } from './school.validators.js';
 
 type CreateTimetableInput = z.infer<typeof createTimetableEntrySchema>;
@@ -29,12 +25,8 @@ type UpdateEventInput = z.infer<typeof updateEventSchema>;
 type SubmitReceiptInput = z.infer<typeof submitReceiptSchema>;
 type RejectTicketInput = z.infer<typeof rejectTicketSchema>;
 type SetReminderInput = z.infer<typeof setEventReminderSchema>;
-type CreateMapInput = z.infer<typeof createMapLocationSchema>;
-type UpdateMapInput = z.infer<typeof updateMapLocationSchema>;
-type BulkUpdateMapInput = z.infer<typeof bulkUpdateMapLocationsSchema>;
 type CreateContactInput = z.infer<typeof createEmergencyContactSchema>;
 type UpdateContactInput = z.infer<typeof updateEmergencyContactSchema>;
-type RouteQuery = z.infer<typeof routeQuerySchema>;
 
 type UserCtx = { id: string; role: string; schoolId: string; departmentId: string; level: string };
 
@@ -451,103 +443,6 @@ export const schoolService = {
 
   async rejectTicket(_ticketId: string, _adminId: string, _input: RejectTicketInput) {
     throw new AppError('Ticketing is disabled for informational events', 410);
-  },
-
-  // ── Map Locations ──────────────────────────────────────────
-
-  async listMapLocations(schoolId: string, type?: string, search?: string) {
-    return prisma.mapLocation.findMany({
-      where: {
-        schoolId,
-        ...(type && { type: type as any }),
-        ...(search && { name: { contains: search, mode: 'insensitive' } }),
-      },
-      select: {
-        id: true, name: true, type: true, description: true,
-        latitude: true, longitude: true, floor: true, tags: true, imageUrl: true,
-      },
-      orderBy: { name: 'asc' },
-    });
-  },
-
-  async getMapLocation(id: string) {
-    const loc = await prisma.mapLocation.findUnique({ where: { id } });
-    if (!loc) throw new AppError('Location not found', 404);
-    return loc;
-  },
-
-  async createMapLocation(input: CreateMapInput, userId: string, schoolId: string) {
-    return prisma.mapLocation.create({
-      data: { ...input, tags: input.tags ?? [], schoolId, createdById: userId },
-    });
-  },
-
-  async updateMapLocation(id: string, input: UpdateMapInput) {
-    const loc = await prisma.mapLocation.findUnique({ where: { id } });
-    if (!loc) throw new AppError('Location not found', 404);
-    return prisma.mapLocation.update({ where: { id }, data: input as any });
-  },
-
-  async bulkUpdateMapLocations(input: BulkUpdateMapInput) {
-    const results = await prisma.$transaction(
-      input.updates.map(({ id, ...data }) =>
-        prisma.mapLocation.update({ where: { id }, data: data as any })
-      )
-    );
-    return { updated: results.length };
-  },
-
-  async deleteMapLocation(id: string) {
-    const loc = await prisma.mapLocation.findUnique({ where: { id } });
-    if (!loc) throw new AppError('Location not found', 404);
-    await prisma.mapLocation.delete({ where: { id } });
-    return { deleted: true };
-  },
-
-  async getRoute(query: RouteQuery) {
-    if (!env.ORS_API_KEY) {
-      // Dev fallback — return straight line coordinates
-      return {
-        type: 'FeatureCollection',
-        features: [{
-          type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: [
-              [query.fromLng, query.fromLat],
-              [query.toLng, query.toLat],
-            ],
-          },
-          properties: { fallback: true },
-        }],
-      };
-    }
-
-    const url = 'https://api.openrouteservice.org/v2/directions/foot-walking/geojson';
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': env.ORS_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        coordinates: [
-          [query.fromLng, query.fromLat],  // ORS uses [lng, lat] order
-          [query.toLng, query.toLat],
-        ],
-      }),
-    });
-
-    if (!response.ok) {
-      const err = await response.text();
-      throw new AppError(`Routing service error: ${err}`, 502);
-    }
-
-    const geojson = await response.json();
-
-    // Return the GeoJSON route — frontend feeds this directly to MapLibre GL source
-    return geojson;
   },
 
   // ── Emergency Contacts ─────────────────────────────────────

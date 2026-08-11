@@ -88,3 +88,42 @@ export function parseNear(value?: string) {
   }
   return { lat: parts[0], lng: parts[1] };
 }
+
+// ── Map Locations (simple POI) ─────────────────────────────
+
+export const mapLocationTypeEnum = z.enum([
+  'BUILDING', 'HOSTEL', 'CAFETERIA', 'LIBRARY', 'CLINIC',
+  'SPORTS', 'GATE', 'PARKING', 'OFFICE', 'LAB', 'LECTURE_HALL',
+  'OTHER', 'UNKNOWN',
+]);
+
+export const createMapLocationSchema = z.object({
+  name: z.string().min(2).max(200),
+  type: mapLocationTypeEnum.default('UNKNOWN'),
+  description: z.string().max(500).optional(),
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+  floor: z.string().max(20).optional(),
+  tags: z.array(z.string()).max(10).optional(),
+  imageUrl: z.string().url().optional(),
+});
+
+export const updateMapLocationSchema = createMapLocationSchema.partial();
+
+export const bulkUpdateMapLocationsSchema = z.object({
+  updates: z.array(z.object({
+    id: z.string().min(1),
+    name: z.string().min(2).max(200).optional(),
+    type: mapLocationTypeEnum.optional(),
+    description: z.string().max(500).optional(),
+    floor: z.string().max(20).optional(),
+    tags: z.array(z.string()).max(10).optional(),
+  })).min(1).max(200),
+});
+
+export const simpleRouteQuerySchema = z.object({
+  fromLat: z.coerce.number().min(-90).max(90),
+  fromLng: z.coerce.number().min(-180).max(180),
+  toLat: z.coerce.number().min(-90).max(90),
+  toLng: z.coerce.number().min(-180).max(180),
+});
