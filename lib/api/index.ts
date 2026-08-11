@@ -87,7 +87,7 @@ export const studyApi = {
     return getAdminQuizAnalytics(params);
   },
 };
-export { communityApi } from "./community";
-export { marketplaceApi } from "./marketplace";
+export { communityApi } from "./community.api";
+export { marketplaceApi } from "./marketplace.api";
 export { plannerApi, remindersApi, notificationsApi, campusMapApi, SOCKET_EVENTS } from "./planner";
 export { adminApi } from "./admin";

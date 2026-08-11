@@ -117,3 +117,60 @@ export const listReports = (params: { page?: number; limit?: number; resolved?: 
 
 export const resolveReport = (reportId: string) =>
   apiPost<any>(`/community/reports/${reportId}/resolve`);
+
+// ─── Community API Object ──────────────────────────────────
+
+export const communityApi = {
+  // Posts
+  listPosts,
+  getPost,
+  createPost,
+  createNoticePost,
+  deletePost,
+  pinPost,
+  upvotePost,
+  
+  // Comments
+  createComment,
+  upvoteComment,
+  
+  // Questions
+  listQuestions,
+  getQuestion,
+  createQuestion,
+  deleteQuestion,
+  upvoteQuestion,
+  createAnswer,
+  acceptAnswer,
+  pinAnswer,
+  upvoteAnswer,
+  deleteAnswer,
+  
+  // Mentors
+  registerMentor,
+  listMentors,
+  getMyMentorships,
+  
+  // FAQ
+  listFaqs,
+  createFaq,
+  deleteFaq,
+  
+  // Reactions & Reports
+  react,
+  report,
+  listReports,
+  resolveReport,
+
+  // Backward compatibility methods
+  getFeed: async (params: any) => listPosts({ ...params, section: 'FEED' }),
+  getNotices: async (params: any) => listPosts(params),
+  getAllGroups: async () => {
+    const { apiGet } = await import('./base');
+    return apiGet('/community/groups');
+  },
+  deleteGroup: async (id: string) => {
+    const { apiDelete } = await import('./base');
+    return apiDelete(`/community/groups/${id}`);
+  },
+};
