@@ -1,7 +1,7 @@
 export { apiFetch, apiGet, apiPost, apiPatch, apiDelete, apiPut } from "./base";
 export { authApi } from "./auth";
-export { schooLApi } from "./school.api";
-export { usersApi } from "./users";
+export { schoolApi } from "./school.api";
+export { usersApi } from "./users.api";
 export * from "./study.api";
 
 // For backward compatibility - object-based API
@@ -89,5 +89,5 @@ export const studyApi = {
 };
 export { communityApi } from "./community.api";
 export { marketplaceApi } from "./marketplace.api";
-export { plannerApi, remindersApi, notificationsApi, campusMapApi, SOCKET_EVENTS } from "./planner";
+export { plannerApi, remindersApi, notificationsApi, campusMapApi, SOCKET_EVENTS } from "./planner.api";
 export { adminApi } from "./admin";

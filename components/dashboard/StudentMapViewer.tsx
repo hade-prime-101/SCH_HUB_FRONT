@@ -76,9 +76,9 @@ export default function StudentMapViewer({
   // ── Fetch MapTiler key ────────────────────────────────────────────────────
 
   React.useEffect(() => {
-    import("@/lib/api/school").then(({ schoolApi }) => {
-      schoolApi.getMapConfig()
-        .then((cfg) => setMapTilerKey(cfg.maptilerApiKey || ""))
+    import("@/lib/api/campus-map.api").then(({ getMapConfig }) => {
+      getMapConfig()
+        .then((cfg: any) => setMapTilerKey(cfg.maptilerApiKey || ""))
         .catch(() => setMapTilerKey(""));
     });
   }, []);

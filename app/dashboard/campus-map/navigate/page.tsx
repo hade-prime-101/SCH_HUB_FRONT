@@ -18,7 +18,7 @@ import {
   Loader2,
   RefreshCw } from "lucide-react";
 import BackButton from "@/components/shared/BackButton";
-import { campusMapApi } from "@/lib/api/planner";
+import { campusMap } from "@/lib/api/campus-map.api";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -77,8 +77,8 @@ export default function OfflineMapPage() {
     const downloaded = typeof window !== "undefined" && !!localStorage.getItem(STORAGE_KEY);
     setIsDownloaded(downloaded);
 
-    campusMapApi.getTilesMetadata()
-      .then((data) => {
+    campusMap.getTilesMetadata()
+      .then((data: any) => {
         if (data) setMeta({ ...PLACEHOLDER_META, ...data });
       })
       .catch(() => { /* use placeholder */ })

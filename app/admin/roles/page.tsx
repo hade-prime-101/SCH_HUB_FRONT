@@ -12,7 +12,7 @@ import {
   Loader2,
   ChevronDown,
 } from "lucide-react";
-import { usersApi } from "@/lib/api/users";
+import { usersApi } from "@/lib/api/users.api";
 import type { UserRole } from "@/types/auth";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -99,8 +99,11 @@ export default function RoleAssignmentPage() {
     const t = setTimeout(async () => {
       setSearching(true); setSearchErr(null);
       try {
-        const data = await usersApi.searchUsers(query.trim(), 1, 10);
-        const items: UserResult[] = data?.items ?? data?.users ?? (Array.isArray(data) ? data : []);
+        const data = await usersApi.searchUsers({ q: query.trim(), page: 1, limit: 10 });
+        const items: UserResult[] = (Array.isArray(data) ? data : (data?.data ?? [])).map((u: any) => ({
+          ...u,
+          fullName: u.fullName || u.name || u.firstName + ' ' + u.lastName || u.email,
+        }));
         setResults(items);
       } catch (e: any) {
         setSearchErr(e.message ?? "Search failed.");
@@ -115,7 +118,7 @@ export default function RoleAssignmentPage() {
     if (!selected || !newRole) return;
     setSubmit(true); setError(null);
     try {
-      await usersApi.assignRole(selected.id, newRole);
+      await usersApi.assignRole({ userId: selected.id, role: newRole });
       setSuccess(true);
     } catch (e: any) {
       setError(e.message ?? "Role assignment failed. Please try again.");

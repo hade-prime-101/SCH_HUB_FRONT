@@ -8,8 +8,7 @@
  * - Route progress tracking (future: real-time navigation)
  */
 
-import { campusMapApi } from '@/lib/api/planner';
-import { schoolApi } from '@/lib/api/campus-map.api';
+import { campusMap } from '@/lib/api/campus-map.api';
 import { Route, RouteRequest, RouteProgress, NavigationMode } from '../types/route';
 import { Location } from '../types/location';
 import { Entrance } from '../types/entrance';
@@ -56,9 +55,15 @@ export class MapRoutingService extends BaseMapService {
 
     try {
       return await this.deduplicate(cacheKey, async () => {
-        const raw = await schoolApi.getRoute(origin, destination);
+        const raw = await campusMap.calculateSimpleRoute({
+          fromLat: origin.lat,
+          fromLng: origin.lng,
+          toLat: destination.lat,
+          toLng: destination.lng,
+          profile: 'foot',
+        });
 
-        const route = normalizeRoute(raw, origin, destination);
+        const route = normalizeRoute(raw as any, origin, destination);
 
         // If route calculation failed or no geometry
         if (!route) {

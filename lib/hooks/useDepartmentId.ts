@@ -34,7 +34,7 @@ export function useDepartmentId() {
         }
 
         // Fallback — fetch fresh profile if not in stored user
-        const { usersApi } = await import("@/lib/api/users");
+        const { usersApi } = await import("@/lib/api/users.api");
         const me = (await usersApi.getMe()) as any;
         const id = me?.departmentId ?? me?.department?.id ?? "";
 

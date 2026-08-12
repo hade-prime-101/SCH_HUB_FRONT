@@ -17,6 +17,8 @@ import type {
 export const listFeatures = (params?: { bbox?: string; category?: string; limit?: number }) =>
   apiGet<MapFeature[]>('/campus-map/features', params as any);
 
+export const getFeatures = listFeatures; // Alias for backward compatibility
+
 export const getFeature = (id: string) =>
   apiGet<MapFeature>(`/campus-map/features/${id}`);
 
@@ -26,8 +28,13 @@ export const getFeatureEntrances = (id: string) =>
 export const searchFeatures = (params: SearchParams) =>
   apiGet<MapFeature[]>('/campus-map/search', params as any);
 
+export const search = searchFeatures; // Alias for backward compatibility
+
 export const nearestFeatures = (params: NearestParams) =>
   apiGet<MapFeature[]>('/campus-map/nearest', params as any);
+
+export const getNearest = (lat: number, lng: number, category?: string) =>
+  nearestFeatures({ lat, lng, category });
 
 // ─── Routing ─────────────────────────────────────────────────
 export const calculateRoute = (payload: RouteRequestPayload) =>
@@ -50,6 +57,8 @@ export const getCategories = () => apiGet<string[]>('/campus-map/categories');
 // ─── Map Config ──────────────────────────────────────────────
 export const getMapConfig = () => apiGet<{ maptilerApiKey: string | null }>('/campus-map/config');
 
+export const getTilesMetadata = () => apiGet<any>('/campus-map/tiles/metadata');
+
 // ─── Map Locations (custom POIs) ─────────────────────────────
 export const listMapLocations = (type?: string, search?: string) =>
   apiGet<MapLocation[]>('/campus-map/locations', { type, search } as any);
@@ -71,16 +80,20 @@ export const bulkUpdateMapLocations = (payload: { locations: UpdateMapLocationPa
 
 export const campusMap = {
    listFeatures,
+   getFeatures,
    getFeature,
    getFeatureEntrances,
    searchFeatures,
+   search,
    nearestFeatures,
+   getNearest,
 
    calculateRoute,
    calculateSimpleRoute,
    getRouteProgress,
    getCategories,
    getMapConfig,
+   getTilesMetadata,
    
    listMapLocations,
    getMapLocation,

@@ -9,7 +9,6 @@
  * - Caching and deduplication
  */
 
-import { campusMapApi } from '@/lib/api/planner';
 import { campusMap } from '@/lib/api/campus-map.api';
 import { Location, MapLocation, isMapLocation, LocationType } from '../types/location';
 import { normalizeLocation, normalizeLocations } from '../normalizers/locationNormalizer';
@@ -69,7 +68,7 @@ export class MapLocationService extends BaseMapService {
         if (options?.category) params.category = options.category;
         if (options?.limit) params.limit = String(options.limit);
 
-        const raw = await campusMapApi.getFeatures(params);
+        const raw = await campusMap.getFeatures(params);
         const normalized = normalizeLocations(this.ensureArray(raw) as Record<string, unknown>[]);
 
         // Cache for 10 minutes
@@ -102,8 +101,8 @@ export class MapLocationService extends BaseMapService {
 
     try {
       return await this.deduplicate(cacheKey, async () => {
-        const raw = await campusMapApi.getFeature(id);
-        const normalized = normalizeLocation(raw);
+        const raw = await campusMap.getFeature(id);
+        const normalized = normalizeLocation(raw as any);
 
         // Cache for 30 minutes
         if (normalized) {
@@ -141,11 +140,11 @@ export class MapLocationService extends BaseMapService {
       return await this.deduplicate(cacheKey, async () => {
         const near = userLocation ? `${userLocation.lat},${userLocation.lng}` : undefined;
 
-        const raw = await campusMapApi.search(
+        const raw = await campusMap.search({
           query,
           category,
           near,
-        );
+        } as any);
 
         let normalized = normalizeLocations(this.ensureArray(raw) as Record<string, unknown>[]);
 
@@ -183,7 +182,7 @@ export class MapLocationService extends BaseMapService {
 
     try {
       return await this.deduplicate(cacheKey, async () => {
-        const raw = await campusMapApi.getNearest(
+        const raw = await campusMap.getNearest(
           userLocation.lat,
           userLocation.lng,
           category,

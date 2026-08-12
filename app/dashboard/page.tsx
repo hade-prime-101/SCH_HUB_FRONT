@@ -21,8 +21,8 @@ import {
   GraduationCap,
   Loader2,
 } from "lucide-react";
-import { plannerApi, notificationsApi } from "@/lib/api/planner";
-import { schooLApi } from "@/lib/api/school.api";
+import { plannerApi, notificationsApi } from "@/lib/api/planner.api";
+import { schoolApi } from "@/lib/api/school.api";
 import { communityApi } from "@/lib/api/community.api";
 
 const QUICK_LINKS = [
@@ -102,10 +102,10 @@ export default function DashboardPage() {
     } catch {}
 
     const [agendaRes, eventsRes, feedRes, notifsRes, noticesRes] = await Promise.allSettled([
-      plannerApi.getToday(),
-      schooLApi.getEvent({ upcoming: "true", limit: "3" } as any),
+      plannerApi.getTodayPlanner(),
+      schoolApi.listEvents({ upcoming: true, limit: 3 } as any),
       communityApi.getFeed({ limit: "3" }),
-      notificationsApi.getNotifications({ limit: "5", isRead: "false" }),
+      notificationsApi.listNotifications({ limit: 5 }),
       communityApi.getNotices({ section: "NOTICE_BOARD", limit: "3" }),
     ]);
 
@@ -133,7 +133,7 @@ export default function DashboardPage() {
     }
     if (notifsRes.status === "fulfilled") {
       const data = notifsRes.value;
-      const items = Array.isArray(data) ? data : (data?.items ?? []);
+      const items = Array.isArray(data) ? data : (data?.data ?? []);
       setNotifications(items.slice(0, 3));
       setUnreadCount(Array.isArray(data) ? data.length : (data?.total ?? 0));
     }

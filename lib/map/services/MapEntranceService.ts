@@ -8,7 +8,7 @@
  * - Fallback generation when backend doesn't provide entrance data
  */
 
-import { campusMapApi } from '@/lib/api/planner';
+import { campusMap } from '@/lib/api/campus-map.api';
 import { Entrance, sortEntrancesByPriority, hasEntranceCoordinates } from '../types/entrance';
 import { Location } from '../types/location';
 import {
@@ -54,7 +54,7 @@ export class MapEntranceService extends BaseMapService {
     try {
       return await this.deduplicate(cacheKey, async () => {
         // Try fetching from backend
-        const raw = await campusMapApi.getFeatureEntrances(locationId);
+        const raw = await campusMap.getFeatureEntrances(locationId);
         const features = this.ensureArray(raw) as Array<Record<string, unknown>>;
 
         let entrances: Entrance[] = [];

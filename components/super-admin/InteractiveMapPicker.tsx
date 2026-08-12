@@ -122,8 +122,8 @@ export default function InteractiveMapPicker({
       // Try to load MapTiler key from backend, fall back to OSM
       let mapTilerKey = "";
       try {
-        const { schoolApi } = await import("@/lib/api/school");
-        const config = await schoolApi.getMapConfig();
+        const { getMapConfig } = await import("@/lib/api/campus-map.api");
+        const config = await getMapConfig();
         mapTilerKey = config.maptilerApiKey || "";
       } catch { /* no key — use OSM */ }
 

@@ -22,7 +22,7 @@ export interface MapBounds {
  * Map configuration (tiles, style, API keys)
  */
 export interface MapConfig {
-  maptilerApiKey?: string;
+  maptilerApiKey?: string | null;
   defaultCenter: [lng: number, lat: number];
   defaultZoom: number;
   defaultPitch: number;

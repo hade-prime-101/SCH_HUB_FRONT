@@ -84,9 +84,25 @@ export const updateEmergencyContact = (id: string, payload: UpdateEmergencyConta
 export const deleteEmergencyContact = (id: string) =>
   apiDelete<{ message: string }>(`/school/emergency-contacts/${id}`);
 
+// ─── School Configuration ───────────────────────────────────
+export const getSchools = () =>
+  apiGet<any[]>('/schools');
+
+export const getFaculties = (schoolId: string) =>
+  apiGet<any[]>(`/schools/${schoolId}/faculties`);
+
+export const getDepartments = (facultyId: string) =>
+  apiGet<any[]>(`/faculties/${facultyId}/departments`);
+
+export const getMapConfig = () =>
+  apiGet<any>('/school/map-config');
+
+export const getRoute = (origin: string, destination: string) =>
+  apiGet<any>('/school/route', { origin, destination });
 
 
-export const schooLApi = {
+
+export const schoolApi = {
   //Timetable
  getTimetable,
  createTimetableEntry,
@@ -114,4 +130,11 @@ export const schooLApi = {
   createEmergencyContact,
   updateEmergencyContact,
   deleteEmergencyContact,
+
+  // School Configuration
+  getSchools,
+  getFaculties,
+  getDepartments,
+  getMapConfig,
+  getRoute,
 };

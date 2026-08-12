@@ -12,7 +12,7 @@ import {
   X,
   ShieldAlert } from "lucide-react";
 import BackButton from "@/components/shared/BackButton";
-import { usersApi } from "@/lib/api/users";
+import { usersApi } from "@/lib/api/users.api";
 import { useAuth } from "@/lib/hooks/useAuth";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -48,7 +48,7 @@ export default function SessionsPage() {
 
   useEffect(() => {
     usersApi.getSessions()
-      .then((s) => setSessions(Array.isArray(s) ? (s as Session[]) : []))
+      .then((s: any) => setSessions(Array.isArray(s) ? (s as Session[]) : []))
       .catch((e: any) => setError(e.message || "Failed to load sessions."))
       .finally(() => setLoading(false));
   }, []);

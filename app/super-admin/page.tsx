@@ -1,79 +1,44 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BarChart2, School, BookMarked, ShieldCheck, Users, ClipboardList, ChevronRight } from "lucide-react";
+import { getPlatformStats } from "@/lib/api/super-admin.api";
+import type { PlatformStats } from "@/types/super-admin";
 
-const SECTIONS = [
-  {
-    icon: BarChart2,
-    label: "Platform Stats",
-    desc: "View platform-wide analytics and totals",
-    href: "/super-admin/stats",
-    accent: "bg-blue-100 text-blue-600",
-  },
-  {
-    icon: School,
-    label: "Schools",
-    desc: "Create and manage schools on the platform",
-    href: "/super-admin/schools",
-    accent: "bg-violet-100 text-violet-600",
-  },
-  {
-    icon: BookMarked,
-    label: "Faculties & Departments",
-    desc: "Manage faculties and departments per school",
-    href: "/super-admin/faculties",
-    accent: "bg-indigo-100 text-indigo-600",
-  },
-  {
-    icon: ShieldCheck,
-    label: "Admins",
-    desc: "Create, deactivate and manage school admins",
-    href: "/super-admin/admins",
-    accent: "bg-emerald-100 text-emerald-600",
-  },
-  {
-    icon: Users,
-    label: "User Controls",
-    desc: "Block or unblock student accounts",
-    href: "/super-admin/users",
-    accent: "bg-amber-100 text-amber-600",
-  },
-  {
-    icon: ClipboardList,
-    label: "Audit Logs",
-    desc: "Review all platform-level actions",
-    href: "/super-admin/audit-logs",
-    accent: "bg-orange-100 text-orange-600",
-  },
-];
+export default function SuperAdminDashboard() {
+  const [stats, setStats] = useState<PlatformStats | null>(null);
 
-export default function SuperAdminDashboardPage() {
+  useEffect(() => { getPlatformStats().then(setStats); }, []);
+
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Super Admin</h1>
-        <p className="text-muted-foreground text-sm mt-1">Platform-level management</p>
+    <div>
+      <h1 className="text-2xl font-bold mb-6">Platform Overview</h1>
+      {stats ? (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StatCard label="Total Users" value={stats.totalUsers} />
+          <StatCard label="Total Schools" value={stats.totalSchools} />
+          <StatCard label="Total Materials" value={stats.totalMaterials} />
+          <StatCard label="Total Quizzes" value={stats.totalQuizzes} />
+        </div>
+      ) : (
+        <p>Loading stats...</p>
+      )}
+      <div className="mt-8 grid grid-cols-2 gap-4">
+        <Link href="/dashboard/super-admin/admins" className="bg-white shadow rounded p-4 hover:shadow-md">
+          Manage Admins
+        </Link>
+        <Link href="/dashboard/super-admin/schools" className="bg-white shadow rounded p-4 hover:shadow-md">
+          Manage Schools
+        </Link>
       </div>
+    </div>
+  );
+}
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {SECTIONS.map(({ icon: Icon, label, desc, href, accent }) => (
-          <Link
-            key={href}
-            href={href}
-            className="bg-card rounded-2xl p-5 flex items-start gap-4 hover:shadow-md transition-shadow group"
-          >
-            <span className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${accent}`}>
-              <Icon className="w-5 h-5" />
-            </span>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-foreground">{label}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
-            </div>
-            <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 mt-1 group-hover:text-primary transition-colors" />
-          </Link>
-        ))}
-      </div>
+function StatCard({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="bg-white shadow rounded p-4">
+      <p className="text-sm text-gray-500">{label}</p>
+      <p className="text-2xl font-bold">{value}</p>
     </div>
   );
 }

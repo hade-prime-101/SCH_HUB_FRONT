@@ -13,7 +13,7 @@ import {
   RefreshCw,
   Users,
 } from "lucide-react";
-import { usersApi } from "@/lib/api/users";
+import { usersApi } from "@/lib/api/users.api";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -50,8 +50,11 @@ export default function CourseRepNominationPage() {
     const t = setTimeout(async () => {
       setSearching(true); setSearchErr(null);
       try {
-        const data = await usersApi.searchUsers(query.trim(), 1, 10);
-        const items: UserResult[] = data?.items ?? data?.users ?? (Array.isArray(data) ? data : []);
+        const data = await usersApi.searchUsers({ q: query.trim(), page: 1, limit: 10 });
+        const items: UserResult[] = (Array.isArray(data) ? data : (data?.data ?? [])).map((u: any) => ({
+          ...u,
+          fullName: u.fullName || u.name || u.firstName + ' ' + u.lastName || u.email,
+        }));
         // Only show students
         setResults(items.filter(u => u.role === "STUDENT" || u.role === "COURSE_REP"));
       } catch (e: any) {
@@ -67,7 +70,7 @@ export default function CourseRepNominationPage() {
     if (!selected) return;
     setSubmit(true); setError(null);
     try {
-      await usersApi.nominateCourseRep(selected.id);
+      await usersApi.nominateCourseRep({ userId: selected.id });
       setSuccess(true);
     } catch (e: any) {
       setError(e.message ?? "Nomination failed. Please try again.");

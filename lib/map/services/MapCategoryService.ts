@@ -7,7 +7,7 @@
  * - Filtering locations by category
  */
 
-import { campusMapApi } from '@/lib/api/planner';
+import { campusMap } from '@/lib/api/campus-map.api';
 import { Location, LocationType } from '../types/location';
 import { BaseMapService, MapServiceError } from './baseService';
 
@@ -48,7 +48,7 @@ export class MapCategoryService extends BaseMapService {
 
     try {
       return await this.deduplicate(cacheKey, async () => {
-        const raw = await campusMapApi.getCategories();
+        const raw = await campusMap.getCategories();
 
         const categories = this.normalizeCategoryList(raw);
 

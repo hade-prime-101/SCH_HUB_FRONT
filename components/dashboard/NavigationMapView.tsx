@@ -72,9 +72,9 @@ export default function NavigationMapView({
   // ── Fetch MapTiler key (same endpoint as StudentMapViewer) ────────────────
 
   useEffect(() => {
-    import("@/lib/api/school").then(({ schoolApi }) => {
-      schoolApi.getMapConfig()
-        .then((cfg) => setMapTilerKey(cfg.maptilerApiKey || ""))
+    import("@/lib/api/campus-map.api").then(({ getMapConfig }) => {
+      getMapConfig()
+        .then((cfg: any) => setMapTilerKey(cfg.maptilerApiKey || ""))
         .catch(() => setMapTilerKey(""));
     });
   }, []);

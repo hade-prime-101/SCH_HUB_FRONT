@@ -12,7 +12,7 @@ import { MapConfig } from '../types/map';
 import { BaseMapService, MapServiceError } from './baseService';
 
 export interface MapAPIConfig {
-  maptilerApiKey?: string;
+  maptilerApiKey?: string | null;
 }
 
 /**
