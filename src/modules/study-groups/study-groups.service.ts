@@ -635,4 +635,17 @@ export const studyGroupsService = {
       orderBy: { createdAt: 'desc' },
     });
   },
+
+  async listMembers(groupId: string, userId: string) {
+    await assertMember(groupId, userId);
+    return prisma.studyGroupMember.findMany({
+      where: { groupId },
+      select: {
+        role: true,
+        joinedAt: true,
+        user: { select: { id: true, fullName: true, profilePictureUrl: true, level: true } },
+      },
+      orderBy: { joinedAt: 'asc' },
+    });
+  },
 };

@@ -19,6 +19,7 @@ studyGroupRoutes.post('/:id/join', c.joinGroup);
 studyGroupRoutes.delete('/:id/leave', c.leaveGroup);
 
 // ── Member management ─────────────────────────────────────────────────────
+studyGroupRoutes.get('/:id/members', c.listMembers);
 studyGroupRoutes.patch('/:id/members/:userId/role', c.updateMemberRole);
 studyGroupRoutes.delete('/:id/members/:userId', c.kickMember);
 

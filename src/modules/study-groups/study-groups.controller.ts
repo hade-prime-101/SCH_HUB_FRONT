@@ -134,3 +134,7 @@ export const getChallengeResult = h(async (req, res) => {
 export const listChallenges = h(async (req, res) => {
   sendSuccess(res, await studyGroupsService.listChallenges(req.params.id, req.user!.id));
 });
+
+export const listMembers = h(async (req, res) => {
+  sendSuccess(res, await studyGroupsService.listMembers(req.params.id, req.user!.id));
+});
