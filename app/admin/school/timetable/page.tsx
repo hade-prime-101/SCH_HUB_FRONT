@@ -6,7 +6,7 @@ import {
   createTimetableEntry,
   updateTimetableEntry,
   deleteTimetableEntry,
-} from "@/lib/school.api";
+} from "@/lib/api/school.api";
 import type { TimetableEntry, CreateTimetableEntryPayload } from "@/types/school";
 
 export default function AdminTimetablePage() {

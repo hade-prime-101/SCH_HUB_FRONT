@@ -83,3 +83,35 @@ export const updateEmergencyContact = (id: string, payload: UpdateEmergencyConta
 
 export const deleteEmergencyContact = (id: string) =>
   apiDelete<{ message: string }>(`/school/emergency-contacts/${id}`);
+
+
+
+export const schooLApi = {
+  //Timetable
+ getTimetable,
+ createTimetableEntry,
+ updateTimetableEntry,
+ deleteTimetableEntry,
+
+ //Events
+  createEvent,
+  deleteEvent,
+  updateEvent,
+  getEvent,
+  listEvents,
+  setEventReminder,
+  uploadEventImage,
+  
+  // Event Ticket
+  submitReceipt,
+  getMyTicket,
+  listTickets,
+  approveTicket,
+  rejectTicket,
+  
+  // Emergency
+  listEmergencyContacts,
+  createEmergencyContact,
+  updateEmergencyContact,
+  deleteEmergencyContact,
+};

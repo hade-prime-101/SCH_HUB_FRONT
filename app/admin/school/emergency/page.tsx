@@ -5,7 +5,7 @@ import {
   createEmergencyContact,
   updateEmergencyContact,
   deleteEmergencyContact,
-} from "@/lib/school.api";
+} from "@/lib/api/school.api";
 import type { EmergencyContact, CreateEmergencyContactPayload } from "@/types/school";
 
 export default function AdminEmergencyContactsPage() {

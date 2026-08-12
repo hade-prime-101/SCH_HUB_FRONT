@@ -10,7 +10,7 @@
  */
 
 import { campusMapApi } from '@/lib/api/planner';
-import { schoolApi } from '@/lib/api/school';
+import { campusMap } from '@/lib/api/campus-map.api';
 import { Location, MapLocation, isMapLocation, LocationType } from '../types/location';
 import { normalizeLocation, normalizeLocations } from '../normalizers/locationNormalizer';
 import { BaseMapService, MapServiceError } from './baseService';

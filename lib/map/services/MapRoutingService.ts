@@ -9,7 +9,7 @@
  */
 
 import { campusMapApi } from '@/lib/api/planner';
-import { schoolApi } from '@/lib/api/school';
+import { schoolApi } from '@/lib/api/campus-map.api';
 import { Route, RouteRequest, RouteProgress, NavigationMode } from '../types/route';
 import { Location } from '../types/location';
 import { Entrance } from '../types/entrance';

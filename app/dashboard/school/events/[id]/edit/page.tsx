@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getEvent, updateEvent } from "@/lib/school.api";
+import { getEvent, updateEvent } from "@/lib/api/school.api";
 
 export default function EditEventPage() {
   const { id } = useParams<{ id: string }>();

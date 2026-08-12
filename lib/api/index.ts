@@ -1,6 +1,6 @@
 export { apiFetch, apiGet, apiPost, apiPatch, apiDelete, apiPut } from "./base";
 export { authApi } from "./auth";
-export { schoolApi } from "./school";
+export { schooLApi } from "./school.api";
 export { usersApi } from "./users";
 export * from "./study.api";
 

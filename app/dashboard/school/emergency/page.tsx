@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { listEmergencyContacts } from "@/lib/school.api";
+import { listEmergencyContacts } from "@/lib/api/school.api";
 import type { EmergencyContact } from "@/types/school";
 
 export default function EmergencyContactsPage() {

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createEvent } from "@/lib/school.api";
+import { createEvent } from "@/lib/api/school.api";
 
 export default function NewEventPage() {
   const router = useRouter();

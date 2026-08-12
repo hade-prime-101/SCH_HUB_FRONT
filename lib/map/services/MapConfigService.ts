@@ -7,7 +7,7 @@
  * - School-specific map configuration
  */
 
-import { schoolApi } from '@/lib/api/school';
+import { campusMap } from '@/lib/api/campus-map.api';
 import { MapConfig } from '../types/map';
 import { BaseMapService, MapServiceError } from './baseService';
 
@@ -78,7 +78,7 @@ export class MapConfigService extends BaseMapService {
 
     try {
       return await this.deduplicate(cacheKey, async () => {
-        const config = await schoolApi.getMapConfig();
+        const config = await campusMap.getMapConfig();
 
         // Cache for 12 hours
         this.setCache(cacheKey, config, 12 * 60 * 60 * 1000);
@@ -123,7 +123,7 @@ export class MapConfigService extends BaseMapService {
 
   private async fetchMapAPIConfig(): Promise<MapAPIConfig> {
     try {
-      return await schoolApi.getMapConfig();
+      return await campusMap.getMapConfig();
     } catch {
       return {};
     }

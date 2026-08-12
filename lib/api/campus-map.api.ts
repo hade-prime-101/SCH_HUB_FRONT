@@ -68,3 +68,25 @@ export const deleteMapLocation = (id: string) =>
 // Bulk update (already had signature; ensure it exists)
 export const bulkUpdateMapLocations = (payload: { locations: UpdateMapLocationPayload[] }) =>
   apiPatch<{ modified: number }>('/campus-map/locations/bulk', payload);
+
+export const campusMap = {
+   listFeatures,
+   getFeature,
+   getFeatureEntrances,
+   searchFeatures,
+   nearestFeatures,
+
+   calculateRoute,
+   calculateSimpleRoute,
+   getRouteProgress,
+   getCategories,
+   getMapConfig,
+   
+   listMapLocations,
+   getMapLocation,
+   createMapLocation,
+   deleteMapLocation,
+   updateMapLocation,
+
+   bulkUpdateMapLocations
+}

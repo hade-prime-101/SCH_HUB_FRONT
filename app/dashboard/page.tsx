@@ -22,7 +22,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { plannerApi, notificationsApi } from "@/lib/api/planner";
-import { schoolApi } from "@/lib/api/school";
+import { schooLApi } from "@/lib/api/school.api";
 import { communityApi } from "@/lib/api/community.api";
 
 const QUICK_LINKS = [
@@ -103,7 +103,7 @@ export default function DashboardPage() {
 
     const [agendaRes, eventsRes, feedRes, notifsRes, noticesRes] = await Promise.allSettled([
       plannerApi.getToday(),
-      schoolApi.getEvents({ upcoming: "true", limit: "3" } as any),
+      schooLApi.getEvent({ upcoming: "true", limit: "3" } as any),
       communityApi.getFeed({ limit: "3" }),
       notificationsApi.getNotifications({ limit: "5", isRead: "false" }),
       communityApi.getNotices({ section: "NOTICE_BOARD", limit: "3" }),

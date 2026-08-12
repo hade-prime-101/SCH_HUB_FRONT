@@ -10,7 +10,7 @@ import {
   listTickets,
   approveTicket,
   rejectTicket,
-} from "@/lib/school.api";
+} from "@/lib/api/school.api";
 import type { SchoolEvent, Ticket } from "@/types/school";
 
 export default function EventDetailPage() {

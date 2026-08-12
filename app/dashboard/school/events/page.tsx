@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { listEvents, deleteEvent } from "@/lib/school.api";
+import { listEvents, deleteEvent } from "@/lib/api/school.api";
 import type { SchoolEvent } from "@/types/school";
 
 export default function EventsPage() {

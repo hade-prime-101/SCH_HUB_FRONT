@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getTimetable, createTimetableEntry, updateTimetableEntry, deleteTimetableEntry } from "@/lib/school.api";
+import { getTimetable, createTimetableEntry, updateTimetableEntry, deleteTimetableEntry } from "@/lib/api/school.api";
 import type { TimetableEntry, CreateTimetableEntryPayload } from "@/types/school";
 
 export default function TimetablePage() {
