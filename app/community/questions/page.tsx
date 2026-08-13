@@ -1,49 +1,110 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CommunityHeader } from "@/components/community/CommunityHeader";
+import { QuestionCard } from "@/components/community/QuestionCard";
+import { CommunityEmptyState } from "@/components/community/CommunityEmptyState";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { Pagination } from "@/components/ui/Pagination";
 import { listQuestions, deleteQuestion } from "@/lib/api/community.api";
 import type { Question } from "@/types/community";
 
 export default function QuestionsList() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const limit = 10;
 
   useEffect(() => {
-    listQuestions({ page, limit: 10 }).then((res) => setQuestions(res.data));
+    const fetchQuestions = async () => {
+      setLoading(true);
+      try {
+        const res = await listQuestions({ page, limit });
+        setQuestions(res.data);
+        setTotal(res.total);
+      } catch (err: any) {
+        setError(err.message || "Failed to load questions");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchQuestions();
   }, [page]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this question?")) return;
-    await deleteQuestion(id);
-    setQuestions((prev) => prev.filter((q) => q.id !== id));
+    try {
+      await deleteQuestion(id);
+      setQuestions((prev) => prev.filter((q) => q.id !== id));
+      setTotal((t) => t - 1);
+    } catch (err: any) {
+      alert(err.message || "Failed to delete question");
+    }
   };
 
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
+
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Questions & Answers</h1>
-        <Link href="/community/questions/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
-          Ask Question
-        </Link>
-      </div>
-      {questions.map((q) => (
-        <div key={q.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between">
-          <div>
-            <Link href={`/community/questions/${q.id}`} className="font-medium text-primary">
-              {q.title}
+    <div className="pb-24">
+      <CommunityHeader
+        title="Questions & Answers"
+        description="Ask questions and help others learn"
+        action={
+          <Button asChild>
+            <Link href="/community/questions/new">
+              <Plus className="w-4 h-4 mr-1.5" />
+              Ask Question
             </Link>
-            <p className="text-sm text-muted-foreground">
-              {q.upvotes} upvotes · {q.answers.length} answers
-            </p>
-          </div>
-          <button onClick={() => handleDelete(q.id)} className="text-destructive text-sm">Delete</button>
-        </div>
-      ))}
-      <div className="mt-4">
-        <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="btn">Prev</button>
-        <span className="mx-2">Page {page}</span>
-        <button onClick={() => setPage((p) => p + 1)} className="btn">Next</button>
-      </div>
+          </Button>
+        }
+      />
+
+      {loading ? (
+        <LoadingSkeleton count={3} height="h-24" />
+      ) : (
+        <>
+          {questions.length === 0 ? (
+            <CommunityEmptyState
+              icon={<Plus className="w-8 h-8" />}
+              title="No questions yet"
+              description="Be the first to ask a question!"
+              action={
+                <Button asChild>
+                  <Link href="/community/questions/new">Ask Question</Link>
+                </Button>
+              }
+            />
+          ) : (
+            <div className="space-y-4">
+              {questions.map((q) => (
+                <QuestionCard
+                  key={q.id}
+                  question={q}
+                  onDelete={handleDelete}
+                  showActions
+                />
+              ))}
+            </div>
+          )}
+
+          {total > limit && (
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(total / limit)}
+              onPageChange={setPage}
+              showPageNumber
+            />
+          )}
+        </>
+      )}
     </div>
   );
 }

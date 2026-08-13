@@ -1,8 +1,10 @@
-// app/community/mentors/register/page.tsx
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { CommunityHeader } from "@/components/community/CommunityHeader";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { registerMentor } from "@/lib/api/community.api";
 
 export default function RegisterMentorPage() {
@@ -50,50 +52,41 @@ export default function RegisterMentorPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Become a Mentor</h1>
+    <div className="pb-24 max-w-2xl mx-auto">
+      <CommunityHeader title="Become a Mentor" />
 
-      {error && (
-        <div className="bg-destructive/10 text-destructive p-3 rounded mb-4">
-          {error}
-          <button onClick={() => setError("")} className="ml-2 font-bold">
-            ×
-          </button>
-        </div>
-      )}
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {error && <ErrorMessage message={error} />}
 
-      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-1">Areas of Expertise</label>
-          <div className="flex gap-2 mb-2">
+          <label className="block text-sm font-medium text-foreground mb-1">
+            Areas of Expertise
+          </label>
+          <div className="flex gap-2">
             <input
               type="text"
               value={expertiseInput}
               onChange={(e) => setExpertiseInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddExpertise())}
               placeholder="e.g. JavaScript, Calculus"
-              className="border p-2 flex-1"
+              className="flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             />
-            <button
-              type="button"
-              onClick={handleAddExpertise}
-              className="bg-secondary/50 px-3 py-2 rounded"
-            >
+            <Button type="button" variant="outline" onClick={handleAddExpertise}>
               Add
-            </button>
+            </Button>
           </div>
           {expertiseList.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mt-3">
               {expertiseList.map((item) => (
                 <span
                   key={item}
-                  className="bg-primary/10 text-primary px-2 py-1 rounded-full text-sm flex items-center gap-1"
+                  className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm flex items-center gap-1"
                 >
                   {item}
                   <button
                     type="button"
                     onClick={() => removeExpertise(item)}
-                    className="text-primary hover:text-primary"
+                    className="text-primary hover:text-primary/70"
                   >
                     ×
                   </button>
@@ -104,23 +97,27 @@ export default function RegisterMentorPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Bio</label>
+          <label htmlFor="bio" className="block text-sm font-medium text-foreground mb-1">
+            Bio
+          </label>
           <textarea
+            id="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             placeholder="Tell students about yourself, your experience, and how you can help..."
-            className="border p-2 w-full h-32"
+            className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring h-32 resize-none"
             required
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-primary text-primary-foreground px-6 py-2 rounded disabled:opacity-50"
-        >
-          {loading ? "Registering..." : "Register as Mentor"}
-        </button>
+        <div className="flex justify-end gap-3">
+          <Button variant="outline" type="button" onClick={() => router.back()}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Registering..." : "Register as Mentor"}
+          </Button>
+        </div>
       </form>
     </div>
   );
