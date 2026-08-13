@@ -28,13 +28,13 @@ import { communityApi } from "@/lib/api/community.api";
 const QUICK_LINKS = [
   { icon: CalendarDays, label: "Timetable",   href: "/dashboard/timetable",         accent: "bg-[color-category-timetable-bg] text-[color-category-timetable]" },
   { icon: CheckCircle2, label: "Planner",     href: "/dashboard/planner",           accent: "bg-[color-category-planner-bg] text-[color-category-planner]" },
-  { icon: ClipboardList,label: "Reminders",   href: "/dashboard/planner/reminders", accent: "bg-[color-warning/10] text-warning" },
+  { icon: ClipboardList,label: "Reminders",   href: "/dashboard/reminders", accent: "bg-[color-warning/10] text-warning" },
   { icon: Calendar,     label: "Events",      href: "/dashboard/events",            accent: "bg-[color-category-events-bg] text-[color-category-events]" },
   { icon: MapPin,       label: "Campus Map",  href: "/dashboard/map",               accent: "bg-[color-category-campus-bg] text-[color-category-campus]" },
   { icon: PhoneCall,    label: "Emergency",   href: "/dashboard/emergency",         accent: "bg-[color-category-emergency-bg] text-[color-category-emergency]" },
-  { icon: GraduationCap,label: "Study",       href: "/dashboard/study",             accent: "bg-primary/10 text-primary" },
-  { icon: Sparkles,     label: "AI Tools",    href: "/dashboard/study/ai",          accent: "bg-[color-category-ai-bg] text-[color-category-ai]" },
-  { icon: Store,        label: "Marketplace", href: "/dashboard/marketplace",       accent: "bg-[color-category-marketplace-bg] text-[color-category-marketplace]" },
+  { icon: GraduationCap,label: "Study",       href: "/study",             accent: "bg-primary/10 text-primary" },
+  { icon: Sparkles,     label: "AI Tools",    href: "/study",          accent: "bg-[color-category-ai-bg] text-[color-category-ai]" },
+  { icon: Store,        label: "Marketplace", href: "/marketplace",       accent: "bg-[color-category-marketplace-bg] text-[color-category-marketplace]" },
 ];
 
 function SectionHeader({ title, action = "View all", href }: { title: string; action?: string; href?: string }) {
@@ -213,7 +213,7 @@ export default function DashboardPage() {
 
             {/* Notice Board */}
             <div className="bg-card rounded-3xl p-5">
-              <SectionHeader title="Notice Board" action="View all" href="/dashboard/community/notices" />
+              <SectionHeader title="Notice Board" action="View all" href="/community/posts" />
               {loading ? (
                 <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
               ) : notices.length === 0 ? (
@@ -221,7 +221,7 @@ export default function DashboardPage() {
               ) : (
                 <div className="flex flex-col gap-3">
                   {notices.map((post: any) => (
-                    <Link key={post.id} href={`/dashboard/community/${post.id}`} className="flex items-start gap-3 rounded-2xl bg-[color-warning/5] border border-[color-warning/20] p-3 active:opacity-80">
+                    <Link key={post.id} href={`/community/${post.id}`} className="flex items-start gap-3 rounded-2xl bg-[color-warning/5] border border-[color-warning/20] p-3 active:opacity-80">
                       <span className="w-2 h-2 rounded-full bg-warning mt-1.5 shrink-0" />
                       <p className="text-sm font-medium text-foreground line-clamp-2">{post.content}</p>
                     </Link>
@@ -230,7 +230,7 @@ export default function DashboardPage() {
               )}
             </div>
             <div className="bg-card rounded-3xl p-5">
-              <SectionHeader title="Today's Classes" action="View full timetable" href="/dashboard/timetable" />
+              <SectionHeader title="Today's Classes" action="View full timetable" href="/campus/timetable" />
               {loading ? (
                 <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
               ) : classes.length === 0 ? (
@@ -298,7 +298,7 @@ export default function DashboardPage() {
 
             {/* Upcoming Events */}
             <div className="bg-card rounded-3xl p-5">
-              <SectionHeader title="Upcoming Events" href="/dashboard/events" />
+              <SectionHeader title="Upcoming Events" href="/campus/events" />
               {loading ? (
                 <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
               ) : events.length === 0 ? (
@@ -322,7 +322,7 @@ export default function DashboardPage() {
 
             {/* Community Highlights */}
             <div className="bg-card rounded-3xl p-5">
-              <SectionHeader title="Community Highlights" action="View feed" href="/dashboard/community" />
+              <SectionHeader title="Community Highlights" action="View feed" href="/community" />
               {loading ? (
                 <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
               ) : feed.length === 0 ? (

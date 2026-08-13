@@ -46,7 +46,7 @@ export default function AdminPostsPage() {
                 <span className="text-yellow-600 text-xs font-bold uppercase">Pinned</span>
               )}
               <Link
-                href={`/dashboard/community/posts/${post.id}`}
+                href={`/community/posts/${post.id}`}
                 className="font-medium text-primary hover:underline"
               >
                 {post.title}

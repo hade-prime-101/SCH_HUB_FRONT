@@ -23,19 +23,19 @@ const NAV_ITEMS = [
   {
     icon:  BookOpen,
     label: "Study",
-    href:  "/dashboard/study",
+    href:  "/study",
     exact: false,
   },
   {
     icon:  Store,
     label: "Market",
-    href:  "/dashboard/marketplace",
+    href:  "/marketplace",
     exact: false,
   },
   {
     icon:  Users,
     label: "Community",
-    href:  "/dashboard/community",
+    href:  "/community",
     exact: false,
   },
   {
