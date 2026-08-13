@@ -23,7 +23,7 @@ export default function TodayPlannerPage() {
           {data.events.map((event) => (
             <div key={event.id} className="bg-white shadow rounded p-4">
               <p className="font-medium">{event.title}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 {event.startTime} - {event.endTime} {event.location && `· ${event.location}`}
               </p>
             </div>

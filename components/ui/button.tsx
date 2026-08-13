@@ -1,3 +1,45 @@
+/**
+ * Button Component
+ * 
+ * Canonical button primitive for all Loopz UI interactions.
+ * Uses semantic design tokens for consistent styling across light/dark modes.
+ * Built on Base UI button with CVA for maintainable variants.
+ * 
+ * Variants:
+ * - **default:** Primary action (--primary, --primary-foreground)
+ * - **outline:** Secondary action with border (--border, --background, --muted)
+ * - **secondary:** Secondary with alternative color (--secondary, --secondary-foreground)
+ * - **ghost:** Minimal action without background
+ * - **destructive:** Dangerous action (--destructive with 10% transparency)
+ * - **link:** Text link with underline
+ * 
+ * Sizes:
+ * - **xs:** 6px height, small icon, dense padding
+ * - **sm:** 7px height, small icon, compact
+ * - **default:** 8px height (standard)
+ * - **lg:** 9px height, comfortable spacing
+ * - **icon:** 8x8px square (icon-only)
+ * - **icon-xs:** 6x6px square
+ * - **icon-sm:** 7x7px square
+ * - **icon-lg:** 9x9px square
+ * 
+ * Features:
+ * - Focus ring with semantic --ring token
+ * - Disabled state with reduced opacity
+ * - aria-invalid support for form errors
+ * - Automatic icon sizing (4px default, adjusted per size)
+ * - Data slot support for button groups
+ * - Keyboard accessible with proper focus styles
+ * 
+ * @example
+ * ```tsx
+ * <Button>Save</Button>
+ * <Button variant="outline" size="sm">Cancel</Button>
+ * <Button variant="destructive">Delete</Button>
+ * <Button size="icon"><Trash2 /></Button>
+ * ```
+ */
+
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 

@@ -56,7 +56,7 @@ export default function EditListingPage() {
             ))}
           </div>
         </div>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Save Changes
         </button>
       </form>

@@ -46,11 +46,11 @@ export default function PostDetail() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-2">{post.title}</h1>
-      <p className="text-gray-600 mb-4">by {post.author.name} · {post.upvotes} upvotes</p>
+      <p className="text-muted-foreground mb-4">by {post.author.name} · {post.upvotes} upvotes</p>
       <div className="prose mb-6">{post.content}</div>
       <div className="flex gap-3 mb-6">
         <button onClick={handleUpvote} className="bg-gray-200 px-3 py-1 rounded">👍 Upvote</button>
-        <button onClick={handleReport} className="text-red-600 underline text-sm">Report</button>
+        <button onClick={handleReport} className="text-destructive underline text-sm">Report</button>
       </div>
 
       <h2 className="text-lg font-semibold mb-3">Comments ({post.comments.length})</h2>
@@ -72,7 +72,7 @@ export default function PostDetail() {
           placeholder="Write a comment..."
           className="border p-2 flex-1"
         />
-        <button onClick={handleComment} disabled={submittingComment} className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button onClick={handleComment} disabled={submittingComment} className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Send
         </button>
       </div>

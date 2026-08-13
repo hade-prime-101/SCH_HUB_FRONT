@@ -81,7 +81,7 @@ export default function EditQuizPage() {
         <div key={qi} className="bg-white shadow rounded p-4 mb-4 relative">
           <button
             onClick={() => removeQuestion(qi)}
-            className="absolute top-2 right-2 text-red-500"
+            className="absolute top-2 right-2 text-destructive"
           >
             ✕
           </button>
@@ -119,7 +119,7 @@ export default function EditQuizPage() {
                   />
                 </div>
               ))}
-              <button type="button" onClick={() => addOption(qi)} className="text-sm text-blue-600">
+              <button type="button" onClick={() => addOption(qi)} className="text-sm text-primary">
                 + Add option
               </button>
             </div>
@@ -141,7 +141,7 @@ export default function EditQuizPage() {
       </button>
 
       <div className="mt-4">
-        <button onClick={handleSave} className="bg-blue-600 text-white px-6 py-2 rounded">
+        <button onClick={handleSave} className="bg-primary text-primary-foreground px-6 py-2 rounded">
           Save Quiz
         </button>
       </div>

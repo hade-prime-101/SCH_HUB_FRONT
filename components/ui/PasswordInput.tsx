@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface PasswordInputProps {
   value: string;
@@ -54,7 +54,7 @@ export function PasswordInput({
     color: string;
   } => {
     if (!pwd) {
-      return { level: 'weak', percentage: 0, color: 'bg-slate-200' };
+      return { level: 'weak', percentage: 0, color: 'bg-muted' };
     }
 
     let score = 0;
@@ -76,19 +76,19 @@ export function PasswordInput({
     if (score <= 1) {
       level = 'weak';
       percentage = 25;
-      color = 'bg-red-500';
+      color = 'bg-destructive';
     } else if (score === 2) {
       level = 'fair';
       percentage = 50;
-      color = 'bg-yellow-500';
+      color = 'bg-warning';
     } else if (score === 3) {
       level = 'good';
       percentage = 75;
-      color = 'bg-blue-500';
+      color = 'bg-info';
     } else {
       level = 'strong';
       percentage = 100;
-      color = 'bg-green-500';
+      color = 'bg-success';
     }
 
     return { level, percentage, color };
@@ -112,10 +112,10 @@ export function PasswordInput({
           autoComplete={autoComplete}
           aria-invalid={!!error}
           aria-describedby={error ? `${name}-error` : undefined}
-          className={`w-full px-4 py-2.5 pr-12 rounded-lg border text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 transition ${
+          className={`w-full px-4 py-2.5 pr-12 rounded-lg border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 transition ${
             error
-              ? 'border-red-300 bg-red-50 focus:ring-red-500/50'
-              : 'border-slate-200 bg-slate-50 focus:ring-indigo-500/50 focus:border-indigo-300'
+              ? 'border-destructive bg-destructive/5 focus:ring-destructive/20'
+              : 'border-border bg-background focus:ring-primary/20 focus:border-primary'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         />
         {/* Toggle Visibility Button */}
@@ -123,13 +123,13 @@ export function PasswordInput({
           type="button"
           onClick={() => setShowPassword(!showPassword)}
           disabled={disabled}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition disabled:cursor-not-allowed"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition disabled:cursor-not-allowed"
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >
           {showPassword ? (
-            <MdVisibility className="w-5 h-5" />
+            <Eye className="w-5 h-5" />
           ) : (
-            <MdVisibilityOff className="w-5 h-5" />
+            <EyeOff className="w-5 h-5" />
           )}
         </button>
       </div>
@@ -138,12 +138,17 @@ export function PasswordInput({
       {value && (
         <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-600">Password strength:</span>
-            <span className="text-xs font-medium capitalize text-slate-600">
+            <span className="text-xs text-muted-foreground">Password strength:</span>
+            <span className={`text-xs font-medium capitalize ${
+              strength.level === 'weak' ? 'text-destructive' :
+              strength.level === 'fair' ? 'text-warning' :
+              strength.level === 'good' ? 'text-info' :
+              'text-success'
+            }`}>
               {strength.level}
             </span>
           </div>
-          <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-muted rounded-full overflow-hidden">
             <div
               className={`h-full ${strength.color} transition-all duration-300`}
               style={{ width: `${strength.percentage}%` }}
@@ -158,7 +163,7 @@ export function PasswordInput({
 
       {/* Error Message */}
       {error && (
-        <p id={`${name}-error`} className="text-sm text-red-600 flex items-center gap-1">
+        <p id={`${name}-error`} className="text-sm text-destructive flex items-center gap-1">
           {error}
         </p>
       )}

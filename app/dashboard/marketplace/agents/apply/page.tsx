@@ -29,7 +29,7 @@ export default function ApplyAgentPage() {
   return (
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Become an Accommodation Agent</h1>
-      {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
+      {error && <div className="bg-destructive/10 text-destructive p-3 rounded mb-4">{error}</div>}
       <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
         <input type="text" placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} className="border p-2 w-full" required />
         <input type="text" placeholder="Student ID Number" value={studentId} onChange={(e) => setStudentId(e.target.value)} className="border p-2 w-full" required />
@@ -38,7 +38,7 @@ export default function ApplyAgentPage() {
           <label className="block mb-1">Upload Student ID Image</label>
           <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </div>
-        <button type="submit" disabled={loading} className="bg-blue-600 text-white px-4 py-2 rounded w-full disabled:opacity-50">
+        <button type="submit" disabled={loading} className="bg-primary text-primary-foreground px-4 py-2 rounded w-full disabled:opacity-50">
           {loading ? "Submitting..." : "Apply"}
         </button>
       </form>

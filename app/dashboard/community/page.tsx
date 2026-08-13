@@ -9,28 +9,28 @@ const sections = [
     description: "Share updates, announcements, and engage with your community",
     icon: MessageSquare,
     href: "/dashboard/community/posts",
-    color: "bg-blue-100 text-blue-600",
+    color: "bg-primary/10 text-primary",
   },
   {
     title: "Questions & Answers",
     description: "Ask questions and help others learn",
     icon: HelpCircle,
     href: "/dashboard/community/questions",
-    color: "bg-purple-100 text-purple-600",
+    color: "bg-primary/10 text-primary",
   },
   {
     title: "Mentors",
     description: "Find mentors or become one for your courses",
     icon: Users,
     href: "/dashboard/community/mentors",
-    color: "bg-green-100 text-green-600",
+    color: "bg-success/10 text-success",
   },
   {
     title: "FAQ",
     description: "Frequently asked questions from your community",
     icon: BookOpen,
     href: "/dashboard/community/faq",
-    color: "bg-amber-100 text-amber-600",
+    color: "bg-warning/10 text-warning",
   },
 ];
 

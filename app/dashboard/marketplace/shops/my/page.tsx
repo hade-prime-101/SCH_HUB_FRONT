@@ -57,7 +57,7 @@ export default function MyShopPage() {
           className="border p-2 w-full"
           required
         />
-        <button onClick={handleSave} className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button onClick={handleSave} className="bg-primary text-primary-foreground px-4 py-2 rounded">
           {shop ? "Update Shop" : "Create Shop"}
         </button>
       </div>

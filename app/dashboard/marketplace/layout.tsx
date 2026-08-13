@@ -29,7 +29,7 @@ export default function MarketplaceLayout({ children }: { children: React.ReactN
               key={l.href}
               href={l.href}
               className={`block px-3 py-2 rounded text-sm ${
-                pathname === l.href ? "bg-blue-100 text-blue-700 font-medium" : "text-gray-700 hover:bg-gray-100"
+                pathname === l.href ? "bg-primary/10 text-primary font-medium" : "text-gray-700 hover:bg-gray-100"
               }`}
             >
               {l.label}

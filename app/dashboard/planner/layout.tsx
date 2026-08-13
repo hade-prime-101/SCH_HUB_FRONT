@@ -10,13 +10,13 @@ export default function PlannerLayout({ children }: { children: React.ReactNode 
       <div className="flex space-x-4 mb-6">
         <Link
           href="/dashboard/planner"
-          className={`px-4 py-2 rounded ${pathname === '/dashboard/planner' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          className={`px-4 py-2 rounded ${pathname === '/dashboard/planner' ? 'bg-primary text-primary-foreground' : 'bg-gray-200'}`}
         >
           Today
         </Link>
         <Link
           href="/dashboard/planner/weekly"
-          className={`px-4 py-2 rounded ${pathname.startsWith('/dashboard/planner/weekly') ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          className={`px-4 py-2 rounded ${pathname.startsWith('/dashboard/planner/weekly') ? 'bg-primary text-primary-foreground' : 'bg-gray-200'}`}
         >
           Weekly
         </Link>

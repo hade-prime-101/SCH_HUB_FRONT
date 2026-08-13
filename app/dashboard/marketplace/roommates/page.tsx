@@ -26,7 +26,7 @@ export default function RoommatesPage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Roommate Requests</h1>
-        <Link href="/dashboard/marketplace/roommates/new" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/marketplace/roommates/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           New Request
         </Link>
       </div>
@@ -34,10 +34,10 @@ export default function RoommatesPage() {
         <div key={req.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between items-center">
           <div>
             <p className="font-medium">{req.title}</p>
-            <p className="text-sm text-gray-600">Budget: ₦{req.budget} · {req.gender || "Any"}</p>
+            <p className="text-sm text-muted-foreground">Budget: ₦{req.budget} · {req.gender || "Any"}</p>
             <p className="text-sm text-gray-500">{req.description}</p>
           </div>
-          <button onClick={() => handleDelete(req.id)} className="text-red-600 text-sm">Delete</button>
+          <button onClick={() => handleDelete(req.id)} className="text-destructive text-sm">Delete</button>
         </div>
       ))}
       <div className="flex justify-between mt-4">

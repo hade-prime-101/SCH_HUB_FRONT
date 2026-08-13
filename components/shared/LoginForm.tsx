@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
-import { MdOutlineEmail } from "react-icons/md";
+import { Mail } from "lucide-react";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { Button } from "@/components/ui/button";
 
 const inputClassName =
-  "w-full rounded-[12px] border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 shadow-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200";
+  "w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground shadow-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => Promise<void> | void;
@@ -165,11 +165,11 @@ export function LoginForm({
       {error && <ErrorMessage message={error} />}
 
       <div className="space-y-2">
-        <label htmlFor="email" className="block text-[12px] font-semibold text-slate-500">
+        <label htmlFor="email" className="block text-xs font-semibold text-muted-foreground">
           Email address
         </label>
         <div className="relative">
-          <MdOutlineEmail className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+          <Mail className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <input
             id="email"
             type="email"
@@ -197,13 +197,13 @@ export function LoginForm({
             aria-describedby={errors.email ? "email-error" : undefined}
             className={`${inputClassName} pl-12 pr-4 ${
               errors.email
-                ? "border-red-300 bg-red-50 focus:ring-red-500/50"
+                ? "border-destructive bg-destructive/5 focus:ring-destructive/20"
                 : ""
             } ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
           />
         </div>
         {touched.email && errors.email && (
-          <p id="email-error" className="text-sm text-red-600">
+          <p id="email-error" className="text-sm text-destructive">
             {errors.email}
           </p>
         )}
@@ -238,7 +238,7 @@ export function LoginForm({
         />
       </div>
 
-      <div className="flex items-center justify-between text-sm text-slate-500">
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
         <label htmlFor="remember-me" className="flex cursor-pointer items-center gap-2 select-none">
           <input
             id="remember-me"
@@ -246,11 +246,11 @@ export function LoginForm({
             checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
             disabled={isLoading}
-            className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-4 w-4 rounded border-border text-primary focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
           />
           <span>Remember me</span>
         </label>
-        <Link href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-700">
+        <Link href="/forgot-password" className="font-medium text-primary hover:text-primary/80">
           Forgot password?
         </Link>
       </div>
@@ -258,7 +258,7 @@ export function LoginForm({
       <Button
         type="submit"
         disabled={isLoading}
-        className="h-[48px] w-full rounded-[12px] bg-indigo-600 text-[15px] font-semibold text-white shadow-[0_10px_12px_rgba(99,102,241,0.2)] transition hover:bg-indigo-700"
+        className="h-12 w-full rounded-lg bg-primary text-base font-semibold text-primary-foreground shadow-md transition hover:bg-primary/90"
       >
         {isLoading ? "Signing In..." : "Sign In"}
       </Button>

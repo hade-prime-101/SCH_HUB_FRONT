@@ -35,9 +35,9 @@ export default function AccommodationDetailPage() {
       <p>{acc.description}</p>
       <p className="text-sm text-gray-500">{acc.type} · {acc.location} · ₦{acc.price}</p>
       <div className="flex gap-2 mt-4">
-        <Link href={`/dashboard/marketplace/accommodation/${id}/edit`} className="bg-blue-600 text-white px-3 py-1 rounded">Edit</Link>
-        <button onClick={handleDelete} className="bg-red-600 text-white px-3 py-1 rounded">Delete</button>
-        <button onClick={handleReport} className="text-red-500 underline">Report</button>
+        <Link href={`/dashboard/marketplace/accommodation/${id}/edit`} className="bg-primary text-primary-foreground px-3 py-1 rounded">Edit</Link>
+        <button onClick={handleDelete} className="bg-destructive text-white px-3 py-1 rounded">Delete</button>
+        <button onClick={handleReport} className="text-destructive underline">Report</button>
       </div>
     </div>
   );

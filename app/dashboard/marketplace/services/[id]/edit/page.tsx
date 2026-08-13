@@ -43,7 +43,7 @@ export default function EditServicePage() {
           {categories.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
         <input type="number" value={price} onChange={e => setPrice(e.target.value)} className="border p-2 w-full" required />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">Save</button>
       </form>
     </div>
   );

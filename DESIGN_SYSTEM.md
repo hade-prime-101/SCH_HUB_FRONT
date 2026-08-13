@@ -1,18 +1,42 @@
-# SchHub Design System
+# LOOPZ Design System
 
 ## Table of Contents
-1. [Design Source of Truth](#1-design-source-of-truth)
-2. [Color Palette](#2-color-palette)
-3. [Typography](#3-typography)
-4. [Spacing System](#4-spacing-system)
-5. [Layout Patterns](#5-layout-patterns)
-6. [Component Styles](#6-component-styles)
-7. [Iconography](#7-iconography)
-8. [Motion & Animation](#8-motion--animation)
-9. [Dark Mode](#9-dark-mode)
-10. [Screen Inventory](#10-screen-inventory)
-11. [Design Personality](#11-design-personality)
-12. [Inconsistencies & Drift](#12-inconsistencies--drift)
+1. [Design Principles](#1-design-principles)
+2. [Design Source of Truth](#2-design-source-of-truth)
+3. [Color Tokens](#3-color-tokens)
+4. [Typography](#4-typography)
+5. [Spacing System](#5-spacing-system)
+6. [Radius System](#6-radius-system)
+7. [Shadows & Elevation](#7-shadows--elevation)
+8. [Interaction States](#8-interaction-states)
+9. [Layout Patterns](#9-layout-patterns)
+10. [Component Primitives](#10-component-primitives)
+11. [Iconography](#11-iconography)
+12. [Motion & Animation](#12-motion--animation)
+13. [Dark Mode](#13-dark-mode)
+14. [Screen Inventory](#14-screen-inventory)
+15. [Design Personality](#15-design-personality)
+16. [Inconsistencies & Drift](#16-inconsistencies--drift)
+
+---
+
+## 1. Design Principles
+
+**Loopz is designed to be:**
+- **Modern** — Clean, minimal, uncluttered interface
+- **Student-focused** — Intuitive, accessible, mobile-first
+- **Friendly** — Warm, approachable, human tone
+- **Intelligent** — Connects features, reveals information hierarchy
+- **Trustworthy** — Clear actions, predictable behavior
+- **Energetic** — Responsive, tactile, alive (but restrained)
+
+**Foundation principles:**
+1. Token-driven design (no magic numbers, all via CSS variables)
+2. Semantic naming (colors named by purpose, not by look)
+3. Accessibility-first (WCAG 2.1 AA minimum)
+4. Mobile-first (scale up to desktop, not down)
+5. Consistent patterns (same interaction = same visual feedback)
+6. Dark mode ready (all tokens work in both themes)
 
 ---
 
@@ -79,6 +103,36 @@ These appear directly as Tailwind classes throughout the codebase — they are *
 | Green | `bg-green-500` | Password strength "strong" |
 | Yellow | `bg-yellow-500` | Password strength "fair" |
 | Slate | `bg-slate-*`, `text-slate-*`, `border-slate-*` | Used heavily in auth screens as an alternative neutral system |
+
+---
+
+## 2.1.1 FEATURE CATEGORY COLORS (NEW - TOKENIZED ✅)
+
+**Status:** Phase 1 Foundation - Now tokenized in `globals.css`
+
+These semantic tokens represent the visual category system used throughout the dashboard to quickly identify feature areas by color. Each category has a primary color (for text/icons) and a background variant (for cards/containers).
+
+| Category | Token | Light Mode | Dark Mode | Current Inline Usage |
+|----------|-------|-----------|-----------|----------------------|
+| **Timetable** | `--category-timetable` / `--category-timetable-bg` | oklch(0.326 0.151 261.688) / oklch(0.95 0.035 263.604) | oklch(0.611 0.157 258.995) / oklch(0.269 0.018 261.688) | `bg-blue-100 text-blue-600/700` |
+| **Planner** | `--category-planner` / `--category-planner-bg` | oklch(0.473 0.198 279.235) / oklch(0.969 0.025 278.996) | oklch(0.623 0.162 276.935) / oklch(0.269 0.022 279.235) | `bg-violet-100 text-violet-600/700` |
+| **Events** | `--category-events` / `--category-events-bg` | oklch(0.332 0.144 155.995) / oklch(0.952 0.027 155.858) | oklch(0.563 0.178 150) / oklch(0.269 0.02 155.995) | `bg-emerald-100 text-emerald-600/700` |
+| **AI Tools** | `--category-ai` / `--category-ai-bg` | oklch(0.599 0.224 12.164) / oklch(0.969 0.03 12.316) | oklch(0.704 0.191 22.216) / oklch(0.269 0.025 12.164) | `bg-pink-100 text-pink-600` |
+| **Marketplace** | `--category-marketplace` / `--category-marketplace-bg` | oklch(0.634 0.194 41.877) / oklch(0.959 0.047 39.754) | oklch(0.722 0.161 40) / oklch(0.269 0.035 41.877) | `bg-orange-100 text-orange-600` |
+| **Campus Map** | `--category-campus` / `--category-campus-bg` | oklch(0.497 0.185 254.211) / oklch(0.958 0.056 256.802) | oklch(0.622 0.158 256.802) / oklch(0.269 0.025 254.211) | `bg-sky-100 text-sky-600` |
+| **Emergency** | `--category-emergency` / `--category-emergency-bg` | oklch(0.577 0.245 27.325) / oklch(0.968 0.061 27.325) | oklch(0.704 0.191 22.216) / oklch(0.269 0.035 27.325) | `bg-red-100 text-red-600` |
+| **Community** | `--category-community` / `--category-community-bg` | Alias to timetable | Alias to timetable | `bg-blue-100 text-blue-600/700` |
+
+**Usage in Tailwind:**
+```tsx
+// Old way (inline Tailwind - will be migrated Phase 2)
+<div className="bg-blue-100 text-blue-600">Timetable</div>
+
+// New way (using tokens)
+<div className="bg-category-timetable-bg text-category-timetable">Timetable</div>
+```
+
+**Dark mode support:** All category tokens automatically adjust when `.dark` class is applied to the root element.
 
 ---
 
@@ -490,7 +544,7 @@ Many inline `slate-*` color classes used in auth screens and some shared compone
 
 ---
 
-## 11. Design Personality
+## 15. Design Personality
 
 **Overall aesthetic:** Clean, friendly, mobile-first. Rounded corners throughout (8–24px range). Layered card surfaces over muted page backgrounds. Indigo as the single brand color applied consistently.
 
@@ -513,7 +567,93 @@ Many inline `slate-*` color classes used in auth screens and some shared compone
 
 ---
 
-## 12. Inconsistencies & Drift
+## 16. Migration Status (Phase 1 Foundation)
+
+**Date:** August 13, 2026  
+**Phase:** Phase 1 - Design System Foundation  
+**Objective:** Consolidate Loopz into a single coherent design system without breaking existing functionality.
+
+### 16.1 COMPLETED ✅
+
+#### Token System
+- [x] Core semantic tokens fully defined in `globals.css`
+- [x] Dark mode tokens fully defined with proper remapping
+- [x] Radius system tokens defined (with semantic levels)
+- [x] Spacing system tokens defined
+- [x] Shadow system tokens defined
+- [x] Typography scale tokens defined (reference only)
+- [x] Interaction state tokens defined
+- [x] **NEW:** Feature category color tokens added (7 categories, light + dark modes)
+- [x] All tokens exposed in `@theme inline` for Tailwind class generation
+
+#### Documentation
+- [x] DESIGN_SYSTEM.md reviewed and comprehensive
+- [x] Category colors documented with token names and usage
+- [x] Migration inventory created (MIGRATION_INVENTORY.md)
+- [x] Token source of truth established in globals.css
+
+#### Button Component
+- [x] `components/ui/button.tsx` verified - excellent implementation
+- [x] Uses semantic tokens throughout
+- [x] Supports all necessary variants (default, outline, secondary, ghost, destructive, link)
+- [x] Proper focus states with `focus-visible:ring` pattern
+- [x] Disabled states handled correctly
+- [x] Dark mode compatible
+- [x] Accessibility features present (aria-invalid, aria-expanded)
+
+#### Icon Library
+- [x] Decision documented: Lucide React is the primary icon library
+- [x] React Icons currently present but not encouraged for new code
+- [x] Migration to Lucide-only deferred to Phase 3
+
+### 16.2 IN PROGRESS 🚧
+
+#### Auth Screens Token Migration
+- [ ] Replace 50+ `slate-*` color classes with semantic tokens
+- [ ] Replace hardcoded `indigo-*` focus colors with `--ring` token
+- [ ] Replace hardcoded font sizes (`text-[Npx]`) with Tailwind scale
+- [ ] Consolidate raw `<button>` elements to use `<Button>` component
+- [ ] Files to migrate:
+  - `app/login/page.tsx`
+  - `app/register/page.tsx`
+  - `app/forgot-password/page.tsx`
+  - `app/reset-password/page.tsx`
+  - `app/verify-otp/page.tsx`
+  - `components/ui/PasswordInput.tsx`
+  - `components/ui/LoadingSkeleton.tsx`
+  - `components/shared/LoginForm.tsx`
+
+#### Component Consolidation
+- [ ] Password strength indicator - consolidate two implementations
+- [ ] Input styling - prepare for dedicated Input component
+- [ ] Button patterns - ensure consistency across all buttons
+
+#### Map Components
+- [ ] Replace hardcoded hex colors with token references
+  - `components/dashboard/StudentMapViewer.tsx`
+  - `components/super-admin/InteractiveMapPicker.tsx`
+
+### 16.3 DEFERRED TO PHASE 2 ⏳
+
+- [ ] Create `components/ui/input.tsx` shared input component
+- [ ] Create `components/ui/card.tsx` shared card component
+- [ ] Create `components/ui/badge.tsx` shared badge component
+- [ ] Consolidate password strength indicator into PasswordInput
+- [ ] Migrate all raw buttons to `<Button>` component
+- [ ] Migrate all `slate-*` colors to semantic tokens
+- [ ] Migrate all hardcoded hex values to tokens
+
+### 16.4 DEFERRED TO PHASE 3 ⏳
+
+- [ ] Icon library consolidation - migrate React Icons to Lucide only
+- [ ] Dark mode UI activation - wire up theme toggle
+- [ ] Test all components in dark mode
+- [ ] Serif font - decide whether to load Merriweather or keep system fallback
+- [ ] Remaining component library build-out
+
+---
+
+## 17. Inconsistencies & Drift (Known Issues)
 
 ### 1. Two icon libraries with no separation of concern
 Lucide (`lucide-react`) and React Icons (`react-icons/md`) are both used across the codebase with no rule about which to use where. The same screen can use both. New screens should standardize on Lucide (declared as the shadcn icon library), but existing `react-icons` usage would need migration.

@@ -44,8 +44,8 @@ export default function CGPAPage() {
   if (error) {
     return (
       <div className="max-w-4xl mx-auto py-8">
-        <div className="bg-red-50 border border-red-200 rounded p-4">
-          <p className="text-red-700">{error}</p>
+        <div className="bg-destructive/5 border border-destructive/20 rounded p-4">
+          <p className="text-destructive">{error}</p>
         </div>
       </div>
     );
@@ -57,7 +57,7 @@ export default function CGPAPage() {
         <h1 className="text-2xl font-bold">CGPA Calculator</h1>
         <Link
           href="/dashboard/study/cgpa/calculate"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded"
         >
           Calculate CGPA
         </Link>
@@ -69,7 +69,7 @@ export default function CGPAPage() {
           <div className="flex gap-8">
             <div>
               <p className="text-gray-500">CGPA</p>
-              <p className="text-4xl font-bold text-blue-700">{cgpaData.currentCGPA.toFixed(2)}</p>
+              <p className="text-4xl font-bold text-primary">{cgpaData.currentCGPA.toFixed(2)}</p>
             </div>
             <div>
               <p className="text-gray-500">Total Credits</p>
@@ -78,8 +78,8 @@ export default function CGPAPage() {
           </div>
         </div>
       ) : (
-        <div className="bg-yellow-50 p-4 rounded mb-6">
-          No CGPA data yet. <Link href="/dashboard/study/cgpa/courses" className="text-blue-600 underline">Add courses</Link> and calculate.
+        <div className="bg-warning/5 p-4 rounded mb-6">
+          No CGPA data yet. <Link href="/dashboard/study/cgpa/courses" className="text-primary underline">Add courses</Link> and calculate.
         </div>
       )}
 
@@ -87,7 +87,7 @@ export default function CGPAPage() {
         <h2 className="text-xl font-semibold">Your Courses</h2>
         <Link
           href="/dashboard/study/cgpa/courses"
-          className="text-blue-600 hover:underline"
+          className="text-primary hover:underline"
         >
           Manage Courses
         </Link>

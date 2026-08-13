@@ -54,7 +54,7 @@ export default function RegisterMentorPage() {
       <h1 className="text-2xl font-bold mb-4">Become a Mentor</h1>
 
       {error && (
-        <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+        <div className="bg-destructive/10 text-destructive p-3 rounded mb-4">
           {error}
           <button onClick={() => setError("")} className="ml-2 font-bold">
             ×
@@ -87,13 +87,13 @@ export default function RegisterMentorPage() {
               {expertiseList.map((item) => (
                 <span
                   key={item}
-                  className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm flex items-center gap-1"
+                  className="bg-primary/10 text-primary px-2 py-1 rounded-full text-sm flex items-center gap-1"
                 >
                   {item}
                   <button
                     type="button"
                     onClick={() => removeExpertise(item)}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-primary hover:text-primary"
                   >
                     ×
                   </button>
@@ -117,7 +117,7 @@ export default function RegisterMentorPage() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-600 text-white px-6 py-2 rounded disabled:opacity-50"
+          className="bg-primary text-primary-foreground px-6 py-2 rounded disabled:opacity-50"
         >
           {loading ? "Registering..." : "Register as Mentor"}
         </button>

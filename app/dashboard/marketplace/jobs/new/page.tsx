@@ -26,7 +26,7 @@ export default function NewJobPage() {
         <input type="text" placeholder="Company" value={company} onChange={(e) => setCompany(e.target.value)} className="border p-2 w-full" />
         <input type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} className="border p-2 w-full" />
         <input type="text" placeholder="Salary" value={salary} onChange={(e) => setSalary(e.target.value)} className="border p-2 w-full" />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Post</button>
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">Post</button>
       </form>
     </div>
   );

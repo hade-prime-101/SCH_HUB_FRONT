@@ -49,7 +49,7 @@ export default function WeeklyPlannerPage() {
                 {day.events.map((event) => (
                   <li key={event.id} className="text-sm">
                     <p className="font-medium">{event.title}</p>
-                    <p className="text-xs text-gray-600">{event.startTime}</p>
+                    <p className="text-xs text-muted-foreground">{event.startTime}</p>
                   </li>
                 ))}
               </ul>

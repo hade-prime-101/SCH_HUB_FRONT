@@ -39,7 +39,7 @@ export default function LostFoundPage() {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Lost & Found</h1>
-        <button onClick={() => setShowForm(!showForm)} className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button onClick={() => setShowForm(!showForm)} className="bg-primary text-primary-foreground px-4 py-2 rounded">
           {showForm ? "Cancel" : "Report Item"}
         </button>
       </div>
@@ -52,7 +52,7 @@ export default function LostFoundPage() {
             <option value="FOUND">Found</option>
           </select>
           <input type="text" placeholder="Location" value={form.location || ""} onChange={(e) => setForm({ ...form, location: e.target.value })} className="border p-2 w-full" />
-          <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">Submit</button>
+          <button type="submit" className="bg-success text-white px-4 py-2 rounded">Submit</button>
         </form>
       )}
       {items.map((item) => (
@@ -60,15 +60,15 @@ export default function LostFoundPage() {
           <div>
             <span className="font-medium">{item.title}</span>
             <span className="ml-2 text-xs bg-gray-200 px-2 py-0.5 rounded">{item.type}</span>
-            <p className="text-sm text-gray-600">{item.description}</p>
+            <p className="text-sm text-muted-foreground">{item.description}</p>
             <p className="text-xs text-gray-400">{item.location}</p>
           </div>
           {!item.resolved && (
-            <button onClick={() => handleResolve(item.id)} className="text-sm bg-green-100 text-green-700 px-2 py-1 rounded">
+            <button onClick={() => handleResolve(item.id)} className="text-sm bg-success/10 text-success px-2 py-1 rounded">
               Mark Resolved
             </button>
           )}
-          {item.resolved && <span className="text-sm text-green-600 font-medium">Resolved</span>}
+          {item.resolved && <span className="text-sm text-success font-medium">Resolved</span>}
         </div>
       ))}
       {total > limit && (

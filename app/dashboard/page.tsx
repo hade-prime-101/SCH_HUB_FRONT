@@ -26,15 +26,15 @@ import { schoolApi } from "@/lib/api/school.api";
 import { communityApi } from "@/lib/api/community.api";
 
 const QUICK_LINKS = [
-  { icon: CalendarDays, label: "Timetable",   href: "/dashboard/timetable",         accent: "bg-blue-100   text-blue-600" },
-  { icon: CheckCircle2, label: "Planner",     href: "/dashboard/planner",           accent: "bg-violet-100 text-violet-600" },
-  { icon: ClipboardList,label: "Reminders",   href: "/dashboard/planner/reminders", accent: "bg-amber-100  text-amber-600" },
-  { icon: Calendar,     label: "Events",      href: "/dashboard/events",            accent: "bg-emerald-100 text-emerald-600" },
-  { icon: MapPin,       label: "Campus Map",  href: "/dashboard/map",               accent: "bg-sky-100    text-sky-600" },
-  { icon: PhoneCall,    label: "Emergency",   href: "/dashboard/emergency",         accent: "bg-red-100    text-red-600" },
-  { icon: GraduationCap,label: "Study",       href: "/dashboard/study",             accent: "bg-indigo-100 text-indigo-600" },
-  { icon: Sparkles,     label: "AI Tools",    href: "/dashboard/study/ai",          accent: "bg-pink-100   text-pink-600" },
-  { icon: Store,        label: "Marketplace", href: "/dashboard/marketplace",       accent: "bg-orange-100 text-orange-600" },
+  { icon: CalendarDays, label: "Timetable",   href: "/dashboard/timetable",         accent: "bg-[color-category-timetable-bg] text-[color-category-timetable]" },
+  { icon: CheckCircle2, label: "Planner",     href: "/dashboard/planner",           accent: "bg-[color-category-planner-bg] text-[color-category-planner]" },
+  { icon: ClipboardList,label: "Reminders",   href: "/dashboard/planner/reminders", accent: "bg-[color-warning/10] text-warning" },
+  { icon: Calendar,     label: "Events",      href: "/dashboard/events",            accent: "bg-[color-category-events-bg] text-[color-category-events]" },
+  { icon: MapPin,       label: "Campus Map",  href: "/dashboard/map",               accent: "bg-[color-category-campus-bg] text-[color-category-campus]" },
+  { icon: PhoneCall,    label: "Emergency",   href: "/dashboard/emergency",         accent: "bg-[color-category-emergency-bg] text-[color-category-emergency]" },
+  { icon: GraduationCap,label: "Study",       href: "/dashboard/study",             accent: "bg-primary/10 text-primary" },
+  { icon: Sparkles,     label: "AI Tools",    href: "/dashboard/study/ai",          accent: "bg-[color-category-ai-bg] text-[color-category-ai]" },
+  { icon: Store,        label: "Marketplace", href: "/dashboard/marketplace",       accent: "bg-[color-category-marketplace-bg] text-[color-category-marketplace]" },
 ];
 
 function SectionHeader({ title, action = "View all", href }: { title: string; action?: string; href?: string }) {
@@ -221,8 +221,8 @@ export default function DashboardPage() {
               ) : (
                 <div className="flex flex-col gap-3">
                   {notices.map((post: any) => (
-                    <Link key={post.id} href={`/dashboard/community/${post.id}`} className="flex items-start gap-3 rounded-2xl bg-amber-50 border border-amber-100 p-3 active:opacity-80">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                    <Link key={post.id} href={`/dashboard/community/${post.id}`} className="flex items-start gap-3 rounded-2xl bg-[color-warning/5] border border-[color-warning/20] p-3 active:opacity-80">
+                      <span className="w-2 h-2 rounded-full bg-warning mt-1.5 shrink-0" />
                       <p className="text-sm font-medium text-foreground line-clamp-2">{post.content}</p>
                     </Link>
                   ))}
@@ -306,8 +306,8 @@ export default function DashboardPage() {
               ) : (
                 <div className="flex flex-col gap-3">
                   {events.map((e) => (
-                    <div key={e.id} className="flex items-center gap-4 rounded-2xl bg-emerald-50 p-4">
-                      <div className="w-11 h-11 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
+                    <div key={e.id} className="flex items-center gap-4 rounded-2xl bg-[color-category-events-bg] p-4">
+                      <div className="w-11 h-11 rounded-xl bg-[color-category-events] flex items-center justify-center shrink-0">
                         <Calendar className="w-5 h-5 text-white" />
                       </div>
                       <div>

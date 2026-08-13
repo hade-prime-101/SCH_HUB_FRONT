@@ -21,7 +21,7 @@ export default function QuizzesListPage() {
     <div className="p-6">
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Quizzes</h1>
-        <Link href="/dashboard/study/quizzes/create" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/study/quizzes/create" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Create Quiz
         </Link>
       </div>
@@ -29,12 +29,12 @@ export default function QuizzesListPage() {
         {quizzes.map(q => (
           <li key={q.id} className="bg-white shadow p-4 rounded flex justify-between">
             <div>
-              <Link href={`/dashboard/study/quizzes/${q.id}`} className="font-medium text-blue-600">
+              <Link href={`/dashboard/study/quizzes/${q.id}`} className="font-medium text-primary">
                 {q.title}
               </Link>
               <p className="text-sm text-gray-500">{q.isDraft ? "Draft" : "Published"} · {q.questions.length} questions</p>
             </div>
-            <Link href={`/dashboard/study/quizzes/${q.id}/attempt`} className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded">
+            <Link href={`/dashboard/study/quizzes/${q.id}/attempt`} className="bg-primary/10 text-primary px-3 py-1 rounded">
               Start
             </Link>
           </li>

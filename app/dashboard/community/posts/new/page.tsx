@@ -34,7 +34,7 @@ export default function NewPost() {
           placeholder="Content" value={content} onChange={(e) => setContent(e.target.value)}
           className="border p-2 w-full h-40" required
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Publish
         </button>
       </form>

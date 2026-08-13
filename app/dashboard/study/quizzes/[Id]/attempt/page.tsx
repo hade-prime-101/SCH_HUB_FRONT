@@ -35,10 +35,10 @@ export default function QuizAttemptPage() {
     <div className="p-6 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{quiz.title}</h1>
       {submitted && result ? (
-        <div className="bg-green-50 p-4 rounded">
+        <div className="bg-success/5 p-4 rounded">
           <p className="font-bold">Your Score</p>
           <p>{result.score} / {result.total}</p>
-          <button onClick={() => router.push(`/dashboard/study/quizzes/${id}/results`)} className="mt-2 text-blue-600">
+          <button onClick={() => router.push(`/dashboard/study/quizzes/${id}/results`)} className="mt-2 text-primary">
             View detailed results
           </button>
         </div>
@@ -71,7 +71,7 @@ export default function QuizAttemptPage() {
               )}
             </div>
           ))}
-          <button onClick={handleSubmit} className="bg-purple-600 text-white px-6 py-2 rounded">
+          <button onClick={handleSubmit} className="bg-primary text-primary-foreground px-6 py-2 rounded">
             Submit Attempt
           </button>
         </>

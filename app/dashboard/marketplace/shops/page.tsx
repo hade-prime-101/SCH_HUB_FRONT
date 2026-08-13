@@ -23,7 +23,7 @@ export default function ShopsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {shops.map((shop) => (
           <div key={shop.id} className="bg-white shadow rounded p-4">
-            <Link href={`/dashboard/marketplace/shops/${shop.id}`} className="font-medium text-blue-600">
+            <Link href={`/dashboard/marketplace/shops/${shop.id}`} className="font-medium text-primary">
               {shop.name}
             </Link>
             <p className="text-sm text-gray-500">{shop.description}</p>

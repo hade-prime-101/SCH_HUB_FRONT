@@ -4,8 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { MdFingerprint } from "react-icons/md";
-import { MdCheckCircle } from "react-icons/md";
+import { Fingerprint, CheckCircle } from "lucide-react";
 import { icons } from "@/types/icons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { authApi } from "@/lib/api/auth";
@@ -324,9 +323,9 @@ function LoginPageContent() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[linear-gradient(135deg,#f8fafc_0%,#eef2ff_100%)] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-6xl flex-col overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] lg:flex-row">
-        <div className="flex flex-1 flex-col justify-center bg-slate-50/70 px-6 py-10 sm:px-10 lg:px-12">
+    <div className="min-h-screen w-full bg-[linear-gradient(135deg,var(--background)_0%,var(--muted)_100%)] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-sm lg:flex-row">
+        <div className="flex flex-1 flex-col justify-center bg-muted px-6 py-10 sm:px-10 lg:px-12">
           <div className="mb-8">
             <Image
               src={icons.Logo}
@@ -339,15 +338,15 @@ function LoginPageContent() {
           </div>
 
           <div className="mb-6">
-            <h1 className="text-[24px] font-bold text-slate-900">Sign in</h1>
-            <p className="mt-1 text-[14px] text-slate-500">Continue to your account</p>
+            <h1 className="text-2xl font-bold text-foreground">Sign in</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Continue to your account</p>
           </div>
 
           {/* Password reset success banner */}
           {resetSuccess && (
-            <div className="mb-4 flex items-center gap-2 rounded-[12px] border border-emerald-200 bg-emerald-50 px-4 py-3">
-              <MdCheckCircle className="h-5 w-5 shrink-0 text-emerald-500" />
-              <p className="text-sm font-medium text-emerald-700">
+            <div className="mb-4 flex items-center gap-2 rounded-lg border border-success/20 bg-success/10 px-4 py-3">
+              <CheckCircle className="h-5 w-5 shrink-0 text-success" />
+              <p className="text-sm font-medium text-success">
                 Password reset successful. Sign in with your new password.
               </p>
             </div>
@@ -363,16 +362,16 @@ function LoginPageContent() {
             <>
               <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-200"></div>
+                  <div className="w-full border-t border-border"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="bg-white px-2 text-slate-500">or</span>
+                  <span className="bg-background px-2 text-muted-foreground">or</span>
                 </div>
               </div>
 
               {biometricError && biometricError !== "" && (
-                <div className="mb-4 rounded-[12px] border border-amber-200 bg-amber-50 p-3">
-                  <p className="text-xs text-amber-700">{biometricError}</p>
+                <div className="mb-4 rounded-lg border border-warning/20 bg-warning/10 p-3">
+                  <p className="text-xs text-warning">{biometricError}</p>
                 </div>
               )}
 
@@ -380,27 +379,27 @@ function LoginPageContent() {
                 type="button"
                 onClick={handleBiometricAuth}
                 disabled={!isBiometricAvailable || biometricLoading}
-                className={`flex w-full items-center justify-center gap-2 rounded-[12px] border px-4 py-3 font-semibold transition ${
+                className={`flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-3 font-semibold transition ${
                   isBiometricAvailable
-                    ? "border-indigo-200 bg-white text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50"
-                    : "cursor-not-allowed border-slate-200 text-slate-400"
+                    ? "border-primary/20 bg-background text-primary hover:border-primary/30 hover:bg-primary/5"
+                    : "cursor-not-allowed border-border text-muted-foreground"
                 }`}
               >
                 {biometricLoading ? (
                   <>
-                    <MdFingerprint className="h-5 w-5 animate-spin" />
+                    <Fingerprint className="h-5 w-5 animate-spin" />
                     Authenticating...
                   </>
                 ) : (
                   <>
-                    <MdFingerprint className="h-5 w-5" />
+                    <Fingerprint className="h-5 w-5" />
                     Use biometrics
                   </>
                 )}
               </button>
 
               {!isBiometricAvailable && (
-                <p className="mt-2 text-center text-xs text-slate-500">
+                <p className="mt-2 text-center text-xs text-muted-foreground">
                   Biometric authentication not available on this device
                 </p>
               )}
@@ -408,20 +407,20 @@ function LoginPageContent() {
           )}
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="font-semibold text-indigo-600 transition hover:text-indigo-700">
+              <Link href="/register" className="font-semibold text-primary transition hover:text-primary/80">
                 Sign Up
               </Link>
             </p>
           </div>
         </div>
 
-        <div className="hidden flex-1 items-center justify-center bg-indigo-600 p-10 lg:flex">
-          <div className="max-w-sm rounded-[24px] border border-white/20 bg-white/10 p-8 text-white backdrop-blur-sm">
-            <p className="text-sm uppercase tracking-[0.3em] text-indigo-100">SchHub</p>
+        <div className="hidden flex-1 items-center justify-center bg-primary p-10 lg:flex">
+          <div className="max-w-sm rounded-xl border border-white/20 bg-white/10 p-8 text-white backdrop-blur-sm">
+            <p className="text-sm uppercase tracking-[0.3em] text-white/60">SchHub</p>
             <h2 className="mt-3 text-3xl font-semibold">Stay connected to your school life.</h2>
-            <p className="mt-4 text-sm leading-6 text-indigo-100">
+            <p className="mt-4 text-sm leading-6 text-white/60">
               Manage classes, updates, and communication from one place with a secure sign-in experience.
             </p>
           </div>

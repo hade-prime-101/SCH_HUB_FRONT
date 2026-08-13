@@ -31,7 +31,7 @@ export default function ShopDetailPage() {
       <p>{shop.description}</p>
       <p className="text-sm text-gray-500 mt-2">⭐ {shop.rating?.toFixed(1)} · {shop.followerCount} followers</p>
       <div className="flex gap-3 mt-4">
-        <button onClick={handleFollow} className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button onClick={handleFollow} className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Follow
         </button>
         <div className="flex items-center gap-2">
@@ -41,7 +41,7 @@ export default function ShopDetailPage() {
               <option key={n} value={n}>{n}</option>
             ))}
           </select>
-          <button onClick={handleRate} className="bg-green-600 text-white px-3 py-1 rounded">
+          <button onClick={handleRate} className="bg-success text-white px-3 py-1 rounded">
             Submit
           </button>
         </div>

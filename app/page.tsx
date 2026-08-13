@@ -42,14 +42,14 @@ export default function SplashPage() {
   return (
     <div
       className="relative h-screen w-screen flex flex-col items-center justify-center"
-      style={{ background: "linear-gradient(135deg, #0f0c29 0%, #1a1060 50%, #0f0c29 100%)" }}
+      style={{ background: "linear-gradient(135deg, var(--primary) 0%, var(--primary) 50%, var(--primary) 100%)" }}
     >
       {/* Subtle radial glow behind logo */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 48%, rgba(99,102,241,0.18) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 40% at 50% 48%, rgba(255,255,255,0.12) 0%, transparent 70%)",
         }}
       />
 
@@ -61,7 +61,7 @@ export default function SplashPage() {
           width={260}
           height={120}
           priority
-          className="drop-shadow-[0_0_32px_rgba(99,102,241,0.5)]"
+          className="drop-shadow-[0_0_32px_rgba(255,255,255,0.3)]"
           style={{ objectFit: "contain" }}
         />
       </div>
@@ -70,7 +70,7 @@ export default function SplashPage() {
       <div className="absolute bottom-[15%]">
         <div
           className="h-10 w-10 animate-spin rounded-full border-[3px] border-t-transparent"
-          style={{ borderColor: "rgba(139,92,246,0.4)", borderTopColor: "transparent" }}
+          style={{ borderColor: "rgba(255,255,255,0.3)", borderTopColor: "transparent" }}
         />
       </div>
 

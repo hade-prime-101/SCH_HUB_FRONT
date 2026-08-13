@@ -41,13 +41,13 @@ export default function CreateQuizPage() {
       <div className="flex space-x-4 mb-6">
         <button
           onClick={() => setMode("manual")}
-          className={`px-4 py-2 rounded ${mode === "manual" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${mode === "manual" ? "bg-primary text-primary-foreground" : "bg-gray-200"}`}
         >
           Manual
         </button>
         <button
           onClick={() => setMode("generate")}
-          className={`px-4 py-2 rounded ${mode === "generate" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${mode === "generate" ? "bg-primary text-primary-foreground" : "bg-gray-200"}`}
         >
           Generate from Material
         </button>
@@ -63,7 +63,7 @@ export default function CreateQuizPage() {
             placeholder="Description" value={description}
             onChange={e => setDescription(e.target.value)} className="border p-2 w-full"
           />
-          <button onClick={handleCreate} className="bg-blue-600 text-white px-6 py-2 rounded">
+          <button onClick={handleCreate} className="bg-primary text-primary-foreground px-6 py-2 rounded">
             Create & Edit Questions
           </button>
         </div>
@@ -77,7 +77,7 @@ export default function CreateQuizPage() {
             type="number" value={numQuestions} min={1} max={20}
             onChange={e => setNumQuestions(parseInt(e.target.value))} className="border p-2 w-full"
           />
-          <button onClick={handleGenerate} className="bg-green-600 text-white px-6 py-2 rounded">
+          <button onClick={handleGenerate} className="bg-success text-white px-6 py-2 rounded">
             Generate
           </button>
         </div>

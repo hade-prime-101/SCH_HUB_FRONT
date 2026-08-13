@@ -1,4 +1,4 @@
-import { MdCheckCircle, MdNavigateNext } from "react-icons/md";
+import { CheckCircle2, ChevronRight } from "lucide-react";
 
 export interface SelectionItem {
   id: string;
@@ -15,6 +15,29 @@ interface SelectionListProps {
   isLoading: boolean;
 }
 
+/**
+ * SelectionList Component
+ * 
+ * Displays a list of selectable items with icon, name, and optional code.
+ * Uses semantic tokens for consistent styling across themes.
+ * 
+ * States:
+ * - Selected: primary border, accent background
+ * - Default: muted border
+ * - Hover: primary border
+ * - Loading: skeleton placeholders
+ * 
+ * @example
+ * ```tsx
+ * <SelectionList
+ *   items={schools}
+ *   selectedId={selectedSchoolId}
+ *   onSelect={setSelectedSchoolId}
+ *   filterQuery={query}
+ *   isLoading={isLoading}
+ * />
+ * ```
+ */
 export function SelectionList({
   items,
   selectedId,
@@ -28,7 +51,7 @@ export function SelectionList({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="p-4 rounded-xl bg-slate-100 animate-pulse h-16"
+            className="p-4 rounded-xl bg-muted animate-pulse h-16"
           />
         ))}
       </div>
@@ -49,24 +72,24 @@ export function SelectionList({
           onClick={() => onSelect(item.id)}
           className={`p-4 rounded-xl border-2 cursor-pointer transition ${
             selectedId === item.id
-              ? "border-indigo-600 bg-indigo-50"
-              : "border-slate-200 hover:border-indigo-300"
+              ? "border-primary bg-accent"
+              : "border-border hover:border-primary/50"
           }`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 text-indigo-600">{item.icon}</div>
+              <div className="w-8 h-8 text-primary">{item.icon}</div>
               <div>
-                <h3 className="font-semibold text-slate-900">{item.name}</h3>
+                <h3 className="font-semibold text-foreground">{item.name}</h3>
                 {item.code && (
-                  <p className="text-sm text-slate-500">{item.code}</p>
+                  <p className="text-sm text-muted-foreground">{item.code}</p>
                 )}
               </div>
             </div>
             {selectedId === item.id ? (
-              <MdCheckCircle className="w-6 h-6 text-indigo-600" />
+              <CheckCircle2 className="w-6 h-6 text-primary" />
             ) : (
-              <MdNavigateNext className="w-6 h-6 text-slate-400" />
+              <ChevronRight className="w-6 h-6 text-muted-foreground" />
             )}
           </div>
         </div>

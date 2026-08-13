@@ -49,20 +49,20 @@ export default function QuestionDetail() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-2">{question.title}</h1>
-      <p className="text-gray-600 mb-4">{question.content}</p>
+      <p className="text-muted-foreground mb-4">{question.content}</p>
       <div className="flex gap-3 mb-6">
         <button onClick={() => upvoteQuestion(id)} className="bg-gray-200 px-3 py-1 rounded">👍 Upvote</button>
-        <button onClick={() => report(id, { reason: "Spam", type: "QUESTION" })} className="text-red-600 underline">Report</button>
+        <button onClick={() => report(id, { reason: "Spam", type: "QUESTION" })} className="text-destructive underline">Report</button>
       </div>
 
       <h2 className="text-lg font-semibold mb-3">Answers ({question.answers.length})</h2>
       {question.answers.map((a) => (
-        <div key={a.id} className={`p-3 rounded mb-3 ${a.isAccepted ? "bg-green-50 border border-green-300" : "bg-gray-50"}`}>
+        <div key={a.id} className={`p-3 rounded mb-3 ${a.isAccepted ? "bg-success/10 border border-success" : "bg-gray-50"}`}>
           <p className="font-medium text-sm">{a.author.name}</p>
           <p>{a.content}</p>
           <div className="flex gap-2 mt-1">
             {!a.isAccepted && (
-              <button onClick={() => handleAccept(a.id)} className="text-sm text-green-700 underline">
+              <button onClick={() => handleAccept(a.id)} className="text-sm text-success underline">
                 Accept
               </button>
             )}
@@ -79,7 +79,7 @@ export default function QuestionDetail() {
           placeholder="Your answer..."
           className="border p-2 flex-1"
         />
-        <button onClick={handleAnswerSubmit} className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button onClick={handleAnswerSubmit} className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Post Answer
         </button>
       </div>

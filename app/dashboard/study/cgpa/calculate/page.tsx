@@ -52,7 +52,7 @@ export default function CalculateCGPAPage() {
       <h1 className="text-2xl font-bold mb-6">Calculate CGPA</h1>
 
       {error && (
-        <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+        <div className="bg-destructive/5 border border-destructive/20 text-destructive p-3 rounded mb-4">
           {error}
         </div>
       )}
@@ -95,7 +95,7 @@ export default function CalculateCGPAPage() {
             </div>
             <button
               onClick={() => removeRow(i)}
-              className="text-red-500 hover:text-red-700 mb-1"
+              className="text-destructive hover:text-destructive/80 mb-1"
               disabled={courses.length === 1}
             >
               ✕
@@ -104,19 +104,19 @@ export default function CalculateCGPAPage() {
         ))}
 
         <div className="flex justify-between">
-          <button onClick={addRow} className="text-blue-600 hover:underline">
+          <button onClick={addRow} className="text-primary hover:underline">
             + Add another course
           </button>
-          <button onClick={handleCalculate} className="bg-green-600 text-white px-6 py-2 rounded">
+          <button onClick={handleCalculate} className="bg-success text-white px-6 py-2 rounded">
             Calculate
           </button>
         </div>
       </div>
 
       {result && (
-        <div className="mt-6 bg-blue-50 border border-blue-200 rounded p-6 text-center">
+        <div className="mt-6 bg-primary/5 border border-primary/20 rounded p-6 text-center">
           <p className="text-lg">Your CGPA</p>
-          <p className="text-5xl font-bold text-blue-700">{result.cgpa.toFixed(2)}</p>
+          <p className="text-5xl font-bold text-primary">{result.cgpa.toFixed(2)}</p>
           <p className="text-gray-600 mt-1">Total Credits: {result.totalCredits}</p>
         </div>
       )}

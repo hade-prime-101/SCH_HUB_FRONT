@@ -22,21 +22,21 @@ export default function QuestionsList() {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Questions & Answers</h1>
-        <Link href="/dashboard/community/questions/new" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/community/questions/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Ask Question
         </Link>
       </div>
       {questions.map((q) => (
         <div key={q.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between">
           <div>
-            <Link href={`/dashboard/community/questions/${q.id}`} className="font-medium text-blue-600">
+            <Link href={`/dashboard/community/questions/${q.id}`} className="font-medium text-primary">
               {q.title}
             </Link>
             <p className="text-sm text-gray-500">
               {q.upvotes} upvotes · {q.answers.length} answers
             </p>
           </div>
-          <button onClick={() => handleDelete(q.id)} className="text-red-600 text-sm">Delete</button>
+          <button onClick={() => handleDelete(q.id)} className="text-destructive text-sm">Delete</button>
         </div>
       ))}
       <div className="mt-4">

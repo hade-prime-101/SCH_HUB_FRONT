@@ -36,7 +36,7 @@ export default function FaqPage() {
           placeholder="Answer" value={answer} onChange={(e) => setAnswer(e.target.value)}
           className="border p-2 w-full"
         />
-        <button onClick={handleAdd} className="bg-green-600 text-white px-4 py-2 rounded">
+        <button onClick={handleAdd} className="bg-success text-white px-4 py-2 rounded">
           Add FAQ
         </button>
       </div>
@@ -44,9 +44,9 @@ export default function FaqPage() {
         <div key={f.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between">
           <div>
             <p className="font-medium">{f.question}</p>
-            <p className="text-gray-600">{f.answer}</p>
+            <p className="text-muted-foreground">{f.answer}</p>
           </div>
-          <button onClick={() => handleDelete(f.id)} className="text-red-600 text-sm">Delete</button>
+          <button onClick={() => handleDelete(f.id)} className="text-destructive text-sm">Delete</button>
         </div>
       ))}
     </div>

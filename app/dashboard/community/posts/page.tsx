@@ -34,7 +34,7 @@ export default function PostsList() {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Discussion Posts</h1>
-        <Link href="/dashboard/community/posts/new" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/community/posts/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           New Post
         </Link>
       </div>
@@ -43,7 +43,7 @@ export default function PostsList() {
           <div>
             <div className="flex items-center gap-2">
               {post.isPinned && <span className="text-yellow-600 text-xs font-bold uppercase">Pinned</span>}
-              <Link href={`/dashboard/community/posts/${post.id}`} className="font-medium text-blue-600 hover:underline">
+              <Link href={`/dashboard/community/posts/${post.id}`} className="font-medium text-primary hover:underline">
                 {post.title}
               </Link>
             </div>
@@ -58,7 +58,7 @@ export default function PostsList() {
             >
               {post.isPinned ? "Unpin" : "Pin"}
             </button>
-            <button onClick={() => handleDelete(post.id)} className="text-sm bg-red-100 text-red-700 px-2 py-1 rounded">
+            <button onClick={() => handleDelete(post.id)} className="text-sm bg-destructive/10 text-destructive px-2 py-1 rounded">
               Delete
             </button>
           </div>

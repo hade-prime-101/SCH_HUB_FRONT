@@ -58,22 +58,21 @@ function ResetPasswordPageContent() {
     }
   };
 
-  // ── Missing params guard ──────────────────────────────────────────────────
   if (missingParams) {
     return (
-      <div className="min-h-screen w-full bg-white px-6 py-8 flex flex-col items-center justify-center gap-5">
-        <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center">
-          <AlertTriangle className="w-7 h-7 text-red-500" />
+      <div className="min-h-screen w-full bg-background px-6 py-8 flex flex-col items-center justify-center gap-5">
+        <div className="w-16 h-16 rounded-lg bg-destructive/10 flex items-center justify-center">
+          <AlertTriangle className="w-7 h-7 text-destructive" />
         </div>
         <div className="text-center">
-          <h1 className="text-xl font-bold text-slate-900 mb-2">Invalid Reset Link</h1>
-          <p className="text-slate-500 text-sm max-w-xs">
+          <h1 className="text-xl font-bold text-foreground mb-2">Invalid Reset Link</h1>
+          <p className="text-muted-foreground text-sm max-w-xs">
             This link is missing required information. Please request a new password reset.
           </p>
         </div>
         <button
           onClick={() => router.push("/forgot-password")}
-          className="w-full max-w-xs rounded-2xl bg-indigo-500 py-4 text-white font-semibold"
+          className="w-full max-w-xs rounded-lg bg-primary py-4 text-primary-foreground font-semibold hover:bg-primary/90 transition"
         >
           Request New Reset
         </button>
@@ -82,30 +81,30 @@ function ResetPasswordPageContent() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-white px-6 py-8 flex flex-col">
+    <div className="min-h-screen w-full bg-background px-6 py-8 flex flex-col">
       <button
         onClick={() => router.back()}
-        className="text-slate-700 mb-16"
+        className="text-foreground mb-16"
         aria-label="Go back"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
 
       <div className="flex flex-col items-center text-center mb-8">
-        <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-6">
-          <Lock className="w-7 h-7 text-indigo-500" />
+        <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+          <Lock className="w-7 h-7 text-primary" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">
+        <h1 className="text-2xl font-bold text-foreground mb-2">
           Create New Password
         </h1>
-        <p className="text-slate-500">Enter a new password for</p>
-        <p className="text-slate-800 font-semibold text-sm mt-0.5">{email}</p>
+        <p className="text-muted-foreground">Enter a new password for</p>
+        <p className="text-foreground font-semibold text-sm mt-0.5">{email}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
         {/* New password */}
         <div className="relative">
-          <Lock className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+          <Lock className="w-5 h-5 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type={showPassword ? "text" : "password"}
             value={password}
@@ -113,12 +112,12 @@ function ResetPasswordPageContent() {
             placeholder="New password"
             autoComplete="new-password"
             disabled={isLoading}
-            className="w-full rounded-2xl bg-slate-50 border border-slate-100 pl-12 pr-12 py-4 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-60"
+            className="w-full rounded-lg bg-muted border border-border pl-12 pr-12 py-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary disabled:opacity-60"
           />
           <button
             type="button"
             onClick={() => setShowPassword(v => !v)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -127,7 +126,7 @@ function ResetPasswordPageContent() {
 
         {/* Confirm password */}
         <div className="relative">
-          <Lock className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+          <Lock className="w-5 h-5 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type={showConfirm ? "text" : "password"}
             value={confirm}
@@ -135,12 +134,12 @@ function ResetPasswordPageContent() {
             placeholder="Confirm password"
             autoComplete="new-password"
             disabled={isLoading}
-            className="w-full rounded-2xl bg-slate-50 border border-slate-100 pl-12 pr-12 py-4 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-60"
+            className="w-full rounded-lg bg-muted border border-border pl-12 pr-12 py-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary disabled:opacity-60"
           />
           <button
             type="button"
             onClick={() => setShowConfirm(v => !v)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition"
             aria-label={showConfirm ? "Hide confirm password" : "Show confirm password"}
           >
             {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -149,7 +148,7 @@ function ResetPasswordPageContent() {
 
         {/* Mismatch hint */}
         {confirm.length > 0 && password !== confirm && (
-          <p className="text-sm text-red-500 -mt-2">Passwords do not match.</p>
+          <p className="text-sm text-destructive -mt-2">Passwords do not match.</p>
         )}
 
         {/* Strength meter */}
@@ -160,12 +159,16 @@ function ResetPasswordPageContent() {
                 <span
                   key={i}
                   className={`h-1.5 flex-1 rounded-full transition-colors ${
-                    i < score ? strengthColor : "bg-slate-200"
+                    i < score
+                      ? score <= 1 ? 'bg-destructive' :
+                        score <= 3 ? 'bg-warning' :
+                        'bg-success'
+                      : 'bg-muted'
                   }`}
                 />
               ))}
             </div>
-            <p className="text-sm font-medium text-slate-600 mb-3">{strengthLabel}</p>
+            <p className="text-sm font-medium text-muted-foreground mb-3">{strengthLabel}</p>
 
             <div className="flex flex-col gap-1.5">
               {[
@@ -176,10 +179,10 @@ function ResetPasswordPageContent() {
               ].map(({ key, label }) => (
                 <div key={key} className="flex items-center gap-2">
                   {checks[key]
-                    ? <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    : <Circle className="w-4 h-4 text-slate-300 shrink-0" />
+                    ? <Check className="w-4 h-4 text-success shrink-0" />
+                    : <Circle className="w-4 h-4 text-muted shrink-0" />
                   }
-                  <span className={`text-sm ${checks[key] ? "text-slate-600" : "text-slate-400"}`}>
+                  <span className={`text-sm ${checks[key] ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
                     {label}
                   </span>
                 </div>
@@ -189,13 +192,13 @@ function ResetPasswordPageContent() {
         )}
 
         {error && (
-          <p className="text-sm text-red-500 text-center">{error}</p>
+          <p className="text-sm text-destructive text-center">{error}</p>
         )}
 
         <button
           type="submit"
           disabled={!isValid || isLoading}
-          className="w-full rounded-2xl bg-indigo-500 py-4 text-white font-semibold shadow-lg shadow-indigo-200 mt-2 disabled:opacity-60 disabled:cursor-not-allowed transition"
+          className="w-full rounded-lg bg-primary py-4 text-primary-foreground font-semibold shadow-md hover:shadow-lg hover:bg-primary/90 mt-2 disabled:opacity-60 disabled:cursor-not-allowed transition"
         >
           {isLoading ? "Resetting…" : "Reset Password"}
         </button>

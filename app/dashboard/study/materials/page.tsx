@@ -47,8 +47,8 @@ export default function MaterialsListPage() {
   if (error) {
     return (
       <div className="max-w-4xl mx-auto py-8">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700 font-medium">{error}</p>
+        <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+          <p className="text-destructive font-medium">{error}</p>
         </div>
       </div>
     );
@@ -74,7 +74,7 @@ export default function MaterialsListPage() {
       {loading && (
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-gray-600">Loading materials...</p>
           </div>
         </div>
@@ -166,7 +166,7 @@ export default function MaterialsListPage() {
                   onClick={() => setPage(pageNum)}
                   className={`w-10 h-10 rounded-lg font-medium transition-colors ${
                     page === pageNum
-                      ? "bg-blue-600 text-white"
+                      ? "bg-primary text-primary-foreground"
                       : "border border-gray-300 text-gray-700 hover:bg-gray-50"
                   }`}
                 >

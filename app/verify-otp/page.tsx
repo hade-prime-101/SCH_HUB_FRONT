@@ -135,13 +135,13 @@ function VerifyOtpPageContent() {
 
   if (missingEmail) {
     return (
-      <div className="min-h-screen w-full bg-white px-6 py-8 flex flex-col items-center justify-center gap-5">
-        <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center">
-          <ShieldCheck className="w-7 h-7 text-indigo-500" />
+      <div className="min-h-screen w-full bg-background px-6 py-8 flex flex-col items-center justify-center gap-5">
+        <div className="w-16 h-16 rounded-lg bg-primary flex items-center justify-center">
+          <ShieldCheck className="w-7 h-7 text-primary-foreground" />
         </div>
         <div className="text-center">
-          <h1 className="text-xl font-bold text-slate-900 mb-2">Verify Your Email</h1>
-          <p className="text-slate-500 text-sm max-w-xs">
+          <h1 className="text-xl font-bold text-foreground mb-2">Verify Your Email</h1>
+          <p className="text-muted-foreground text-sm max-w-xs">
             Enter your registered email address to receive a verification code.
           </p>
         </div>
@@ -151,10 +151,10 @@ function VerifyOtpPageContent() {
             value={manualEmail}
             onChange={e => { setManualEmail(e.target.value); setManualEmailError(null); }}
             placeholder="your@email.com"
-            className="w-full rounded-2xl border-2 border-indigo-200 bg-indigo-50 px-4 py-4 text-slate-900 focus:outline-none focus:border-indigo-500"
+            className="w-full rounded-lg border-2 border-primary/20 bg-primary/5 px-4 py-4 text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
           {manualEmailError && (
-            <p className="text-red-500 text-sm text-center">{manualEmailError}</p>
+            <p className="text-destructive text-sm text-center">{manualEmailError}</p>
           )}
           <button
             onClick={async () => {
@@ -166,13 +166,13 @@ function VerifyOtpPageContent() {
                 setManualEmailError(e?.message?.trim() || "Failed to send code. Please try again.");
               }
             }}
-            className="w-full rounded-2xl bg-indigo-500 py-4 text-white font-semibold"
+            className="w-full rounded-lg bg-primary py-4 text-primary-foreground font-semibold hover:bg-primary/90 transition"
           >
             Send Verification Code
           </button>
           <button
             onClick={() => router.push("/login")}
-            className="w-full rounded-2xl border border-slate-200 py-4 text-slate-600 font-semibold"
+            className="w-full rounded-lg border border-border py-4 text-foreground font-semibold hover:bg-muted transition"
           >
             Back to Sign In
           </button>
@@ -182,22 +182,22 @@ function VerifyOtpPageContent() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-white px-6 py-8 flex flex-col">
+    <div className="min-h-screen w-full bg-background px-6 py-8 flex flex-col">
       <button
         onClick={() => router.back()}
-        className="text-slate-700 mb-16"
+        className="text-foreground mb-16"
         aria-label="Go back"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
 
       <div className="flex flex-col items-center text-center mb-8">
-        <div className="w-16 h-16 rounded-2xl bg-indigo-500 flex items-center justify-center mb-6">
-          <ShieldCheck className="w-7 h-7 text-white" />
+        <div className="w-16 h-16 rounded-lg bg-primary flex items-center justify-center mb-6">
+          <ShieldCheck className="w-7 h-7 text-primary-foreground" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">{title}</h1>
-        <p className="text-slate-500">{subtitle}</p>
-        <p className="text-slate-800 font-semibold">{email}</p>
+        <h1 className="text-2xl font-bold text-foreground mb-2">{title}</h1>
+        <p className="text-muted-foreground">{subtitle}</p>
+        <p className="text-foreground font-semibold">{email}</p>
       </div>
 
       <div className="flex justify-center gap-3 mb-6">
@@ -213,24 +213,24 @@ function VerifyOtpPageContent() {
             maxLength={1}
             disabled={isLoading}
             aria-label={`OTP digit ${i + 1}`}
-            className="w-12 h-14 rounded-2xl border-2 border-indigo-200 bg-indigo-50 text-center text-xl font-bold text-slate-900 focus:outline-none focus:border-indigo-500 disabled:opacity-60"
+            className="w-12 h-14 rounded-lg border-2 border-primary/20 bg-primary/5 text-center text-xl font-bold text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
           />
         ))}
       </div>
 
       {error && (
-        <p className="text-sm text-red-500 mb-4 text-center">{error}</p>
+        <p className="text-sm text-destructive mb-4 text-center">{error}</p>
       )}
 
-      <p className="text-center text-slate-500 mb-8">
+      <p className="text-center text-muted-foreground mb-8">
         Didn&apos;t receive code?{" "}
         {countdown > 0 ? (
-          <span className="text-indigo-500 font-medium">Resend in {formattedCountdown}</span>
+          <span className="text-primary font-medium">Resend in {formattedCountdown}</span>
         ) : (
           <button
             onClick={handleResend}
             disabled={isResending}
-            className="text-indigo-500 font-medium hover:text-indigo-600 disabled:opacity-60"
+            className="text-primary font-medium hover:text-primary/80 disabled:opacity-60"
           >
             {isResending ? "Resending…" : "Resend"}
           </button>
@@ -240,7 +240,7 @@ function VerifyOtpPageContent() {
       <button
         onClick={handleVerify}
         disabled={isLoading || digits.join("").length < 6}
-        className="w-full rounded-2xl bg-indigo-500 py-4 text-white font-semibold shadow-lg shadow-indigo-200 disabled:opacity-60 disabled:cursor-not-allowed transition"
+        className="w-full rounded-lg bg-primary py-4 text-primary-foreground font-semibold shadow-md hover:shadow-lg hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition"
       >
         {isLoading ? "Verifying…" : "Verify"}
       </button>

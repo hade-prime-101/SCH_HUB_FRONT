@@ -26,7 +26,7 @@ export default function JobsPage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Jobs</h1>
-        <Link href="/dashboard/marketplace/jobs/new" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/marketplace/jobs/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Post a Job
         </Link>
       </div>
@@ -34,13 +34,13 @@ export default function JobsPage() {
         {jobs.map((job) => (
           <div key={job.id} className="bg-white shadow rounded p-4 flex justify-between items-center">
             <div>
-              <Link href={`/dashboard/marketplace/jobs/${job.id}`} className="font-medium text-blue-600">
+              <Link href={`/dashboard/marketplace/jobs/${job.id}`} className="font-medium text-primary">
                 {job.title}
               </Link>
-              <p className="text-sm text-gray-600">{job.company} · {job.location} · {job.salary}</p>
+              <p className="text-sm text-muted-foreground">{job.company} · {job.location} · {job.salary}</p>
               <p className="text-xs text-gray-400">{job.status}</p>
             </div>
-            <button onClick={() => handleDelete(job.id)} className="text-red-600 text-sm">Delete</button>
+            <button onClick={() => handleDelete(job.id)} className="text-destructive text-sm">Delete</button>
           </div>
         ))}
       </div>

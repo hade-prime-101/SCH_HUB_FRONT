@@ -31,7 +31,7 @@ export default function NewServicePage() {
           ))}
         </select>
         <input type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} className="border p-2 w-full" required />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Create</button>
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">Create</button>
       </form>
     </div>
   );

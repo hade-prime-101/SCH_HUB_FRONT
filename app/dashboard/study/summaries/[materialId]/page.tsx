@@ -20,7 +20,7 @@ export default function SummaryDetailPage() {
   }, [materialId]);
 
   if (loading) return <p>Loading summary...</p>;
-  if (error) return <p className="text-red-600">Error: {error}</p>;
+  if (error) return <p className="text-destructive">Error: {error}</p>;
   if (!summary) return <p>Summary not found.</p>;
 
   return (
@@ -28,9 +28,9 @@ export default function SummaryDetailPage() {
       <h1 className="text-2xl font-bold mb-4">Summary for {summary.title}</h1>
       <div className="bg-white shadow rounded p-6 whitespace-pre-wrap">
         {summary.status === "PENDING" || summary.status === "PROCESSING" ? (
-          <p className="text-yellow-600">Your summary is being generated. Please check back later.</p>
+          <p className="text-warning">Your summary is being generated. Please check back later.</p>
         ) : summary.status === "FAILED" ? (
-          <p className="text-red-600">Summary generation failed.</p>
+          <p className="text-destructive">Summary generation failed.</p>
         ) : (
           <p>{summary.content}</p>
         )}

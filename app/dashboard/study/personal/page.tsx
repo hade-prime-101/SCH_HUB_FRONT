@@ -52,8 +52,8 @@ export default function PersonalStudyListPage() {
   if (error && loading) {
     return (
       <div className="max-w-2xl mx-auto py-8">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700 font-medium">{error}</p>
+        <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+          <p className="text-destructive font-medium">{error}</p>
         </div>
       </div>
     );
@@ -77,7 +77,7 @@ export default function PersonalStudyListPage() {
       {loading && (
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-gray-600">Loading your sessions...</p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function PersonalStudyListPage() {
                 <div className="flex items-start justify-between mb-3">
                   <BookOpen size={24} className="text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition">
                   {s.title}
                 </h3>
                 {s.courseCode && (
@@ -133,7 +133,7 @@ export default function PersonalStudyListPage() {
                 <button
                   onClick={() => handleDelete(s.id)}
                   disabled={deleting === s.id}
-                  className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
+                  className="p-2 text-destructive hover:bg-destructive/5 rounded transition-colors disabled:opacity-50"
                   title="Delete session"
                 >
                   {deleting === s.id ? (
@@ -150,8 +150,8 @@ export default function PersonalStudyListPage() {
 
       {/* Error Message */}
       {error && !loading && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700 font-medium">{error}</p>
+        <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+          <p className="text-destructive font-medium">{error}</p>
         </div>
       )}
     </div>

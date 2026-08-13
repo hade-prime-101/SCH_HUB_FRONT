@@ -90,7 +90,7 @@ export default function SessionDetailPage() {
         <h2 className="text-lg font-semibold mb-2">Ask a Question</h2>
         <div className="h-64 overflow-y-auto border p-3 rounded mb-2 space-y-2">
           {messages.map((msg, i) => (
-            <div key={i} className={`p-2 rounded ${msg.role === "user" ? "bg-blue-50 ml-8" : "bg-gray-100 mr-8"}`}>
+            <div key={i} className={`p-2 rounded ${msg.role === "user" ? "bg-primary/5 ml-8" : "bg-gray-100 mr-8"}`}>
               <strong>{msg.role === "user" ? "You" : "AI"}:</strong> {msg.content}
             </div>
           ))}
@@ -105,7 +105,7 @@ export default function SessionDetailPage() {
             placeholder="Ask about the material..."
             className="border p-2 flex-1"
           />
-          <button onClick={handleAsk} className="bg-blue-600 text-white px-4 py-2 rounded">
+          <button onClick={handleAsk} className="bg-primary text-primary-foreground px-4 py-2 rounded">
             Send
           </button>
         </div>
@@ -130,7 +130,7 @@ export default function SessionDetailPage() {
             onChange={(e) => setNumQuestions(Number(e.target.value))}
             className="border p-2 w-20"
           />
-          <button onClick={generateQuiz} className="bg-purple-600 text-white px-4 py-2 rounded">
+          <button onClick={generateQuiz} className="bg-primary text-primary-foreground px-4 py-2 rounded">
             Generate
           </button>
         </div>
@@ -158,16 +158,16 @@ export default function SessionDetailPage() {
                 })}
               </div>
             ))}
-            <button onClick={submitQuiz} className="bg-green-600 text-white px-4 py-2 rounded">
+            <button onClick={submitQuiz} className="bg-success text-white px-4 py-2 rounded">
               Submit Answers
             </button>
           </div>
         )}
 
         {quizResult && (
-          <div className="bg-green-50 p-4 rounded">
+          <div className="bg-success/5 p-4 rounded">
             <p className="font-bold">Score: {quizResult.score} / {quizResult.total}</p>
-            <button onClick={() => { setQuiz(null); setQuizResult(null); }} className="mt-2 text-blue-600 underline">
+            <button onClick={() => { setQuiz(null); setQuizResult(null); }} className="mt-2 text-primary underline">
               Take Another Quiz
             </button>
           </div>

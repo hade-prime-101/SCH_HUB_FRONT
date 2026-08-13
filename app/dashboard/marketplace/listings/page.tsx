@@ -21,21 +21,21 @@ export default function ListingsPage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Marketplace</h1>
-        <Link href="/dashboard/marketplace/listings/new" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/marketplace/listings/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           New Listing
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {listings.map((item) => (
           <div key={item.id} className="bg-white shadow rounded p-4">
-            <Link href={`/dashboard/marketplace/listings/${item.id}`} className="font-medium text-blue-600 hover:underline">
+            <Link href={`/dashboard/marketplace/listings/${item.id}`} className="font-medium text-primary hover:underline">
               {item.title}
             </Link>
-            <p className="text-gray-600">₦{item.price}</p>
+            <p className="text-muted-foreground">₦{item.price}</p>
             <p className="text-sm text-gray-400">{item.status}</p>
             <button
               onClick={() => toggleSaveListing(item.id)}
-              className="mt-2 text-sm text-blue-500 hover:underline"
+              className="mt-2 text-sm text-primary hover:underline"
             >
               {item.saved ? "Unsave" : "Save"}
             </button>

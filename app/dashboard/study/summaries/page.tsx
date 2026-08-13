@@ -23,7 +23,7 @@ export default function SummariesListPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">AI Summaries</h1>
-        <Link href="/dashboard/study/summaries/request" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/study/summaries/request" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Request Summary
         </Link>
       </div>
@@ -34,7 +34,7 @@ export default function SummariesListPage() {
           {summaries.map((s) => (
             <div key={s.materialId} className="bg-white shadow rounded p-4 flex justify-between items-center">
               <div>
-                <Link href={`/dashboard/study/summaries/${s.materialId}`} className="font-medium text-blue-600 hover:underline">
+                <Link href={`/dashboard/study/summaries/${s.materialId}`} className="font-medium text-primary hover:underline">
                   {s.title}
                 </Link>
                 <p className="text-sm text-gray-500">Status: {s.status}</p>

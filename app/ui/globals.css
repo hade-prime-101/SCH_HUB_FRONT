@@ -8,8 +8,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  /* Mono font intentionally not included - not used in current design */
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,6 +39,26 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-error: var(--error);
+  --color-category-timetable: var(--category-timetable);
+  --color-category-timetable-bg: var(--category-timetable-bg);
+  --color-category-planner: var(--category-planner);
+  --color-category-planner-bg: var(--category-planner-bg);
+  --color-category-events: var(--category-events);
+  --color-category-events-bg: var(--category-events-bg);
+  --color-category-ai: var(--category-ai);
+  --color-category-ai-bg: var(--category-ai-bg);
+  --color-category-marketplace: var(--category-marketplace);
+  --color-category-marketplace-bg: var(--category-marketplace-bg);
+  --color-category-campus: var(--category-campus);
+  --color-category-campus-bg: var(--category-campus-bg);
+  --color-category-emergency: var(--category-emergency);
+  --color-category-emergency-bg: var(--category-emergency-bg);
+  --color-category-community: var(--category-community);
+  --color-category-community-bg: var(--category-community-bg);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -46,6 +66,10 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-semantic-small: var(--radius-semantic-small-value);
+  --radius-semantic-medium: var(--radius-semantic-medium-value);
+  --radius-semantic-large: var(--radius-semantic-large-value);
+  --radius-semantic-pill: var(--radius-semantic-pill-value);
 }
 
 @keyframes spin {
@@ -74,33 +98,157 @@
 }
 
 :root {
+  /* =====================================================================
+     LOOPZ DESIGN SYSTEM — AUTHORITATIVE TOKEN SOURCE
+     
+     All design tokens are defined here as CSS custom properties (variables).
+     These tokens propagate through Tailwind CSS via @theme inline above.
+     
+     Token Categories:
+     - Base: background, foreground, card surfaces, popovers
+     - Brand: primary indigo, secondary, accent, destructive
+     - Semantic Text: primary, secondary, muted, disabled text colors
+     - Semantic Surfaces: elevated, muted backgrounds, overlays
+     - Borders & Inputs: border colors and focus ring
+     - Semantic States: success, warning, error, info
+     - Feature Categories: timetable, planner, events, ai, marketplace, campus, emergency
+     - Navigation: nav-specific colors for BottomNav and sidebars
+     - Radius: base and semantic levels for borders
+     - Spacing: semantic spacing scale
+     - Shadows: elevation levels (sm, md, lg, xl)
+     - Sidebar: admin-specific colors
+     - Typography: scale reference (not used to style, only for reference)
+     - Interaction States: opacity and ring-width for states
+     
+     DO NOT:
+     - Use hardcoded hex colors (#6366F1, etc.) - use tokens instead
+     - Use arbitrary Tailwind colors (slate-*, blue-*, etc.) - use tokens instead
+     - Use bg-ring, --ring, or focus tokens as background colors
+     - Create new tokens without documenting their purpose
+     
+     DO:
+     - Use semantic tokens for all color/spacing/radius decisions
+     - Reference this section when adding new design elements
+     - Keep light and dark mode tokens in sync
+     ===================================================================== */
+
+  /* === BASE COLORS === */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  /* Brand: indigo-500 #6366F1 */
+
+  /* === BRAND COLORS === */
+  /* Primary: indigo-500 #6366F1 */
   --primary: oklch(0.585 0.233 277.117);
   --primary-foreground: oklch(1 0 0);
+  
+  /* Secondary: light gray for neutral actions */
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  /* indigo-50 as accent background */
+  
+  /* Accent: indigo-50 for highlights */
   --accent: oklch(0.962 0.018 272.314);
   --accent-foreground: oklch(0.585 0.233 277.117);
+  
+  /* Destructive: red for errors and dangerous actions */
   --destructive: oklch(0.577 0.245 27.325);
+
+  /* === SEMANTIC TEXT COLORS === */
+  --text-primary: var(--foreground);
+  --text-secondary: oklch(0.556 0 0);
+  --text-muted: oklch(0.708 0 0);
+  --text-disabled: oklch(0.78 0 0);
+
+  /* === SEMANTIC SURFACE COLORS === */
+  --surface-background: var(--background);
+  --surface-elevated: var(--card);
+  --surface-muted: oklch(0.97 0 0);
+  --surface-overlay: oklch(1 0 0 / 95%);
+
+  /* === BORDERS & INPUTS === */
   --border: oklch(0.922 0 0);
+  --border-subtle: oklch(0.95 0 0);
   --input: oklch(0.922 0 0);
-  /* indigo-300 for focus rings */
-  --ring: oklch(0.785 0.115 274.713);
+  --focus-ring: oklch(0.785 0.115 274.713);
+
+  /* === SEMANTIC STATE COLORS === */
+  --success: oklch(0.486 0.203 142.496);
+  --warning: oklch(0.729 0.172 70.08);
+  --error: var(--destructive);
+  --info: var(--primary);
+
+  /* === FEATURE CATEGORY COLORS === */
+  /* Used for visual categorization of feature areas in dashboard */
+  --category-timetable: oklch(0.326 0.151 261.688);
+  --category-timetable-bg: oklch(0.95 0.035 263.604);
+  --category-planner: oklch(0.473 0.198 279.235);
+  --category-planner-bg: oklch(0.969 0.025 278.996);
+  --category-events: oklch(0.332 0.144 155.995);
+  --category-events-bg: oklch(0.952 0.027 155.858);
+  --category-ai: oklch(0.599 0.224 12.164);
+  --category-ai-bg: oklch(0.969 0.03 12.316);
+  --category-marketplace: oklch(0.634 0.194 41.877);
+  --category-marketplace-bg: oklch(0.959 0.047 39.754);
+  --category-campus: oklch(0.497 0.185 254.211);
+  --category-campus-bg: oklch(0.958 0.056 256.802);
+  --category-emergency: oklch(0.577 0.245 27.325);
+  --category-emergency-bg: oklch(0.968 0.061 27.325);
+  --category-community: var(--category-timetable);
+  --category-community-bg: var(--category-timetable-bg);
+
+  /* === NAVIGATION COLORS === */
+  --nav-background: var(--surface-elevated);
+  --nav-foreground: var(--text-primary);
+  --nav-active: var(--primary);
+  --nav-active-foreground: var(--primary-foreground);
+  --nav-hover-background: var(--surface-muted);
+
+  /* === MUTED (Legacy support) === */
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+
+  /* === CHART COLORS === */
   --chart-1: oklch(0.585 0.233 277.117);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
+  /* === RING (Focus) === */
+  --ring: oklch(0.785 0.115 274.713);
+
+  /* === RADIUS SYSTEM === */
+  /* Base radius for consistent scaling */
   --radius: 0.625rem;
+  /* Semantic radius levels */
+  --radius-semantic-small-value: 0.375rem;
+  --radius-semantic-medium-value: 0.75rem;
+  --radius-semantic-large-value: 1rem;
+  --radius-semantic-pill-value: 9999px;
+
+  /* === SPACING SYSTEM (Base 4px) === */
+  /* Mapped to Tailwind default spacing scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 2.5rem;
+
+  /* === SHADOW SYSTEM === */
+  /* Subtle: For minimal elevation */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  /* Standard: For elevated content */
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  /* Elevated: For popovers and sheets */
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* High: For modals and prominent overlays */
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* === SIDEBAR (Admin UI) === */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.585 0.233 277.117);
@@ -109,33 +257,127 @@
   --sidebar-accent-foreground: oklch(0.585 0.233 277.117);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.785 0.115 274.713);
+
+  /* === TYPOGRAPHY SCALE === */
+  /* Used as reference for consistent sizing */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+
+  /* === INTERACTION STATES === */
+  --state-hover-opacity: 0.08;
+  --state-active-opacity: 0.12;
+  --state-disabled-opacity: 0.5;
+  --state-focus-ring-width: 3px;
 }
 
 .dark {
+  /* ===================================================================
+     DARK MODE TOKEN OVERRIDES
+     
+     These token values replace the :root values when .dark class is applied.
+     All light mode token structure is preserved - only values change.
+     
+     Key changes:
+     - Background: near-black (#111111)
+     - Card: slightly lighter dark surface
+     - Primary: shifts to indigo-400 for better contrast
+     - Border: white at low opacity (10%)
+     - Shadows: increased darkness for depth
+     - All category colors adjusted for readability
+     =================================================================== */
+
+  /* === BASE COLORS === */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  /* Brand: indigo-400 for dark mode — slightly lighter for contrast */
+
+  /* === BRAND COLORS === */
+  /* Primary: indigo-400 for better dark mode contrast */
   --primary: oklch(0.673 0.182 276.935);
   --primary-foreground: oklch(1 0 0);
+  
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.673 0.182 276.935);
+  
   --destructive: oklch(0.704 0.191 22.216);
+
+  /* === SEMANTIC TEXT COLORS === */
+  --text-primary: var(--foreground);
+  --text-secondary: oklch(0.708 0 0);
+  --text-muted: oklch(0.556 0 0);
+  --text-disabled: oklch(0.371 0 0);
+
+  /* === SEMANTIC SURFACE COLORS === */
+  --surface-background: var(--background);
+  --surface-elevated: var(--card);
+  --surface-muted: oklch(0.269 0 0);
+  --surface-overlay: oklch(0.145 0 0 / 95%);
+
+  /* === BORDERS & INPUTS === */
   --border: oklch(1 0 0 / 10%);
+  --border-subtle: oklch(1 0 0 / 5%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.673 0.182 276.935);
+  --focus-ring: oklch(0.673 0.182 276.935);
+
+  /* === SEMANTIC STATE COLORS === */
+  --success: oklch(0.563 0.178 150);
+  --warning: oklch(0.766 0.158 80);
+  --error: var(--destructive);
+  --info: var(--primary);
+
+  /* === FEATURE CATEGORY COLORS (Dark Mode) === */
+  /* Adjusted for dark mode contrast */
+  --category-timetable: oklch(0.611 0.157 258.995);
+  --category-timetable-bg: oklch(0.269 0.018 261.688);
+  --category-planner: oklch(0.623 0.162 276.935);
+  --category-planner-bg: oklch(0.269 0.022 279.235);
+  --category-events: oklch(0.563 0.178 150);
+  --category-events-bg: oklch(0.269 0.02 155.995);
+  --category-ai: oklch(0.704 0.191 22.216);
+  --category-ai-bg: oklch(0.269 0.025 12.164);
+  --category-marketplace: oklch(0.722 0.161 40);
+  --category-marketplace-bg: oklch(0.269 0.035 41.877);
+  --category-campus: oklch(0.622 0.158 256.802);
+  --category-campus-bg: oklch(0.269 0.025 254.211);
+  --category-emergency: oklch(0.704 0.191 22.216);
+  --category-emergency-bg: oklch(0.269 0.035 27.325);
+  --category-community: var(--category-timetable);
+  --category-community-bg: var(--category-timetable-bg);
+
+  /* === NAVIGATION COLORS === */
+  --nav-background: var(--surface-elevated);
+  --nav-foreground: var(--text-primary);
+  --nav-active: var(--primary);
+  --nav-active-foreground: var(--primary-foreground);
+  --nav-hover-background: oklch(1 0 0 / 8%);
+
+  /* === MUTED (Legacy support) === */
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+
+  /* === CHART COLORS === */
   --chart-1: oklch(0.673 0.182 276.935);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
+  /* === RING (Focus) === */
+  --ring: oklch(0.673 0.182 276.935);
+
+  /* === SIDEBAR (Admin UI) === */
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.673 0.182 276.935);
@@ -144,6 +386,12 @@
   --sidebar-accent-foreground: oklch(0.673 0.182 276.935);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.673 0.182 276.935);
+
+  /* === SHADOWS (Slightly adjusted for dark mode) === */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6), 0 8px 10px -6px rgb(0 0 0 / 0.5);
 }
 
 @layer base {

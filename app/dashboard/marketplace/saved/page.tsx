@@ -18,7 +18,7 @@ export default function SavedListingsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {saved.map((item) => (
           <div key={item.id} className="bg-white shadow rounded p-4">
-            <Link href={`/dashboard/marketplace/listings/${item.id}`} className="font-medium text-blue-600">
+            <Link href={`/dashboard/marketplace/listings/${item.id}`} className="font-medium text-primary">
               {item.title}
             </Link>
             <p>₦{item.price}</p>

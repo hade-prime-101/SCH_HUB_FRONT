@@ -21,17 +21,17 @@ export default function AccommodationPage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Accommodation</h1>
-        <Link href="/dashboard/marketplace/accommodation/new" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/marketplace/accommodation/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           List Property (Agent)
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {items.map((item) => (
           <div key={item.id} className="bg-white shadow rounded p-4">
-            <Link href={`/dashboard/marketplace/accommodation/${item.id}`} className="font-medium text-blue-600">
+            <Link href={`/dashboard/marketplace/accommodation/${item.id}`} className="font-medium text-primary">
               {item.title}
             </Link>
-            <p className="text-sm text-gray-600">{item.type} · {item.location}</p>
+            <p className="text-sm text-muted-foreground">{item.type} · {item.location}</p>
             <p className="text-sm">₦{item.price}</p>
           </div>
         ))}

@@ -19,8 +19,8 @@ export default function StudyOverviewPage() {
       title: "Upload Materials",
       description: "Add new study resources",
       icon: FileUp,
-      color: "bg-green-50 text-green-600",
-      border: "border-green-200",
+      color: "bg-success/5 text-success",
+      border: "border-success/20",
     },
     {
       href: "/dashboard/study/quizzes",

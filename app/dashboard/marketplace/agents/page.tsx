@@ -30,8 +30,8 @@ interface AgentProfile {
 const INPUT = "w-full rounded-xl border border-border bg-muted px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm";
 
 const STATUS_CONFIG: Record<AgentStatus, { label: string; icon: React.ElementType; colour: string; bg: string; border: string }> = {
-  PENDING:  { label: "Under Review",  icon: Clock,        colour: "text-amber-600",      bg: "bg-amber-50",       border: "border-amber-200" },
-  APPROVED: { label: "Approved",      icon: CheckCircle2, colour: "text-emerald-600",    bg: "bg-emerald-50",     border: "border-emerald-200" },
+  PENDING:  { label: "Under Review",  icon: Clock,        colour: "text-warning",        bg: "bg-warning/5",      border: "border-warning/20" },
+  APPROVED: { label: "Approved",      icon: CheckCircle2, colour: "text-success",        bg: "bg-success/5",      border: "border-success/20" },
   REJECTED: { label: "Rejected",      icon: XCircle,      colour: "text-destructive",    bg: "bg-destructive/5",  border: "border-destructive/20" },
 };
 
@@ -248,7 +248,7 @@ function StatusCard({ profile }: { profile: AgentProfile }) {
           </p>
         )}
         {profile.status === "APPROVED" && (
-          <p className="text-sm text-emerald-700">
+          <p className="text-sm text-success">
             Congratulations! You are now a verified house agent. Your listings will show the verified badge.
           </p>
         )}
@@ -297,9 +297,9 @@ function StatusCard({ profile }: { profile: AgentProfile }) {
         )}
 
         {profile.status === "APPROVED" && (
-          <div className="flex items-center gap-2 mt-1 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200">
-            <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-            <p className="text-sm font-bold text-emerald-700">Verified Agent</p>
+          <div className="flex items-center gap-2 mt-1 px-4 py-3 rounded-xl bg-success/10 border border-success/20">
+            <ShieldCheck className="w-5 h-5 text-success shrink-0" />
+            <p className="text-sm font-bold text-success">Verified Agent</p>
           </div>
         )}
       </div>

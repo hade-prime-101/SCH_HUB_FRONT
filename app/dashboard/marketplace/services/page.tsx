@@ -26,18 +26,18 @@ export default function ServicesPage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Services</h1>
-        <Link href="/dashboard/marketplace/services/new" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/marketplace/services/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Offer Service
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {services.map((svc) => (
           <div key={svc.id} className="bg-white shadow rounded p-4">
-            <Link href={`/dashboard/marketplace/services/${svc.id}`} className="font-medium text-blue-600">
+            <Link href={`/dashboard/marketplace/services/${svc.id}`} className="font-medium text-primary">
               {svc.title}
             </Link>
-            <p className="text-sm text-gray-600">{svc.category} · ₦{svc.price}</p>
-            <button onClick={() => handleDelete(svc.id)} className="text-red-600 text-sm mt-1">Delete</button>
+            <p className="text-sm text-muted-foreground">{svc.category} · ₦{svc.price}</p>
+            <button onClick={() => handleDelete(svc.id)} className="text-destructive text-sm mt-1">Delete</button>
           </div>
         ))}
       </div>

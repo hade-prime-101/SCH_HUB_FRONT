@@ -6,6 +6,22 @@ interface ProgressDotsProps {
 
 const STEPS: RegistrationStep[] = ["school", "faculty", "department", "details"];
 
+/**
+ * ProgressDots Component
+ * 
+ * Displays registration progress indicator with animated dots.
+ * Uses semantic primary token for active/completed states.
+ * 
+ * States:
+ * - Current step: expanded pill (primary color, 8px wide)
+ * - Completed steps: filled dot (primary color, 2px)
+ * - Upcoming steps: unfilled dot (muted color, 2px)
+ * 
+ * @example
+ * ```tsx
+ * <ProgressDots currentStep="faculty" />
+ * ```
+ */
 export function ProgressDots({ currentStep }: ProgressDotsProps) {
   const currentIndex = STEPS.indexOf(currentStep);
 
@@ -14,12 +30,12 @@ export function ProgressDots({ currentStep }: ProgressDotsProps) {
       {STEPS.map((_, index) => (
         <div
           key={index}
-          className={`w-2 h-2 rounded-full transition-all ${
+          className={`h-2 rounded-full transition-all ${
             index === currentIndex
-              ? "bg-indigo-600 w-8"
+              ? "bg-primary w-8"
               : index < currentIndex
-                ? "bg-indigo-600"
-                : "bg-slate-300"
+                ? "bg-primary w-2"
+                : "bg-muted-foreground w-2"
           }`}
         />
       ))}
