@@ -186,7 +186,7 @@ export default function CampusMapPage() {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="w-80 bg-white border-r p-4 overflow-y-auto">
+      <div className="w-80 bg-card border-r p-4 overflow-y-auto">
         <h1 className="text-xl font-bold mb-4">Campus Map</h1>
 
         {/* Search */}
@@ -198,7 +198,7 @@ export default function CampusMapPage() {
             onChange={(e) => setSearchQ(e.target.value)}
             className="border p-2 flex-1"
           />
-          <button onClick={handleSearch} className="bg-blue-600 text-white px-3 rounded">Search</button>
+          <button onClick={handleSearch} className="bg-primary text-primary-foreground px-3 rounded">Search</button>
         </div>
 
         {/* Category filter */}
@@ -213,13 +213,13 @@ export default function CampusMapPage() {
         </div>
 
         {/* Quick actions */}
-        <button onClick={handleNearest} className="mb-4 bg-gray-200 px-3 py-2 rounded w-full">Find nearest to map center</button>
+        <button onClick={handleNearest} className="mb-4 bg-secondary/50 px-3 py-2 rounded w-full">Find nearest to map center</button>
 
         {/* Route controls */}
         <div className="mb-4">
           <button
             onClick={() => { setClickMode("route"); setRouteWaypoints([]); }}
-            className={`px-3 py-2 rounded w-full ${clickMode === "route" ? "bg-green-600 text-white" : "bg-gray-200"}`}
+            className={`px-3 py-2 rounded w-full ${clickMode === "route" ? "bg-success text-primary-foreground" : "bg-secondary/50"}`}
           >
             {clickMode === "route" ? "Click two points on map..." : "Plan Route (click map)"}
           </button>
@@ -229,14 +229,14 @@ export default function CampusMapPage() {
         <div className="mb-4">
           <button
             onClick={() => setClickMode("none")}
-            className="bg-purple-600 text-white px-3 py-2 rounded w-full"
+            className="bg-info text-primary-foreground px-3 py-2 rounded w-full"
           >
             Add Custom POI
           </button>
         </div>
 
         {showLocationForm && (
-          <div className="bg-white shadow rounded p-4 mb-4 border">
+          <div className="bg-card shadow rounded p-4 mb-4 border">
             <h3 className="font-semibold">New POI</h3>
             <input
               type="text" placeholder="Name" value={newLoc.name}
@@ -253,10 +253,10 @@ export default function CampusMapPage() {
               onChange={(e) => setNewLoc({ ...newLoc, description: e.target.value })}
               className="border p-1 w-full mb-1"
             />
-            <div className="text-sm text-gray-500 mb-2">Lat: {newLoc.lat.toFixed(5)}, Lng: {newLoc.lng.toFixed(5)}</div>
+            <div className="text-sm text-muted-foreground mb-2">Lat: {newLoc.lat.toFixed(5)}, Lng: {newLoc.lng.toFixed(5)}</div>
             <div className="flex gap-2">
-              <button onClick={handleAddLocation} className="bg-green-600 text-white px-3 py-1 rounded">Save</button>
-              <button onClick={() => setShowLocationForm(false)} className="bg-gray-200 px-3 py-1 rounded">Cancel</button>
+              <button onClick={handleAddLocation} className="bg-success text-primary-foreground px-3 py-1 rounded">Save</button>
+              <button onClick={() => setShowLocationForm(false)} className="bg-secondary/50 px-3 py-1 rounded">Cancel</button>
             </div>
           </div>
         )}
@@ -265,10 +265,10 @@ export default function CampusMapPage() {
         <div>
           <h2 className="font-semibold mb-2">Custom POIs</h2>
           {locations.map((loc) => (
-            <div key={loc.id} className="bg-gray-50 rounded p-2 mb-1 flex justify-between">
+            <div key={loc.id} className="bg-muted rounded p-2 mb-1 flex justify-between">
               <div>
                 <p className="text-sm font-medium">{loc.name}</p>
-                <p className="text-xs text-gray-500">{loc.type}</p>
+                <p className="text-xs text-muted-foreground">{loc.type}</p>
               </div>
               <button onClick={async () => { await deleteMapLocation(loc.id); refreshLocations(); }} className="text-red-600 text-xs">Delete</button>
             </div>

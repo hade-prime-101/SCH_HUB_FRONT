@@ -31,11 +31,11 @@ export default function RoommatesPage() {
         </Link>
       </div>
       {requests.map((req) => (
-        <div key={req.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between items-center">
+        <div key={req.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between items-center">
           <div>
             <p className="font-medium">{req.title}</p>
             <p className="text-sm text-muted-foreground">Budget: ₦{req.budget} · {req.gender || "Any"}</p>
-            <p className="text-sm text-gray-500">{req.description}</p>
+            <p className="text-sm text-muted-foreground">{req.description}</p>
           </div>
           <button onClick={() => handleDelete(req.id)} className="text-destructive text-sm">Delete</button>
         </div>

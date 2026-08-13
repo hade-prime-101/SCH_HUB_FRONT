@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import '@/app/ui/globals.css';
 import { geist } from '@/app/ui/fonts';
+import { ThemeProvider } from '@/app/ui/theme-provider';
 
 export const metadata: Metadata = {
   title: "LOOPZ",
@@ -44,15 +45,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Inline theme script — prevents flash of wrong theme on load */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
-          }}
-        />
-      </head>
-      <body className={`${geist.className} antialiased`}>{children}</body>
+      <body className={`${geist.className} antialiased`}>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

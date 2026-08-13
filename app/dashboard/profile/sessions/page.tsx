@@ -83,7 +83,7 @@ export default function SessionsPage() {
     <div className="min-h-screen bg-slate-50">
 
       {/* ── Header ── */}
-      <div className="bg-white px-4 pt-5 pb-4 flex items-center gap-3 border-b border-slate-100">
+      <div className="bg-card px-4 pt-5 pb-4 flex items-center gap-3 border-b border-slate-100">
         <BackButton />
         <h1 className="text-xl font-bold text-slate-900">Active Sessions</h1>
       </div>
@@ -104,7 +104,7 @@ export default function SessionsPage() {
             <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
           </div>
         ) : sessions.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm px-5 py-12 flex flex-col items-center gap-3 text-center">
+          <div className="bg-card rounded-2xl shadow-sm px-5 py-12 flex flex-col items-center gap-3 text-center">
             <Smartphone className="w-10 h-10 text-slate-200" />
             <p className="text-slate-400 font-medium">No active sessions found.</p>
           </div>
@@ -114,7 +114,7 @@ export default function SessionsPage() {
 
             <div className="flex flex-col gap-2">
               {sessions.map((session) => (
-                <div key={session.id} className="bg-white rounded-2xl shadow-sm px-5 py-4 flex items-center gap-3">
+                <div key={session.id} className="bg-card rounded-2xl shadow-sm px-5 py-4 flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center shrink-0">
                     <Smartphone className="w-5 h-5 text-indigo-500" />
                   </div>
@@ -147,7 +147,7 @@ export default function SessionsPage() {
         <div className="mt-2">
           <button
             onClick={() => setShowConfirm(true)}
-            className="w-full rounded-2xl bg-rose-500 py-4 font-bold text-white shadow-lg shadow-rose-100 flex items-center justify-center gap-2 transition active:opacity-90"
+            className="w-full rounded-2xl bg-rose-500 py-4 font-bold text-primary-foreground shadow-lg shadow-rose-100 flex items-center justify-center gap-2 transition active:opacity-90"
           >
             <LogOut className="w-5 h-5" /> Log Out Everywhere
           </button>
@@ -160,7 +160,7 @@ export default function SessionsPage() {
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/40" onClick={() => setShowConfirm(false)} />
-          <div className="relative bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl">
+          <div className="relative bg-card rounded-3xl w-full max-w-sm p-6 shadow-2xl">
             <div className="flex flex-col items-center text-center gap-4">
               <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center">
                 <ShieldAlert className="w-8 h-8 text-rose-500" />
@@ -180,7 +180,7 @@ export default function SessionsPage() {
                 <button
                   onClick={handleLogoutAll}
                   disabled={loggingOut}
-                  className="flex-1 rounded-2xl bg-rose-500 py-3.5 font-bold text-white transition active:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 rounded-2xl bg-rose-500 py-3.5 font-bold text-primary-foreground transition active:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {loggingOut
                     ? <><Loader2 className="w-4 h-4 animate-spin" /> Logging out…</>

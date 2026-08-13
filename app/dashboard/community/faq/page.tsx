@@ -27,7 +27,7 @@ export default function FaqPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Freshers FAQ</h1>
-      <div className="bg-white shadow rounded p-4 mb-6 space-y-2">
+      <div className="bg-card shadow rounded p-4 mb-6 space-y-2">
         <input
           type="text" placeholder="Question" value={question} onChange={(e) => setQuestion(e.target.value)}
           className="border p-2 w-full"
@@ -36,12 +36,12 @@ export default function FaqPage() {
           placeholder="Answer" value={answer} onChange={(e) => setAnswer(e.target.value)}
           className="border p-2 w-full"
         />
-        <button onClick={handleAdd} className="bg-success text-white px-4 py-2 rounded">
+        <button onClick={handleAdd} className="bg-success text-primary-foreground px-4 py-2 rounded">
           Add FAQ
         </button>
       </div>
       {faqs.map((f) => (
-        <div key={f.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between">
+        <div key={f.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between">
           <div>
             <p className="font-medium">{f.question}</p>
             <p className="text-muted-foreground">{f.answer}</p>

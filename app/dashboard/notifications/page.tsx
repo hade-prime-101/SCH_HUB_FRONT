@@ -50,19 +50,19 @@ export default function NotificationsPage() {
         <h1 className="text-2xl font-bold">Notifications</h1>
         <div className="flex items-center gap-3">
           {unreadCount > 0 && (
-            <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <span className="bg-red-500 text-primary-foreground text-xs font-bold px-2 py-1 rounded-full">
               {unreadCount} unread
             </span>
           )}
           <button
             onClick={handleMarkAllRead}
-            className="text-sm bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+            className="text-sm bg-secondary/50 px-3 py-1 rounded hover:bg-gray-300"
           >
             Mark all read
           </button>
           <Link
             href="/dashboard/notifications/settings"
-            className="text-sm text-blue-600 hover:underline"
+            className="text-sm text-primary hover:underline"
           >
             Settings
           </Link>
@@ -70,20 +70,20 @@ export default function NotificationsPage() {
       </div>
 
       {notifications.length === 0 ? (
-        <p className="text-gray-500">No notifications.</p>
+        <p className="text-muted-foreground">No notifications.</p>
       ) : (
         <ul className="space-y-2">
           {notifications.map((n) => (
             <li
               key={n.id}
               className={`p-3 rounded border ${
-                n.isRead ? "bg-white" : "bg-blue-50 border-blue-200"
+                n.isRead ? "bg-card" : "bg-blue-50 border-blue-200"
               } flex justify-between items-start`}
             >
               <div>
                 <p className="font-medium">{n.title}</p>
-                <p className="text-sm text-gray-600">{n.body}</p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-sm text-muted-foreground">{n.body}</p>
+                <p className="text-xs text-muted-foreground/70 mt-1">
                   {new Date(n.createdAt).toLocaleString()}
                 </p>
               </div>
@@ -91,7 +91,7 @@ export default function NotificationsPage() {
                 {!n.isRead && (
                   <button
                     onClick={() => handleMarkRead(n.id)}
-                    className="text-blue-600 hover:underline"
+                    className="text-primary hover:underline"
                   >
                     Mark read
                   </button>
@@ -114,7 +114,7 @@ export default function NotificationsPage() {
           <button
             disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Previous
           </button>
@@ -124,7 +124,7 @@ export default function NotificationsPage() {
           <button
             disabled={page * limit >= total}
             onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Next
           </button>

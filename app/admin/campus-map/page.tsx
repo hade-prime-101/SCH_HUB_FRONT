@@ -67,14 +67,14 @@ export default function AdminCampusMapPage() {
             setEditingId(null);
             setForm({ name: "", type: "", description: "", lat: 0, lng: 0 });
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded"
         >
           Add Location
         </button>
       </div>
 
       {/* Bulk update section */}
-      <div className="bg-white shadow rounded p-4 mb-6">
+      <div className="bg-card shadow rounded p-4 mb-6">
         <h2 className="font-semibold mb-2">Bulk Update</h2>
         <textarea
           placeholder='{ "locations": [ { "id": "loc123", "name": "New Name" } ] }'
@@ -82,7 +82,7 @@ export default function AdminCampusMapPage() {
           onChange={(e) => setBulkJson(e.target.value)}
           className="border p-2 w-full h-24 font-mono text-sm"
         />
-        <button onClick={handleBulkUpdate} className="bg-orange-600 text-white px-4 py-2 rounded mt-2">
+        <button onClick={handleBulkUpdate} className="bg-orange-600 text-primary-foreground px-4 py-2 rounded mt-2">
           Execute Bulk Update
         </button>
       </div>
@@ -90,7 +90,7 @@ export default function AdminCampusMapPage() {
       {/* Modal form for add/edit */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded p-6 w-96">
+          <div className="bg-card rounded p-6 w-96">
             <h2 className="text-lg font-semibold mb-4">{editingId ? "Edit" : "New"} Location</h2>
             <input
               type="text" placeholder="Name" value={form.name}
@@ -120,17 +120,17 @@ export default function AdminCampusMapPage() {
               />
             </div>
             <div className="flex justify-end gap-2">
-              <button onClick={() => setShowForm(false)} className="bg-gray-200 px-4 py-2 rounded">Cancel</button>
-              <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+              <button onClick={() => setShowForm(false)} className="bg-secondary/50 px-4 py-2 rounded">Cancel</button>
+              <button onClick={handleSave} className="bg-success text-primary-foreground px-4 py-2 rounded">Save</button>
             </div>
           </div>
         </div>
       )}
 
       {/* Locations table */}
-      <table className="w-full bg-white shadow rounded">
+      <table className="w-full bg-card shadow rounded">
         <thead>
-          <tr className="bg-gray-50">
+          <tr className="bg-muted">
             <th className="p-2 text-left">Name</th>
             <th className="p-2 text-left">Type</th>
             <th className="p-2 text-left">Coordinates</th>
@@ -144,7 +144,7 @@ export default function AdminCampusMapPage() {
               <td className="p-2">{loc.type}</td>
               <td className="p-2">{loc.lat.toFixed(4)}, {loc.lng.toFixed(4)}</td>
               <td className="p-2 text-right">
-                <button onClick={() => handleEdit(loc)} className="text-blue-600 mr-2">Edit</button>
+                <button onClick={() => handleEdit(loc)} className="text-primary mr-2">Edit</button>
                 <button onClick={() => handleDelete(loc.id)} className="text-red-600">Delete</button>
               </td>
             </tr>

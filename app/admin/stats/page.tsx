@@ -52,7 +52,7 @@ export default function AdminStatsPage() {
   useEffect(() => { load(); }, [load]);
 
   const CARDS = [
-    { icon: Users,        label: "Total Users",       value: stats?.totalUsers,        accent: "bg-blue-100 text-blue-600" },
+    { icon: Users,        label: "Total Users",       value: stats?.totalUsers,        accent: "bg-accent text-primary" },
     { icon: TrendingUp,   label: "New This Week",      value: stats?.newUsersThisWeek,  accent: "bg-emerald-100 text-emerald-600" },
     { icon: BookOpen,     label: "Materials",          value: stats?.totalMaterials,    accent: "bg-violet-100 text-violet-600" },
     { icon: ShoppingBag,  label: "Marketplace",        value: stats?.totalListings,     accent: "bg-amber-100 text-amber-600" },

@@ -34,18 +34,18 @@ export default function DiscoverGroupsPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Discover Study Groups</h1>
       {groups.map((g) => (
-        <div key={g.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between items-center">
+        <div key={g.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between items-center">
           <div>
-            <Link href={`/dashboard/study-groups/${g.id}`} className="font-medium text-blue-600">
+            <Link href={`/dashboard/study-groups/${g.id}`} className="font-medium text-primary">
               {g.name}
             </Link>
-            <p className="text-sm text-gray-600">{g.description}</p>
-            <p className="text-xs text-gray-400">{g.memberCount} members</p>
+            <p className="text-sm text-muted-foreground">{g.description}</p>
+            <p className="text-xs text-muted-foreground/70">{g.memberCount} members</p>
           </div>
           <div>
             {/* Assume we know if user is a member; in real app track membership */}
-            <button onClick={() => handleJoin(g.id)} className="bg-green-600 text-white px-3 py-1 rounded text-sm">Join</button>
-            <button onClick={() => handleLeave(g.id)} className="ml-2 bg-gray-200 px-3 py-1 rounded text-sm">Leave</button>
+            <button onClick={() => handleJoin(g.id)} className="bg-success text-primary-foreground px-3 py-1 rounded text-sm">Join</button>
+            <button onClick={() => handleLeave(g.id)} className="ml-2 bg-secondary/50 px-3 py-1 rounded text-sm">Leave</button>
           </div>
         </div>
       ))}

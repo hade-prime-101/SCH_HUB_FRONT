@@ -13,7 +13,7 @@ export default function BookmarksPage() {
       {bookmarks.length === 0 ? <p>No bookmarks.</p> : (
         <ul className="space-y-2">
           {bookmarks.map(b => (
-            <li key={b.id} className="bg-white shadow rounded p-3">
+            <li key={b.id} className="bg-card shadow rounded p-3">
               {b.targetType}: {b.targetId}
             </li>
           ))}

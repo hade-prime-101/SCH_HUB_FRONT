@@ -26,7 +26,7 @@ export default function NewNoticePage() {
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Post a Notice</h1>
       {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         <input
           type="text"
           placeholder="Notice title"
@@ -42,7 +42,7 @@ export default function NewNoticePage() {
           className="border p-2 w-full h-40"
           required
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">
           Publish Notice
         </button>
       </form>

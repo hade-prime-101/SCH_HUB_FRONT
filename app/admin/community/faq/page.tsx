@@ -32,7 +32,7 @@ export default function AdminFaqPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Manage FAQs</h1>
 
-      <div className="bg-white shadow rounded p-4 mb-6 space-y-2">
+      <div className="bg-card shadow rounded p-4 mb-6 space-y-2">
         <input
           type="text"
           placeholder="Question"
@@ -46,7 +46,7 @@ export default function AdminFaqPage() {
           onChange={(e) => setAnswer(e.target.value)}
           className="border p-2 w-full"
         />
-        <button onClick={handleAdd} className="bg-green-600 text-white px-4 py-2 rounded">
+        <button onClick={handleAdd} className="bg-success text-primary-foreground px-4 py-2 rounded">
           Add FAQ
         </button>
       </div>
@@ -54,11 +54,11 @@ export default function AdminFaqPage() {
       {faqs.map((f) => (
         <div
           key={f.id}
-          className="bg-white shadow rounded p-4 mb-3 flex justify-between items-start"
+          className="bg-card shadow rounded p-4 mb-3 flex justify-between items-start"
         >
           <div>
             <p className="font-medium">{f.question}</p>
-            <p className="text-gray-600">{f.answer}</p>
+            <p className="text-muted-foreground">{f.answer}</p>
           </div>
           <button
             onClick={() => handleDelete(f.id)}

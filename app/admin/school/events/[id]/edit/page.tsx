@@ -34,13 +34,13 @@ export default function AdminEditEventPage() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Edit Event (Admin)</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         <input type="text" value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="border p-2 w-full" required />
         <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} className="border p-2 w-full" required />
         <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} className="border p-2 w-full" required />
         <input type="time" value={form.time} onChange={e => setForm({...form, time: e.target.value})} className="border p-2 w-full" />
         <input type="text" value={form.venue} onChange={e => setForm({...form, venue: e.target.value})} className="border p-2 w-full" />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save Changes</button>
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">Save Changes</button>
       </form>
     </div>
   );

@@ -41,8 +41,8 @@ export default function UsersListPage() {
           <option value="ADMIN">Admin</option>
         </select>
       </div>
-      <table className="w-full bg-white shadow rounded">
-        <thead className="bg-gray-50">
+      <table className="w-full bg-card shadow rounded-lg">
+        <thead className="bg-muted">
           <tr>
             <th className="p-2 text-left">Name</th>
             <th className="p-2 text-left">Email</th>
@@ -52,14 +52,14 @@ export default function UsersListPage() {
         </thead>
         <tbody>
           {users.map(u => (
-            <tr key={u.id} className="border-t">
+            <tr key={u.id} className="border-t border-border">
               <td className="p-2">{u.name}</td>
               <td className="p-2">{u.email}</td>
               <td className="p-2">{u.role}</td>
               <td className="p-2 text-right">
-                <button onClick={() => handleNominate(u.id)} className="text-blue-600 mr-2">Nominate CR</button>
+                <button onClick={() => handleNominate(u.id)} className="text-primary mr-2 hover:underline">Nominate CR</button>
                 <select
-                  className="border p-1"
+                  className="border border-input bg-background p-1 rounded"
                   value={u.role}
                   onChange={e => handleAssignRole(u.id, e.target.value)}
                 >

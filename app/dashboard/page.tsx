@@ -178,7 +178,7 @@ export default function DashboardPage() {
         >
           <Bell className="w-5 h-5 text-foreground" />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-destructive text-white text-[11px] font-bold flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-destructive text-primary-foreground text-[11px] font-bold flex items-center justify-center">
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>
           )}
@@ -308,7 +308,7 @@ export default function DashboardPage() {
                   {events.map((e) => (
                     <div key={e.id} className="flex items-center gap-4 rounded-2xl bg-[color-category-events-bg] p-4">
                       <div className="w-11 h-11 rounded-xl bg-[color-category-events] flex items-center justify-center shrink-0">
-                        <Calendar className="w-5 h-5 text-white" />
+                        <Calendar className="w-5 h-5 text-primary-foreground" />
                       </div>
                       <div>
                         <p className="font-semibold text-foreground">{e.title}</p>

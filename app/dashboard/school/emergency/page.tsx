@@ -13,9 +13,9 @@ export default function EmergencyContactsPage() {
       <h1 className="text-2xl font-bold mb-4">Emergency Contacts</h1>
       <div className="space-y-2">
         {contacts.map(c => (
-          <div key={c.id} className="bg-white shadow rounded p-3">
+          <div key={c.id} className="bg-card shadow rounded p-3">
             <p className="font-medium">{c.name} ({c.role})</p>
-            <p className="text-blue-600">{c.phone}</p>
+            <p className="text-primary">{c.phone}</p>
           </div>
         ))}
       </div>

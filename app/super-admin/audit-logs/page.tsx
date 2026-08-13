@@ -20,8 +20,8 @@ export default function SchoolAuditLogsPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">School Audit Logs</h1>
-      <table className="w-full bg-white shadow rounded">
-        <thead className="bg-gray-50">
+      <table className="w-full bg-card shadow rounded">
+        <thead className="bg-muted">
           <tr>
             <th className="p-2 text-left">Action</th>
             <th className="p-2 text-left">Actor</th>

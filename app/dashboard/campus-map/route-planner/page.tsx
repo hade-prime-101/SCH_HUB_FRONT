@@ -104,17 +104,17 @@ export default function NavigatePage() {
 
   return (
     <div className="flex h-screen">
-      <div className="w-80 p-4 bg-white border-r">
+      <div className="w-80 p-4 bg-card border-r">
         <h1 className="text-xl font-bold mb-4">Navigation</h1>
-        <button onClick={startNavigation} className="bg-blue-600 text-white px-4 py-2 rounded w-full mb-4">
+        <button onClick={startNavigation} className="bg-primary text-primary-foreground px-4 py-2 rounded w-full mb-4">
           Start Navigation
         </button>
         {progress && (
-          <div className="bg-gray-50 rounded p-3 text-sm">
+          <div className="bg-muted rounded p-3 text-sm">
             <p><strong>Remaining:</strong> {(progress.remainingDistance).toFixed(0)} m</p>
             <p><strong>ETA:</strong> {Math.round(progress.remainingDuration / 60)} min</p>
             {progress.nextTurnInstruction && (
-              <p className="mt-1 text-blue-700">{progress.nextTurnInstruction}</p>
+              <p className="mt-1 text-primary">{progress.nextTurnInstruction}</p>
             )}
           </div>
         )}

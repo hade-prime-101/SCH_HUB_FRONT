@@ -17,11 +17,11 @@ export default function TodayPlannerPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Today's Schedule</h1>
       {data.events.length === 0 ? (
-        <p className="text-gray-500">No events scheduled for today.</p>
+        <p className="text-muted-foreground">No events scheduled for today.</p>
       ) : (
         <div className="space-y-3">
           {data.events.map((event) => (
-            <div key={event.id} className="bg-white shadow rounded p-4">
+            <div key={event.id} className="bg-card shadow rounded p-4">
               <p className="font-medium">{event.title}</p>
               <p className="text-sm text-muted-foreground">
                 {event.startTime} - {event.endTime} {event.location && `· ${event.location}`}

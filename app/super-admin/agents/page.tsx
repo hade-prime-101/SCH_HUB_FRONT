@@ -28,8 +28,8 @@ export default function AgentsPage() {
           <option value="REVOKED">Revoked</option>
         </select>
       </div>
-      <table className="w-full bg-white shadow rounded">
-        <thead className="bg-gray-50">
+      <table className="w-full bg-card shadow rounded">
+        <thead className="bg-muted">
           <tr>
             <th className="p-2 text-left">Name</th>
             <th className="p-2 text-left">Department</th>

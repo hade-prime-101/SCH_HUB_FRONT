@@ -19,14 +19,14 @@ export default function EventsPage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Events</h1>
-        <Link href="/dashboard/school/events/new" className="bg-blue-600 text-white px-4 py-2 rounded">Create Event</Link>
+        <Link href="/dashboard/school/events/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">Create Event</Link>
       </div>
       <div className="grid gap-4">
         {events.map(ev => (
-          <div key={ev.id} className="bg-white shadow rounded p-4 flex justify-between items-center">
+          <div key={ev.id} className="bg-card shadow rounded p-4 flex justify-between items-center">
             <div>
-              <Link href={`/dashboard/school/events/${ev.id}`} className="font-medium text-blue-600 hover:underline">{ev.title}</Link>
-              <p className="text-sm text-gray-500">{new Date(ev.date).toLocaleDateString()} {ev.time} - {ev.venue}</p>
+              <Link href={`/dashboard/school/events/${ev.id}`} className="font-medium text-primary hover:underline">{ev.title}</Link>
+              <p className="text-sm text-muted-foreground">{new Date(ev.date).toLocaleDateString()} {ev.time} - {ev.venue}</p>
             </div>
             <button onClick={() => handleDelete(ev.id)} className="text-red-600 text-sm">Delete</button>
           </div>

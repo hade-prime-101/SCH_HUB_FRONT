@@ -41,7 +41,7 @@ export default function MaterialsListPage() {
 
   const visibilityIcon = (visibility: string) => {
     if (visibility === "PUBLIC") return <Globe size={16} className="text-green-600" />;
-    return <Lock size={16} className="text-gray-600" />;
+    return <Lock size={16} className="text-muted-foreground" />;
   };
 
   if (error) {
@@ -62,7 +62,7 @@ export default function MaterialsListPage() {
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-1">Study Materials</h1>
-          <p className="text-gray-600">Showing {materials.length > 0 ? (page - 1) * limit + 1 : 0} – {Math.min(page * limit, total)} of {total} materials</p>
+          <p className="text-muted-foreground">Showing {materials.length > 0 ? (page - 1) * limit + 1 : 0} – {Math.min(page * limit, total)} of {total} materials</p>
         </div>
         <Link href="/dashboard/study/materials/upload" className="bg-primary hover:opacity-90 text-primary-foreground px-6 py-2 rounded-lg font-medium transition-opacity flex items-center gap-2">
           <FileText size={20} />
@@ -75,17 +75,17 @@ export default function MaterialsListPage() {
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading materials...</p>
+            <p className="text-muted-foreground">Loading materials...</p>
           </div>
         </div>
       )}
 
       {/* Empty State */}
       {!loading && materials.length === 0 && (
-        <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-          <FileText size={48} className="text-gray-400 mx-auto mb-4" />
+        <div className="text-center py-12 bg-muted rounded-lg border-2 border-dashed border-gray-300">
+          <FileText size={48} className="text-muted-foreground/70 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No materials yet</h3>
-          <p className="text-gray-600 mb-6">Get started by uploading your first study material</p>
+          <p className="text-muted-foreground mb-6">Get started by uploading your first study material</p>
           <Link href="/dashboard/study/materials/upload" className="bg-primary hover:opacity-90 text-primary-foreground px-6 py-2 rounded-lg font-medium transition-opacity inline-block">
             Upload First Material
           </Link>
@@ -99,7 +99,7 @@ export default function MaterialsListPage() {
             <Link
               key={m.id}
               href={`/dashboard/study/materials/${m.id}`}
-              className="group bg-white rounded-lg border border-gray-200 hover:border-primary hover:shadow-lg transition-all duration-200 p-5 block"
+              className="group bg-card rounded-lg border border-gray-200 hover:border-primary hover:shadow-lg transition-all duration-200 p-5 block"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
@@ -107,7 +107,7 @@ export default function MaterialsListPage() {
                 </div>
                 <div className="flex items-center gap-1">
                   {visibilityIcon(m.visibility)}
-                  <span className="text-xs text-gray-600 font-medium">{m.visibility}</span>
+                  <span className="text-xs text-muted-foreground font-medium">{m.visibility}</span>
                 </div>
               </div>
               
@@ -115,17 +115,17 @@ export default function MaterialsListPage() {
                 {m.title}
               </h3>
               
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-muted-foreground mb-4">
                 {m.courseCode} • {m.courseTitle}
               </p>
               
               {m.description && (
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                   {m.description}
                 </p>
               )}
               
-              <div className="flex items-center gap-4 text-sm text-gray-500 border-t border-gray-100 pt-3">
+              <div className="flex items-center gap-4 text-sm text-muted-foreground border-t border-gray-100 pt-3">
                 <div className="flex items-center gap-1">
                   <Download size={16} />
                   <span>{m.downloads || 0}</span>
@@ -152,7 +152,7 @@ export default function MaterialsListPage() {
           <button
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            className="px-6 py-2 rounded-lg border border-gray-300 text-secondary-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
           >
             ← Previous
           </button>
@@ -167,21 +167,21 @@ export default function MaterialsListPage() {
                   className={`w-10 h-10 rounded-lg font-medium transition-colors ${
                     page === pageNum
                       ? "bg-primary text-primary-foreground"
-                      : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                      : "border border-gray-300 text-secondary-foreground hover:bg-muted"
                   }`}
                 >
                   {pageNum}
                 </button>
               );
             })}
-            {totalPages > 5 && <span className="text-gray-500">...</span>}
-            <span className="text-sm text-gray-600 px-2">Page {page} of {totalPages}</span>
+            {totalPages > 5 && <span className="text-muted-foreground">...</span>}
+            <span className="text-sm text-muted-foreground px-2">Page {page} of {totalPages}</span>
           </div>
           
           <button
             onClick={() => setPage(page + 1)}
             disabled={page >= totalPages}
-            className="px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            className="px-6 py-2 rounded-lg border border-gray-300 text-secondary-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
           >
             Next →
           </button>

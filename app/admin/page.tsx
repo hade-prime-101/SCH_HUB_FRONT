@@ -88,7 +88,7 @@ export default function AdminDashboardPage() {
   }
 
   const STAT_CARDS = [
-    { icon: Users,         label: "Total Users",      value: stats?.totalUsers ?? 0,     accent: "bg-blue-100 text-blue-600" },
+    { icon: Users,         label: "Total Users",      value: stats?.totalUsers ?? 0,     accent: "bg-accent text-primary" },
     { icon: GraduationCap, label: "Admins",            value: stats?.totalAdmins ?? 0,    accent: "bg-violet-100 text-violet-600" },
     { icon: BookOpen,      label: "Materials",         value: stats?.totalMaterials ?? 0, accent: "bg-indigo-100 text-indigo-600" },
     { icon: ClipboardList, label: "Quizzes",           value: stats?.totalQuizzes ?? 0,   accent: "bg-amber-100 text-amber-600" },

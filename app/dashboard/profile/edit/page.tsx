@@ -40,7 +40,7 @@ export default function EditProfilePage() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
-      <div className="bg-white shadow rounded p-6 space-y-4">
+      <div className="bg-card shadow rounded p-6 space-y-4">
         <div>
           <label className="block text-sm font-medium">Avatar</label>
           <input type="file" onChange={handleAvatarUpload} />
@@ -49,7 +49,7 @@ export default function EditProfilePage() {
         <textarea value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Bio" className="border p-2 w-full" />
         <input type="text" value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="Department" className="border p-2 w-full" />
         <input type="text" value={level} onChange={(e) => setLevel(e.target.value)} placeholder="Level" className="border p-2 w-full" />
-        <button onClick={handleSave} className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+        <button onClick={handleSave} className="bg-primary text-primary-foreground px-4 py-2 rounded">Save</button>
       </div>
     </div>
   );

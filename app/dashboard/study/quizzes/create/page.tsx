@@ -41,20 +41,20 @@ export default function CreateQuizPage() {
       <div className="flex space-x-4 mb-6">
         <button
           onClick={() => setMode("manual")}
-          className={`px-4 py-2 rounded ${mode === "manual" ? "bg-primary text-primary-foreground" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${mode === "manual" ? "bg-primary text-primary-foreground" : "bg-secondary/50"}`}
         >
           Manual
         </button>
         <button
           onClick={() => setMode("generate")}
-          className={`px-4 py-2 rounded ${mode === "generate" ? "bg-primary text-primary-foreground" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${mode === "generate" ? "bg-primary text-primary-foreground" : "bg-secondary/50"}`}
         >
           Generate from Material
         </button>
       </div>
 
       {mode === "manual" ? (
-        <div className="bg-white shadow rounded p-6 space-y-4">
+        <div className="bg-card shadow rounded p-6 space-y-4">
           <input
             type="text" placeholder="Quiz Title" value={title}
             onChange={e => setTitle(e.target.value)} className="border p-2 w-full" required
@@ -68,7 +68,7 @@ export default function CreateQuizPage() {
           </button>
         </div>
       ) : (
-        <div className="bg-white shadow rounded p-6 space-y-4">
+        <div className="bg-card shadow rounded p-6 space-y-4">
           <input
             type="text" placeholder="Material ID" value={materialId}
             onChange={e => setMaterialId(e.target.value)} className="border p-2 w-full"
@@ -77,7 +77,7 @@ export default function CreateQuizPage() {
             type="number" value={numQuestions} min={1} max={20}
             onChange={e => setNumQuestions(parseInt(e.target.value))} className="border p-2 w-full"
           />
-          <button onClick={handleGenerate} className="bg-success text-white px-6 py-2 rounded">
+          <button onClick={handleGenerate} className="bg-success text-primary-foreground px-6 py-2 rounded">
             Generate
           </button>
         </div>

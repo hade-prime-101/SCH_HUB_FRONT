@@ -48,10 +48,10 @@ const handleImageDelete = async (featureId: string, imageUrl: string) => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Map Features (Super Admin)</h1>
-      <button onClick={() => setShowForm(true)} className="bg-blue-600 text-white px-4 py-2 rounded mb-4">Add Feature</button>
+      <button onClick={() => setShowForm(true)} className="bg-primary text-primary-foreground px-4 py-2 rounded mb-4">Add Feature</button>
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded p-6 w-96">
+          <div className="bg-card rounded p-6 w-96">
             <h2 className="text-lg font-semibold mb-4">New Feature</h2>
             <input type="text" placeholder="Name" value={form.properties.name} onChange={e => setForm({...form, properties: {...form.properties, name: e.target.value}})} className="border p-2 w-full mb-2" />
             <input type="text" placeholder="Category" value={form.properties.category} onChange={e => setForm({...form, properties: {...form.properties, category: e.target.value}})} className="border p-2 w-full mb-2" />
@@ -59,18 +59,18 @@ const handleImageDelete = async (featureId: string, imageUrl: string) => {
             <input type="text" placeholder="Longitude" onChange={e => setForm({...form, geometry: {...form.geometry, coordinates: [parseFloat(e.target.value), form.geometry.coordinates[1]]}})} className="border p-2 w-full mb-2" />
             <input type="text" placeholder="Latitude" onChange={e => setForm({...form, geometry: {...form.geometry, coordinates: [form.geometry.coordinates[0], parseFloat(e.target.value)]}})} className="border p-2 w-full mb-4" />
             <div className="flex justify-end gap-2">
-              <button onClick={() => setShowForm(false)} className="bg-gray-200 px-4 py-2 rounded">Cancel</button>
-              <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+              <button onClick={() => setShowForm(false)} className="bg-secondary/50 px-4 py-2 rounded">Cancel</button>
+              <button onClick={handleSave} className="bg-success text-primary-foreground px-4 py-2 rounded">Save</button>
             </div>
           </div>
         </div>
       )}
       <ul>
         {features.map(f => (
-          <li key={f.id} className="flex justify-between items-center bg-white shadow rounded p-3 mb-2">
+          <li key={f.id} className="flex justify-between items-center bg-card shadow rounded p-3 mb-2">
             <span>{f.properties.name} ({f.properties.category})</span>
             <div className="flex items-center gap-2">
-              <label className="text-sm text-blue-600 cursor-pointer">
+              <label className="text-sm text-primary cursor-pointer">
                 Upload Image
                 <input
                   type="file"

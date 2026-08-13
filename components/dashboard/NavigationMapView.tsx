@@ -392,7 +392,7 @@ export default function NavigationMapView({
         <button
           onClick={resumeFollow}
           aria-label="Re-centre on my location"
-          className="absolute bottom-4 right-4 z-20 flex items-center gap-1.5 bg-white rounded-full shadow-lg px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 active:scale-95 transition-transform"
+          className="absolute bottom-4 right-4 z-20 flex items-center gap-1.5 bg-card rounded-full shadow-lg px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 active:scale-95 transition-transform"
         >
           <Crosshair className="w-4 h-4 text-indigo-500" />
           Re-centre

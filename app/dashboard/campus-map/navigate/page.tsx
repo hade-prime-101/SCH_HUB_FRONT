@@ -122,7 +122,7 @@ export default function OfflineMapPage() {
     <div className="min-h-screen bg-slate-50">
 
       {/* ── Header ── */}
-      <div className="bg-white px-4 pt-5 pb-4 flex items-center gap-3 border-b border-slate-100">
+      <div className="bg-card px-4 pt-5 pb-4 flex items-center gap-3 border-b border-slate-100">
         <BackButton />
         <h1 className="text-xl font-bold text-slate-900">Offline Maps</h1>
       </div>
@@ -148,12 +148,12 @@ export default function OfflineMapPage() {
 
         {/* ── Tile info card ── */}
         {loading ? (
-          <div className="bg-white rounded-2xl p-5 shadow-sm flex items-center justify-center gap-2 text-slate-400">
+          <div className="bg-card rounded-2xl p-5 shadow-sm flex items-center justify-center gap-2 text-slate-400">
             <Loader2 className="w-5 h-5 animate-spin" />
             <span className="text-sm">Loading map info…</span>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-card rounded-2xl shadow-sm overflow-hidden">
             <div className="px-5 pt-5 pb-4">
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -196,7 +196,7 @@ export default function OfflineMapPage() {
                 ) : (
                   <button
                     onClick={handleDownload}
-                    className="w-full rounded-2xl bg-indigo-500 py-4 font-bold text-white shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 transition active:opacity-90"
+                    className="w-full rounded-2xl bg-indigo-500 py-4 font-bold text-primary-foreground shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 transition active:opacity-90"
                   >
                     <Download className="w-5 h-5" /> Download Offline Map
                   </button>
@@ -220,7 +220,7 @@ export default function OfflineMapPage() {
         )}
 
         {/* ── What's included expandable ── */}
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-card rounded-2xl shadow-sm overflow-hidden">
           <button
             onClick={() => setExpanded(!expanded)}
             className="w-full flex items-center justify-between px-5 py-4 text-left"
@@ -247,14 +247,14 @@ export default function OfflineMapPage() {
 
         {/* ── Info section ── */}
         <div className="flex flex-col gap-3">
-          <div className="bg-white rounded-2xl px-5 py-4 shadow-sm flex items-start gap-3">
+          <div className="bg-card rounded-2xl px-5 py-4 shadow-sm flex items-start gap-3">
             <WifiOff className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-slate-900 text-sm">Works without internet</p>
               <p className="text-xs text-slate-400 mt-0.5">Once downloaded, browse the campus map with no data connection.</p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl px-5 py-4 shadow-sm flex items-start gap-3">
+          <div className="bg-card rounded-2xl px-5 py-4 shadow-sm flex items-start gap-3">
             <RefreshCw className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-slate-900 text-sm">Auto-updated when connected</p>

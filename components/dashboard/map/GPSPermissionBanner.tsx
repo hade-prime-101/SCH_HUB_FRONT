@@ -41,13 +41,13 @@ export default function GPSPermissionBanner({
         {isDenied ? (
           <AlertCircle
             className={`w-4 h-4 shrink-0 ${
-              isDenied ? 'text-amber-600 dark:text-amber-400' : 'text-blue-600 dark:text-blue-400'
+              isDenied ? 'text-amber-600 dark:text-amber-400' : 'text-primary dark:text-blue-400'
             }`}
           />
         ) : (
           <Navigation
             className={`w-4 h-4 shrink-0 ${
-              isDenied ? 'text-amber-600 dark:text-amber-400' : 'text-blue-600 dark:text-blue-400'
+              isDenied ? 'text-amber-600 dark:text-amber-400' : 'text-primary dark:text-blue-400'
             }`}
           />
         )}
@@ -62,7 +62,7 @@ export default function GPSPermissionBanner({
           </p>
           <p
             className={`text-xs ${
-              isDenied ? 'text-amber-700 dark:text-amber-400' : 'text-blue-700 dark:text-blue-400'
+              isDenied ? 'text-amber-700 dark:text-amber-400' : 'text-primary dark:text-blue-400'
             }`}
           >
             {isDenied
@@ -80,7 +80,7 @@ export default function GPSPermissionBanner({
             className={`px-3 py-1.5 rounded-lg font-medium text-xs transition-all ${
               isLoading
                 ? 'opacity-50 cursor-not-allowed'
-                : 'bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600 active:scale-95'
+                : 'bg-primary dark:bg-blue-500 text-primary-foreground hover:bg-primary dark:hover:bg-primary active:scale-95'
             }`}
           >
             {isLoading ? 'Requesting...' : 'Allow'}
@@ -92,7 +92,7 @@ export default function GPSPermissionBanner({
           className={`p-1.5 rounded-lg transition-colors ${
             isDenied
               ? 'hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-600 dark:text-amber-400'
-              : 'hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+              : 'hover:bg-accent dark:hover:bg-blue-900/30 text-primary dark:text-blue-400'
           }`}
         >
           <X className="w-4 h-4" />

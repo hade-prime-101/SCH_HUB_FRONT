@@ -38,7 +38,7 @@ export default function NewSessionPage() {
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">New Study Session</h1>
       {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         <input
           type="text"
           placeholder="Session Title (e.g., Calculus Midterm)"
@@ -48,10 +48,10 @@ export default function NewSessionPage() {
           required
         />
         <div className="flex space-x-4">
-          <button type="button" onClick={() => setMode("text")} className={`px-4 py-2 rounded ${mode === "text" ? "bg-blue-600 text-white" : "bg-gray-200"}`}>
+          <button type="button" onClick={() => setMode("text")} className={`px-4 py-2 rounded ${mode === "text" ? "bg-primary text-primary-foreground" : "bg-secondary/50"}`}>
             Paste Text
           </button>
-          <button type="button" onClick={() => setMode("file")} className={`px-4 py-2 rounded ${mode === "file" ? "bg-blue-600 text-white" : "bg-gray-200"}`}>
+          <button type="button" onClick={() => setMode("file")} className={`px-4 py-2 rounded ${mode === "file" ? "bg-primary text-primary-foreground" : "bg-secondary/50"}`}>
             Upload File
           </button>
         </div>
@@ -65,7 +65,7 @@ export default function NewSessionPage() {
         ) : (
           <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
         )}
-        <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded">
+        <button type="submit" className="bg-success text-primary-foreground px-6 py-2 rounded">
           Create Session
         </button>
       </form>

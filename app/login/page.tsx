@@ -417,10 +417,10 @@ function LoginPageContent() {
         </div>
 
         <div className="hidden flex-1 items-center justify-center bg-primary p-10 lg:flex">
-          <div className="max-w-sm rounded-xl border border-white/20 bg-white/10 p-8 text-white backdrop-blur-sm">
-            <p className="text-sm uppercase tracking-[0.3em] text-white/60">SchHub</p>
+          <div className="max-w-sm rounded-xl border border-white/20 bg-card/10 p-8 text-primary-foreground backdrop-blur-sm">
+            <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/60">SchHub</p>
             <h2 className="mt-3 text-3xl font-semibold">Stay connected to your school life.</h2>
-            <p className="mt-4 text-sm leading-6 text-white/60">
+            <p className="mt-4 text-sm leading-6 text-primary-foreground/60">
               Manage classes, updates, and communication from one place with a secure sign-in experience.
             </p>
           </div>

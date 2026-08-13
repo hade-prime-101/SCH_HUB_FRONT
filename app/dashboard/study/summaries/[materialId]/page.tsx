@@ -26,7 +26,7 @@ export default function SummaryDetailPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Summary for {summary.title}</h1>
-      <div className="bg-white shadow rounded p-6 whitespace-pre-wrap">
+      <div className="bg-card shadow rounded p-6 whitespace-pre-wrap">
         {summary.status === "PENDING" || summary.status === "PROCESSING" ? (
           <p className="text-warning">Your summary is being generated. Please check back later.</p>
         ) : summary.status === "FAILED" ? (

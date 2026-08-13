@@ -65,7 +65,7 @@ export default function PersonalStudyListPage() {
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-1">Personal AI Study</h1>
-          <p className="text-gray-600">Interactive tutoring sessions powered by AI</p>
+          <p className="text-muted-foreground">Interactive tutoring sessions powered by AI</p>
         </div>
         <Link href="/dashboard/study/personal/new" className="bg-primary hover:opacity-90 text-primary-foreground px-6 py-2 rounded-lg font-medium transition-opacity flex items-center gap-2">
           <Plus size={20} />
@@ -78,7 +78,7 @@ export default function PersonalStudyListPage() {
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading your sessions...</p>
+            <p className="text-muted-foreground">Loading your sessions...</p>
           </div>
         </div>
       )}
@@ -88,8 +88,8 @@ export default function PersonalStudyListPage() {
         <div className="text-center py-16 bg-gradient-to-br from-primary/5 to-primary/10 rounded-lg border-2 border-dashed border-primary/20">
           <BookOpen size={48} className="text-primary/40 mx-auto mb-4" />
           <h3 className="text-2xl font-semibold text-gray-900 mb-2">No study sessions yet</h3>
-          <p className="text-gray-600 mb-2">Create your first personal AI study session</p>
-          <p className="text-sm text-gray-500 mb-6">Upload materials or select existing ones and let AI tutor you</p>
+          <p className="text-muted-foreground mb-2">Create your first personal AI study session</p>
+          <p className="text-sm text-muted-foreground mb-6">Upload materials or select existing ones and let AI tutor you</p>
           <Link href="/dashboard/study/personal/new" className="bg-primary hover:opacity-90 text-primary-foreground px-6 py-2 rounded-lg font-medium transition-opacity inline-block">
             Start Your First Session
           </Link>
@@ -102,11 +102,11 @@ export default function PersonalStudyListPage() {
           {sessions.map((s) => (
             <div
               key={s.id}
-              className="bg-white rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-200 overflow-hidden group"
+              className="bg-card rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-200 overflow-hidden group"
             >
               <Link
                 href={`/dashboard/study/personal/${s.id}`}
-                className="block p-6 hover:bg-gray-50 transition-colors"
+                className="block p-6 hover:bg-muted transition-colors"
               >
                 <div className="flex items-start justify-between mb-3">
                   <BookOpen size={24} className="text-primary" />
@@ -115,15 +115,15 @@ export default function PersonalStudyListPage() {
                   {s.title}
                 </h3>
                 {s.courseCode && (
-                  <p className="text-sm text-gray-600 mb-3">{s.courseCode}</p>
+                  <p className="text-sm text-muted-foreground mb-3">{s.courseCode}</p>
                 )}
-                <div className="flex items-center gap-1 text-sm text-gray-500">
+                <div className="flex items-center gap-1 text-sm text-muted-foreground">
                   <Calendar size={16} />
                   <span>{new Date(s.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                 </div>
               </Link>
               
-              <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
+              <div className="px-6 py-3 bg-muted border-t border-gray-200 flex justify-between items-center">
                 <Link
                   href={`/dashboard/study/personal/${s.id}`}
                   className="text-primary hover:text-primary/80 font-medium text-sm"

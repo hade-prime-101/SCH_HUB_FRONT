@@ -31,7 +31,7 @@ const ASSIGNABLE_ROLES: { value: UserRole; label: string; description: string; b
     value:       "STUDENT",
     label:       "Student",
     description: "Standard student access",
-    badge:       "bg-blue-100 text-blue-700",
+    badge:       "bg-accent text-primary",
   },
   {
     value:       "COURSE_REP",
@@ -60,7 +60,7 @@ const ASSIGNABLE_ROLES: { value: UserRole; label: string; description: string; b
 ];
 
 const ROLE_BADGE: Record<string, string> = {
-  STUDENT:             "bg-blue-100 text-blue-700",
+  STUDENT:             "bg-accent text-primary",
   COURSE_REP:          "bg-violet-100 text-violet-700",
   AUTHORIZED_UPLOADER: "bg-amber-100 text-amber-700",
   EVENT_ORCHESTRATOR:  "bg-emerald-100 text-emerald-700",

@@ -34,13 +34,13 @@ export default function MaterialDetailPage() {
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-2">{material.title}</h1>
-      <p className="text-gray-600">{material.courseCode} – {material.courseTitle}</p>
+      <p className="text-muted-foreground">{material.courseCode} – {material.courseTitle}</p>
       <p className="my-4">{material.description}</p>
       <div className="flex gap-4">
-        <button onClick={handleDownload} className="bg-green-600 text-white px-4 py-2 rounded">
+        <button onClick={handleDownload} className="bg-success text-primary-foreground px-4 py-2 rounded">
           Download
         </button>
-        <button onClick={handleBookmark} className="bg-yellow-500 text-white px-4 py-2 rounded">
+        <button onClick={handleBookmark} className="bg-yellow-500 text-primary-foreground px-4 py-2 rounded">
           Bookmark
         </button>
       </div>
@@ -49,7 +49,7 @@ export default function MaterialDetailPage() {
         <select value={rating} onChange={e => setRating(Number(e.target.value))} className="border p-1">
           {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
         </select>
-        <button onClick={handleRate} className="ml-2 bg-blue-600 text-white px-3 py-1 rounded">Submit</button>
+        <button onClick={handleRate} className="ml-2 bg-primary text-primary-foreground px-3 py-1 rounded">Submit</button>
       </div>
     </div>
   );

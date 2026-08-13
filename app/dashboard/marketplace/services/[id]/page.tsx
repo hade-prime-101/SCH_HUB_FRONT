@@ -31,10 +31,10 @@ export default function ServiceDetailPage() {
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold">{service.title}</h1>
       <p>{service.description}</p>
-      <p className="text-sm text-gray-500 mt-2">{service.category} · ₦{service.price}</p>
+      <p className="text-sm text-muted-foreground mt-2">{service.category} · ₦{service.price}</p>
       <div className="flex gap-3 mt-4">
         <Link href={`/dashboard/marketplace/services/${id}/edit`} className="bg-primary text-primary-foreground px-3 py-1 rounded">Edit</Link>
-        <button onClick={handleDelete} className="bg-destructive text-white px-3 py-1 rounded">Delete</button>
+        <button onClick={handleDelete} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Delete</button>
         <button onClick={handleReport} className="text-red-500 underline">Report</button>
       </div>
     </div>

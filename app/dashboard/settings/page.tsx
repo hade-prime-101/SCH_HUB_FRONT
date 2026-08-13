@@ -21,7 +21,7 @@ export default function SettingsPage() {
   return (
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Settings</h1>
-      <div className="bg-white shadow rounded p-6 space-y-4">
+      <div className="bg-card shadow rounded p-6 space-y-4">
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={emailEnabled} onChange={(e) => setEmailEnabled(e.target.checked)} />
           Email notifications
@@ -30,7 +30,7 @@ export default function SettingsPage() {
           <input type="checkbox" checked={pushEnabled} onChange={(e) => setPushEnabled(e.target.checked)} />
           Push notifications
         </label>
-        <button onClick={handleSave} className="bg-blue-600 text-white px-4 py-2 rounded w-full">Save</button>
+        <button onClick={handleSave} className="bg-primary text-primary-foreground px-4 py-2 rounded w-full">Save</button>
       </div>
     </div>
   );

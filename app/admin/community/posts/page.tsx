@@ -38,7 +38,7 @@ export default function AdminPostsPage() {
       {posts.map((post) => (
         <div
           key={post.id}
-          className="bg-white shadow rounded p-4 mb-3 flex justify-between items-start"
+          className="bg-card shadow rounded p-4 mb-3 flex justify-between items-start"
         >
           <div>
             <div className="flex items-center gap-2">
@@ -47,19 +47,19 @@ export default function AdminPostsPage() {
               )}
               <Link
                 href={`/dashboard/community/posts/${post.id}`}
-                className="font-medium text-blue-600 hover:underline"
+                className="font-medium text-primary hover:underline"
               >
                 {post.title}
               </Link>
             </div>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               by {post.author.name} · {post.upvotes} upvotes · {post.comments.length} comments
             </p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => handlePin(post.id, post.isPinned)}
-              className="text-sm bg-gray-200 px-2 py-1 rounded"
+              className="text-sm bg-secondary/50 px-2 py-1 rounded"
             >
               {post.isPinned ? "Unpin" : "Pin"}
             </button>
@@ -77,7 +77,7 @@ export default function AdminPostsPage() {
           <button
             disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Prev
           </button>
@@ -85,7 +85,7 @@ export default function AdminPostsPage() {
           <button
             disabled={page * limit >= total}
             onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Next
           </button>

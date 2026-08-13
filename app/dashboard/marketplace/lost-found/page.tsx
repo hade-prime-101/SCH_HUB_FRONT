@@ -44,7 +44,7 @@ export default function LostFoundPage() {
         </button>
       </div>
       {showForm && (
-        <form onSubmit={handleCreate} className="bg-white shadow rounded p-4 mb-6 space-y-3">
+        <form onSubmit={handleCreate} className="bg-card shadow rounded p-4 mb-6 space-y-3">
           <input type="text" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="border p-2 w-full" required />
           <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="border p-2 w-full" required />
           <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value as 'LOST' | 'FOUND' })} className="border p-2 w-full">
@@ -52,16 +52,16 @@ export default function LostFoundPage() {
             <option value="FOUND">Found</option>
           </select>
           <input type="text" placeholder="Location" value={form.location || ""} onChange={(e) => setForm({ ...form, location: e.target.value })} className="border p-2 w-full" />
-          <button type="submit" className="bg-success text-white px-4 py-2 rounded">Submit</button>
+          <button type="submit" className="bg-success text-primary-foreground px-4 py-2 rounded">Submit</button>
         </form>
       )}
       {items.map((item) => (
-        <div key={item.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between items-center">
+        <div key={item.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between items-center">
           <div>
             <span className="font-medium">{item.title}</span>
-            <span className="ml-2 text-xs bg-gray-200 px-2 py-0.5 rounded">{item.type}</span>
+            <span className="ml-2 text-xs bg-secondary/50 px-2 py-0.5 rounded">{item.type}</span>
             <p className="text-sm text-muted-foreground">{item.description}</p>
-            <p className="text-xs text-gray-400">{item.location}</p>
+            <p className="text-xs text-muted-foreground/70">{item.location}</p>
           </div>
           {!item.resolved && (
             <button onClick={() => handleResolve(item.id)} className="text-sm bg-success/10 text-success px-2 py-1 rounded">

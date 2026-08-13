@@ -31,12 +31,12 @@ export default function JobDetailPage() {
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold">{job.title}</h1>
       <p className="text-sm text-muted-foreground">{job.company} · {job.location}</p>
-      <p className="text-sm text-gray-500">{job.salary}</p>
+      <p className="text-sm text-muted-foreground">{job.salary}</p>
       <p className="mt-4">{job.description}</p>
-      <p className="text-xs text-gray-400 mt-2">Status: {job.status}</p>
+      <p className="text-xs text-muted-foreground/70 mt-2">Status: {job.status}</p>
       <div className="flex gap-3 mt-4">
         <Link href={`/dashboard/marketplace/jobs/${id}/edit`} className="bg-primary text-primary-foreground px-3 py-1 rounded">Edit</Link>
-        <button onClick={handleDelete} className="bg-destructive text-white px-3 py-1 rounded">Delete</button>
+        <button onClick={handleDelete} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Delete</button>
         <button onClick={handleReport} className="text-destructive underline">Report</button>
       </div>
     </div>

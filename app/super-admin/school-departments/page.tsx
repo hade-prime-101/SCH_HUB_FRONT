@@ -21,7 +21,7 @@ export default function SchoolDepartmentsPage() {
       />
       <ul>
         {departments.map((d) => (
-          <li key={d.id} className="bg-white shadow rounded p-3 mb-2">
+          <li key={d.id} className="bg-card shadow rounded p-3 mb-2">
             {d.name} ({d.shortCode})
           </li>
         ))}

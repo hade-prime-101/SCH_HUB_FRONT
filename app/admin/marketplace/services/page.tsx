@@ -18,14 +18,14 @@ export default function AdminServicesPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Pending Services</h1>
       {services.map(svc => (
-        <div key={svc.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between">
+        <div key={svc.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between">
           <div>
             <p className="font-medium">{svc.title}</p>
-            <p className="text-sm text-gray-600">{svc.category} · ₦{svc.price}</p>
+            <p className="text-sm text-muted-foreground">{svc.category} · ₦{svc.price}</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => handleModerate(svc.id, 'APPROVE')} className="bg-green-600 text-white px-3 py-1 rounded">Approve</button>
-            <button onClick={() => handleModerate(svc.id, 'REJECT')} className="bg-red-600 text-white px-3 py-1 rounded">Reject</button>
+            <button onClick={() => handleModerate(svc.id, 'APPROVE')} className="bg-success text-primary-foreground px-3 py-1 rounded">Approve</button>
+            <button onClick={() => handleModerate(svc.id, 'REJECT')} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Reject</button>
           </div>
         </div>
       ))}

@@ -23,13 +23,13 @@ export default function WeeklyPlannerPage() {
         <div className="flex gap-2">
           <button
             onClick={() => setWeekOffset((o) => o - 1)}
-            className="px-3 py-1 bg-gray-200 rounded"
+            className="px-3 py-1 bg-secondary/50 rounded"
           >
             Previous
           </button>
           <button
             onClick={() => setWeekOffset((o) => o + 1)}
-            className="px-3 py-1 bg-gray-200 rounded"
+            className="px-3 py-1 bg-secondary/50 rounded"
           >
             Next
           </button>
@@ -38,12 +38,12 @@ export default function WeeklyPlannerPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {data.days.map((day) => (
-          <div key={day.date} className="bg-white shadow rounded p-3">
+          <div key={day.date} className="bg-card shadow rounded p-3">
             <p className="font-semibold mb-2">
               {new Date(day.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
             </p>
             {day.events.length === 0 ? (
-              <p className="text-sm text-gray-400">No events</p>
+              <p className="text-sm text-muted-foreground/70">No events</p>
             ) : (
               <ul className="space-y-2">
                 {day.events.map((event) => (

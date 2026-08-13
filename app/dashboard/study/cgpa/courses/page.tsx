@@ -67,7 +67,7 @@ export default function CoursesPage() {
         <h1 className="text-2xl font-bold">Courses</h1>
         <button
           onClick={() => { setShowForm(true); setEditingId(null); setForm(emptyCourse); }}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded"
         >
           Add Course
         </button>
@@ -75,7 +75,7 @@ export default function CoursesPage() {
 
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded p-6 w-full max-w-md">
+          <div className="bg-card rounded p-6 w-full max-w-md">
             <h2 className="text-lg font-semibold mb-4">
               {editingId ? "Edit Course" : "New Course"}
             </h2>
@@ -110,10 +110,10 @@ export default function CoursesPage() {
                 className="border p-2 w-full"
               />
               <div className="flex justify-end space-x-2">
-                <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-200 rounded">
+                <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-secondary/50 rounded">
                   Cancel
                 </button>
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
+                <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded">
                   {editingId ? "Update" : "Create"}
                 </button>
               </div>
@@ -123,11 +123,11 @@ export default function CoursesPage() {
       )}
 
       {courses.length === 0 ? (
-        <p className="text-gray-500">No courses. Add one to start.</p>
+        <p className="text-muted-foreground">No courses. Add one to start.</p>
       ) : (
-        <div className="bg-white shadow rounded overflow-hidden">
+        <div className="bg-card shadow rounded overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-muted">
               <tr>
                 <th className="text-left p-3">Code</th>
                 <th className="text-left p-3">Name</th>
@@ -138,7 +138,7 @@ export default function CoursesPage() {
             </thead>
             <tbody className="divide-y">
               {courses.map((c) => (
-                <tr key={c.id} className="hover:bg-gray-50">
+                <tr key={c.id} className="hover:bg-muted">
                   <td className="p-3">{c.code}</td>
                   <td className="p-3">{c.name}</td>
                   <td className="p-3">{c.creditHours}</td>
@@ -146,7 +146,7 @@ export default function CoursesPage() {
                   <td className="p-3 text-right">
                     <button
                       onClick={() => startEdit(c)}
-                      className="text-blue-600 hover:underline mr-3"
+                      className="text-primary hover:underline mr-3"
                     >
                       Edit
                     </button>

@@ -18,7 +18,7 @@ export default function NewPost() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Create Post</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded-lg p-6 space-y-4">
         <input
           type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}
           className="border p-2 w-full" required

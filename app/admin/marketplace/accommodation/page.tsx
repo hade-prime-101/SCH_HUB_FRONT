@@ -23,14 +23,14 @@ export default function AdminAccommodationPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Pending Accommodation</h1>
       {items.map(acc => (
-        <div key={acc.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between">
+        <div key={acc.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between">
           <div>
             <p className="font-medium">{acc.title}</p>
-            <p className="text-sm text-gray-600">{acc.type} · {acc.location} · ₦{acc.price}</p>
+            <p className="text-sm text-muted-foreground">{acc.type} · {acc.location} · ₦{acc.price}</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => handleModerate(acc.id, 'APPROVE')} className="bg-green-600 text-white px-3 py-1 rounded">Approve</button>
-            <button onClick={() => handleModerate(acc.id, 'REJECT')} className="bg-red-600 text-white px-3 py-1 rounded">Reject</button>
+            <button onClick={() => handleModerate(acc.id, 'APPROVE')} className="bg-success text-primary-foreground px-3 py-1 rounded">Approve</button>
+            <button onClick={() => handleModerate(acc.id, 'REJECT')} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Reject</button>
           </div>
         </div>
       ))}

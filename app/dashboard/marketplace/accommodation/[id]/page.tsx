@@ -33,10 +33,10 @@ export default function AccommodationDetailPage() {
     <div className="max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold">{acc.title}</h1>
       <p>{acc.description}</p>
-      <p className="text-sm text-gray-500">{acc.type} · {acc.location} · ₦{acc.price}</p>
+      <p className="text-sm text-muted-foreground">{acc.type} · {acc.location} · ₦{acc.price}</p>
       <div className="flex gap-2 mt-4">
         <Link href={`/dashboard/marketplace/accommodation/${id}/edit`} className="bg-primary text-primary-foreground px-3 py-1 rounded">Edit</Link>
-        <button onClick={handleDelete} className="bg-destructive text-white px-3 py-1 rounded">Delete</button>
+        <button onClick={handleDelete} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Delete</button>
         <button onClick={handleReport} className="text-destructive underline">Report</button>
       </div>
     </div>

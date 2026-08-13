@@ -72,7 +72,7 @@ export default function RemindersPage() {
             setEditingId(null);
             setForm({ title: "", description: "", dueDate: "" });
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded"
         >
           New Reminder
         </button>
@@ -81,7 +81,7 @@ export default function RemindersPage() {
       {/* Form modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded p-6 w-96">
+          <div className="bg-card rounded p-6 w-96">
             <h2 className="text-lg font-semibold mb-4">
               {editingId ? "Edit" : "Create"} Reminder
             </h2>
@@ -107,13 +107,13 @@ export default function RemindersPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowForm(false)}
-                className="bg-gray-200 px-4 py-2 rounded"
+                className="bg-secondary/50 px-4 py-2 rounded"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="bg-green-600 text-white px-4 py-2 rounded"
+                className="bg-success text-primary-foreground px-4 py-2 rounded"
               >
                 Save
               </button>
@@ -124,14 +124,14 @@ export default function RemindersPage() {
 
       {/* Reminder list */}
       {reminders.length === 0 ? (
-        <p className="text-gray-500">No reminders.</p>
+        <p className="text-muted-foreground">No reminders.</p>
       ) : (
         <ul className="space-y-2">
           {reminders.map((r) => (
             <li
               key={r.id}
               className={`p-3 rounded border flex justify-between items-start ${
-                r.isCompleted ? "bg-gray-50 opacity-70" : "bg-white"
+                r.isCompleted ? "bg-muted opacity-70" : "bg-card"
               }`}
             >
               <div>
@@ -139,9 +139,9 @@ export default function RemindersPage() {
                   {r.title}
                 </p>
                 {r.description && (
-                  <p className="text-sm text-gray-600">{r.description}</p>
+                  <p className="text-sm text-muted-foreground">{r.description}</p>
                 )}
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-muted-foreground/70">
                   Due: {new Date(r.dueDate).toLocaleString()}
                 </p>
               </div>
@@ -156,7 +156,7 @@ export default function RemindersPage() {
                 )}
                 <button
                   onClick={() => handleEdit(r)}
-                  className="text-blue-600 hover:underline"
+                  className="text-primary hover:underline"
                 >
                   Edit
                 </button>
@@ -178,7 +178,7 @@ export default function RemindersPage() {
           <button
             disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Previous
           </button>
@@ -188,7 +188,7 @@ export default function RemindersPage() {
           <button
             disabled={page * limit >= total}
             onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Next
           </button>

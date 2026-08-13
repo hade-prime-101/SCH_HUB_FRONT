@@ -28,7 +28,7 @@ export default function RequestSummaryPage() {
   return (
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Request AI Summary</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         {error && <div className="bg-destructive/5 border border-destructive/20 text-destructive p-3 rounded">{error}</div>}
         <div>
           <label className="block mb-1">Material ID</label>
@@ -41,7 +41,7 @@ export default function RequestSummaryPage() {
             placeholder="Paste material ID"
           />
         </div>
-        <button type="submit" className="bg-success text-white px-6 py-2 rounded">
+        <button type="submit" className="bg-success text-primary-foreground px-6 py-2 rounded">
           Request Summary
         </button>
       </form>

@@ -58,17 +58,17 @@ export default function AdminEventDetailPage() {
       <div className="flex justify-between items-start mb-4">
         <h1 className="text-2xl font-bold">{event.title}</h1>
         <div className="flex gap-2">
-          <Link href={`/dashboard/admin/school/events/${id}/edit`} className="bg-blue-600 text-white px-3 py-1 rounded">
+          <Link href={`/dashboard/admin/school/events/${id}/edit`} className="bg-primary text-primary-foreground px-3 py-1 rounded">
             Edit
           </Link>
-          <button onClick={handleDeleteEvent} className="bg-red-600 text-white px-3 py-1 rounded">
+          <button onClick={handleDeleteEvent} className="bg-destructive text-primary-foreground px-3 py-1 rounded">
             Delete
           </button>
         </div>
       </div>
 
-      <p className="text-gray-600 mb-2">{event.description}</p>
-      <p className="text-sm text-gray-500">{new Date(event.date).toLocaleString()} @ {event.venue}</p>
+      <p className="text-muted-foreground mb-2">{event.description}</p>
+      <p className="text-sm text-muted-foreground">{new Date(event.date).toLocaleString()} @ {event.venue}</p>
       {event.imageUrl && <img src={event.imageUrl} className="mt-4 max-w-md rounded" />}
 
       {/* Image upload */}
@@ -80,7 +80,7 @@ export default function AdminEventDetailPage() {
       {/* Tickets section */}
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-3">Tickets ({tickets.length})</h2>
-        {tickets.length === 0 && <p className="text-gray-500">No tickets submitted yet.</p>}
+        {tickets.length === 0 && <p className="text-muted-foreground">No tickets submitted yet.</p>}
         {tickets.map((ticket) => (
           <div key={ticket.id} className="border rounded p-3 mb-2 flex justify-between items-center">
             <div>
@@ -90,8 +90,8 @@ export default function AdminEventDetailPage() {
             </div>
             {ticket.status === 'PENDING' && (
               <div className="flex gap-2">
-                <button onClick={() => handleApprove(ticket.id)} className="bg-green-600 text-white px-3 py-1 rounded text-sm">Approve</button>
-                <button onClick={() => handleReject(ticket.id)} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Reject</button>
+                <button onClick={() => handleApprove(ticket.id)} className="bg-success text-primary-foreground px-3 py-1 rounded text-sm">Approve</button>
+                <button onClick={() => handleReject(ticket.id)} className="bg-destructive text-primary-foreground px-3 py-1 rounded text-sm">Reject</button>
               </div>
             )}
           </div>

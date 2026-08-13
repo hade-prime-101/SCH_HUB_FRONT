@@ -40,13 +40,13 @@ export default function MapEntrancesPage() {
       <h1 className="text-2xl font-bold mb-4">Map Entrances (Super Admin)</h1>
       <button
         onClick={() => setShowForm(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded mb-4"
+        className="bg-primary text-primary-foreground px-4 py-2 rounded mb-4"
       >
         Add Entrance
       </button>
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded p-6 w-96">
+          <div className="bg-card rounded p-6 w-96">
             <h2 className="text-lg font-semibold mb-4">New Entrance</h2>
             <input
               type="text"
@@ -96,10 +96,10 @@ export default function MapEntrancesPage() {
               className="border p-2 w-full mb-4"
             />
             <div className="flex justify-end gap-2">
-              <button onClick={() => setShowForm(false)} className="bg-gray-200 px-4 py-2 rounded">
+              <button onClick={() => setShowForm(false)} className="bg-secondary/50 px-4 py-2 rounded">
                 Cancel
               </button>
-              <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded">
+              <button onClick={handleSave} className="bg-success text-primary-foreground px-4 py-2 rounded">
                 Save
               </button>
             </div>
@@ -108,7 +108,7 @@ export default function MapEntrancesPage() {
       )}
       <ul>
         {entrances.map((e) => (
-          <li key={e.id} className="flex justify-between items-center bg-white shadow rounded p-3 mb-2">
+          <li key={e.id} className="flex justify-between items-center bg-card shadow rounded p-3 mb-2">
             <span>{e.properties.name} (Feature: {e.featureId})</span>
             <button onClick={() => handleDelete(e.id)} className="text-red-600">
               Delete

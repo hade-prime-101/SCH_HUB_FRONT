@@ -36,7 +36,7 @@ export default function EditServicePage() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Edit Service</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="border p-2 w-full" required />
         <textarea value={description} onChange={e => setDescription(e.target.value)} className="border p-2 w-full" required />
         <select value={category} onChange={e => setCategory(e.target.value as ServiceCategory)} className="border p-2 w-full">

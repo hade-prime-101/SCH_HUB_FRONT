@@ -19,7 +19,7 @@ export default function NewRoommatePage() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">New Roommate Request</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} className="border p-2 w-full" required />
         <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} className="border p-2 w-full" required />
         <input type="number" placeholder="Budget (₦)" value={budget} onChange={(e) => setBudget(e.target.value)} className="border p-2 w-full" required />

@@ -16,7 +16,7 @@ export default function AdminStudyLayout({ children }: { children: React.ReactNo
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-64 bg-gray-50 border-r p-4">
+      <aside className="w-64 bg-muted border-r p-4">
         <h2 className="text-lg font-bold mb-4">Study Admin</h2>
         <nav className="space-y-1">
           {links.map((link) => {
@@ -27,8 +27,8 @@ export default function AdminStudyLayout({ children }: { children: React.ReactNo
                 href={link.href}
                 className={`block px-3 py-2 rounded text-sm ${
                   isActive
-                    ? "bg-blue-100 text-blue-700 font-medium"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-accent text-primary font-medium"
+                    : "text-secondary-foreground hover:bg-muted/80"
                 }`}
               >
                 {link.label}

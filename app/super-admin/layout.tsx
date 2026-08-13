@@ -25,7 +25,7 @@ export default function SuperAdminLayout({ children }: { children: React.ReactNo
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-64 bg-gray-900 text-white p-4">
+      <aside className="w-64 bg-sidebar text-sidebar-foreground p-4">
         <h2 className="text-lg font-bold mb-4">Super Admin</h2>
         <nav className="space-y-1">
           {links.map((l) => (
@@ -33,7 +33,7 @@ export default function SuperAdminLayout({ children }: { children: React.ReactNo
               key={l.href}
               href={l.href}
               className={`block px-3 py-2 rounded text-sm ${
-                pathname === l.href ? "bg-blue-700 text-white" : "text-gray-300 hover:bg-gray-800"
+                pathname === l.href ? "bg-sidebar-primary text-sidebar-primary-foreground" : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               }`}
             >
               {l.label}
@@ -41,7 +41,7 @@ export default function SuperAdminLayout({ children }: { children: React.ReactNo
           ))}
         </nav>
       </aside>
-      <main className="flex-1 p-6 bg-gray-50">{children}</main>
+      <main className="flex-1 p-6 bg-background">{children}</main>
     </div>
   );
 }

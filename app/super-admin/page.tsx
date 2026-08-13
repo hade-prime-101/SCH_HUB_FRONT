@@ -23,10 +23,10 @@ export default function SuperAdminDashboard() {
         <p>Loading stats...</p>
       )}
       <div className="mt-8 grid grid-cols-2 gap-4">
-        <Link href="/dashboard/super-admin/admins" className="bg-white shadow rounded p-4 hover:shadow-md">
+        <Link href="/dashboard/super-admin/admins" className="bg-card shadow rounded p-4 hover:shadow-md">
           Manage Admins
         </Link>
-        <Link href="/dashboard/super-admin/schools" className="bg-white shadow rounded p-4 hover:shadow-md">
+        <Link href="/dashboard/super-admin/schools" className="bg-card shadow rounded p-4 hover:shadow-md">
           Manage Schools
         </Link>
       </div>
@@ -36,8 +36,8 @@ export default function SuperAdminDashboard() {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="bg-white shadow rounded p-4">
-      <p className="text-sm text-gray-500">{label}</p>
+    <div className="bg-card shadow rounded p-4">
+      <p className="text-sm text-muted-foreground">{label}</p>
       <p className="text-2xl font-bold">{value}</p>
     </div>
   );

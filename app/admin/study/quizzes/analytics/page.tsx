@@ -62,7 +62,7 @@ export default function AdminQuizAnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-card rounded-2xl p-6 border border-border">
             <div className="flex items-center gap-3 mb-3">
-              <Users className="w-6 h-6 text-blue-600" />
+              <Users className="w-6 h-6 text-primary" />
               <h3 className="font-medium text-foreground">Attempts</h3>
             </div>
             <p className="text-3xl font-bold text-foreground">

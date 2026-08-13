@@ -22,10 +22,10 @@ export default function QuizResultsPage() {
       ) : (
         <ul className="space-y-3">
           {attempts.map((att, i) => (
-            <li key={att.id} className="bg-white shadow rounded p-4">
+            <li key={att.id} className="bg-card shadow rounded p-4">
               <p className="font-medium">Attempt #{i + 1}</p>
               <p>Score: {att.score} / {att.total}</p>
-              <p className="text-sm text-gray-500">{new Date(att.submittedAt).toLocaleString()}</p>
+              <p className="text-sm text-muted-foreground">{new Date(att.submittedAt).toLocaleString()}</p>
             </li>
           ))}
         </ul>

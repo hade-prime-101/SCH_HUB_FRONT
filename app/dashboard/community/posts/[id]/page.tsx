@@ -49,17 +49,17 @@ export default function PostDetail() {
       <p className="text-muted-foreground mb-4">by {post.author.name} · {post.upvotes} upvotes</p>
       <div className="prose mb-6">{post.content}</div>
       <div className="flex gap-3 mb-6">
-        <button onClick={handleUpvote} className="bg-gray-200 px-3 py-1 rounded">👍 Upvote</button>
+        <button onClick={handleUpvote} className="bg-secondary/50 px-3 py-1 rounded">👍 Upvote</button>
         <button onClick={handleReport} className="text-destructive underline text-sm">Report</button>
       </div>
 
       <h2 className="text-lg font-semibold mb-3">Comments ({post.comments.length})</h2>
       <div className="space-y-3 mb-6">
         {post.comments.map((c) => (
-          <div key={c.id} className="bg-gray-50 p-3 rounded">
+          <div key={c.id} className="bg-muted p-3 rounded">
             <p className="font-medium text-sm">{c.author.name}</p>
             <p>{c.content}</p>
-            <p className="text-xs text-gray-400">{c.upvotes} upvotes</p>
+            <p className="text-xs text-muted-foreground/70">{c.upvotes} upvotes</p>
           </div>
         ))}
       </div>

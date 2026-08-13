@@ -18,7 +18,7 @@ export default function NewEventPage() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Create Event</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         <input type="text" placeholder="Title" value={form.title} onChange={e => setForm({...form, title: e.target.value})} className="border p-2 w-full" required />
         <textarea placeholder="Description" value={form.description} onChange={e => setForm({...form, description: e.target.value})} className="border p-2 w-full" required />
         <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} className="border p-2 w-full" required />
@@ -26,7 +26,7 @@ export default function NewEventPage() {
         <input type="text" placeholder="Venue" value={form.venue} onChange={e => setForm({...form, venue: e.target.value})} className="border p-2 w-full" />
         <input type="text" placeholder="Department ID (optional)" value={form.departmentId} onChange={e => setForm({...form, departmentId: e.target.value})} className="border p-2 w-full" />
         <input type="text" placeholder="Level (optional)" value={form.level} onChange={e => setForm({...form, level: e.target.value})} className="border p-2 w-full" />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Create</button>
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">Create</button>
       </form>
     </div>
   );

@@ -17,20 +17,20 @@ export default function AnalyticsPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">My Analytics</h1>
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white shadow rounded p-6">
-          <p className="text-gray-500">Materials Uploaded</p>
+        <div className="bg-card shadow rounded p-6">
+          <p className="text-muted-foreground">Materials Uploaded</p>
           <p className="text-3xl font-bold">{data.materialsUploaded}</p>
         </div>
-        <div className="bg-white shadow rounded p-6">
-          <p className="text-gray-500">Quizzes Created</p>
+        <div className="bg-card shadow rounded p-6">
+          <p className="text-muted-foreground">Quizzes Created</p>
           <p className="text-3xl font-bold">{data.quizzesCreated}</p>
         </div>
-        <div className="bg-white shadow rounded p-6">
-          <p className="text-gray-500">Avg Quiz Score</p>
+        <div className="bg-card shadow rounded p-6">
+          <p className="text-muted-foreground">Avg Quiz Score</p>
           <p className="text-3xl font-bold">{data.averageQuizScore?.toFixed(1)}%</p>
         </div>
-        <div className="bg-white shadow rounded p-6">
-          <p className="text-gray-500">Total Downloads</p>
+        <div className="bg-card shadow rounded p-6">
+          <p className="text-muted-foreground">Total Downloads</p>
           <p className="text-3xl font-bold">{data.totalDownloads}</p>
         </div>
       </div>

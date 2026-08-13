@@ -78,7 +78,7 @@ export default function EditQuizPage() {
 
       <h2 className="text-lg font-semibold mb-2">Questions</h2>
       {questions.map((q, qi) => (
-        <div key={qi} className="bg-white shadow rounded p-4 mb-4 relative">
+        <div key={qi} className="bg-card shadow rounded p-4 mb-4 relative">
           <button
             onClick={() => removeQuestion(qi)}
             className="absolute top-2 right-2 text-destructive"
@@ -136,7 +136,7 @@ export default function EditQuizPage() {
         </div>
       ))}
 
-      <button onClick={addQuestion} className="bg-gray-200 px-4 py-2 rounded mb-4">
+      <button onClick={addQuestion} className="bg-secondary/50 px-4 py-2 rounded mb-4">
         + Add Question
       </button>
 

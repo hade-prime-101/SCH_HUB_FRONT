@@ -26,19 +26,19 @@ export default function AdminMaterialReviewPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Review Material</h1>
-      <div className="bg-white shadow rounded p-6 mb-6">
+      <div className="bg-card shadow rounded p-6 mb-6">
         <h2 className="text-xl font-semibold mb-2">{material.title}</h2>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           {material.courseCode} - {material.courseTitle}
         </p>
         <p className="mt-2">{material.description}</p>
-        <p className="text-sm text-gray-400 mt-2">Visibility: {material.visibility}</p>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-muted-foreground/70 mt-2">Visibility: {material.visibility}</p>
+        <p className="text-sm text-muted-foreground/70">
           Uploaded by {material.userId} on {new Date(material.createdAt).toLocaleDateString()}
         </p>
       </div>
 
-      <div className="bg-white shadow rounded p-6 space-y-4">
+      <div className="bg-card shadow rounded p-6 space-y-4">
         <textarea
           placeholder="Review note (optional)"
           value={note}
@@ -49,13 +49,13 @@ export default function AdminMaterialReviewPage() {
         <div className="flex gap-3">
           <button
             onClick={() => handleDecision("APPROVE")}
-            className="bg-green-600 text-white px-6 py-2 rounded"
+            className="bg-success text-primary-foreground px-6 py-2 rounded"
           >
             Approve
           </button>
           <button
             onClick={() => handleDecision("REJECT")}
-            className="bg-red-600 text-white px-6 py-2 rounded"
+            className="bg-destructive text-primary-foreground px-6 py-2 rounded"
           >
             Reject
           </button>

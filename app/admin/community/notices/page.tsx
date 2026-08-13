@@ -43,19 +43,19 @@ export default function AdminNoticesPage() {
         <h1 className="text-2xl font-bold">Notice Board</h1>
         <Link
           href="/dashboard/admin/community/notices/new"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded"
         >
           New Notice
         </Link>
       </div>
 
       {notices.length === 0 ? (
-        <p className="text-gray-500">No notices posted yet.</p>
+        <p className="text-muted-foreground">No notices posted yet.</p>
       ) : (
         notices.map((notice) => (
           <div
             key={notice.id}
-            className="bg-white shadow rounded p-4 mb-3 flex justify-between items-start"
+            className="bg-card shadow rounded p-4 mb-3 flex justify-between items-start"
           >
             <div>
               <div className="flex items-center gap-2">
@@ -64,15 +64,15 @@ export default function AdminNoticesPage() {
                 )}
                 <span className="font-medium">{notice.title}</span>
               </div>
-              <p className="text-sm text-gray-600 mt-1">{notice.content.slice(0, 150)}...</p>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-sm text-muted-foreground mt-1">{notice.content.slice(0, 150)}...</p>
+              <p className="text-xs text-muted-foreground/70 mt-1">
                 Posted {new Date(notice.createdAt).toLocaleDateString()} · {notice.upvotes} upvotes
               </p>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => handlePin(notice.id, notice.isPinned)}
-                className="text-sm bg-gray-200 px-2 py-1 rounded"
+                className="text-sm bg-secondary/50 px-2 py-1 rounded"
               >
                 {notice.isPinned ? "Unpin" : "Pin"}
               </button>
@@ -92,7 +92,7 @@ export default function AdminNoticesPage() {
           <button
             disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Prev
           </button>
@@ -100,7 +100,7 @@ export default function AdminNoticesPage() {
           <button
             disabled={page * limit >= total}
             onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Next
           </button>

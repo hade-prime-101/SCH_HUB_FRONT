@@ -29,7 +29,7 @@ export default function ImportGeoJsonPage() {
         <input type="checkbox" checked={dryRun} onChange={e => setDryRun(e.target.checked)} />
         Dry run (validate only)
       </label>
-      <button onClick={handleImport} className="mt-4 bg-green-600 text-white px-4 py-2 rounded">Import</button>
+      <button onClick={handleImport} className="mt-4 bg-success text-primary-foreground px-4 py-2 rounded">Import</button>
     </div>
   );
 }

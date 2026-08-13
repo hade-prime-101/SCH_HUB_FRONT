@@ -64,15 +64,15 @@ export default function CGPAPage() {
       </div>
 
       {cgpaData ? (
-        <div className="bg-white shadow rounded p-6 mb-6">
+        <div className="bg-card shadow rounded p-6 mb-6">
           <h2 className="text-xl font-semibold mb-2">Your Current CGPA</h2>
           <div className="flex gap-8">
             <div>
-              <p className="text-gray-500">CGPA</p>
+              <p className="text-muted-foreground">CGPA</p>
               <p className="text-4xl font-bold text-primary">{cgpaData.currentCGPA.toFixed(2)}</p>
             </div>
             <div>
-              <p className="text-gray-500">Total Credits</p>
+              <p className="text-muted-foreground">Total Credits</p>
               <p className="text-4xl font-bold">{cgpaData.totalCredits}</p>
             </div>
           </div>
@@ -94,11 +94,11 @@ export default function CGPAPage() {
       </div>
 
       {courses.length === 0 ? (
-        <p className="text-gray-500">No courses added yet.</p>
+        <p className="text-muted-foreground">No courses added yet.</p>
       ) : (
-        <div className="bg-white shadow rounded overflow-hidden">
+        <div className="bg-card shadow rounded overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-muted">
               <tr>
                 <th className="text-left p-3">Code</th>
                 <th className="text-left p-3">Name</th>
@@ -118,7 +118,7 @@ export default function CGPAPage() {
             </tbody>
           </table>
           {courses.length > 5 && (
-            <div className="p-3 text-center text-sm text-gray-500">
+            <div className="p-3 text-center text-sm text-muted-foreground">
               Showing 5 of {courses.length} courses.
             </div>
           )}

@@ -20,9 +20,9 @@ export default function MentorsList() {
         </Link>
       </div>
       {mentors.map((m) => (
-        <div key={m.id} className="bg-white shadow rounded p-4 mb-3">
+        <div key={m.id} className="bg-card shadow rounded p-4 mb-3">
           <p className="font-medium">{m.name}</p>
-          <p className="text-sm text-gray-500">{m.expertise.join(", ")}</p>
+          <p className="text-sm text-muted-foreground">{m.expertise.join(", ")}</p>
           <p className="text-sm">{m.bio}</p>
           <p className={`text-xs ${m.available ? "text-success" : "text-destructive"}`}>
             {m.available ? "Available" : "Unavailable"}

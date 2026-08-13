@@ -67,7 +67,7 @@ export default function EventDetailPage() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold">{event.title}</h1>
-      <p className="text-gray-600">{event.description}</p>
+      <p className="text-muted-foreground">{event.description}</p>
       <p className="text-sm mt-2">{new Date(event.date).toLocaleString()} @ {event.venue}</p>
       {event.imageUrl && <img src={event.imageUrl} className="mt-4 max-w-md rounded" />}
 
@@ -81,7 +81,7 @@ export default function EventDetailPage() {
           <label className="block text-sm font-medium">Set Reminder (minutes before)</label>
           <div className="flex gap-2">
             <input type="number" value={reminderMinutes} onChange={e => setReminderMinutes(Number(e.target.value))} className="border p-1 w-24" />
-            <button onClick={handleSetReminder} className="bg-blue-600 text-white px-3 py-1 rounded">Set</button>
+            <button onClick={handleSetReminder} className="bg-primary text-primary-foreground px-3 py-1 rounded">Set</button>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ export default function EventDetailPage() {
           ) : (
             <div className="flex gap-2">
               <input type="text" placeholder="Receipt URL" value={receiptUrl} onChange={e => setReceiptUrl(e.target.value)} className="border p-1 flex-1" />
-              <button onClick={handleSubmitReceipt} className="bg-green-600 text-white px-3 py-1 rounded">Submit Receipt</button>
+              <button onClick={handleSubmitReceipt} className="bg-success text-primary-foreground px-3 py-1 rounded">Submit Receipt</button>
             </div>
           )}
         </div>
@@ -101,7 +101,7 @@ export default function EventDetailPage() {
           <div>
             <h3 className="font-semibold">Ticket Management ({tickets.length})</h3>
             {tickets.map(ticket => (
-              <div key={ticket.id} className="bg-gray-50 p-2 mb-2 flex justify-between items-center">
+              <div key={ticket.id} className="bg-muted p-2 mb-2 flex justify-between items-center">
                 <span>{ticket.userId} - {ticket.status}</span>
                 {ticket.status === 'PENDING' && (
                   <div className="flex gap-2">

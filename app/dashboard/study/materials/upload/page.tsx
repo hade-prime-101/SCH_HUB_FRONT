@@ -68,13 +68,13 @@ export default function UploadMaterialPage() {
       <div className="flex space-x-4 mb-6">
         <button
           onClick={() => setMode("single")}
-          className={`px-4 py-2 rounded ${mode === "single" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${mode === "single" ? "bg-primary text-primary-foreground" : "bg-secondary/50"}`}
         >
           Single Upload
         </button>
         <button
           onClick={() => setMode("bulk")}
-          className={`px-4 py-2 rounded ${mode === "bulk" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${mode === "bulk" ? "bg-primary text-primary-foreground" : "bg-secondary/50"}`}
         >
           Bulk Upload
         </button>
@@ -88,7 +88,7 @@ export default function UploadMaterialPage() {
       )}
 
       {mode === "single" ? (
-        <form onSubmit={handleSingle} className="bg-white shadow rounded p-6 space-y-4 max-w-xl">
+        <form onSubmit={handleSingle} className="bg-card shadow rounded p-6 space-y-4 max-w-xl">
           <input type="file" onChange={e => setFile(e.target.files?.[0] || null)} required />
           <input
             type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)}
@@ -111,18 +111,18 @@ export default function UploadMaterialPage() {
             <option value="PRIVATE">Private</option>
             <option value="LINK_ONLY">Link Only</option>
           </select>
-          <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded">
+          <button type="submit" className="bg-primary text-primary-foreground px-6 py-2 rounded">
             Upload
           </button>
         </form>
       ) : (
-        <div className="bg-white shadow rounded p-6 max-w-xl space-y-4">
+        <div className="bg-card shadow rounded p-6 max-w-xl space-y-4">
           <input type="file" multiple onChange={e => setBulkFiles(Array.from(e.target.files || []))} />
           <textarea
             placeholder='[{"title":"...","visibility":"PUBLIC"}]' value={bulkJson}
             onChange={e => setBulkJson(e.target.value)} className="border p-2 w-full" rows={6}
           />
-          <button onClick={handleBulk} className="bg-green-600 text-white px-6 py-2 rounded">
+          <button onClick={handleBulk} className="bg-success text-primary-foreground px-6 py-2 rounded">
             Bulk Upload
           </button>
         </div>

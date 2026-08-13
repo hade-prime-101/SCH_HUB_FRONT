@@ -28,18 +28,18 @@ export default function SummariesListPage() {
         </Link>
       </div>
       {summaries.length === 0 ? (
-        <p className="text-gray-500">No summaries yet.</p>
+        <p className="text-muted-foreground">No summaries yet.</p>
       ) : (
         <div className="grid gap-4">
           {summaries.map((s) => (
-            <div key={s.materialId} className="bg-white shadow rounded p-4 flex justify-between items-center">
+            <div key={s.materialId} className="bg-card shadow rounded p-4 flex justify-between items-center">
               <div>
                 <Link href={`/dashboard/study/summaries/${s.materialId}`} className="font-medium text-primary hover:underline">
                   {s.title}
                 </Link>
-                <p className="text-sm text-gray-500">Status: {s.status}</p>
+                <p className="text-sm text-muted-foreground">Status: {s.status}</p>
               </div>
-              <span className="text-xs text-gray-400">{new Date(s.createdAt).toLocaleDateString()}</span>
+              <span className="text-xs text-muted-foreground/70">{new Date(s.createdAt).toLocaleDateString()}</span>
             </div>
           ))}
         </div>

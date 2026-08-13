@@ -31,16 +31,16 @@ export default function AdminQuestionsPage() {
       {questions.map((q) => (
         <div
           key={q.id}
-          className="bg-white shadow rounded p-4 mb-3 flex justify-between items-center"
+          className="bg-card shadow rounded p-4 mb-3 flex justify-between items-center"
         >
           <div>
             <Link
               href={`/dashboard/community/questions/${q.id}`}
-              className="font-medium text-blue-600 hover:underline"
+              className="font-medium text-primary hover:underline"
             >
               {q.title}
             </Link>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               {q.upvotes} upvotes · {q.answers.length} answers · by {q.author.name}
             </p>
           </div>
@@ -57,7 +57,7 @@ export default function AdminQuestionsPage() {
           <button
             disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Prev
           </button>
@@ -65,7 +65,7 @@ export default function AdminQuestionsPage() {
           <button
             disabled={page * limit >= total}
             onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
           >
             Next
           </button>

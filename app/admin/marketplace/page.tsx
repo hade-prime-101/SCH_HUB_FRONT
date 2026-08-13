@@ -28,7 +28,7 @@ interface Shop {
 type Tab = "listings" | "shops";
 
 const CAT_BADGE: Record<string, string> = {
-  BOOKS:       "bg-blue-100 text-blue-700",
+  BOOKS:       "bg-accent text-primary",
   ELECTRONICS: "bg-violet-100 text-violet-700",
   CLOTHING:    "bg-pink-100 text-pink-700",
   FOOD:        "bg-amber-100 text-amber-700",

@@ -41,7 +41,7 @@ export default function MyShopPage() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{shop ? "Edit Your Shop" : "Create Your Shop"}</h1>
-      <div className="bg-white shadow rounded p-6 space-y-4">
+      <div className="bg-card shadow rounded p-6 space-y-4">
         <input
           type="text"
           placeholder="Shop Name"

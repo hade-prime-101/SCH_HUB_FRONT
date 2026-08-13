@@ -19,14 +19,14 @@ export default function CreateGroupPage() {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Create Study Group</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
         <input type="text" placeholder="Group Name" value={name} onChange={e => setName(e.target.value)} className="border p-2 w-full" required />
         <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="border p-2 w-full" />
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={isPrivate} onChange={e => setIsPrivate(e.target.checked)} />
           Private group
         </label>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Create</button>
+        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">Create</button>
       </form>
     </div>
   );

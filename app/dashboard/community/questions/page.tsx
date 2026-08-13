@@ -27,12 +27,12 @@ export default function QuestionsList() {
         </Link>
       </div>
       {questions.map((q) => (
-        <div key={q.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between">
+        <div key={q.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between">
           <div>
             <Link href={`/dashboard/community/questions/${q.id}`} className="font-medium text-primary">
               {q.title}
             </Link>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               {q.upvotes} upvotes · {q.answers.length} answers
             </p>
           </div>

@@ -20,7 +20,7 @@ export default function FeatureDetailPage() {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h1 className="text-2xl font-bold">{feature.properties.name}</h1>
-      <p className="text-gray-600">{feature.properties.category}</p>
+      <p className="text-muted-foreground">{feature.properties.category}</p>
       <div className="mt-4 space-y-2">
         <p><strong>Description:</strong> {feature.properties.description || "N/A"}</p>
         <p><strong>Building:</strong> {feature.properties.building || "N/A"}</p>
@@ -29,7 +29,7 @@ export default function FeatureDetailPage() {
 
       <h2 className="text-xl font-semibold mt-6 mb-2">Entrances</h2>
       {entrances.length === 0 ? (
-        <p className="text-gray-500">No entrance information available.</p>
+        <p className="text-muted-foreground">No entrance information available.</p>
       ) : (
         <ul className="list-disc pl-5 space-y-1">
           {entrances.map((e) => (

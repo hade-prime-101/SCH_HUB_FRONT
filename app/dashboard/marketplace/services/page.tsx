@@ -32,7 +32,7 @@ export default function ServicesPage() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {services.map((svc) => (
-          <div key={svc.id} className="bg-white shadow rounded p-4">
+          <div key={svc.id} className="bg-card shadow rounded p-4">
             <Link href={`/dashboard/marketplace/services/${svc.id}`} className="font-medium text-primary">
               {svc.title}
             </Link>

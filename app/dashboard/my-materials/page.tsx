@@ -12,7 +12,7 @@ export default function MyMaterialsPage() {
       <h1 className="text-2xl font-bold mb-4">My Materials</h1>
       <div className="space-y-2">
         {materials.map(m => (
-          <div key={m.id} className="bg-white shadow rounded p-3">
+          <div key={m.id} className="bg-card shadow rounded p-3">
             {m.title} {m.courseCode && `(${m.courseCode})`}
           </div>
         ))}

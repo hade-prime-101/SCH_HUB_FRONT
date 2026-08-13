@@ -20,27 +20,27 @@ export default function QuizDetailPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-2">{quiz.title}</h1>
-      <p className="text-gray-600 mb-4">{quiz.description}</p>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-muted-foreground mb-4">{quiz.description}</p>
+      <p className="text-sm text-muted-foreground mb-4">
         {quiz.isDraft ? "Draft" : "Published"} · {quiz.questions.length} questions
       </p>
 
       <div className="flex space-x-4">
         <Link
           href={`/dashboard/study/quizzes/${id}/attempt`}
-          className="bg-indigo-600 text-white px-4 py-2 rounded"
+          className="bg-indigo-600 text-primary-foreground px-4 py-2 rounded"
         >
           Start Attempt
         </Link>
         <Link
           href={`/dashboard/study/quizzes/${id}/edit`}
-          className="bg-gray-200 px-4 py-2 rounded"
+          className="bg-secondary/50 px-4 py-2 rounded"
         >
           Edit Questions
         </Link>
         <Link
           href={`/dashboard/study/quizzes/${id}/results`}
-          className="bg-gray-200 px-4 py-2 rounded"
+          className="bg-secondary/50 px-4 py-2 rounded"
         >
           View Attempts
         </Link>

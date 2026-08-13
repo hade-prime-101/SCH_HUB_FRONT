@@ -24,14 +24,14 @@ export default function AdminJobsPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Pending Jobs</h1>
       {jobs.map(job => (
-        <div key={job.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between">
+        <div key={job.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between">
           <div>
             <p className="font-medium">{job.title}</p>
-            <p className="text-sm text-gray-600">{job.company} · {job.location}</p>
+            <p className="text-sm text-muted-foreground">{job.company} · {job.location}</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => handleApprove(job.id)} className="bg-green-600 text-white px-3 py-1 rounded">Approve</button>
-            <button onClick={() => handleReject(job.id)} className="bg-red-600 text-white px-3 py-1 rounded">Reject</button>
+            <button onClick={() => handleApprove(job.id)} className="bg-success text-primary-foreground px-3 py-1 rounded">Approve</button>
+            <button onClick={() => handleReject(job.id)} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Reject</button>
           </div>
         </div>
       ))}

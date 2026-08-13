@@ -13,7 +13,7 @@ export default function SchoolFacultiesPage() {
       <h1 className="text-2xl font-bold mb-4">My School Faculties</h1>
       <ul>
         {faculties.map((f) => (
-          <li key={f.id} className="bg-white shadow rounded p-3 mb-2">
+          <li key={f.id} className="bg-card shadow rounded p-3 mb-2">
             {f.name}
           </li>
         ))}

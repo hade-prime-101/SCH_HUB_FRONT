@@ -28,12 +28,12 @@ export default function UserProfilePage() {
         )}
         <div>
           <h1 className="text-2xl font-bold">{profile.name}</h1>
-          <p className="text-gray-600">{profile.email}</p>
-          <p className="text-sm text-gray-500">Role: {profile.role}</p>
+          <p className="text-muted-foreground">{profile.email}</p>
+          <p className="text-sm text-muted-foreground">Role: {profile.role}</p>
         </div>
       </div>
 
-      <div className="bg-white shadow rounded p-6 mb-6">
+      <div className="bg-card shadow rounded p-6 mb-6">
         <p><strong>Bio:</strong> {profile.bio || "No bio"}</p>
         <p><strong>Department:</strong> {profile.department || "N/A"}</p>
         <p><strong>Level:</strong> {profile.level || "N/A"}</p>
@@ -42,7 +42,7 @@ export default function UserProfilePage() {
       <h2 className="text-lg font-semibold mb-2">Materials ({materials.length})</h2>
       <div className="space-y-2">
         {materials.map((m) => (
-          <div key={m.id} className="bg-white shadow rounded p-3">
+          <div key={m.id} className="bg-card shadow rounded p-3">
             {m.title} {m.courseCode && `(${m.courseCode})`}
           </div>
         ))}

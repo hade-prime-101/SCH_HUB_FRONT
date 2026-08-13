@@ -43,7 +43,7 @@ export default function NotificationSettingsPage() {
   return (
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Notification Settings</h1>
-      <div className="bg-white shadow rounded p-6 space-y-4">
+      <div className="bg-card shadow rounded p-6 space-y-4">
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -74,13 +74,13 @@ export default function NotificationSettingsPage() {
             </label>
           ))}
           {Object.keys(typeToggles).length === 0 && (
-            <p className="text-sm text-gray-500">No specific types configured.</p>
+            <p className="text-sm text-muted-foreground">No specific types configured.</p>
           )}
         </div>
 
         <button
           onClick={handleSave}
-          className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded w-full"
         >
           Save Settings
         </button>

@@ -41,12 +41,12 @@ export default function TimetablePage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Timetable</h1>
-        <button onClick={() => { setShowForm(true); setEditingId(null); setForm({ courseName: "", day: "", startTime: "", endTime: "", venue: "", lecturer: "", type: "" }); }} className="bg-blue-600 text-white px-4 py-2 rounded">Add Entry</button>
+        <button onClick={() => { setShowForm(true); setEditingId(null); setForm({ courseName: "", day: "", startTime: "", endTime: "", venue: "", lecturer: "", type: "" }); }} className="bg-primary text-primary-foreground px-4 py-2 rounded">Add Entry</button>
       </div>
 
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded p-6 w-96 max-h-[90vh] overflow-y-auto">
+          <div className="bg-card rounded p-6 w-96 max-h-[90vh] overflow-y-auto">
             <h2 className="text-lg font-semibold mb-4">{editingId ? "Edit" : "New"} Entry</h2>
             <div className="space-y-2">
               <input type="text" placeholder="Course Name" value={form.courseName} onChange={e => setForm({...form, courseName: e.target.value})} className="border p-2 w-full" />
@@ -61,16 +61,16 @@ export default function TimetablePage() {
               <input type="text" placeholder="Type (e.g. Lecture)" value={form.type || ""} onChange={e => setForm({...form, type: e.target.value})} className="border p-2 w-full" />
             </div>
             <div className="flex justify-end gap-2 mt-4">
-              <button onClick={() => setShowForm(false)} className="bg-gray-200 px-4 py-2 rounded">Cancel</button>
-              <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+              <button onClick={() => setShowForm(false)} className="bg-secondary/50 px-4 py-2 rounded">Cancel</button>
+              <button onClick={handleSave} className="bg-success text-primary-foreground px-4 py-2 rounded">Save</button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="bg-white shadow rounded overflow-x-auto">
+      <div className="bg-card shadow rounded overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50">
+          <thead className="bg-muted">
             <tr>
               <th className="p-2 text-left">Course</th>
               <th className="p-2 text-left">Day</th>
@@ -91,7 +91,7 @@ export default function TimetablePage() {
                 <td className="p-2">{e.lecturer}</td>
                 <td className="p-2">{e.type}</td>
                 <td className="p-2 text-right">
-                  <button onClick={() => handleEdit(e)} className="text-blue-600 mr-2">Edit</button>
+                  <button onClick={() => handleEdit(e)} className="text-primary mr-2">Edit</button>
                   <button onClick={() => handleDelete(e.id)} className="text-red-600">Delete</button>
                 </td>
               </tr>

@@ -134,7 +134,7 @@ export default function AdminQuizReviewPage() {
                       }`}
                     >
                       {isApproved && (
-                        <CheckCircle className="w-full h-full text-white p-0.5" />
+                        <CheckCircle className="w-full h-full text-primary-foreground p-0.5" />
                       )}
                     </button>
 
@@ -163,7 +163,7 @@ export default function AdminQuizReviewPage() {
           <button
             onClick={handleApproveQuiz}
             disabled={submitting}
-            className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 px-6 py-3 bg-success text-primary-foreground rounded-lg hover:bg-green-700 transition-colors font-medium disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {submitting ? (
               <Loader2 className="w-4 h-4 animate-spin" />

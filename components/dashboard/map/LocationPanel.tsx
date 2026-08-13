@@ -148,10 +148,10 @@ export default function LocationPanel({
         {/* Distance and travel info */}
         {distance && (
           <div className="px-4 py-3 border-b border-border bg-blue-50/50 dark:bg-blue-950/20 flex items-center gap-3">
-            <Compass className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
+            <Compass className="w-4 h-4 text-primary dark:text-blue-400 shrink-0" />
             <div className="min-w-0">
               <p className="text-sm font-medium text-blue-900 dark:text-blue-300">{distance}</p>
-              <p className="text-xs text-blue-700 dark:text-blue-400">from your location</p>
+              <p className="text-xs text-primary dark:text-blue-400">from your location</p>
             </div>
           </div>
         )}

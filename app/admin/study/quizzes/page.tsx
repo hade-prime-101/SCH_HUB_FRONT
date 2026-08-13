@@ -91,7 +91,7 @@ export default function AdminQuizzesPage() {
               <div className="flex gap-2">
                 <Link
                   href={`/admin/study/quizzes/${quiz.id}`}
-                  className="flex-1 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors font-medium flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-2 bg-accent text-primary rounded-lg hover:bg-blue-200 transition-colors font-medium flex items-center justify-center gap-2"
                 >
                   <Eye className="w-4 h-4" />
                   Review

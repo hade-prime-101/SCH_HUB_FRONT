@@ -83,18 +83,18 @@ export default function SessionDetailPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-2">{session.title}</h1>
-      <p className="text-gray-500 mb-6">Session ID: {sessionId}</p>
+      <p className="text-muted-foreground mb-6">Session ID: {sessionId}</p>
 
       {/* Chat Section */}
-      <div className="bg-white shadow rounded p-4 mb-6">
+      <div className="bg-card shadow rounded p-4 mb-6">
         <h2 className="text-lg font-semibold mb-2">Ask a Question</h2>
         <div className="h-64 overflow-y-auto border p-3 rounded mb-2 space-y-2">
           {messages.map((msg, i) => (
-            <div key={i} className={`p-2 rounded ${msg.role === "user" ? "bg-primary/5 ml-8" : "bg-gray-100 mr-8"}`}>
+            <div key={i} className={`p-2 rounded ${msg.role === "user" ? "bg-primary/5 ml-8" : "bg-muted/80 mr-8"}`}>
               <strong>{msg.role === "user" ? "You" : "AI"}:</strong> {msg.content}
             </div>
           ))}
-          {sending && <div className="text-gray-400">Thinking...</div>}
+          {sending && <div className="text-muted-foreground/70">Thinking...</div>}
         </div>
         <div className="flex gap-2">
           <input
@@ -112,7 +112,7 @@ export default function SessionDetailPage() {
       </div>
 
       {/* Quiz Section */}
-      <div className="bg-white shadow rounded p-4">
+      <div className="bg-card shadow rounded p-4">
         <h2 className="text-lg font-semibold mb-2">Generate a Quiz</h2>
         <div className="flex gap-2 mb-4">
           <input
@@ -158,7 +158,7 @@ export default function SessionDetailPage() {
                 })}
               </div>
             ))}
-            <button onClick={submitQuiz} className="bg-success text-white px-4 py-2 rounded">
+            <button onClick={submitQuiz} className="bg-success text-primary-foreground px-4 py-2 rounded">
               Submit Answers
             </button>
           </div>

@@ -22,11 +22,11 @@ export default function ShopsPage() {
       <h1 className="text-2xl font-bold mb-4">Shops</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {shops.map((shop) => (
-          <div key={shop.id} className="bg-white shadow rounded p-4">
+          <div key={shop.id} className="bg-card shadow rounded p-4">
             <Link href={`/dashboard/marketplace/shops/${shop.id}`} className="font-medium text-primary">
               {shop.name}
             </Link>
-            <p className="text-sm text-gray-500">{shop.description}</p>
+            <p className="text-sm text-muted-foreground">{shop.description}</p>
             <div className="text-xs mt-1">⭐ {shop.rating?.toFixed(1)} · {shop.followerCount} followers</div>
           </div>
         ))}

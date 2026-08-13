@@ -94,12 +94,12 @@ export default function NavigationPanel({
 
         {/* Top bar with exit button */}
         <div className="absolute top-0 inset-x-0 flex items-center justify-between p-4 bg-gradient-to-b from-black/20 to-transparent z-20 pointer-events-none">
-          <h2 className="text-lg font-semibold text-white">Navigation</h2>
+          <h2 className="text-lg font-semibold text-primary-foreground">Navigation</h2>
           <button
             onClick={onExit}
-            className="p-2 rounded-full bg-white/20 backdrop-blur hover:bg-white/30 transition-colors pointer-events-auto"
+            className="p-2 rounded-full bg-card/20 backdrop-blur hover:bg-card/30 transition-colors pointer-events-auto"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-5 h-5 text-primary-foreground" />
           </button>
         </div>
 

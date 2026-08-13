@@ -51,13 +51,13 @@ export default function QuestionDetail() {
       <h1 className="text-2xl font-bold mb-2">{question.title}</h1>
       <p className="text-muted-foreground mb-4">{question.content}</p>
       <div className="flex gap-3 mb-6">
-        <button onClick={() => upvoteQuestion(id)} className="bg-gray-200 px-3 py-1 rounded">👍 Upvote</button>
+        <button onClick={() => upvoteQuestion(id)} className="bg-secondary/50 px-3 py-1 rounded">👍 Upvote</button>
         <button onClick={() => report(id, { reason: "Spam", type: "QUESTION" })} className="text-destructive underline">Report</button>
       </div>
 
       <h2 className="text-lg font-semibold mb-3">Answers ({question.answers.length})</h2>
       {question.answers.map((a) => (
-        <div key={a.id} className={`p-3 rounded mb-3 ${a.isAccepted ? "bg-success/10 border border-success" : "bg-gray-50"}`}>
+        <div key={a.id} className={`p-3 rounded mb-3 ${a.isAccepted ? "bg-success/10 border border-success" : "bg-muted"}`}>
           <p className="font-medium text-sm">{a.author.name}</p>
           <p>{a.content}</p>
           <div className="flex gap-2 mt-1">

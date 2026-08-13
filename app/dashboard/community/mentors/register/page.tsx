@@ -62,7 +62,7 @@ export default function RegisterMentorPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-6">
         <div>
           <label className="block text-sm font-medium mb-1">Areas of Expertise</label>
           <div className="flex gap-2 mb-2">
@@ -77,7 +77,7 @@ export default function RegisterMentorPage() {
             <button
               type="button"
               onClick={handleAddExpertise}
-              className="bg-gray-200 px-3 py-2 rounded"
+              className="bg-secondary/50 px-3 py-2 rounded"
             >
               Add
             </button>

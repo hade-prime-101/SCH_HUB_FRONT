@@ -39,7 +39,7 @@ export default function PostsList() {
         </Link>
       </div>
       {posts.map((post) => (
-        <div key={post.id} className="bg-white shadow rounded p-4 mb-3 flex justify-between items-start">
+        <div key={post.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between items-start">
           <div>
             <div className="flex items-center gap-2">
               {post.isPinned && <span className="text-yellow-600 text-xs font-bold uppercase">Pinned</span>}
@@ -47,14 +47,14 @@ export default function PostsList() {
                 {post.title}
               </Link>
             </div>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               by {post.author.name} · {post.upvotes} upvotes · {post.comments.length} comments
             </p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => handlePin(post.id, post.isPinned)}
-              className="text-sm bg-gray-200 px-2 py-1 rounded"
+              className="text-sm bg-secondary/50 px-2 py-1 rounded"
             >
               {post.isPinned ? "Unpin" : "Pin"}
             </button>

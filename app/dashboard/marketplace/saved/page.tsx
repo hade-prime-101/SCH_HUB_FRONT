@@ -14,10 +14,10 @@ export default function SavedListingsPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Saved Listings</h1>
-      {saved.length === 0 && <p className="text-gray-500">No saved items.</p>}
+      {saved.length === 0 && <p className="text-muted-foreground">No saved items.</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {saved.map((item) => (
-          <div key={item.id} className="bg-white shadow rounded p-4">
+          <div key={item.id} className="bg-card shadow rounded p-4">
             <Link href={`/dashboard/marketplace/listings/${item.id}`} className="font-medium text-primary">
               {item.title}
             </Link>

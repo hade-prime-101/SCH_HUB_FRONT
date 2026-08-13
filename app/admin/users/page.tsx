@@ -41,8 +41,8 @@ export default function UsersListPage() {
           <option value="ADMIN">Admin</option>
         </select>
       </div>
-      <table className="w-full bg-white shadow rounded">
-        <thead className="bg-gray-50">
+      <table className="w-full bg-card shadow rounded">
+        <thead className="bg-muted">
           <tr>
             <th className="p-2 text-left">Name</th>
             <th className="p-2 text-left">Email</th>
@@ -57,7 +57,7 @@ export default function UsersListPage() {
               <td className="p-2">{u.email}</td>
               <td className="p-2">{u.role}</td>
               <td className="p-2 text-right">
-                <button onClick={() => handleNominate(u.id)} className="text-blue-600 mr-2">Nominate CR</button>
+                <button onClick={() => handleNominate(u.id)} className="text-primary mr-2">Nominate CR</button>
                 <select
                   className="border p-1"
                   value={u.role}

@@ -57,7 +57,7 @@ export default function CalculateCGPAPage() {
         </div>
       )}
 
-      <div className="bg-white shadow rounded p-6">
+      <div className="bg-card shadow rounded p-6">
         {courses.map((c, i) => (
           <div key={i} className="flex gap-3 mb-4 items-end border-b pb-4">
             <div className="flex-1">
@@ -107,7 +107,7 @@ export default function CalculateCGPAPage() {
           <button onClick={addRow} className="text-primary hover:underline">
             + Add another course
           </button>
-          <button onClick={handleCalculate} className="bg-success text-white px-6 py-2 rounded">
+          <button onClick={handleCalculate} className="bg-success text-primary-foreground px-6 py-2 rounded">
             Calculate
           </button>
         </div>
@@ -117,7 +117,7 @@ export default function CalculateCGPAPage() {
         <div className="mt-6 bg-primary/5 border border-primary/20 rounded p-6 text-center">
           <p className="text-lg">Your CGPA</p>
           <p className="text-5xl font-bold text-primary">{result.cgpa.toFixed(2)}</p>
-          <p className="text-gray-600 mt-1">Total Credits: {result.totalCredits}</p>
+          <p className="text-muted-foreground mt-1">Total Credits: {result.totalCredits}</p>
         </div>
       )}
     </div>

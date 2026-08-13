@@ -27,12 +27,12 @@ export default function ListingsPage() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {listings.map((item) => (
-          <div key={item.id} className="bg-white shadow rounded p-4">
+          <div key={item.id} className="bg-card shadow rounded p-4">
             <Link href={`/dashboard/marketplace/listings/${item.id}`} className="font-medium text-primary hover:underline">
               {item.title}
             </Link>
             <p className="text-muted-foreground">₦{item.price}</p>
-            <p className="text-sm text-gray-400">{item.status}</p>
+            <p className="text-sm text-muted-foreground/70">{item.status}</p>
             <button
               onClick={() => toggleSaveListing(item.id)}
               className="mt-2 text-sm text-primary hover:underline"

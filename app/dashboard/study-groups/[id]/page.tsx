@@ -113,12 +113,12 @@ export default function GroupDetailPage() {
       <div className="flex justify-between items-start mb-4">
         <div>
           <h1 className="text-2xl font-bold">{group.name}</h1>
-          <p className="text-gray-600">{group.description}</p>
-          <p className="text-xs text-gray-400">{group.memberCount} members</p>
+          <p className="text-muted-foreground">{group.description}</p>
+          <p className="text-xs text-muted-foreground/70">{group.memberCount} members</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => router.push(`/dashboard/study-groups/${id}/edit`)} className="bg-blue-600 text-white px-3 py-1 rounded">Edit</button>
-          <button onClick={async () => { await deleteGroup(id); router.push('/dashboard/study-groups'); }} className="bg-red-600 text-white px-3 py-1 rounded">Delete</button>
+          <button onClick={() => router.push(`/dashboard/study-groups/${id}/edit`)} className="bg-primary text-primary-foreground px-3 py-1 rounded">Edit</button>
+          <button onClick={async () => { await deleteGroup(id); router.push('/dashboard/study-groups'); }} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Delete</button>
         </div>
       </div>
 
@@ -128,7 +128,7 @@ export default function GroupDetailPage() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-3 py-2 capitalize ${tab === t ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500"}`}
+            className={`px-3 py-2 capitalize ${tab === t ? "border-b-2 border-primary text-primary" : "text-muted-foreground"}`}
           >
             {t}
           </button>
@@ -153,7 +153,7 @@ export default function GroupDetailPage() {
               className="border p-2 flex-1"
               placeholder="Type a message..."
             />
-            <button onClick={handleSendMessage} className="bg-blue-600 text-white px-4 py-2 rounded">Send</button>
+            <button onClick={handleSendMessage} className="bg-primary text-primary-foreground px-4 py-2 rounded">Send</button>
           </div>
         </div>
       )}
@@ -162,14 +162,14 @@ export default function GroupDetailPage() {
         <div>
           <h2 className="font-semibold mb-2">Members</h2>
           {members.length === 0 ? (
-            <p className="text-gray-500">No members found (backend endpoint missing).</p>
+            <p className="text-muted-foreground">No members found (backend endpoint missing).</p>
           ) : (
             <ul className="space-y-2">
               {members.map((member) => (
                 <li key={member.userId} className="flex justify-between items-center border p-2 rounded">
                   <div>
                     <p className="font-medium">{member.name}</p>
-                    <p className="text-xs text-gray-500">{member.role}</p>
+                    <p className="text-xs text-muted-foreground">{member.role}</p>
                   </div>
                   <div className="flex gap-2">
                     <select
@@ -200,7 +200,7 @@ export default function GroupDetailPage() {
         <div>
           <div className="flex justify-between mb-2">
             <h2 className="font-semibold">Invites</h2>
-            <button onClick={handleCreateInvite} className="bg-green-600 text-white px-3 py-1 rounded">New Invite</button>
+            <button onClick={handleCreateInvite} className="bg-success text-primary-foreground px-3 py-1 rounded">New Invite</button>
           </div>
           {invites.map(inv => (
             <div key={inv.id} className="flex justify-between items-center border p-2 mb-1">
@@ -216,7 +216,7 @@ export default function GroupDetailPage() {
         <div>
           <div className="flex justify-between mb-2">
             <h2 className="font-semibold">Challenges</h2>
-            <button onClick={handleCreateChallenge} className="bg-green-600 text-white px-3 py-1 rounded">New Challenge</button>
+            <button onClick={handleCreateChallenge} className="bg-success text-primary-foreground px-3 py-1 rounded">New Challenge</button>
           </div>
           {challenges.map(ch => (
             <div key={ch.id} className="border p-2 mb-1 flex justify-between items-center">
@@ -233,13 +233,13 @@ export default function GroupDetailPage() {
                     getChallengeResult(id, ch.id).then(setChallengeResult);
                     setSelectedChallengeId(ch.id);
                     }}
-                    className="text-blue-600 text-sm ml-2"
+                    className="text-primary text-sm ml-2"
                 >
                     View Result
                 </button>
               )}
               {challengeResult && selectedChallengeId === ch.id && (
-                    <div className="mt-2 p-2 bg-gray-100 rounded">
+                    <div className="mt-2 p-2 bg-muted/80 rounded">
                         <p>Winner: {challengeResult.winnerId} (Score: {challengeResult.score})</p>
                     </div>
                     )}
@@ -252,8 +252,8 @@ export default function GroupDetailPage() {
      {tab === "ai" && (
   <div>
     <h2 className="font-semibold mb-2">AI Features</h2>
-    <button onClick={handleShareSummary} className="bg-purple-600 text-white px-3 py-1 rounded mb-2">Share Summary</button>
-    <button onClick={handleAskAI} className="bg-blue-600 text-white px-3 py-1 rounded mb-2">Ask Group AI</button>
+    <button onClick={handleShareSummary} className="bg-info text-primary-foreground px-3 py-1 rounded mb-2">Share Summary</button>
+    <button onClick={handleAskAI} className="bg-primary text-primary-foreground px-3 py-1 rounded mb-2">Ask Group AI</button>
 
     {/* Leaderboard */}
     <div className="mt-4">
@@ -268,7 +268,7 @@ export default function GroupDetailPage() {
         />
         <button
           onClick={() => getQuizLeaderboard(id, leaderboardQuizId).then(setLeaderboard)}
-          className="bg-gray-200 px-3 py-1 rounded"
+          className="bg-secondary/50 px-3 py-1 rounded"
         >
           Load
         </button>
@@ -283,7 +283,7 @@ export default function GroupDetailPage() {
           ))}
         </ul>
       ) : (
-        <p className="text-sm text-gray-500">Enter a quiz ID to see results.</p>
+        <p className="text-sm text-muted-foreground">Enter a quiz ID to see results.</p>
       )}
     </div>
   </div>

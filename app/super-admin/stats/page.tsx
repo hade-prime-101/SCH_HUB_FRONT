@@ -5,8 +5,8 @@ import type { PlatformStats, SchoolStats } from "@/types/super-admin";
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="bg-white rounded p-4 shadow text-center">
-      <p className="text-gray-500 text-sm">{label}</p>
+    <div className="bg-card rounded p-4 shadow text-center">
+      <p className="text-muted-foreground text-sm">{label}</p>
       <p className="text-2xl font-bold">{value}</p>
     </div>
   );

@@ -356,7 +356,7 @@ export default function InteractiveMapPicker({
                 )}
                 {uploadingImage && (
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <Loader2 className="w-5 h-5 animate-spin text-white" />
+                    <Loader2 className="w-5 h-5 animate-spin text-primary-foreground" />
                   </div>
                 )}
               </div>
@@ -504,7 +504,7 @@ export default function InteractiveMapPicker({
           {/* Directions hint */}
           <div className="flex items-start gap-2 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-xl px-3 py-2.5">
             <Navigation className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
-            <p className="text-xs text-blue-700 dark:text-blue-400">
+            <p className="text-xs text-primary dark:text-blue-400">
               Students can get turn-by-turn directions to saved locations from the campus map.
               <span className="flex items-center gap-1 mt-1 font-medium">
                 Dashboard → Map <ArrowRight className="w-3 h-3" /> Get Directions

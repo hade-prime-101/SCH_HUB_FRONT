@@ -32,13 +32,13 @@ export default function JobsPage() {
       </div>
       <div className="space-y-3">
         {jobs.map((job) => (
-          <div key={job.id} className="bg-white shadow rounded p-4 flex justify-between items-center">
+          <div key={job.id} className="bg-card shadow rounded p-4 flex justify-between items-center">
             <div>
               <Link href={`/dashboard/marketplace/jobs/${job.id}`} className="font-medium text-primary">
                 {job.title}
               </Link>
               <p className="text-sm text-muted-foreground">{job.company} · {job.location} · {job.salary}</p>
-              <p className="text-xs text-gray-400">{job.status}</p>
+              <p className="text-xs text-muted-foreground/70">{job.status}</p>
             </div>
             <button onClick={() => handleDelete(job.id)} className="text-destructive text-sm">Delete</button>
           </div>

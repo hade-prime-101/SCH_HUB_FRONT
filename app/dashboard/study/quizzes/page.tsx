@@ -27,12 +27,12 @@ export default function QuizzesListPage() {
       </div>
       <ul className="space-y-3">
         {quizzes.map(q => (
-          <li key={q.id} className="bg-white shadow p-4 rounded flex justify-between">
+          <li key={q.id} className="bg-card shadow p-4 rounded flex justify-between">
             <div>
               <Link href={`/dashboard/study/quizzes/${q.id}`} className="font-medium text-primary">
                 {q.title}
               </Link>
-              <p className="text-sm text-gray-500">{q.isDraft ? "Draft" : "Published"} · {q.questions.length} questions</p>
+              <p className="text-sm text-muted-foreground">{q.isDraft ? "Draft" : "Published"} · {q.questions.length} questions</p>
             </div>
             <Link href={`/dashboard/study/quizzes/${q.id}/attempt`} className="bg-primary/10 text-primary px-3 py-1 rounded">
               Start
