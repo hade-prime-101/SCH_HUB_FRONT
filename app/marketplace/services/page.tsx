@@ -1,51 +1,79 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { listServices, deleteService } from "@/lib/api/marketplace.api";
+import { useRouter } from "next/navigation";
+import { MarketplacePageHeader } from "@/components/marketplace/MarketplacePageHeader";
+import { ServiceCard } from "@/components/marketplace/ServiceCard";
+import { MarketplaceEmptyState } from "@/components/marketplace/MarketplaceEmptyState";
+import { Pagination } from "@/components/ui/Pagination";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { listServices } from "@/lib/api/marketplace.api";
 import type { Service } from "@/types/marketplace";
+import { Wrench } from "lucide-react";
 
 export default function ServicesPage() {
+  const router = useRouter();
   const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [search, setSearch] = useState("");
   const limit = 10;
 
   useEffect(() => {
-    listServices({ page, limit }).then((res) => {
-      setServices(res.data);
-      setTotal(res.total);
-    });
+    setLoading(true);
+    listServices({ page, limit })
+      .then((res) => {
+        setServices(res.data);
+        setTotal(res.total);
+      })
+      .finally(() => setLoading(false));
   }, [page]);
 
-  const handleDelete = async (id: string) => {
-    await deleteService(id);
-    setServices((prev) => prev.filter((s) => s.id !== id));
-  };
+  const filtered = services.filter((s) =>
+    s.title.toLowerCase().includes(search.toLowerCase()) ||
+    s.category.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div>
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">Services</h1>
-        <Link href="/marketplace/services/new" className="bg-primary text-primary-foreground px-4 py-2 rounded">
-          Offer Service
-        </Link>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {services.map((svc) => (
-          <div key={svc.id} className="bg-card shadow rounded p-4">
-            <Link href={`/marketplace/services/${svc.id}`} className="font-medium text-primary">
-              {svc.title}
-            </Link>
-            <p className="text-sm text-muted-foreground">{svc.category} · ₦{svc.price}</p>
-            <button onClick={() => handleDelete(svc.id)} className="text-destructive text-sm mt-1">Delete</button>
+      <MarketplacePageHeader
+        title="Services"
+        description="Offer or hire services within your campus"
+        createLabel="Offer Service"
+        onCreate={() => router.push("/marketplace/services/new")}
+        showSearch
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search services..."
+      />
+      {loading ? (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[...Array(6)].map((_, i) => <LoadingSkeleton key={i} height="h-40" />)}
+        </div>
+      ) : filtered.length === 0 ? (
+        <MarketplaceEmptyState
+          icon={<Wrench className="h-8 w-8" />}
+          title="No services found"
+          description="Be the first to offer a service or try adjusting your search."
+          actionLabel="Offer a Service"
+          onAction={() => router.push("/marketplace/services/new")}
+        />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((service) => (
+              <ServiceCard key={service.id} service={service} />
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="flex justify-between mt-4">
-        <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="btn">Prev</button>
-        <span>Page {page}</span>
-        <button disabled={page * limit >= total} onClick={() => setPage((p) => p + 1)} className="btn">Next</button>
-      </div>
+          <Pagination
+            currentPage={page}
+            totalPages={Math.ceil(total / limit)}
+            onPageChange={setPage}
+            loading={loading}
+          />
+        </>
+      )}
     </div>
   );
 }
