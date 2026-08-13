@@ -1,65 +1,127 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getListing, updateListing, uploadListingImage } from "@/lib/api/marketplace.api";
+import Link from "next/link";
+import { getListing, deleteListing, toggleSaveListing, reportContent } from "@/lib/api/marketplace.api";
+import type { Listing } from "@/types/marketplace";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { ArrowLeft, Heart, Share2, AlertTriangle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export default function EditListingPage() {
+export default function ListingDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [images, setImages] = useState<string[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getListing(id).then((listing) => {
-      setTitle(listing.title);
-      setDescription(listing.description);
-      setPrice(String(listing.price));
-      setImages(listing.images);
-      setLoading(false);
-    });
+    getListing(id)
+      .then(setListing)
+      .catch(() => setError("Failed to load listing"))
+      .finally(() => setLoading(false));
   }, [id]);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    const { url } = await uploadListingImage(file);
-    setImages((prev) => [...prev, url]);
-    setUploading(false);
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this listing?")) return;
+    await deleteListing(id);
+    router.push("/marketplace/listings");
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await updateListing(id, { title, description, price: Number(price), images });
-    router.push(`/marketplace/listings/${id}`);
+  const handleSave = async () => {
+    if (!listing) return;
+    await toggleSaveListing(id);
+    setListing({ ...listing, saved: !listing.saved });
   };
 
-  if (loading) return <p>Loading...</p>;
+  const handleReport = async () => {
+    const reason = prompt("Please provide a reason for reporting this listing:");
+    if (!reason) return;
+    await reportContent({ targetType: "listing", targetId: id, reason });
+    alert("Thank you for reporting. We'll review it shortly.");
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-3xl mx-auto space-y-4">
+        <LoadingSkeleton height="h-8" width="w-32" />
+        <LoadingSkeleton height="h-96" />
+        <LoadingSkeleton height="h-20" />
+      </div>
+    );
+  }
+
+  if (error || !listing) {
+    return (
+      <div className="max-w-3xl mx-auto text-center py-20">
+        <p className="text-destructive">{error || "Listing not found"}</p>
+        <Button asChild className="mt-4">
+          <Link href="/marketplace/listings">Back to listings</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Edit Listing</h1>
-      <form onSubmit={handleSubmit} className="bg-card shadow rounded p-6 space-y-4">
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="border p-2 w-full" required />
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="border p-2 w-full" required />
-        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="border p-2 w-full" required />
-        <div>
-          <label className="block mb-1">Add Image</label>
-          <input type="file" onChange={handleImageUpload} disabled={uploading} />
-          <div className="flex gap-2 mt-2">
-            {images.map((url, i) => (
-              <img key={i} src={url} className="w-20 h-20 object-cover" />
-            ))}
-          </div>
+    <div className="max-w-3xl mx-auto space-y-6">
+      {/* Back & actions */}
+      <div className="flex items-center justify-between">
+        <Button variant="ghost" size="sm" onClick={() => router.back()} className="gap-1">
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="icon-sm" onClick={handleSave} aria-label="Save">
+            <Heart className={cn("h-4 w-4", listing.saved && "fill-primary text-primary")} />
+          </Button>
+          <Button variant="outline" size="icon-sm" aria-label="Share">
+            <Share2 className="h-4 w-4" />
+          </Button>
         </div>
-        <button type="submit" className="bg-primary text-primary-foreground px-4 py-2 rounded">
-          Save Changes
-        </button>
-      </form>
+      </div>
+
+      {/* Main content */}
+      <div className="space-y-4">
+        {/* Images */}
+        <div className="aspect-video w-full overflow-hidden rounded-2xl bg-muted">
+          {listing.images?.[0] ? (
+            <img src={listing.images[0]} alt={listing.title} className="h-full w-full object-cover" />
+          ) : (
+            <div className="flex h-full items-center justify-center text-muted-foreground">
+              No image
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">{listing.title}</h1>
+            <p className="text-lg font-semibold text-primary">₦{listing.price.toLocaleString()}</p>
+          </div>
+          <Badge variant={listing.status === "ACTIVE" ? "success" : "default"}>
+            {listing.status}
+          </Badge>
+        </div>
+
+        <Card className="p-5">
+          <p className="text-muted-foreground whitespace-pre-wrap">{listing.description}</p>
+        </Card>
+
+        <div className="flex flex-wrap gap-3">
+          <Button asChild variant="default">
+            <Link href={`/marketplace/listings/${id}/edit`}>Edit</Link>
+          </Button>
+          <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+          <Button variant="ghost" onClick={handleReport} className="text-destructive">
+            <AlertTriangle className="mr-1 h-4 w-4" />
+            Report
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
