@@ -1,5 +1,13 @@
 "use client";
+
 import { useEffect, useState } from "react";
+import { BookOpen, Plus, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { CommunityHeader } from "@/components/community/CommunityHeader";
+import { CommunityEmptyState } from "@/components/community/CommunityEmptyState";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { listFaqs, createFaq, deleteFaq } from "@/lib/api/community.api";
 import type { FAQ } from "@/types/community";
 
@@ -7,48 +15,117 @@ export default function FaqPage() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    listFaqs().then(setFaqs);
+    const fetchFaqs = async () => {
+      setLoading(true);
+      try {
+        const data = await listFaqs();
+        setFaqs(data);
+      } catch (err: any) {
+        setError(err.message || "Failed to load FAQs");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFaqs();
   }, []);
 
   const handleAdd = async () => {
-    const newFaq = await createFaq({ question, answer });
-    setFaqs((prev) => [...prev, newFaq]);
-    setQuestion("");
-    setAnswer("");
+    if (!question.trim() || !answer.trim()) return;
+    setSubmitting(true);
+    try {
+      const newFaq = await createFaq({ question, answer });
+      setFaqs((prev) => [...prev, newFaq]);
+      setQuestion("");
+      setAnswer("");
+    } catch (err: any) {
+      alert(err.message || "Failed to add FAQ");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleDelete = async (id: string) => {
-    await deleteFaq(id);
-    setFaqs((prev) => prev.filter((f) => f.id !== id));
+    if (!confirm("Delete this FAQ?")) return;
+    try {
+      await deleteFaq(id);
+      setFaqs((prev) => prev.filter((f) => f.id !== id));
+    } catch (err: any) {
+      alert(err.message || "Failed to delete FAQ");
+    }
   };
 
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Freshers FAQ</h1>
-      <div className="bg-card shadow rounded p-4 mb-6 space-y-2">
+    <div className="pb-24">
+      <CommunityHeader
+        title="Frequently Asked Questions"
+        description="Find answers to common questions about the community"
+      />
+
+      {/* Add FAQ form (admin-like) */}
+      <div className="bg-card rounded-2xl border border-border p-5 mb-6 space-y-4">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Add FAQ
+        </h3>
         <input
-          type="text" placeholder="Question" value={question} onChange={(e) => setQuestion(e.target.value)}
-          className="border p-2 w-full"
+          type="text"
+          placeholder="Question"
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
         />
         <textarea
-          placeholder="Answer" value={answer} onChange={(e) => setAnswer(e.target.value)}
-          className="border p-2 w-full"
+          placeholder="Answer"
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
+          className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring h-20 resize-none"
         />
-        <button onClick={handleAdd} className="bg-success text-primary-foreground px-4 py-2 rounded">
+        <Button onClick={handleAdd} disabled={submitting || !question.trim() || !answer.trim()}>
           Add FAQ
-        </button>
+        </Button>
       </div>
-      {faqs.map((f) => (
-        <div key={f.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between">
-          <div>
-            <p className="font-medium">{f.question}</p>
-            <p className="text-muted-foreground">{f.answer}</p>
-          </div>
-          <button onClick={() => handleDelete(f.id)} className="text-destructive text-sm">Delete</button>
-        </div>
-      ))}
+
+      {loading ? (
+        <LoadingSkeleton count={3} height="h-20" />
+      ) : (
+        <>
+          {faqs.length === 0 ? (
+            <CommunityEmptyState
+              icon={<BookOpen className="w-8 h-8" />}
+              title="No FAQs yet"
+              description="Add frequently asked questions to help the community."
+            />
+          ) : (
+            <div className="space-y-4">
+              {faqs.map((f) => (
+                <Card key={f.id}>
+                  <CardContent className="p-5 flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-foreground">{f.question}</h4>
+                      <p className="text-sm text-muted-foreground mt-1">{f.answer}</p>
+                    </div>
+                    <button
+                      onClick={() => handleDelete(f.id)}
+                      className="shrink-0 text-muted-foreground hover:text-destructive transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
