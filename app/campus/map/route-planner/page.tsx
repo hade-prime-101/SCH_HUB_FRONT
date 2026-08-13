@@ -1,125 +1,154 @@
-// app/campus/map/navigate/page.tsx
 "use client";
-import { useState, useRef, useEffect } from "react";
-import maplibregl from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { getMapConfig, calculateSimpleRoute, getRouteProgress } from "@/lib/api/campus-map.api";
-import type { RouteResponse, RouteProgressResult } from "@/types/campus-map";
 
-export default function NavigatePage() {
-  const [apiKey, setApiKey] = useState<string | null>(null);
-  const [route, setRoute] = useState<RouteResponse | null>(null);
-  const [progress, setProgress] = useState<RouteProgressResult | null>(null);
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<maplibregl.Map | null>(null);
-  const watchId = useRef<number | null>(null);
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, MapPin, Navigation, Loader2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import BackButton from "@/components/shared/BackButton";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { calculateSimpleRoute } from "@/lib/api/campus-map.api";
+import type { RouteResponse } from "@/types/campus-map";
 
-  useEffect(() => {
-    getMapConfig().then((c: any) => setApiKey(c.maptilerApiKey));
-  }, []);
+export default function RoutePlannerPage() {
+  const router = useRouter();
+  const [from, setFrom] = useState({ lat: "", lng: "" });
+  const [to, setTo] = useState({ lat: "", lng: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!apiKey || !mapContainer.current) return;
-    map.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets/style.json?key=${apiKey}`,
-      center: [7.5, 9.0],
-      zoom: 16,
-    });
-    map.current.addControl(new maplibregl.NavigationControl(), "top-right");
-    return () => map.current?.remove();
-  }, [apiKey]);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-  const startNavigation = async () => {
-    if (!navigator.geolocation) return alert("Geolocation not supported");
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const from = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        // Hardcoded destination; in real app prompt user or select on map
-        const to = { lat: 9.05, lng: 7.5 }; // example
-        const route = await calculateSimpleRoute({
-          fromLat: from.lat, fromLng: from.lng,
-          toLat: to.lat, toLng: to.lng,
-          profile: "foot",
-        });
-        setRoute(route);
-        drawRoute(route);
-        startWatching(route);
-      },
-      (err) => alert("GPS error: " + err.message)
-    );
-  };
+    const fromLat = parseFloat(from.lat);
+    const fromLng = parseFloat(from.lng);
+    const toLat = parseFloat(to.lat);
+    const toLng = parseFloat(to.lng);
 
-  const drawRoute = (r: RouteResponse) => {
-    if (!map.current) return;
-    const sourceId = "nav-route";
-    if (map.current.getSource(sourceId)) {
-      (map.current.getSource(sourceId) as maplibregl.GeoJSONSource).setData({
-        type: "Feature",
-        geometry: { type: "LineString", coordinates: r.geometry.coordinates },
-        properties: {},
-      });
-    } else {
-      map.current.addSource(sourceId, {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          geometry: { type: "LineString", coordinates: r.geometry.coordinates },
-          properties: {},
-        },
-      });
-      map.current.addLayer({
-        id: "nav-route-layer",
-        type: "line",
-        source: sourceId,
-        paint: { "line-color": "#16a34a", "line-width": 4 },
-      });
+    if (isNaN(fromLat) || isNaN(fromLng) || isNaN(toLat) || isNaN(toLng)) {
+      setError("Please enter valid coordinates (numbers).");
+      setLoading(false);
+      return;
     }
-    map.current.fitBounds(
-      new maplibregl.LngLatBounds(
-        r.geometry.coordinates[0] as [number, number],
-        r.geometry.coordinates[r.geometry.coordinates.length - 1] as [number, number]
-      ),
-      { padding: 100 }
-    );
-  };
 
-  const startWatching = (r: RouteResponse) => {
-    if (watchId.current) navigator.geolocation.clearWatch(watchId.current);
-    watchId.current = navigator.geolocation.watchPosition(
-      async (pos) => {
-        const current = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        try {
-          const prog = await getRouteProgress({
-            currentPosition: current,
-            routeGeometry: r.geometry,
-          });
-          setProgress(prog);
-        } catch (e) {}
-      },
-      null,
-      { enableHighAccuracy: true }
-    );
+    try {
+      const route = await calculateSimpleRoute({
+        fromLat,
+        fromLng,
+        toLat,
+        toLng,
+        profile: "foot",
+      });
+      // Pass route data to navigate page via query params or state
+      // For simplicity, we encode route as JSON in URL (not ideal for large routes)
+      // In practice, we'd use a global store or context.
+      router.push(
+        `/campus/map/navigate?route=${encodeURIComponent(JSON.stringify(route))}`
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to calculate route");
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="w-80 p-4 bg-card border-r">
-        <h1 className="text-xl font-bold mb-4">Navigation</h1>
-        <button onClick={startNavigation} className="bg-primary text-primary-foreground px-4 py-2 rounded w-full mb-4">
-          Start Navigation
-        </button>
-        {progress && (
-          <div className="bg-muted rounded p-3 text-sm">
-            <p><strong>Remaining:</strong> {(progress.remainingDistance).toFixed(0)} m</p>
-            <p><strong>ETA:</strong> {Math.round(progress.remainingDuration / 60)} min</p>
-            {progress.nextTurnInstruction && (
-              <p className="mt-1 text-primary">{progress.nextTurnInstruction}</p>
-            )}
-          </div>
-        )}
+    <div className="min-h-screen bg-muted pb-24">
+      <div className="bg-card border-b border-border px-4 py-3 flex items-center gap-3">
+        <BackButton variant="icon" />
+        <h1 className="text-xl font-bold text-foreground">Plan Route</h1>
       </div>
-      <div ref={mapContainer} className="flex-1" />
+
+      <div className="px-4 py-6 max-w-lg mx-auto">
+        <Card>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1">
+                  Start (latitude, longitude)
+                </label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Latitude"
+                    value={from.lat}
+                    onChange={(e) => setFrom({ ...from, lat: e.target.value })}
+                    required
+                  />
+                  <Input
+                    placeholder="Longitude"
+                    value={from.lng}
+                    onChange={(e) => setFrom({ ...from, lng: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="mt-1"
+                  onClick={() => {
+                    if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(
+                        (pos) => {
+                          setFrom({
+                            lat: pos.coords.latitude.toString(),
+                            lng: pos.coords.longitude.toString(),
+                          });
+                        },
+                        () => setError("Unable to get location")
+                      );
+                    }
+                  }}
+                >
+                  <MapPin className="w-4 h-4 mr-1" /> Use my location
+                </Button>
+              </div>
+
+              <div className="flex justify-center">
+                <ArrowRight className="w-6 h-6 text-muted-foreground" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1">
+                  Destination (latitude, longitude)
+                </label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Latitude"
+                    value={to.lat}
+                    onChange={(e) => setTo({ ...to, lat: e.target.value })}
+                    required
+                  />
+                  <Input
+                    placeholder="Longitude"
+                    value={to.lng}
+                    onChange={(e) => setTo({ ...to, lng: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              {error && <ErrorMessage message={error} />}
+
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Calculating…
+                  </>
+                ) : (
+                  <>
+                    <Navigation className="w-4 h-4 mr-2" />
+                    Get Route
+                  </>
+                )}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
