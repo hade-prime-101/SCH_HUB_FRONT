@@ -35,7 +35,7 @@ export default function AdminQuestionsPage() {
         >
           <div>
             <Link
-              href={`/dashboard/community/questions/${q.id}`}
+              href={`/community/questions/${q.id}`}
               className="font-medium text-primary hover:underline"
             >
               {q.title}
