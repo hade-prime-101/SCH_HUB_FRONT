@@ -1,52 +1,58 @@
-// app/dashboard/study-groups/page.tsx
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import Link from "next/link";
+import { usePaginatedQuery } from "@/lib/hooks/usePaginatedQuery";
 import { listGroups } from "@/lib/api/study-groups.api";
 import type { StudyGroup } from "@/types/study-groups";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Pagination } from "@/components/ui/Pagination";
+import { GroupCard } from "@/components/study-groups/GroupCard";
 
 export default function MyGroupsPage() {
-  const [groups, setGroups] = useState<StudyGroup[]>([]);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
   const limit = 10;
 
-  useEffect(() => {
-    listGroups({ page, limit }).then((res) => {
-      setGroups(res.data);
-      setTotal(res.total);
-    });
-  }, [page]);
+  const { data, total, loading, error, refetch } = usePaginatedQuery<StudyGroup>(
+    ({ page, limit }) => listGroups({ page, limit }),
+    { page, limit }
+  );
+
+  if (loading) return <LoadingState label="Loading your groups" />;
+  if (error) return <ErrorState title="Failed to load groups" description={error.message} onRetry={refetch} />;
 
   return (
     <div>
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">My Study Groups</h1>
-        <Link href="/dashboard/study-groups/create" className="bg-primary text-primary-foreground px-4 py-2 rounded">
-          New Group
-        </Link>
-      </div>
-      {groups.length === 0 ? (
-        <p className="text-muted-foreground">You haven't joined any groups yet.</p>
+      <PageHeader
+        title="My Study Groups"
+        actions={
+          <Link href="/dashboard/study-groups/create">
+            <Button>New Group</Button>
+          </Link>
+        }
+      />
+
+      {!data || data.length === 0 ? (
+        <EmptyState>You haven't joined any groups yet.</EmptyState>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {groups.map((g) => (
-            <div key={g.id} className="bg-card shadow rounded p-4">
-              <Link href={`/dashboard/study-groups/${g.id}`} className="font-medium text-primary hover:underline">
-                {g.name}
-              </Link>
-              <p className="text-sm text-muted-foreground">{g.description}</p>
-              <p className="text-xs text-muted-foreground/70">{g.memberCount} members</p>
-            </div>
-          ))}
-        </div>
-      )}
-      {total > limit && (
-        <div className="flex justify-between mt-4">
-          <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="btn">Prev</button>
-          <span>Page {page}</span>
-          <button disabled={page * limit >= total} onClick={() => setPage(p => p + 1)} className="btn">Next</button>
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            {data.map((group) => (
+              <GroupCard key={group.id} group={group} />
+            ))}
+          </div>
+
+          {total > limit && (
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(total / limit)}
+              onPageChange={setPage}
+              showPageNumber
+            />
+          )}
+        </>
       )}
     </div>
   );

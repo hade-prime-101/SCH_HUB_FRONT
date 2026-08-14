@@ -1,6 +1,7 @@
-// app/dashboard/reminders/page.tsx
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
+import { usePaginatedQuery } from "@/lib/hooks/usePaginatedQuery";
 import {
   listReminders,
   createReminder,
@@ -9,11 +10,16 @@ import {
   completeReminder,
 } from "@/lib/api/reminders.api";
 import type { Reminder, CreateReminderPayload } from "@/types/reminders";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Pagination } from "@/components/ui/Pagination";
 
 export default function RemindersPage() {
-  const [reminders, setReminders] = useState<Reminder[]>([]);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
   const limit = 10;
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -23,16 +29,10 @@ export default function RemindersPage() {
     dueDate: "",
   });
 
-  const fetchReminders = () => {
-    listReminders({ page, limit }).then((res) => {
-      setReminders(res.data);
-      setTotal(res.total);
-    });
-  };
-
-  useEffect(() => {
-    fetchReminders();
-  }, [page]);
+  const { data, total, loading, error, refetch } = usePaginatedQuery<Reminder>(
+    ({ page, limit }) => listReminders({ page, limit }),
+    { page, limit }
+  );
 
   const handleSave = async () => {
     if (editingId) {
@@ -43,7 +43,7 @@ export default function RemindersPage() {
     setShowForm(false);
     setEditingId(null);
     setForm({ title: "", description: "", dueDate: "" });
-    fetchReminders();
+    refetch();
   };
 
   const handleEdit = (r: Reminder) => {
@@ -54,144 +54,120 @@ export default function RemindersPage() {
 
   const handleDelete = async (id: string) => {
     await deleteReminder(id);
-    fetchReminders();
+    refetch();
   };
 
   const handleComplete = async (id: string) => {
     await completeReminder(id);
-    fetchReminders();
+    refetch();
   };
 
-  return (
-    <div className="max-w-3xl mx-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Reminders</h1>
-        <button
-          onClick={() => {
-            setShowForm(true);
-            setEditingId(null);
-            setForm({ title: "", description: "", dueDate: "" });
-          }}
-          className="bg-primary text-primary-foreground px-4 py-2 rounded"
-        >
-          New Reminder
-        </button>
-      </div>
+  if (loading) return <LoadingState label="Loading reminders" />;
+  if (error) return <ErrorState title="Failed to load reminders" description={error.message} onRetry={refetch} />;
 
-      {/* Form modal */}
+  return (
+    <div className="max-w-3xl mx-auto p-4 md:p-6">
+      <PageHeader
+        title="Reminders"
+        description="Keep track of your tasks"
+        actions={
+          <Button
+            onClick={() => {
+              setShowForm(true);
+              setEditingId(null);
+              setForm({ title: "", description: "", dueDate: "" });
+            }}
+          >
+            New Reminder
+          </Button>
+        }
+      />
+
+      {!data || data.length === 0 ? (
+        <EmptyState>No reminders.</EmptyState>
+      ) : (
+        <>
+          <div className="space-y-2 mt-4">
+            {data.map((r) => (
+              <Card
+                key={r.id}
+                compact
+                className={r.isCompleted ? "opacity-70" : ""}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                  <div>
+                    <p className={`font-medium ${r.isCompleted ? "line-through" : ""}`}>
+                      {r.title}
+                    </p>
+                    {r.description && (
+                      <p className="text-sm text-muted-foreground">{r.description}</p>
+                    )}
+                    <p className="text-xs text-muted-foreground/70">
+                      Due: {new Date(r.dueDate).toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 shrink-0 flex-wrap">
+                    {!r.isCompleted && (
+                      <Button variant="outline" size="xs" onClick={() => handleComplete(r.id)}>
+                        Complete
+                      </Button>
+                    )}
+                    <Button variant="ghost" size="xs" onClick={() => handleEdit(r)}>
+                      Edit
+                    </Button>
+                    <Button variant="destructive" size="xs" onClick={() => handleDelete(r.id)}>
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {total > limit && (
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(total / limit)}
+              onPageChange={setPage}
+              showPageNumber
+            />
+          )}
+        </>
+      )}
+
+      {/* Form modal – unchanged for simplicity */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-card rounded p-6 w-96">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-md p-6">
             <h2 className="text-lg font-semibold mb-4">
               {editingId ? "Edit" : "Create"} Reminder
             </h2>
-            <input
-              type="text"
-              placeholder="Title"
-              value={form.title}
-              onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="border p-2 w-full mb-2"
-            />
-            <textarea
-              placeholder="Description (optional)"
-              value={form.description || ""}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-              className="border p-2 w-full mb-2"
-            />
-            <input
-              type="datetime-local"
-              value={form.dueDate}
-              onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
-              className="border p-2 w-full mb-4"
-            />
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setShowForm(false)}
-                className="bg-secondary/50 px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                className="bg-success text-primary-foreground px-4 py-2 rounded"
-              >
-                Save
-              </button>
+            <div className="space-y-3">
+              <Input
+                placeholder="Title"
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                required
+              />
+              <Input
+                placeholder="Description (optional)"
+                value={form.description || ""}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+              />
+              <Input
+                type="datetime-local"
+                value={form.dueDate}
+                onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
+                required
+              />
+              <div className="flex justify-end gap-2 pt-2">
+                <Button variant="outline" onClick={() => setShowForm(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleSave}>Save</Button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Reminder list */}
-      {reminders.length === 0 ? (
-        <p className="text-muted-foreground">No reminders.</p>
-      ) : (
-        <ul className="space-y-2">
-          {reminders.map((r) => (
-            <li
-              key={r.id}
-              className={`p-3 rounded border flex justify-between items-start ${
-                r.isCompleted ? "bg-muted opacity-70" : "bg-card"
-              }`}
-            >
-              <div>
-                <p className={`font-medium ${r.isCompleted ? "line-through" : ""}`}>
-                  {r.title}
-                </p>
-                {r.description && (
-                  <p className="text-sm text-muted-foreground">{r.description}</p>
-                )}
-                <p className="text-xs text-muted-foreground/70">
-                  Due: {new Date(r.dueDate).toLocaleString()}
-                </p>
-              </div>
-              <div className="flex gap-2 text-sm">
-                {!r.isCompleted && (
-                  <button
-                    onClick={() => handleComplete(r.id)}
-                    className="text-green-600 hover:underline"
-                  >
-                    Complete
-                  </button>
-                )}
-                <button
-                  onClick={() => handleEdit(r)}
-                  className="text-primary hover:underline"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(r.id)}
-                  className="text-red-600 hover:underline"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {/* Pagination */}
-      {total > limit && (
-        <div className="flex justify-between mt-6">
-          <button
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span className="text-sm">
-            Page {page} of {Math.ceil(total / limit)}
-          </span>
-          <button
-            disabled={page * limit >= total}
-            onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
-          >
-            Next
-          </button>
+          </Card>
         </div>
       )}
     </div>

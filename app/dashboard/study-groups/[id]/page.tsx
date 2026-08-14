@@ -1,15 +1,16 @@
-// app/dashboard/study-groups/[id]/page.tsx
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "@/lib/hooks/useQuery";
 import {
   getGroup,
-  updateGroup,
   deleteGroup,
-  joinGroup,
-  leaveGroup,
   getMessages,
   sendMessage,
+  listMembers,
+  updateMemberRole,
+  kickMember,
   listInvites,
   createInvite,
   revokeInvite,
@@ -17,277 +18,158 @@ import {
   createChallenge,
   acceptChallenge,
   declineChallenge,
+  getChallengeResult,
   shareSummary,
   askGroupQuestion,
   getQuizLeaderboard,
-  listMembers,
-  updateMemberRole,
-  kickMember,
-  getChallengeResult, 
 } from "@/lib/api/study-groups.api";
-import type { StudyGroup, GroupMessage, GroupInvite, Challenge, GroupMember, QuizLeaderboardEntry } from "@/types/study-groups";
+import type { StudyGroup, GroupMessage, GroupMember, GroupInvite, Challenge, QuizLeaderboardEntry } from "@/types/study-groups";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MemberList } from "@/components/study-groups/MemberList";
+import { InviteList } from "@/components/study-groups/InviteList";
+import { ChallengeList } from "@/components/study-groups/ChallengeList";
+import { AITab } from "@/components/study-groups/AITab";
 
-// We'll use a simple tab interface.
 export default function GroupDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const [group, setGroup] = useState<StudyGroup | null>(null);
-  const [messages, setMessages] = useState<GroupMessage[]>([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [invites, setInvites] = useState<GroupInvite[]>([]);
-  const [challenges, setChallenges] = useState<Challenge[]>([]);
-  const [members, setMembers] = useState<GroupMember[]>([]);
-  const [tab, setTab] = useState<"chat" | "members" | "invites" | "challenges" | "ai">("chat");
-  const [leaderboard, setLeaderboard] = useState<QuizLeaderboardEntry[]>([]);
-  const [leaderboardQuizId, setLeaderboardQuizId] = useState("");
-  const [challengeResult, setChallengeResult] = useState<{ winnerId: string; score: number } | null>(null);
-  const [selectedChallengeId, setSelectedChallengeId] = useState("");
 
-  useEffect(() => {
-    if (id) {
-      getGroup(id).then(setGroup);
-      getMessages(id).then(setMessages);
-      listInvites(id).then(setInvites).catch(() => {});
-      listChallenges(id).then(setChallenges).catch(() => {});
-      listMembers(id).then(setMembers).catch(() => setMembers([]));
-      // assume listMembers endpoint not provided; we can't fetch members directly.
-      // We'll mock empty for now or use a placeholder.
-    }
-  }, [id]);
+  // ── Group data ─────────────────────────────────────────────
+  const { data: group, loading: groupLoading, error: groupError, refetch: refetchGroup } = useQuery<StudyGroup>(
+    () => getGroup(id),
+    [id]
+  );
+
+  // ── Messages ───────────────────────────────────────────────
+  const { data: messages, refetch: refetchMessages } = useQuery<GroupMessage[]>(
+    () => getMessages(id),
+    [id],
+    { enabled: true }
+  );
+  const [newMessage, setNewMessage] = useState("");
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
-    const msg = await sendMessage(id, { content: newMessage });
-    setMessages(prev => [...prev, msg]);
+    await sendMessage(id, { content: newMessage });
     setNewMessage("");
+    refetchMessages();
   };
 
-  const handleCreateInvite = async () => {
-    const email = prompt("Email to invite?");
-    if (!email) return;
-    await createInvite(id, { email });
-    listInvites(id).then(setInvites);
+  // ── Members ────────────────────────────────────────────────
+  const { data: members, refetch: refetchMembers } = useQuery<GroupMember[]>(
+    () => listMembers(id),
+    [id],
+    { enabled: true }
+  );
+
+  // ── Invites ────────────────────────────────────────────────
+  const { data: invites, refetch: refetchInvites } = useQuery<GroupInvite[]>(
+    () => listInvites(id),
+    [id],
+    { enabled: true }
+  );
+
+  // ── Challenges ─────────────────────────────────────────────
+  const { data: challenges, refetch: refetchChallenges } = useQuery<Challenge[]>(
+    () => listChallenges(id),
+    [id],
+    { enabled: true }
+  );
+
+  // ── Tab state ──────────────────────────────────────────────
+  const [tab, setTab] = useState<"chat" | "members" | "invites" | "challenges" | "ai">("chat");
+
+  // ── Mutations ──────────────────────────────────────────────
+  const handleDeleteGroup = async () => {
+    if (!confirm("Delete this group?")) return;
+    await deleteGroup(id);
+    router.push("/dashboard/study-groups");
   };
 
-  const handleRevokeInvite = async (inviteId: string) => {
-    await revokeInvite(inviteId);
-    listInvites(id).then(setInvites);
-  };
-
-  const handleCreateChallenge = async () => {
-    const targetUserId = prompt("Target user ID?");
-    const title = prompt("Challenge title?");
-    if (!targetUserId || !title) return;
-    await createChallenge(id, { targetUserId, title });
-    listChallenges(id).then(setChallenges);
-  };
-
-  const handleAcceptChallenge = async (challengeId: string) => {
-    await acceptChallenge(id, challengeId);
-    listChallenges(id).then(setChallenges);
-  };
-
-  const handleDeclineChallenge = async (challengeId: string) => {
-    await declineChallenge(id, challengeId);
-    listChallenges(id).then(setChallenges);
-  };
-
-  const handleShareSummary = async () => {
-    const summaryId = prompt("Summary ID to share?");
-    if (!summaryId) return;
-    await shareSummary(id, { summaryId });
-    alert("Summary shared!");
-  };
-
-  const handleAskAI = async () => {
-    const question = prompt("Ask a question to the group AI?");
-    if (!question) return;
-    await askGroupQuestion(id, { question });
-    alert("Question sent to AI");
-  };
-
-  if (!group) return <p>Loading...</p>;
+  // ── Loading / Error ────────────────────────────────────────
+  if (groupLoading) return <LoadingState label="Loading group" />;
+  if (groupError) return <ErrorState title="Failed to load group" description={groupError.message} onRetry={refetchGroup} />;
+  if (!group) return null;
 
   return (
     <div>
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">{group.name}</h1>
-          <p className="text-muted-foreground">{group.description}</p>
-          <p className="text-xs text-muted-foreground/70">{group.memberCount} members</p>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => router.push(`/dashboard/study-groups/${id}/edit`)} className="bg-primary text-primary-foreground px-3 py-1 rounded">Edit</button>
-          <button onClick={async () => { await deleteGroup(id); router.push('/dashboard/study-groups'); }} className="bg-destructive text-primary-foreground px-3 py-1 rounded">Delete</button>
-        </div>
+      <PageHeader
+        title={group.name}
+        description={group.description}
+        backHref="/dashboard/study-groups"
+        actions={
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={() => router.push(`/dashboard/study-groups/${id}/edit`)}>
+              Edit
+            </Button>
+            <Button variant="destructive" size="sm" onClick={handleDeleteGroup}>
+              Delete
+            </Button>
+          </div>
+        }
+      />
+
+      <div className="mt-4">
+        <Badge variant="default">Members: {group.memberCount}</Badge>
+        {group.isPrivate && <Badge variant="outline" className="ml-2">Private</Badge>}
       </div>
 
-      {/* Tabs */}
-      <div className="flex space-x-4 border-b mb-4">
-        {(["chat", "members", "invites", "challenges", "ai"] as const).map(t => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`px-3 py-2 capitalize ${tab === t ? "border-b-2 border-primary text-primary" : "text-muted-foreground"}`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
+      <Tabs value={tab} onValueChange={(v) => setTab(v as any)} className="mt-4">
+        <TabsList>
+          <TabsTrigger value="chat">Chat</TabsTrigger>
+          <TabsTrigger value="members">Members</TabsTrigger>
+          <TabsTrigger value="invites">Invites</TabsTrigger>
+          <TabsTrigger value="challenges">Challenges</TabsTrigger>
+          <TabsTrigger value="ai">AI</TabsTrigger>
+        </TabsList>
 
-      {/* Chat Tab */}
-      {tab === "chat" && (
-        <div>
-          <div className="h-96 overflow-y-auto border p-3 mb-2">
-            {messages.map((m, i) => (
-              <div key={m.id} className="mb-2">
-                <span className="font-medium">{m.senderName}:</span> {m.content}
-              </div>
-            ))}
+        <TabsContent value="chat" className="space-y-3">
+          <div className="h-96 overflow-y-auto border border-border rounded-lg p-3 bg-card">
+            {messages && messages.length > 0 ? (
+              messages.map((msg) => (
+                <div key={msg.id} className="mb-2">
+                  <span className="font-semibold text-foreground">{msg.senderName}:</span>
+                  <span className="ml-2 text-foreground">{msg.content}</span>
+                </div>
+              ))
+            ) : (
+              <EmptyState>No messages yet.</EmptyState>
+            )}
           </div>
           <div className="flex gap-2">
-            <input
-              type="text"
+            <Input
               value={newMessage}
-              onChange={e => setNewMessage(e.target.value)}
-              className="border p-2 flex-1"
+              onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type a message..."
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
-            <button onClick={handleSendMessage} className="bg-primary text-primary-foreground px-4 py-2 rounded">Send</button>
+            <Button onClick={handleSendMessage}>Send</Button>
           </div>
-        </div>
-      )}
+        </TabsContent>
 
-      {tab === "members" && (
-        <div>
-          <h2 className="font-semibold mb-2">Members</h2>
-          {members.length === 0 ? (
-            <p className="text-muted-foreground">No members found (backend endpoint missing).</p>
-          ) : (
-            <ul className="space-y-2">
-              {members.map((member) => (
-                <li key={member.userId} className="flex justify-between items-center border p-2 rounded">
-                  <div>
-                    <p className="font-medium">{member.name}</p>
-                    <p className="text-xs text-muted-foreground">{member.role}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <select
-                      value={member.role}
-                      onChange={(e) => updateMemberRole(id, member.userId, e.target.value as any).then(() => listMembers(id).then(setMembers))}
-                      className="border p-1 text-sm"
-                    >
-                      <option value="MEMBER">Member</option>
-                      <option value="MODERATOR">Moderator</option>
-                      <option value="ADMIN">Admin</option>
-                    </select>
-                    <button
-                      onClick={() => kickMember(id, member.userId).then(() => listMembers(id).then(setMembers))}
-                      className="text-red-600 text-sm"
-                    >
-                      Kick
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
+        <TabsContent value="members">
+          <MemberList groupId={id} members={members || []} onUpdate={refetchMembers} />
+        </TabsContent>
 
-      {/* Invites Tab */}
-      {tab === "invites" && (
-        <div>
-          <div className="flex justify-between mb-2">
-            <h2 className="font-semibold">Invites</h2>
-            <button onClick={handleCreateInvite} className="bg-success text-primary-foreground px-3 py-1 rounded">New Invite</button>
-          </div>
-          {invites.map(inv => (
-            <div key={inv.id} className="flex justify-between items-center border p-2 mb-1">
-              <span>Token: {inv.token}</span>
-              <button onClick={() => handleRevokeInvite(inv.id)} className="text-red-600 text-sm">Revoke</button>
-            </div>
-          ))}
-        </div>
-      )}
+        <TabsContent value="invites">
+          <InviteList groupId={id} invites={invites || []} onUpdate={refetchInvites} />
+        </TabsContent>
 
-      {/* Challenges Tab */}
-      {tab === "challenges" && (
-        <div>
-          <div className="flex justify-between mb-2">
-            <h2 className="font-semibold">Challenges</h2>
-            <button onClick={handleCreateChallenge} className="bg-success text-primary-foreground px-3 py-1 rounded">New Challenge</button>
-          </div>
-          {challenges.map(ch => (
-            <div key={ch.id} className="border p-2 mb-1 flex justify-between items-center">
-              <span>{ch.title} (Status: {ch.status})</span>
-              {ch.status === 'PENDING' && (
-                <div className="flex gap-2">
-                  <button onClick={() => handleAcceptChallenge(ch.id)} className="text-green-600">Accept</button>
-                  <button onClick={() => handleDeclineChallenge(ch.id)} className="text-red-600">Decline</button>
-                </div>
-              )}
-              {ch.status === 'COMPLETED' && (
-                <button
-                    onClick={() => {
-                    getChallengeResult(id, ch.id).then(setChallengeResult);
-                    setSelectedChallengeId(ch.id);
-                    }}
-                    className="text-primary text-sm ml-2"
-                >
-                    View Result
-                </button>
-              )}
-              {challengeResult && selectedChallengeId === ch.id && (
-                    <div className="mt-2 p-2 bg-muted/80 rounded">
-                        <p>Winner: {challengeResult.winnerId} (Score: {challengeResult.score})</p>
-                    </div>
-                    )}
-            </div>
-          ))}
-        </div>
-      )}
+        <TabsContent value="challenges">
+          <ChallengeList groupId={id} challenges={challenges || []} onUpdate={refetchChallenges} />
+        </TabsContent>
 
-      {/* AI Tab */}
-     {tab === "ai" && (
-  <div>
-    <h2 className="font-semibold mb-2">AI Features</h2>
-    <button onClick={handleShareSummary} className="bg-info text-primary-foreground px-3 py-1 rounded mb-2">Share Summary</button>
-    <button onClick={handleAskAI} className="bg-primary text-primary-foreground px-3 py-1 rounded mb-2">Ask Group AI</button>
-
-    {/* Leaderboard */}
-    <div className="mt-4">
-      <h3 className="font-medium mb-1">Quiz Leaderboard</h3>
-      <div className="flex gap-2 mb-2">
-        <input
-          type="text"
-          placeholder="Quiz ID"
-          value={leaderboardQuizId}
-          onChange={(e) => setLeaderboardQuizId(e.target.value)}
-          className="border p-1 flex-1"
-        />
-        <button
-          onClick={() => getQuizLeaderboard(id, leaderboardQuizId).then(setLeaderboard)}
-          className="bg-secondary/50 px-3 py-1 rounded"
-        >
-          Load
-        </button>
-      </div>
-      {leaderboard.length > 0 ? (
-        <ul className="space-y-1">
-          {leaderboard.map((entry, i) => (
-            <li key={entry.userId} className="flex justify-between">
-              <span>{i + 1}. {entry.name}</span>
-              <span>{entry.score}</span>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-sm text-muted-foreground">Enter a quiz ID to see results.</p>
-      )}
-    </div>
-  </div>
-)}
+        <TabsContent value="ai">
+          <AITab groupId={id} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

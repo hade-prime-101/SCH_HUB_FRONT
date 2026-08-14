@@ -1,5 +1,6 @@
 import { AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ErrorStateProps {
   title?: string;
@@ -38,18 +39,14 @@ export function ErrorState({
           </Button>
         )}
         {primaryAction && (
-          <Button asChild variant="default">
-            <a href={primaryAction.href} onClick={primaryAction.onClick}>
-              {primaryAction.label}
-            </a>
-          </Button>
+          <a href={primaryAction.href} onClick={primaryAction.onClick} className={cn(buttonVariants({ variant: "default" }))}>
+            {primaryAction.label}
+          </a>
         )}
         {secondaryAction && (
-          <Button asChild variant="outline">
-            <a href={secondaryAction.href} onClick={secondaryAction.onClick}>
-              {secondaryAction.label}
-            </a>
-          </Button>
+          <a href={secondaryAction.href} onClick={secondaryAction.onClick} className={cn(buttonVariants({ variant: "outline" }))}>
+            {secondaryAction.label}
+          </a>
         )}
       </div>
     </div>

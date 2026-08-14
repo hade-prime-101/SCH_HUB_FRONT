@@ -1,5 +1,40 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
+// lib/api/base.ts (excerpt – only the relevant part)
+
+import { withAuthInterceptor } from './interceptor';
+
+// ... other imports and constants ...
+
+export async function apiFetch<T>(
+  endpoint: string,
+  options: RequestInit = {},
+  isFormData = false
+): Promise<T> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  const config: RequestInit = {
+    ...options,
+    headers: {
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+      ...options.headers,
+    },
+  };
+
+  // Add auth token if available
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('auth_token') : null;
+  if (token) {
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer ${token}`,
+    };
+  }
+
+  // Wrap fetch with interceptor
+  const response = await withAuthInterceptor(fetch)(url, config);
+
+  // ... rest of the function (parse JSON, handle errors, etc.)
+}
+
 class ApiError extends Error {
   status: number;
   body: any;

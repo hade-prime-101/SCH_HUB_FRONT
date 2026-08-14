@@ -1,22 +1,39 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useQuery } from "@/lib/hooks/useQuery";
 import { getMyMaterials } from "@/lib/api/users.api";
 import type { UserMaterial } from "@/types/users";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Card } from "@/components/ui/card";
 
 export default function MyMaterialsPage() {
-  const [materials, setMaterials] = useState<UserMaterial[]>([]);
-  useEffect(() => { getMyMaterials().then(setMaterials); }, []);
+  const { data, loading, error, refetch } = useQuery<UserMaterial[]>(
+    () => getMyMaterials(),
+    []
+  );
+
+  if (loading) return <LoadingState label="Loading materials" />;
+  if (error) return <ErrorState title="Failed to load materials" description={error.message} onRetry={refetch} />;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">My Materials</h1>
-      <div className="space-y-2">
-        {materials.map(m => (
-          <div key={m.id} className="bg-card shadow rounded p-3">
-            {m.title} {m.courseCode && `(${m.courseCode})`}
-          </div>
-        ))}
-      </div>
+    <div className="max-w-3xl mx-auto p-4 md:p-6">
+      <PageHeader title="My Materials" description="Resources you've uploaded" />
+
+      {!data || data.length === 0 ? (
+        <EmptyState>No materials yet.</EmptyState>
+      ) : (
+        <div className="space-y-2 mt-4">
+          {data.map((m) => (
+            <Card key={m.id} compact>
+              <p>
+                {m.title} {m.courseCode && `(${m.courseCode})`}
+              </p>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
