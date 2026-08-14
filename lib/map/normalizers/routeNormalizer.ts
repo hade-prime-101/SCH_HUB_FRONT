@@ -25,11 +25,6 @@ export interface RawRouteData extends Record<string, unknown> {
 
 /**
  * Normalize a raw route response from the backend
- * 
- * The backend may return:
- * 1. Direct route object with geometry, distance, duration
- * 2. Wrapped in a `routes` array (like OSRM format)
- * 3. With origin/destination as objects
  */
 export function normalizeRoute(
   raw: RawRouteData,
@@ -97,16 +92,15 @@ function generateRouteId(): string {
 }
 
 function extractGeometry(raw: any): GeoJSONLineString | null {
-  let geom = raw.geometry;
+  const geom = raw.geometry;
 
-  // Handle nested coordinates format
+  // GeoJSON format
   if (geom && typeof geom === 'object') {
-    // GeoJSON format
     if (geom.type === 'LineString' && Array.isArray(geom.coordinates)) {
       return geom as GeoJSONLineString;
     }
 
-    // Flat coordinates array (some APIs return this)
+    // Flat coordinates array
     if (Array.isArray(geom)) {
       return {
         type: 'LineString',
@@ -115,7 +109,7 @@ function extractGeometry(raw: any): GeoJSONLineString | null {
     }
   }
 
-  // Try extracting from polyline string (encoded polyline)
+  // Try polyline string
   if (typeof raw.polyline === 'string') {
     const decoded = decodePolyline(raw.polyline);
     if (decoded && decoded.length > 0) {
@@ -157,7 +151,7 @@ function extractDuration(raw: any): number | null {
 function extractMode(raw: any): RoutingMode {
   const mode = (raw.mode || raw.type || raw.routeType || '').toLowerCase();
   if (['driving', 'walking', 'cycling'].includes(mode)) return mode as RoutingMode;
-  return 'walking'; // default
+  return 'walking';
 }
 
 function extractSteps(raw: any): RouteStep[] | undefined {
@@ -223,10 +217,6 @@ function extractSummary(raw: any): string | null {
 
 /**
  * Decode polyline string (Google polyline encoding format)
- * Used by some routing services instead of raw coordinates
- * 
- * @param polyline - Encoded polyline string
- * @returns Array of [lng, lat] coordinates
  */
 function decodePolyline(polyline: string): [number, number][] {
   const coordinates: [number, number][] = [];

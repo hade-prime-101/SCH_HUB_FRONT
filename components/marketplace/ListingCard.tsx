@@ -5,7 +5,6 @@ import { Heart } from "lucide-react";
 import { Listing } from "@/types/marketplace";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Link } from 'react-router-dom';
 
 interface ListingCardProps {
   listing: Listing;

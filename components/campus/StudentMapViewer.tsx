@@ -120,21 +120,29 @@ export default function StudentMapViewer({
       map.on("load", () => {
         if (cancelled) return;
         setMapReady(true);
-        // Add 3D buildings if available
+
+        // --- FIXED 3D BUILDINGS SECTION ---
         if (mapTilerKey) {
           try {
-            const source =
-              map.getSource("maptiler_planet") ||
-              map.getSource("openmaptiles") ||
-              map.getSource("composite");
-            if (source) {
+            // Determine which source provides building data
+            const sourceCandidates = ["maptiler_planet", "openmaptiles", "composite"];
+            let sourceId: string | null = null;
+            for (const id of sourceCandidates) {
+              if (map.getSource(id)) {
+                sourceId = id;
+                break;
+              }
+            }
+
+            if (sourceId) {
               const firstSymbolId = map.getStyle().layers?.find(
                 (l: any) => l.type === "symbol"
               )?.id;
+
               map.addLayer(
                 {
                   id: "3d-buildings",
-                  source: source as string,
+                  source: sourceId,
                   "source-layer": "building",
                   type: "fill-extrusion",
                   minzoom: 14,
@@ -173,9 +181,10 @@ export default function StudentMapViewer({
               );
             }
           } catch {
-            // ignore
+            // Ignore – 3D buildings are non‑critical
           }
         }
+        // --- END OF FIXED SECTION ---
       });
 
       mapRef.current = map;

@@ -23,4 +23,4 @@ export const deleteReminder = (id: string) =>
   apiDelete<{ message: string }>(`/reminders/${id}`);
 
 export const completeReminder = (id: string) =>
-  apiPost<Reminder>(`/reminders/${id}/complete`);
+  apiPost<Reminder>(`/reminders/${id}/complete`, {});

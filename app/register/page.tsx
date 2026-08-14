@@ -33,6 +33,7 @@ import type {
   RegistrationFormData,
   RegistrationStep,
 } from "@/types/auth";
+import { Check, Circle } from "lucide-react";
 
 export default function RegisterPage() {
   const [currentStep, setCurrentStep] = useState<RegistrationStep>("school");
@@ -224,8 +225,12 @@ export default function RegisterPage() {
         // Sync to HTTP-only cookie so the splash auth check works
         await fetch("/api/auth/set-cookie", {
           method:  "POST",
-          headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify({ accessToken: res.tokens.accessToken }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            accessToken: res.tokens.accessToken,
+          }),
         });
       }
 
@@ -553,6 +558,25 @@ export default function RegisterPage() {
                   ))}
                 </div>
               )}
+            </div>
+            {/* Password Requirements Checklist (always visible) */}
+            <div className="mt-3 space-y-1.5">
+              {[
+                { key: "length", label: "At least 8 characters", check: formData.password.length >= 8 },
+                { key: "case", label: "Uppercase and lowercase letters", check: /[a-z]/.test(formData.password) && /[A-Z]/.test(formData.password) },
+                { key: "number", label: "At least one number", check: /[0-9]/.test(formData.password) },
+                { key: "special", label: "At least one special character", check: /[^A-Za-z0-9]/.test(formData.password) },
+              ].map(({ key, label, check }) => (
+                <div key={key} className="flex items-center gap-2">
+                  {check
+                    ? <Check className="w-4 h-4 text-success shrink-0" />
+                    : <Circle className="w-4 h-4 text-muted shrink-0" />
+                  }
+                  <span className={`text-sm ${check ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
+                    {label}
+                  </span>
+                </div>
+              ))}
             </div>
 
             {/* Confirm Password */}

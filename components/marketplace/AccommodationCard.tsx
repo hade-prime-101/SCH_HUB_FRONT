@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { Accommodation } from "@/types/marketplace";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Link } from 'react-router-dom';
 
 interface AccommodationCardProps {
   accommodation: Accommodation;

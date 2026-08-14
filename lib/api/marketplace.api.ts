@@ -55,7 +55,7 @@ export const deleteListing = (id: string) =>
   apiDelete<{ message: string }>(`/marketplace/listings/${id}`);
 
 export const toggleSaveListing = (id: string) =>
-  apiPost<{ saved: boolean }>(`/marketplace/listings/${id}/save`);
+  apiPost<{ saved: boolean }>(`/marketplace/listings/${id}/save`, {});
 
 export const getSavedListings = () =>
   apiGet<Listing[]>('/marketplace/listings/saved');
@@ -84,7 +84,7 @@ export const adminDeleteShop = (id: string) =>
   apiDelete<{ message: string }>(`/marketplace/shops/${id}`);
 
 export const followShop = (id: string) =>
-  apiPost<{ following: boolean }>(`/marketplace/shops/${id}/follow`);
+  apiPost<{ following: boolean }>(`/marketplace/shops/${id}/follow`, {});
 
 export const rateSeller = (shopId: string, payload: RateSellerPayload) =>
   apiPost<{ averageRating: number }>(`/marketplace/shops/${shopId}/rate`, payload);
@@ -97,7 +97,7 @@ export const createLostFound = (payload: CreateLostFoundPayload) =>
   apiPost<LostFoundItem>('/marketplace/lost-found', payload);
 
 export const resolveLostFound = (id: string) =>
-  apiPost<LostFoundItem>(`/marketplace/lost-found/${id}/resolve`);
+  apiPost<LostFoundItem>(`/marketplace/lost-found/${id}/resolve`, {});
 
 // ─── Accommodation ──────────────────────────────────────────
 export const listAccommodation = (params?: { page?: number; limit?: number }) =>
@@ -195,7 +195,7 @@ export const listPendingJobs = () =>
   apiGet<Job[]>('/marketplace/jobs/pending');
 
 export const approveJob = (id: string) =>
-  apiPost<Job>(`/marketplace/jobs/${id}/approve`);
+  apiPost<Job>(`/marketplace/jobs/${id}/approve`, {});
 
 export const rejectJob = (id: string, payload: RejectJobPayload) =>
   apiPost<Job>(`/marketplace/jobs/${id}/reject`, payload);
@@ -208,7 +208,7 @@ export const listReports = () =>
   apiGet<ContentReport[]>('/marketplace/reports');
 
 export const resolveReport = (id: string) =>
-  apiPost<{ message: string }>(`/marketplace/reports/${id}/resolve`);
+  apiPost<{ message: string }>(`/marketplace/reports/${id}/resolve`, {});
 
 // ─── Marketplace API Object (for backward compatibility) ──────
 export const marketplaceApi = {

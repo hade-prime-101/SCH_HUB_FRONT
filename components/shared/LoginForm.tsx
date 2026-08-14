@@ -21,40 +21,6 @@ interface FormErrors {
   password?: string;
 }
 
-/**
- * LoginForm Component
- *
- * Reusable login form component with:
- * - Email and password inputs
- * - Form validation
- * - Error display
- * - Loading state
- * - Remember me checkbox
- * - Password visibility toggle
- *
- * @example
- * ```tsx
- * const [isLoading, setIsLoading] = useState(false);
- * const [error, setError] = useState<string | null>(null);
- *
- * const handleLogin = async (email: string, password: string) => {
- *   setIsLoading(true);
- *   try {
- *     await apiClient.login(email, password);
- *   } catch (err) {
- *     setError(err.message);
- *   } finally {
- *     setIsLoading(false);
- *   }
- * };
- *
- * <LoginForm
- *   onSubmit={handleLogin}
- *   isLoading={isLoading}
- *   error={error}
- * />
- * ```
- */
 export function LoginForm({
   onSubmit,
   isLoading = false,
@@ -66,9 +32,6 @@ export function LoginForm({
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<FormErrors>({});
 
-  /**
-   * Validate email format
-   */
   const validateEmail = (value: string): string | undefined => {
     if (!value) {
       return "Email is required";
@@ -80,9 +43,6 @@ export function LoginForm({
     return undefined;
   };
 
-  /**
-   * Validate password
-   */
   const validatePassword = (value: string): string | undefined => {
     if (!value) {
       return "Password is required";
@@ -93,16 +53,12 @@ export function LoginForm({
     return undefined;
   };
 
-  /**
-   * Handle field blur - mark as touched and validate
-   */
   const handleBlur = (fieldName: keyof typeof touched) => {
     setTouched((prev) => ({
       ...prev,
       [fieldName]: true,
     }));
 
-    // Validate the field
     let error: string | undefined;
     if (fieldName === "email") {
       error = validateEmail(email);
@@ -124,19 +80,14 @@ export function LoginForm({
     }
   };
 
-  /**
-   * Handle form submission
-   */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Mark all fields as touched
     setTouched({
       email: true,
       password: true,
     });
 
-    // Validate all fields
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
 
@@ -148,14 +99,11 @@ export function LoginForm({
       return;
     }
 
-    // Clear errors
     setErrors({});
 
-    // Call onSubmit callback
     try {
       await onSubmit(email, password);
     } catch (err) {
-      // Error handling is done by parent component
       console.error("Login form submission error:", err);
     }
   };
@@ -210,7 +158,7 @@ export function LoginForm({
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="password" className="block text-[12px] font-semibold text-slate-500">
+        <label htmlFor="password" className="block text-[12px] font-semibold text-muted-foreground">
           Password
         </label>
         <PasswordInput

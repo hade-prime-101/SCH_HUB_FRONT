@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 "use client";
 
 import { useEffect, useState } from "react";
@@ -157,7 +158,7 @@ export default function TimetablePage() {
                       variant="ghost"
                       size="icon-xs"
                       onClick={() =>
-                        router.push(`/campus/map?q=${encodeURIComponent(entry.venue)}`)
+                        router.push(`/campus/map?q=${encodeURIComponent(entry.venue || "")}`)
                       }
                     >
                       <MapPin className="w-4 h-4" />

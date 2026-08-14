@@ -46,7 +46,7 @@ export const getSessions = () => apiGet<UserSession[]>('/users/me/sessions');
 export const revokeSession = (sessionId: string) =>
   apiPost<{ message: string }>('/users/me/sessions/revoke', { sessionId });
 export const revokeAllSessions = () =>
-  apiPost<{ message: string }>('/users/me/sessions/revoke-all');
+  apiPost<{ message: string }>('/users/me/sessions/revoke-all', {});
 
 // ─── User management (roles, search, list) ─────────────────
 export const searchUsers = (query: SearchUsersQuery) =>

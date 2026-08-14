@@ -1,3 +1,4 @@
+import * as React from "react";
 // app/study/materials/[id]/edit/page.tsx
 "use client";
 
@@ -65,19 +66,19 @@ export default function EditMaterialPage() {
       <form onSubmit={handleSubmit} className="bg-card rounded-2xl border border-border p-6 space-y-4">
         <div>
           <Label htmlFor="title">Title *</Label>
-          <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+          <Input id="title" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} required />
         </div>
         <div>
           <Label htmlFor="courseCode">Course Code</Label>
-          <Input id="courseCode" value={courseCode} onChange={(e) => setCourseCode(e.target.value)} />
+          <Input id="courseCode" value={courseCode} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseCode(e.target.value)} />
         </div>
         <div>
           <Label htmlFor="courseTitle">Course Title</Label>
-          <Input id="courseTitle" value={courseTitle} onChange={(e) => setCourseTitle(e.target.value)} />
+          <Input id="courseTitle" value={courseTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseTitle(e.target.value)} />
         </div>
         <div>
           <Label htmlFor="description">Description</Label>
-          <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={4} />
+          <Textarea id="description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} rows={4} />
         </div>
         <div>
           <Label htmlFor="visibility">Visibility</Label>

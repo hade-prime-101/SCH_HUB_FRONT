@@ -1,9 +1,10 @@
+import React from "react";
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
 import maplibregl, { LngLatLike, GeoJSONSource } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useMapStore } from "@/lib/map/store";
+import { useMapStore } from "@/lib/map/state/store";
 import { mapConfigService } from "@/lib/map/services";
 import { isMapLocation } from "@/lib/map/utils";
 import { LayerManager } from "@/lib/map/utils";
@@ -35,7 +36,7 @@ export default function MapCanvas({
   useEffect(() => {
     mapConfigService
       .getMapConfig()
-      .then((cfg) => setMapTilerKey(cfg.maptilerApiKey))
+      .then((cfg) => setMapTilerKey(cfg.maptilerApiKey ?? undefined))
       .catch(() => setMapTilerKey(""));
   }, []);
 

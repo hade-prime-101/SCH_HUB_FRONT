@@ -1,3 +1,4 @@
+import * as React from "react";
 // app/study/quizzes/create/page.tsx
 "use client";
 
@@ -82,11 +83,11 @@ export default function CreateQuizPage() {
         <div className="bg-card rounded-2xl border border-border p-6 space-y-4">
           <div>
             <Label htmlFor="title">Quiz Title *</Label>
-            <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+            <Input id="title" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} required />
           </div>
           <div>
             <Label htmlFor="description">Description</Label>
-            <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
+            <Textarea id="description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} rows={3} />
           </div>
           <Button onClick={handleCreate} disabled={loading}>
             {loading ? "Creating..." : "Create & Edit Questions"}
@@ -99,7 +100,7 @@ export default function CreateQuizPage() {
             <Input
               id="materialId"
               value={materialId}
-              onChange={(e) => setMaterialId(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMaterialId(e.target.value)}
               placeholder="Enter material ID"
             />
           </div>
@@ -111,7 +112,7 @@ export default function CreateQuizPage() {
               min={1}
               max={20}
               value={numQuestions}
-              onChange={(e) => setNumQuestions(Number(e.target.value))}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNumQuestions(Number(e.target.value))}
             />
           </div>
           <Button onClick={handleGenerate} disabled={loading}>

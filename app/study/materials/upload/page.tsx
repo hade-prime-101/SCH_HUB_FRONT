@@ -1,3 +1,4 @@
+import * as React from "react";
 // app/study/materials/upload/page.tsx
 "use client";
 
@@ -126,7 +127,7 @@ export default function UploadMaterialPage() {
                 id="file"
                 type="file"
                 ref={fileInputRef}
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files?.[0] || null)}
                 className="flex-1"
               />
               {file && (
@@ -136,19 +137,19 @@ export default function UploadMaterialPage() {
           </div>
           <div>
             <Label htmlFor="title">Title *</Label>
-            <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+            <Input id="title" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} required />
           </div>
           <div>
             <Label htmlFor="courseCode">Course Code</Label>
-            <Input id="courseCode" value={courseCode} onChange={(e) => setCourseCode(e.target.value)} />
+            <Input id="courseCode" value={courseCode} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseCode(e.target.value)} />
           </div>
           <div>
             <Label htmlFor="courseTitle">Course Title</Label>
-            <Input id="courseTitle" value={courseTitle} onChange={(e) => setCourseTitle(e.target.value)} />
+            <Input id="courseTitle" value={courseTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseTitle(e.target.value)} />
           </div>
           <div>
             <Label htmlFor="description">Description</Label>
-            <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
+            <Textarea id="description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} rows={3} />
           </div>
           <div>
             <Label htmlFor="visibility">Visibility</Label>
@@ -176,8 +177,8 @@ export default function UploadMaterialPage() {
             <Input
               type="file"
               multiple
-              onChange={(e) => {
-                const files = Array.from(e.target.files || []);
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const files = Array.from(e.target.files ?? []);
                 setBulkFiles(prev => [...prev, ...files]);
               }}
               className="mt-1"
@@ -201,7 +202,7 @@ export default function UploadMaterialPage() {
               id="bulkJson"
               placeholder='[{"title":"Math Notes","visibility":"PUBLIC"}]'
               value={bulkJson}
-              onChange={(e) => setBulkJson(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBulkJson(e.target.value)}
               rows={5}
               className="mt-1 font-mono text-sm"
             />

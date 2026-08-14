@@ -20,20 +20,20 @@ export const deleteAdmin = (adminId: string) =>
   apiDelete<{ message: string }>(`/super-admin/admins/${adminId}`);
 
 export const deactivateAdmin = (adminId: string) =>
-  apiPost<AdminUser>(`/super-admin/admins/${adminId}/deactivate`);
+  apiPost<AdminUser>(`/super-admin/admins/${adminId}/deactivate`, {});
 
 export const reactivateAdmin = (adminId: string) =>
-  apiPost<AdminUser>(`/super-admin/admins/${adminId}/reactivate`);
+  apiPost<AdminUser>(`/super-admin/admins/${adminId}/reactivate`, {});
 
 export const resetAdminPassword = (adminId: string, payload: ResetAdminPasswordPayload) =>
   apiPost<{ message: string }>(`/super-admin/admins/${adminId}/reset-password`, payload);
 
 // ─── User block/unblock ─────────────────────────────────────
 export const blockUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/users/${userId}/block`);
+  apiPost<{ message: string }>(`/super-admin/users/${userId}/block`, {});
 
 export const unblockUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/users/${userId}/unblock`);
+  apiPost<{ message: string }>(`/super-admin/users/${userId}/unblock`, {});
 
 // ─── School management ──────────────────────────────────────
 export const createSchool = (payload: CreateSchoolPayload) =>
@@ -86,10 +86,10 @@ export const listSchoolUsers = (params?: { page?: number; limit?: number; search
   );
 
 export const blockSchoolUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/block`);
+  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/block`, {});
 
 export const unblockSchoolUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/unblock`);
+  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/unblock`, {});
 
 export const listAllAgents = (status?: string) =>
   apiGet<Agent[]>('/super-admin/agents', { status });

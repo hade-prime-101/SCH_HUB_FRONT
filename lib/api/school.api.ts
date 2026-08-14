@@ -66,7 +66,7 @@ export const listTickets = (eventId: string) =>
   apiGet<Ticket[]>(`/school/events/${eventId}/tickets`);
 
 export const approveTicket = (ticketId: string) =>
-  apiPost<Ticket>(`/school/tickets/${ticketId}/approve`);
+  apiPost<Ticket>(`/school/tickets/${ticketId}/approve`, {});
 
 export const rejectTicket = (ticketId: string, payload: RejectTicketPayload) =>
   apiPost<Ticket>(`/school/tickets/${ticketId}/reject`, payload);

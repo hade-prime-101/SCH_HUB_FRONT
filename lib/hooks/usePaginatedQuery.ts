@@ -77,7 +77,7 @@ export function usePaginatedQuery<T>(
     return () => {
       isMounted.current = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [fetchData]);
 
   const refetch = useCallback(() => fetchData(), [fetchData]);

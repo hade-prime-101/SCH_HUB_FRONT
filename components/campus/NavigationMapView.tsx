@@ -4,9 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Loader2, Crosshair } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { GeoJSONLineString } from "@/lib/map/types/geojson";
 
 interface Props {
-  routeGeometry: { type: string; coordinates: [number, number][] } | null;
+  routeGeometry: GeoJSONLineString | null;
   userPosition: { lat: number; lng: number } | null;
   nearestVertexIdx: number;
   destination: { lat: number; lng: number } | null;

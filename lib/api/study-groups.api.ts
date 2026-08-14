@@ -40,10 +40,10 @@ export const deleteGroup = (id: string) =>
 
 // ─── Join / Leave ────────────────────────────────────────────
 export const joinGroup = (id: string) =>
-  apiPost<{ success: boolean }>(`/study-groups/${id}/join`);
+  apiPost<{ success: boolean }>(`/study-groups/${id}/join`, {});
 
 export const leaveGroup = (id: string) =>
-  apiPost<{ success: boolean }>(`/study-groups/${id}/leave`);
+  apiPost<{ success: boolean }>(`/study-groups/${id}/leave`, {});
 
 // ─── Member management ───────────────────────────────────────
 export const updateMemberRole = (groupId: string, userId: string, payload: UpdateMemberRolePayload) =>
@@ -57,7 +57,7 @@ export const createInvite = (groupId: string, payload: CreateInvitePayload) =>
   apiPost<GroupInvite>(`/study-groups/${groupId}/invites`, payload);
 
 export const acceptInvite = (token: string) =>
-  apiPost<{ success: boolean }>(`/study-groups/invites/${token}/accept`);
+  apiPost<{ success: boolean }>(`/study-groups/invites/${token}/accept`, {});
 
 export const listInvites = (groupId: string) =>
   apiGet<GroupInvite[]>(`/study-groups/${groupId}/invites`);
@@ -87,10 +87,10 @@ export const createChallenge = (groupId: string, payload: CreateChallengePayload
   apiPost<Challenge>(`/study-groups/${groupId}/challenges`, payload);
 
 export const acceptChallenge = (groupId: string, challengeId: string) =>
-  apiPost<Challenge>(`/study-groups/${groupId}/challenges/${challengeId}/accept`);
+  apiPost<Challenge>(`/study-groups/${groupId}/challenges/${challengeId}/accept`, {});
 
 export const declineChallenge = (groupId: string, challengeId: string) =>
-  apiPost<Challenge>(`/study-groups/${groupId}/challenges/${challengeId}/decline`);
+  apiPost<Challenge>(`/study-groups/${groupId}/challenges/${challengeId}/decline`, {});
 
 export const getChallengeResult = (groupId: string, challengeId: string) =>
   apiGet<{ winnerId: string; score: number }>(`/study-groups/${groupId}/challenges/${challengeId}/result`);

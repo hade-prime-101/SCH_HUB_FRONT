@@ -1,9 +1,10 @@
+import { MapPin } from "lucide-react";
 "use client";
 
 import { useEffect, useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle, Loader2 } from "lucide-react";
-import { useMapStore } from "@/lib/map/store";
+import { useMapStore } from "@/lib/map/state/store";
 import {
   mapLocationService,
   mapEntranceService,
@@ -13,15 +14,14 @@ import {
 } from "@/lib/map/services";
 import { useGPSTracking } from "@/lib/map/hooks";
 import { isMapLocation } from "@/lib/map/utils";
+import { LocationType } from "@/lib/map/types/location";
 import MapCanvas from "./MapCanvas";
-import MapHeader from "./MapHeader";
-import LocationPanel from "./LocationPanel";
+import { MapHeader } from "./MapHeader";
+import { LocationPanel } from "./LocationPanel";
 import NavigationPanel from "./NavigationPanel";
-import FloatingControls from "./FloatingControls";
-import GPSPermissionModal from "./GPSPermissionModal";
-import GPSPermissionBanner from "./GPSPermissionBanner";
-import { ErrorMessage } from "@/components/ui/ErrorMessage";
-import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { FloatingControls } from "./FloatingControls";
+import { GPSPermissionModal } from "./GPSPermissionModal";
+import { GPSPermissionBanner } from "./GPSPermissionBanner";
 
 export default function MapContainer() {
   const router = useRouter();
@@ -188,7 +188,7 @@ export default function MapContainer() {
 
   const handleFilterChange = useCallback(
     async (filter: string) => {
-      setActiveFilter(filter);
+      setActiveFilter(filter as LocationType | "ALL");
       setSearchQuery("");
       try {
         setIsLoading(true);
@@ -372,12 +372,7 @@ export default function MapContainer() {
                 userLocation={userPosition || undefined}
                 currentRoute={currentRoute}
               />
-              <FloatingControls
-                isFollowing={isFollowing}
-                onRecenter={handleRecenter}
-                onToggleFollowMode={handleToggleFollowMode}
-                hasUserLocation={Boolean(userPosition)}
-              />
+              <FloatingControls />
               {filteredLocations.length === 0 && !isLoading && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pointer-events-none">
                   <MapPin className="w-12 h-12 text-muted-foreground/30" />

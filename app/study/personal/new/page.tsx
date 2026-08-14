@@ -1,3 +1,4 @@
+import * as React from "react";
 // app/study/personal/new/page.tsx
 "use client";
 
@@ -59,7 +60,7 @@ export default function NewSessionPage() {
           <Input
             id="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
             placeholder="e.g., Calculus Midterm Review"
             required
           />
@@ -89,7 +90,7 @@ export default function NewSessionPage() {
             <Textarea
               id="content"
               value={textContent}
-              onChange={(e) => setTextContent(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTextContent(e.target.value)}
               rows={8}
               placeholder="Paste your study notes, articles, or any text here..."
             />
@@ -100,7 +101,7 @@ export default function NewSessionPage() {
             <Input
               id="fileUpload"
               type="file"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files?.[0] || null)}
               className="mt-1"
             />
             {file && <p className="text-sm text-muted-foreground mt-1">{file.name}</p>}

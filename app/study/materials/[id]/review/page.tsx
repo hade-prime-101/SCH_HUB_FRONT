@@ -1,3 +1,4 @@
+import * as React from "react";
 // app/study/materials/[id]/review/page.tsx
 "use client";
 
@@ -56,7 +57,7 @@ export default function ReviewMaterialPage() {
         <Textarea
           placeholder="Add review note..."
           value={note}
-          onChange={(e) => setNote(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNote(e.target.value)}
           rows={4}
         />
         <div className="flex gap-3">

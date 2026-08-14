@@ -297,6 +297,9 @@ function LoginPageContent() {
   // ── Dev bypass — skip auth when no backend is running ──────────────────────
   const isDev = process.env.NEXT_PUBLIC_API_URL?.includes("localhost");
   function handleDevBypass() {
+    // Guard: never allow in production
+    if (process.env.NODE_ENV !== "development") return;
+
     localStorage.setItem("auth_token", "dev-token");
     localStorage.setItem("refresh_token", "dev-refresh");
     localStorage.setItem(
@@ -417,7 +420,7 @@ function LoginPageContent() {
         </div>
 
         <div className="hidden flex-1 items-center justify-center bg-primary p-10 lg:flex">
-          <div className="max-w-sm rounded-xl border border-white/20 bg-card/10 p-8 text-primary-foreground backdrop-blur-sm">
+          <div className="max-w-sm rounded-xl border border-white/20 bg-accent/10 p-8 text-primary-foreground backdrop-blur-sm">
             <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/60">SchHub</p>
             <h2 className="mt-3 text-3xl font-semibold">Stay connected to your school life.</h2>
             <p className="mt-4 text-sm leading-6 text-primary-foreground/60">

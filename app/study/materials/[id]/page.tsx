@@ -35,7 +35,7 @@ export default function MaterialDetailPage() {
 
   const handleDownload = async () => {
     try {
-      const { url } = await apiPost(`/study/materials/${id}/download`);
+      const { url } = await apiPost(`/study/materials/${id}/download`, {});
       window.open(url, "_blank");
     } catch (err) {
       console.error("Download failed", err);
@@ -44,7 +44,7 @@ export default function MaterialDetailPage() {
 
   const handleBookmark = async () => {
     try {
-      await apiPost(`/study/materials/${id}/bookmark`);
+      await apiPost(`/study/materials/${id}/bookmark`, {});
       setMaterial(prev => prev ? { ...prev, isBookmarked: !prev.isBookmarked } : null);
     } catch (err) {
       console.error("Bookmark failed", err);
@@ -140,7 +140,7 @@ export default function MaterialDetailPage() {
               <p className="text-muted-foreground">Rating</p>
               <p className="font-medium flex items-center gap-1">
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                {material.averageRating.toFixed(1)} ({material.ratingCount || 0})
+                {material.averageRating.toFixed(1)}
               </p>
             </div>
           )}

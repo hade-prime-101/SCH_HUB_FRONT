@@ -7,3 +7,5 @@ export * from './bounds';
 export * from './geometry';
 export { LayerManager } from './layerManager';
 export type { LayerConfig, SourceConfig } from './layerManager';
+// Add this line to the exports
+export { isMapLocation } from '../types/location';

@@ -3,7 +3,6 @@ import { Shop } from "@/types/marketplace";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Store, Star, Users } from "lucide-react";
-import { Link } from 'react-router-dom';
 
 interface ShopCardProps {
   shop: Shop;

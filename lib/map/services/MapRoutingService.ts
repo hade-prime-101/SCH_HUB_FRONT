@@ -137,28 +137,47 @@ export class MapRoutingService extends BaseMapService {
    * Calculate route progress
    */
   calculateRouteProgress(
-    route: Route,
-    currentLocation: { lat: number; lng: number },
-    accuracy: number = 5,
-  ): RouteProgress {
-    const distanceFromStart = haversineDistance(route.origin, currentLocation);
-    const distanceToEnd = haversineDistance(currentLocation, route.destination);
-    const durationToEnd = estimateWalkingTime(distanceToEnd);
-
-    // Check if on route (within accuracy + tolerance)
-    const onRoute = distanceFromStart <= route.distance * 1.1; // Allow 10% deviation
-
-    return {
-      routeId: route.id,
-      currentLocation,
-      distanceAlongRoute: distanceFromStart,
-      distanceToEnd,
-      durationToEnd,
-      currentStep: this.getCurrentStep(route, distanceFromStart),
-      onRoute,
-      accuracy,
-    };
+  route: Route,
+  currentLocation: { lat: number; lng: number },
+  accuracy: number = 5,
+): RouteProgress {
+  // Find nearest vertex on route
+  const coords = route.geometry.coordinates;
+  let nearestVertexIndex = 0;
+  let minDist = Infinity;
+  for (let i = 0; i < coords.length; i++) {
+    const [lng, lat] = coords[i];
+    const d = haversineDistance(currentLocation, { lat, lng });
+    if (d < minDist) {
+      minDist = d;
+      nearestVertexIndex = i;
+    }
   }
+
+  // Compute distance along route up to nearest vertex
+  let distanceFromStart = 0;
+  for (let i = 0; i < nearestVertexIndex; i++) {
+    const [lng1, lat1] = coords[i];
+    const [lng2, lat2] = coords[i + 1];
+    distanceFromStart += haversineDistance({ lat: lat1, lng: lng1 }, { lat: lat2, lng: lng2 });
+  }
+
+  const distanceToEnd = route.distance - distanceFromStart;
+  const durationToEnd = estimateWalkingTime(distanceToEnd);
+  const onRoute = minDist < 30; // within 30m of route
+
+  return {
+    routeId: route.id,
+    currentLocation,
+    distanceAlongRoute: distanceFromStart,
+    distanceToEnd,
+    durationToEnd,
+    currentStep: this.getCurrentStep(route, distanceFromStart),
+    onRoute,
+    accuracy,
+    nearestVertexIndex,
+  };
+}
 
   /**
    * Check if user is off route
@@ -202,31 +221,30 @@ export class MapRoutingService extends BaseMapService {
    * Create a fallback straight-line route when routing service fails
    */
   private createFallbackRoute(
-    origin: { lat: number; lng: number },
-    destination: { lat: number; lng: number; name?: string },
-  ): Route {
-    const distance = haversineDistance(origin, destination);
-    const duration = estimateWalkingTime(distance);
+  origin: { lat: number; lng: number },
+  destination: { lat: number; lng: number; name?: string },
+): Route {
+  const distance = haversineDistance(origin, destination);
+  const duration = estimateWalkingTime(distance);
 
-    return {
-      id: `fallback-${Date.now()}`,
-      createdAt: new Date(),
-      origin,
-      destination,
-      geometry: {
-        type: 'LineString',
-        coordinates: [
-          [origin.lng, origin.lat],
-          [destination.lng, destination.lat],
-        ],
-      },
-      distance,
-      duration,
-      mode: 'walking',
-      summary: `Direct route: ${formatDistance(distance)}`,
-    };
-  }
-
+  return {
+    id: `fallback-${Date.now()}`,
+    createdAt: new Date(),
+    origin,
+    destination,
+    geometry: {
+      type: 'LineString' as const,
+      coordinates: [
+        [origin.lng, origin.lat],
+        [destination.lng, destination.lat],
+      ],
+    },
+    distance,
+    duration,
+    mode: 'walking',
+    summary: `Direct route: ${formatDistance(distance)}`,
+  };
+}
   /**
    * Find which step the user is currently on
    */

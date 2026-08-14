@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ThumbsUp, MessageCircle, CheckCircle } from "lucide-react";
 import { CommunityCard } from "./CommunityCard";
 import type { Question } from "@/types/community";
-import { Link } from 'react-router-dom';
 
 interface QuestionCardProps {
   question: Question;

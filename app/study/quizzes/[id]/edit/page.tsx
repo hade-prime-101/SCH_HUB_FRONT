@@ -1,3 +1,4 @@
+import * as React from "react";
 // app/study/quizzes/[id]/edit/page.tsx
 "use client";
 
@@ -95,7 +96,7 @@ export default function EditQuizPage() {
       <div className="bg-card rounded-2xl border border-border p-6 space-y-4">
         <div>
           <Label htmlFor="title">Title</Label>
-          <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Input id="title" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} />
         </div>
       </div>
 
@@ -116,7 +117,7 @@ export default function EditQuizPage() {
                 <Textarea
                   id={`q${qi}-text`}
                   value={q.text}
-                  onChange={(e) => updateQuestion(qi, "text", e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(qi, "text", e.target.value)}
                   rows={2}
                 />
               </div>
@@ -143,7 +144,7 @@ export default function EditQuizPage() {
                     <div key={oi} className="flex gap-2 mt-1">
                       <Input
                         value={opt}
-                        onChange={(e) => updateOption(qi, oi, e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOption(qi, oi, e.target.value)}
                         placeholder={`Option ${oi + 1}`}
                       />
                     </div>
@@ -159,7 +160,7 @@ export default function EditQuizPage() {
                 <Input
                   id={`q${qi}-answer`}
                   value={q.correctAnswer || ""}
-                  onChange={(e) => updateQuestion(qi, "correctAnswer", e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(qi, "correctAnswer", e.target.value)}
                 />
               </div>
             </div>

@@ -1,29 +1,36 @@
-// lib/api/base.ts
+import { withAuthInterceptor } from "./interceptor";
 
-import { withAuthInterceptor } from './interceptor';
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+type ApiParams = Record<string, string | number | boolean | undefined | null>;
 
-export async function apiFetch<T>(
+export async function apiFetch<T = any>(
   endpoint: string,
   options: RequestInit = {},
   isFormData = false
 ): Promise<T> {
   const url = `${API_BASE}${endpoint}`;
+
   const config: RequestInit = {
     ...options,
     headers: {
-      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
-      ...options.headers,
+      ...(isFormData
+        ? {}
+        : {
+            "Content-Type": "application/json",
+          }),
+      ...(options.headers || {}),
     },
   };
 
   // Add auth token if available
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('auth_token');
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("auth_token");
+
     if (token) {
       config.headers = {
-        ...config.headers,
+        ...(config.headers || {}),
         Authorization: `Bearer ${token}`,
       };
     }
@@ -33,53 +40,117 @@ export async function apiFetch<T>(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    const error = new Error(errorData.message || `HTTP ${response.status}`);
+
+    const error = new Error(
+      errorData?.message || `HTTP ${response.status}`
+    );
+
     (error as any).status = response.status;
+
     throw error;
   }
 
+  // Handle empty responses safely
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
   const data = await response.json();
+
   return data as T;
 }
 
-// ── Convenience helpers ──────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
+// GET
+// -----------------------------------------------------------------------------
 
-export function apiGet<T>(endpoint: string, params?: Record<string, any>) {
-  const query = params ? '?' + new URLSearchParams(params).toString() : '';
-  return apiFetch<T>(endpoint + query, { method: 'GET' });
+export function apiGet<T = any>(
+  endpoint: string,
+  params?: ApiParams
+): Promise<T> {
+  const query =
+    params && Object.keys(params).length > 0
+      ? `?${new URLSearchParams(
+          Object.entries(params)
+            .filter(([, value]) => value !== undefined && value !== null)
+            .map(([key, value]) => [key, String(value)])
+        ).toString()}`
+      : "";
+
+  return apiFetch<T>(endpoint + query, {
+    method: "GET",
+  });
 }
 
-export function apiPost<T>(endpoint: string, body: any, isFormData = false) {
-  return apiFetch<T>(endpoint, {
-    method: 'POST',
-    body: isFormData ? body : JSON.stringify(body),
-  }, isFormData);
+// -----------------------------------------------------------------------------
+// POST
+// -----------------------------------------------------------------------------
+
+export function apiPost<T = any>(
+  endpoint: string,
+  body: any = {},
+  isFormData = false
+): Promise<T> {
+  return apiFetch<T>(
+    endpoint,
+    {
+      method: "POST",
+      body: isFormData ? body : JSON.stringify(body),
+    },
+    isFormData
+  );
 }
 
-export function apiPatch<T>(endpoint: string, body: any) {
+// -----------------------------------------------------------------------------
+// PATCH
+// -----------------------------------------------------------------------------
+
+export function apiPatch<T = any>(
+  endpoint: string,
+  body: any = {}
+): Promise<T> {
   return apiFetch<T>(endpoint, {
-    method: 'PATCH',
+    method: "PATCH",
     body: JSON.stringify(body),
   });
 }
 
-export function apiPut<T>(endpoint: string, body: any) {
+// -----------------------------------------------------------------------------
+// PUT
+// -----------------------------------------------------------------------------
+
+export function apiPut<T = any>(
+  endpoint: string,
+  body: any = {}
+): Promise<T> {
   return apiFetch<T>(endpoint, {
-    method: 'PUT',
+    method: "PUT",
     body: JSON.stringify(body),
   });
 }
 
-export function apiDelete<T>(endpoint: string) {
+// -----------------------------------------------------------------------------
+// DELETE
+// -----------------------------------------------------------------------------
+
+export function apiDelete<T = any>(
+  endpoint: string
+): Promise<T> {
   return apiFetch<T>(endpoint, {
-    method: 'DELETE',
+    method: "DELETE",
   });
 }
 
-// ─── Clear auth cookie (used by useAuth) ────────────────────────────────────
+// -----------------------------------------------------------------------------
+// Clear auth cookie
+// -----------------------------------------------------------------------------
 
-export async function clearAuthCookie() {
+export async function clearAuthCookie(): Promise<void> {
   try {
-    await fetch('/api/auth/clear-cookie', { method: 'POST' });
-  } catch {}
+    await fetch("/api/auth/clear-cookie", {
+      method: "POST",
+    });
+  } catch {
+    // Intentionally ignored.
+  }
 }

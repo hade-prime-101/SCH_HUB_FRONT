@@ -3,9 +3,10 @@
  * Used throughout the campus map for API responses and internal data structures
  */
 
+
 export type GeoJSONGeometryType = 'Point' | 'LineString' | 'Polygon' | 'MultiPoint' | 'MultiLineString' | 'MultiPolygon' | 'GeometryCollection';
 
-export type GeoJSONPosition = [number, number] | [number, number, number];
+export type GeoJSONPosition = [number, number]; // no altitude
 
 export interface GeoJSONPoint {
   type: 'Point';

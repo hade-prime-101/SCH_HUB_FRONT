@@ -21,7 +21,7 @@ export function MentorCard({ mentor }: MentorCardProps) {
           <h3 className="font-semibold text-foreground">{mentor.name}</h3>
           <div className="flex flex-wrap gap-1.5 mt-1">
             {mentor.expertise.map((exp) => (
-              <Badge key={exp} variant="secondary" size="sm">
+              <Badge key={exp} variant="outline" size="sm">
                 {exp}
               </Badge>
             ))}

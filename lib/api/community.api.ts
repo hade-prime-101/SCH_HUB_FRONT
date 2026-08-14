@@ -40,7 +40,7 @@ export const pinPost = (id: string, isPinned: boolean) =>
   apiPatch<Post>(`/community/posts/${id}/pin`, { isPinned });
 
 export const upvotePost = (id: string) =>
-  apiPost<Post>(`/community/posts/${id}/upvote`);
+  apiPost<Post>(`/community/posts/${id}/upvote`, {});
 
 // ─── Comments ───────────────────────────────────────────────
 
@@ -48,7 +48,7 @@ export const createComment = (postId: string, payload: CreateCommentPayload) =>
   apiPost<Comment>(`/community/posts/${postId}/comments`, payload);
 
 export const upvoteComment = (commentId: string) =>
-  apiPost<Comment>(`/community/comments/${commentId}/upvote`);
+  apiPost<Comment>(`/community/comments/${commentId}/upvote`, {});
 
 // ─── Questions ─────────────────────────────────────────────
 
@@ -65,19 +65,19 @@ export const deleteQuestion = (id: string) =>
   apiDelete<{ message: string }>(`/community/questions/${id}`);
 
 export const upvoteQuestion = (id: string) =>
-  apiPost<Question>(`/community/questions/${id}/upvote`);
+  apiPost<Question>(`/community/questions/${id}/upvote`, {});
 
 export const createAnswer = (questionId: string, payload: CreateAnswerPayload) =>
   apiPost<Answer>(`/community/questions/${questionId}/answers`, payload);
 
 export const acceptAnswer = (questionId: string, answerId: string) =>
-  apiPost<Question>(`/community/questions/${questionId}/answers/${answerId}/accept`);
+  apiPost<Question>(`/community/questions/${questionId}/answers/${answerId}/accept`, {});
 
 export const pinAnswer = (questionId: string, answerId: string) =>
-  apiPost<Question>(`/community/questions/${questionId}/answers/${answerId}/pin`);
+  apiPost<Question>(`/community/questions/${questionId}/answers/${answerId}/pin`, {});
 
 export const upvoteAnswer = (answerId: string) =>
-  apiPost<Answer>(`/community/answers/${answerId}/upvote`);
+  apiPost<Answer>(`/community/answers/${answerId}/upvote`, {});
 
 export const deleteAnswer = (answerId: string) =>
   apiDelete<{ message: string }>(`/community/answers/${answerId}`);
@@ -116,7 +116,7 @@ export const listReports = (params: { page?: number; limit?: number; resolved?: 
   apiGet<{ data: Report[]; page: number; total: number; limit: number }>('/community/reports', params as any);
 
 export const resolveReport = (reportId: string) =>
-  apiPost<any>(`/community/reports/${reportId}/resolve`);
+  apiPost<any>(`/community/reports/${reportId}/resolve`, {});
 
 // ─── Community API Object ──────────────────────────────────
 

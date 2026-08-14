@@ -69,7 +69,7 @@ export const adminDeleteMaterial = (id: string) =>
   apiDelete<{ message: string }>(`/study/materials/${id}/admin`);
 
 export const verifyMaterial = (id: string) =>
-  apiPost<Material>(`/study/materials/${id}/verify`);
+  apiPost<Material>(`/study/materials/${id}/verify`, {});
 
 export const listPendingReviewMaterials = (page = 1, limit = 20) =>
   apiGet<{ data: Material[]; page: number; total: number; limit: number }>("/study/materials/pending-review", { page, limit });
@@ -78,13 +78,13 @@ export const reviewMaterial = (id: string, payload: MaterialReviewPayload) =>
   apiPost<Material>(`/study/materials/${id}/review`, payload);
 
 export const incrementDownload = (id: string) =>
-  apiPost<{ downloads: number }>(`/study/materials/${id}/download/increment`);
+  apiPost<{ downloads: number }>(`/study/materials/${id}/download/increment`, {});
 
 export const rateMaterial = (id: string, payload: MaterialRatePayload) =>
   apiPost<Material>(`/study/materials/${id}/rate`, payload);
 
 export const toggleBookmark = (id: string) =>
-  apiPost<{ bookmarked: boolean }>(`/study/materials/${id}/bookmark`);
+  apiPost<{ bookmarked: boolean }>(`/study/materials/${id}/bookmark`, {});
 
 export const getDownloadUrl = (id: string) =>
   apiGet<{ url: string }>(`/study/materials/${id}/download-url`);

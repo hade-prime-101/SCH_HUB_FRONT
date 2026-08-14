@@ -200,7 +200,7 @@ function normalizeEntranceKindFromTag(tag: unknown): EntranceKind | undefined {
 }
 
 function extractIsAccessible(raw: any): boolean | undefined {
-  let accessible = raw.isAccessible ?? raw.accessible ?? raw.properties?.isAccessible;
+  const accessible = raw.isAccessible ?? raw.accessible ?? raw.properties?.isAccessible;
 
   if (typeof accessible === 'boolean') return accessible;
 

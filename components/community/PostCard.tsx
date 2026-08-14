@@ -3,7 +3,6 @@ import { MessageCircle, ThumbsUp, Pin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { CommunityCard } from "./CommunityCard";
 import type { Post } from "@/types/community";
-import { Link } from 'react-router-dom';
 
 interface PostCardProps {
   post: Post;
