@@ -29,7 +29,8 @@ export interface UIActions {
   closeAllPanels: () => void;
 }
 
-export const createUISlice = () => (set: any, get: any) => ({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const createUISlice = () => (set: any) => ({
   viewMode: 'map' as MapViewMode,
   showLocationPanel: false,
   showNavigationPanel: false,

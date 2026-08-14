@@ -27,12 +27,14 @@ export interface UserSettings {
   emailEnabled: boolean;
   pushEnabled: boolean;
   // other settings fields
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
 export interface UpdateSettingsPayload {
   emailEnabled?: boolean;
   pushEnabled?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

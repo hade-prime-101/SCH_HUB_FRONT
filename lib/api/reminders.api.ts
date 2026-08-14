@@ -10,6 +10,7 @@ import type {
 export const listReminders = (params?: { page?: number; limit?: number }) =>
   apiGet<{ data: Reminder[]; total: number; page: number; limit: number }>(
     '/reminders',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params as any
   );
 

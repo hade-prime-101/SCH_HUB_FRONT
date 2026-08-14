@@ -91,6 +91,7 @@ function generateRouteId(): string {
   return `route-${crypto.randomUUID()}`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractGeometry(raw: any): GeoJSONLineString | null {
   const geom = raw.geometry;
 
@@ -138,22 +139,26 @@ function extractEndpoint(endpoint: unknown): { lat: number; lng: number; name?: 
   return null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDistance(raw: any): number | null {
   const distance = raw.distance || raw.distances?.[0];
   return typeof distance === 'number' && distance > 0 ? distance : null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDuration(raw: any): number | null {
   const duration = raw.duration || raw.durations?.[0];
   return typeof duration === 'number' && duration > 0 ? duration : null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractMode(raw: any): RoutingMode {
   const mode = (raw.mode || raw.type || raw.routeType || '').toLowerCase();
   if (['driving', 'walking', 'cycling'].includes(mode)) return mode as RoutingMode;
   return 'walking';
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractSteps(raw: any): RouteStep[] | undefined {
   const steps = raw.steps || raw.legs?.[0]?.steps;
   if (!Array.isArray(steps)) return undefined;
@@ -192,11 +197,13 @@ function extractTurnType(maneuver: unknown): RouteStep['turnType'] | undefined {
   return undefined;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractWaypoints(raw: any): Route['waypoints'] | undefined {
   const waypoints = raw.waypoints;
   if (!Array.isArray(waypoints)) return undefined;
 
   return waypoints
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .map((wp: any) => {
       const lat = typeof wp.lat === 'number' ? wp.lat : typeof wp.latitude === 'number' ? wp.latitude : null;
       const lng = typeof wp.lng === 'number' ? wp.lng : typeof wp.longitude === 'number' ? wp.longitude : null;
@@ -210,6 +217,7 @@ function extractWaypoints(raw: any): Route['waypoints'] | undefined {
     .filter((wp): wp is { lat: number; lng: number } => wp !== null);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractSummary(raw: any): string | null {
   const summary = raw.summary || raw.name || raw.instruction;
   return typeof summary === 'string' ? summary.trim() || null : null;

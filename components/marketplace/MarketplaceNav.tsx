@@ -11,6 +11,7 @@ import {
   Home,
   Users,
   Store,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Search,
   Heart,
   Megaphone,

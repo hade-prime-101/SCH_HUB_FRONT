@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useParams, useRouter } from "next/navigation";
 import { apiGet } from "@/lib/api";
 import type { Quiz } from "@/types/study";

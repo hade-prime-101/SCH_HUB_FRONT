@@ -290,6 +290,7 @@ describe('useLocalStorage Hook - Unit Tests', () => {
         { key: 'obj', value: { x: 1 } },
       ];
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       testCases.forEach(({ key, value }) => {
         localStorage.removeItem(key);
         expect(localStorage.getItem(key)).toBeNull();
@@ -334,6 +335,7 @@ describe('useLocalStorage Hook - Unit Tests', () => {
       try {
         const item = localStorage.getItem(key);
         value = item ? JSON.parse(item) : null;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         value = null;
       }
@@ -375,6 +377,7 @@ describe('useLocalStorage Hook - Unit Tests', () => {
         localStorage.setItem(test, test);
         localStorage.removeItem(test);
         storageAvailable = true;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         storageAvailable = false;
       }
@@ -505,6 +508,7 @@ describe('useLocalStorage Hook - Unit Tests', () => {
 
       expect(() => {
         localStorage.setItem(key, JSON.stringify(value));
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const item = localStorage.getItem(key);
         localStorage.removeItem(key);
       }).not.toThrow();
@@ -635,6 +639,7 @@ describe('useLocalStorage Hook - Unit Tests', () => {
       try {
         localStorage.setItem('test', 'value');
         errorHandled = true;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         errorHandled = true;
       }

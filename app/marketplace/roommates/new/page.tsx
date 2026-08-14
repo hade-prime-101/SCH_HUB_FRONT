@@ -60,6 +60,7 @@ export default function NewRoommatePage() {
           <label className="block text-sm font-medium mb-1.5">Preferred Gender</label>
           <select
             value={gender}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(e) => setGender(e.target.value as any)}
             className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20"
           >

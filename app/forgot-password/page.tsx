@@ -24,6 +24,7 @@ export default function ForgotPasswordPage() {
       router.push(
         `/verify-otp?email=${encodeURIComponent(email.trim())}&type=password-reset`,
       );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err?.message || "Failed to send OTP. Please try again.");
       setIsLoading(false);

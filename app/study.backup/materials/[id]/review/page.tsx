@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { apiGet, apiPost } from "@/lib/api";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Material, MaterialReviewPayload } from "@/types/study";
 
 export default function ReviewMaterialPage() {

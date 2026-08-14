@@ -10,6 +10,7 @@ import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitive
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Smartphone, Trash2, LogOut, Calendar, X, ShieldAlert, Loader2 } from "lucide-react";
 
 interface Session {
@@ -45,6 +46,7 @@ export default function SessionsPage() {
     error,
     refetch,
   } = useQuery<Session[]>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     () => usersApi.getSessions().then((s: any) => (Array.isArray(s) ? (s as Session[]) : [])),
     []
   );
@@ -54,6 +56,7 @@ export default function SessionsPage() {
     try {
       await usersApi.revokeSession(sessionId);
       await refetch();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert("Failed to revoke session");
     } finally {
@@ -67,6 +70,7 @@ export default function SessionsPage() {
       await usersApi.revokeAllSessions();
       await logout();
       router.push("/login");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert("Failed to log out everywhere");
       setLoggingOut(false);

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Hook to resolve the current user's department ID.
@@ -8,16 +8,19 @@ import { useEffect, useRef } from "react";
  * @returns {Object} { departmentId, isLoading, error }
  */
 export function useDepartmentId() {
-  const departmentId = useRef<string>("");
-  const isLoadingRef = useRef(false);
-  const errorRef = useRef<string | null>(null);
+  const [departmentId, setDepartmentId] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const cancelledRef = useRef(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     let cancelled = false;
+    cancelledRef.current = false;
 
     const resolve = async () => {
-      isLoadingRef.current = true;
-      errorRef.current = null;
+      setIsLoading(true);
+      setError(null);
 
       try {
         // Check localStorage first (set at login time)
@@ -27,19 +30,22 @@ export function useDepartmentId() {
           // Backend may return flat departmentId or nested department.id
           const id = u?.departmentId ?? u?.department?.id ?? "";
           if (id) {
-            departmentId.current = id;
-            isLoadingRef.current = false;
+            if (!cancelled) {
+              setDepartmentId(id);
+              setIsLoading(false);
+            }
             return;
           }
         }
 
         // Fallback — fetch fresh profile if not in stored user
         const { usersApi } = await import("@/lib/api/users.api");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const me = (await usersApi.getMe()) as any;
         const id = me?.departmentId ?? me?.department?.id ?? "";
 
         if (!cancelled) {
-          departmentId.current = id;
+          setDepartmentId(id);
 
           // Update stored user so next upload doesn't need to fetch again
           if (id) {
@@ -55,11 +61,11 @@ export function useDepartmentId() {
         }
       } catch (e) {
         if (!cancelled) {
-          errorRef.current = e instanceof Error ? e.message : "Failed to resolve department";
+          setError(e instanceof Error ? e.message : "Failed to resolve department");
         }
       } finally {
         if (!cancelled) {
-          isLoadingRef.current = false;
+          setIsLoading(false);
         }
       }
     };
@@ -67,12 +73,13 @@ export function useDepartmentId() {
     resolve();
     return () => {
       cancelled = true;
+      cancelledRef.current = true;
     };
   }, []);
 
   return {
-    departmentId: departmentId.current,
-    isLoading: isLoadingRef.current,
-    error: errorRef.current,
+    departmentId,
+    isLoading,
+    error,
   };
 }

@@ -73,6 +73,7 @@ export function usePaginatedQuery<T>(
 
   useEffect(() => {
     isMounted.current = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData();
     return () => {
       isMounted.current = false;

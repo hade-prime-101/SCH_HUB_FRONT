@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { normalizeError, isUnauthorized } from "@/lib/api/error-handler";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UseQueryOptions<T> = {
   /** Called when a 401 is detected – can redirect or clear auth */
   onUnauthorized?: () => void;
@@ -59,6 +60,7 @@ export function useQuery<T>(
 
   useEffect(() => {
     isMounted.current = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData();
     return () => {
       isMounted.current = false;

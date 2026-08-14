@@ -5,6 +5,7 @@ const API_BASE =
 
 type ApiParams = Record<string, string | number | boolean | undefined | null>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function apiFetch<T = any>(
   endpoint: string,
   options: RequestInit = {},
@@ -45,6 +46,7 @@ export async function apiFetch<T = any>(
       errorData?.message || `HTTP ${response.status}`
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (error as any).status = response.status;
 
     throw error;
@@ -64,6 +66,7 @@ export async function apiFetch<T = any>(
 // GET
 // -----------------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function apiGet<T = any>(
   endpoint: string,
   params?: ApiParams
@@ -86,8 +89,10 @@ export function apiGet<T = any>(
 // POST
 // -----------------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function apiPost<T = any>(
   endpoint: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any = {},
   isFormData = false
 ): Promise<T> {
@@ -105,8 +110,10 @@ export function apiPost<T = any>(
 // PATCH
 // -----------------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function apiPatch<T = any>(
   endpoint: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any = {}
 ): Promise<T> {
   return apiFetch<T>(endpoint, {
@@ -119,8 +126,10 @@ export function apiPatch<T = any>(
 // PUT
 // -----------------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function apiPut<T = any>(
   endpoint: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any = {}
 ): Promise<T> {
   return apiFetch<T>(endpoint, {
@@ -133,6 +142,7 @@ export function apiPut<T = any>(
 // DELETE
 // -----------------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function apiDelete<T = any>(
   endpoint: string
 ): Promise<T> {

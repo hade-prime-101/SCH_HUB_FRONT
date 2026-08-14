@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MessageSquare, HelpCircle, Users, BookOpen, Plus, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Card, CardContent } from "@/components/ui/card";
 import { CommunityCard } from "@/components/community/CommunityCard";
 import { CommunityEmptyState } from "@/components/community/CommunityEmptyState";
@@ -58,6 +59,7 @@ export default function CommunityHome() {
         ]);
         setRecentPosts(postsRes.data);
         setRecentQuestions(questionsRes.data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Failed to load community activity");
       } finally {

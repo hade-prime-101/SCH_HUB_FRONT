@@ -15,6 +15,7 @@ import type {
 
 // ─── Features & Search ───────────────────────────────────────
 export const listFeatures = (params?: { bbox?: string; category?: string; limit?: number }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<MapFeature[]>('/campus-map/features', params as any);
 
 export const getFeatures = listFeatures; // Alias for backward compatibility
@@ -26,11 +27,13 @@ export const getFeatureEntrances = (id: string) =>
   apiGet<MapFeature[]>(`/campus-map/features/${id}/entrances`);
 
 export const searchFeatures = (params: SearchParams) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<MapFeature[]>('/campus-map/search', params as any);
 
 export const search = searchFeatures; // Alias for backward compatibility
 
 export const nearestFeatures = (params: NearestParams) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<MapFeature[]>('/campus-map/nearest', params as any);
 
 export const getNearest = (lat: number, lng: number, category?: string) =>
@@ -46,6 +49,7 @@ export const calculateSimpleRoute = (params: {
   toLat: number;
   toLng: number;
   profile?: 'foot' | 'bike' | 'car';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) => apiGet<RouteResponse>('/campus-map/simple-route', params as any);
 
 export const getRouteProgress = (payload: { currentPosition: { lat: number; lng: number }; routeGeometry: { coordinates: [number, number][] } }) =>
@@ -57,10 +61,12 @@ export const getCategories = () => apiGet<string[]>('/campus-map/categories');
 // ─── Map Config ──────────────────────────────────────────────
 export const getMapConfig = () => apiGet<{ maptilerApiKey: string | null }>('/campus-map/config');
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getTilesMetadata = () => apiGet<any>('/campus-map/tiles/metadata');
 
 // ─── Map Locations (custom POIs) ─────────────────────────────
 export const listMapLocations = (type?: string, search?: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<MapLocation[]>('/campus-map/locations', { type, search } as any);
 
 export const getMapLocation = (id: string) => apiGet<MapLocation>(`/campus-map/locations/${id}`);

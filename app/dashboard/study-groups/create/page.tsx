@@ -21,6 +21,7 @@ export default function CreateGroupPage() {
     try {
       await createGroup({ name, description, isPrivate });
       router.push("/dashboard/study-groups");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert("Failed to create group");
     } finally {

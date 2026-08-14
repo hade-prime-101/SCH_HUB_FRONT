@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { apiGet } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ArrowLeft, CheckCircle, XCircle } from "lucide-react";
 import type { QuizAttempt } from "@/types/study";
 
@@ -20,6 +21,7 @@ export default function QuizResultsPage() {
       try {
         const data = await apiGet(`/study/quizzes/${id}/attempts`);
         setAttempts(data.data || data || []);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       } finally {

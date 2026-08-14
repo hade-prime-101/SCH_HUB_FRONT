@@ -1,4 +1,5 @@
 import { ErrorState } from "@/components/shared/ErrorState";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Link from "next/link";
 
 export default function DashboardNotFound() {

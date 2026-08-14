@@ -28,6 +28,7 @@ export default function PostsList() {
         const res = await listPosts({ page, limit });
         setPosts(res.data);
         setTotal(res.total);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Failed to load posts");
       } finally {
@@ -43,6 +44,7 @@ export default function PostsList() {
       await deletePost(id);
       setPosts((prev) => prev.filter((p) => p.id !== id));
       setTotal((t) => t - 1);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to delete post");
     }
@@ -54,6 +56,7 @@ export default function PostsList() {
       setPosts((prev) =>
         prev.map((p) => (p.id === id ? { ...p, isPinned: !isPinned } : p))
       );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to update pin status");
     }

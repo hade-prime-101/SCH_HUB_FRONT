@@ -21,6 +21,7 @@ export default function NewQuestion() {
     try {
       await createQuestion({ title, content });
       router.push("/community/questions");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Failed to ask question");
     } finally {

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { User } from "@/types/auth";
 
 /**
@@ -8,25 +8,26 @@ import { User } from "@/types/auth";
  * @returns {Object} { user, isLoading }
  */
 export function useCurrentUser() {
-  const userRef = useRef<User | null>(null);
-  const isLoadingRef = useRef(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     try {
       const raw = localStorage.getItem("auth_user");
       if (raw) {
-        userRef.current = JSON.parse(raw) as User;
+        setUser(JSON.parse(raw) as User);
       }
     } catch {
       // Silently fail if localStorage is unavailable
     } finally {
-      isLoadingRef.current = false;
+      setIsLoading(false);
     }
   }, []);
 
   return {
-    user: userRef.current,
-    isLoading: isLoadingRef.current,
+    user,
+    isLoading,
   };
 }
 

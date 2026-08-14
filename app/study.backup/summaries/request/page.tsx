@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiPost } from "@/lib/api";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { SummarizeRequest } from "@/types/study";
 
 export default function RequestSummaryPage() {
@@ -20,6 +21,7 @@ export default function RequestSummaryPage() {
         alert("Summary request submitted. It may take a moment to generate.");
       }
       router.push("/study/summaries");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }

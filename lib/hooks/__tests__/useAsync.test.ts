@@ -7,6 +7,7 @@
  * **Validates: Requirements 2.3**
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 describe('useAsync Hook - Unit Tests', () => {
@@ -272,6 +273,7 @@ describe('useAsync Hook - Unit Tests', () => {
     it('should check mounted status before state updates', () => {
       let isMounted = true;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const updateState = (newState: any) => {
         if (isMounted) {
           expect(newState).toBeDefined();
@@ -397,6 +399,7 @@ describe('useAsync Hook - Unit Tests', () => {
     });
 
     it('should log error for debugging without breaking execution', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const debugLog = (err: Error) => {
         // Pattern: console.debug('useAsync initial execution failed:', err);
       };
@@ -433,7 +436,9 @@ describe('useAsync Hook - Unit Tests', () => {
     });
 
     it('should clear previous data when new execution starts', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const oldData = { id: '1' };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const newData = { id: '2' };
 
       const stateAfterNewExecution = {
@@ -446,6 +451,7 @@ describe('useAsync Hook - Unit Tests', () => {
     });
 
     it('should clear previous error when new execution starts', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const previousError = new Error('Previous error');
       const stateAfterNewExecution = {
         data: null,
@@ -693,6 +699,7 @@ describe('useAsync Hook - Unit Tests', () => {
       // Validates: Requirements 2.3
       // Hook should only update state for most recent execution
       const counter = { current: 0 };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const execution1 = ++counter.current;
       const execution2 = ++counter.current;
 

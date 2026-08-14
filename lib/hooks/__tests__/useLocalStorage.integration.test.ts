@@ -15,6 +15,7 @@ import { useLocalStorage } from '../useLocalStorage';
 if (typeof localStorage === 'undefined') {
   const store: Record<string, string> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (global as any).localStorage = {
     getItem: (key: string) => store[key] || null,
     setItem: (key: string, value: string) => {
@@ -185,6 +186,7 @@ describe('useLocalStorage Hook - JSON Serialization Integration Tests', () => {
     });
 
     it('should handle null values', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { result } = renderHook(() => useLocalStorage('null_test', null as any));
       const [value, setValue] = result.current;
 

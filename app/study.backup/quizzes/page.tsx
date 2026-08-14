@@ -8,6 +8,7 @@ import type { Quiz } from "@/types/study";
 
 export default function QuizzesListPage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

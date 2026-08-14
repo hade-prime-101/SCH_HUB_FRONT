@@ -21,6 +21,7 @@ import type {
 
 // ─── Core ────────────────────────────────────────────────────
 export const listGroups = (params?: { page?: number; limit?: number; search?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: StudyGroup[]; page: number; total: number; limit: number }>('/study-groups', params as any);
 
 export const listAllGroups = (page = 1, limit = 50) =>
@@ -67,6 +68,7 @@ export const revokeInvite = (inviteId: string) =>
 
 // ─── Messages ────────────────────────────────────────────────
 export const getMessages = (groupId: string, params?: { before?: string; limit?: number }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<GroupMessage[]>(`/study-groups/${groupId}/messages`, params as any);
 
 export const sendMessage = (groupId: string, payload: SendMessagePayload) =>

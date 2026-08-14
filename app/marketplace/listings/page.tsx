@@ -9,6 +9,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { listListings, toggleSaveListing } from "@/lib/api/marketplace.api";
 import type { Listing } from "@/types/marketplace";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Package, Plus } from "lucide-react";
 
 export default function ListingsPage() {

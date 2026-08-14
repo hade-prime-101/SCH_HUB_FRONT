@@ -21,6 +21,7 @@ export default function PersonalStudyListPage() {
       setLoading(true);
       const data = await apiGet("/ai/personal-study/sessions");
       setSessions(data.data || data || []);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const message = err?.message || "Failed to load sessions";
       if (message.includes("No token") || err?.status === 401) {
@@ -42,6 +43,7 @@ export default function PersonalStudyListPage() {
       setDeleting(id);
       await apiDelete(`/ai/personal-study/sessions/${id}`);
       setSessions(sessions.filter(s => s.id !== id));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err?.message || "Failed to delete session");
     } finally {

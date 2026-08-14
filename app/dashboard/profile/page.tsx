@@ -5,6 +5,7 @@ import { useQuery } from "@/lib/hooks/useQuery";
 import { getMyProfile } from "@/lib/api/users.api";
 import type { UserProfile } from "@/types/users";
 import { PageHeader } from "@/components/shared/PageHeader";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Card } from "@/components/ui/card";

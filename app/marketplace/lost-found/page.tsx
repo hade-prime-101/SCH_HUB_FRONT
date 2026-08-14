@@ -8,6 +8,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { listLostFound, createLostFound, resolveLostFound } from "@/lib/api/marketplace.api";
 import type { LostFoundItem, CreateLostFoundPayload } from "@/types/marketplace";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Megaphone, CheckCircle2, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function LostFoundPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   const [items, setItems] = useState<LostFoundItem[]>([]);
   const [loading, setLoading] = useState(true);

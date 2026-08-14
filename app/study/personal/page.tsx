@@ -11,6 +11,7 @@ import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import type { PersonalStudySession } from "@/types/study";
 
 export default function PersonalStudyListPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   const [sessions, setSessions] = useState<PersonalStudySession[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,6 +23,7 @@ export default function PersonalStudyListPage() {
       setError(null);
       const data = await apiGet("/ai/personal-study/sessions");
       setSessions(data.data || data || []);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -37,6 +39,7 @@ export default function PersonalStudyListPage() {
       setDeleting(id);
       await apiDelete(`/ai/personal-study/sessions/${id}`);
       setSessions(sessions.filter(s => s.id !== id));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {

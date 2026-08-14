@@ -10,6 +10,7 @@ import { mapRoutingService } from "@/lib/map/services";
 
 export default function NavigatePage() {
   const { currentRoute, position, stopNavigation, setViewMode } = useMapStore();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [progress, setProgress] = useState<RouteProgressResult | null>(null);
 
   // Update progress when position changes

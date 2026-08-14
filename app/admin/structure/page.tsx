@@ -20,6 +20,7 @@ export default function AdminStructurePage() {
     try {
       const data = await adminApi.getSchoolAdminFaculties();
       setFaculties(Array.isArray(data) ? data : []);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) { setError(e.message); }
     finally { setLoading(false); }
   }, []);
@@ -34,6 +35,7 @@ export default function AdminStructurePage() {
       try {
         const data = await adminApi.getSchoolAdminDepartments(faculty.id);
         setDepts(p => ({ ...p, [faculty.id]: Array.isArray(data) ? data : [] }));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) { setError(e.message); }
       finally { setDeptLoad(p => ({ ...p, [faculty.id]: false })); }
     }

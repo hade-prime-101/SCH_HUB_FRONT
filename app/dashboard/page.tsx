@@ -128,6 +128,7 @@ export default function DashboardPage() {
         const response = notificationsResult.value;
         const items = asArray<Notification>(response, ["data", "items"]);
         setNotifications(items.slice(0, 3));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const explicitUnread = (response as any)?.unreadCount ?? (response as any)?.unread;
         setUnreadCount(
           typeof explicitUnread === "number" ? explicitUnread : items.filter((i) => !i.isRead).length

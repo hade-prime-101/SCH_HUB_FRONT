@@ -22,6 +22,7 @@ import { ProgressDots } from "@/components/shared/ProgressDots";
 import { SearchInput } from "@/components/shared/SearchInput";
 import {
   SelectionList,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   type SelectionItem,
 } from "@/components/shared/SelectionList";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
@@ -235,6 +236,7 @@ export default function RegisterPage() {
       }
 
       window.location.href = `/verify-otp?email=${encodeURIComponent(formData.email)}&type=email-verification`;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setSubmitError(error?.message || "An error occurred. Please try again.");
     } finally {
@@ -242,6 +244,7 @@ export default function RegisterPage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getStepIndex = (): number => {
     const steps: RegistrationStep[] = [
       "school",

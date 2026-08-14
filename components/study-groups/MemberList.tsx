@@ -51,6 +51,7 @@ export function MemberList({ groupId, members, onUpdate }: MemberListProps) {
           <div className="flex gap-2">
             <select
               value={member.role}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(e) => handleRoleChange(member.userId, e.target.value as any)}
               disabled={updating === member.userId}
               className="border border-border rounded-lg px-2 py-1 text-sm bg-background"

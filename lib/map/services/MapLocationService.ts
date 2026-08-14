@@ -102,6 +102,7 @@ export class MapLocationService extends BaseMapService {
     try {
       return await this.deduplicate(cacheKey, async () => {
         const raw = await campusMap.getFeature(id);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const normalized = normalizeLocation(raw as any);
 
         // Cache for 30 minutes
@@ -144,6 +145,7 @@ export class MapLocationService extends BaseMapService {
           query,
           category,
           near,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
 
         let normalized = normalizeLocations(this.ensureArray(raw) as Record<string, unknown>[]);

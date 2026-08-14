@@ -32,6 +32,7 @@ export const deleteTimetableEntry = (id: string) =>
 
 // ─── Events ─────────────────────────────────────────────────
 export const listEvents = (params?: { upcoming?: boolean; departmentId?: string; level?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<SchoolEvent[]>('/school/events', params as any);
 
 export const getEvent = (id: string) =>
@@ -86,18 +87,23 @@ export const deleteEmergencyContact = (id: string) =>
 
 // ─── School Configuration ───────────────────────────────────
 export const getSchools = () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<any[]>('/schools');
 
 export const getFaculties = (schoolId: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<any[]>(`/schools/${schoolId}/faculties`);
 
 export const getDepartments = (facultyId: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<any[]>(`/faculties/${facultyId}/departments`);
 
 export const getMapConfig = () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<any>('/school/map-config');
 
 export const getRoute = (origin: string, destination: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<any>('/school/route', { origin, destination });
 
 

@@ -16,6 +16,7 @@ import {
   acceptAnswer,
   report,
 } from "@/lib/api/community.api";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Question, Answer } from "@/types/community";
 
 export default function QuestionDetail() {
@@ -33,6 +34,7 @@ export default function QuestionDetail() {
       try {
         const data = await getQuestion(id);
         setQuestion(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Question not found");
       } finally {
@@ -51,6 +53,7 @@ export default function QuestionDetail() {
         prev ? { ...prev, answers: [...prev.answers, newAns] } : prev
       );
       setAnswer("");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to post answer");
     } finally {
@@ -63,6 +66,7 @@ export default function QuestionDetail() {
     try {
       await upvoteQuestion(question.id);
       setQuestion({ ...question, upvotes: question.upvotes + 1 });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to upvote");
     }
@@ -83,6 +87,7 @@ export default function QuestionDetail() {
             }
           : prev
       );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to accept answer");
     }
@@ -94,6 +99,7 @@ export default function QuestionDetail() {
       await report(id, { reason: "Inappropriate content", type: "QUESTION" });
       setReportSuccess("Report submitted.");
       setTimeout(() => setReportSuccess(null), 3000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to report");
     }

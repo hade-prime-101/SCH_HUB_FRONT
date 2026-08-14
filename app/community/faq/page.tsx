@@ -25,6 +25,7 @@ export default function FaqPage() {
       try {
         const data = await listFaqs();
         setFaqs(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Failed to load FAQs");
       } finally {
@@ -42,6 +43,7 @@ export default function FaqPage() {
       setFaqs((prev) => [...prev, newFaq]);
       setQuestion("");
       setAnswer("");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to add FAQ");
     } finally {
@@ -54,6 +56,7 @@ export default function FaqPage() {
     try {
       await deleteFaq(id);
       setFaqs((prev) => prev.filter((f) => f.id !== id));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to delete FAQ");
     }

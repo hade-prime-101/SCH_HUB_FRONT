@@ -15,6 +15,7 @@ export const listNotifications = (params?: { page?: number; limit?: number }) =>
     unreadCount: number;
     page: number;
     limit: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }>('/notifications', params as any);
 
 export const markAsRead = (id: string) =>

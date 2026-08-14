@@ -68,6 +68,7 @@ export const deleteDepartment = (departmentId: string) =>
 export const getAuditLogs = (params: ListAuditLogsQuery) =>
   apiGet<{ data: AuditLog[]; total: number; page: number; limit: number }>(
     '/super-admin/audit-logs',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params as any
   );
 
@@ -82,6 +83,7 @@ export const getSchoolStats = () =>
 export const listSchoolUsers = (params?: { page?: number; limit?: number; search?: string; role?: string }) =>
   apiGet<{ data: SchoolUser[]; total: number; page: number; limit: number; pages: number }>(
     '/super-admin/school/users',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params as any
   );
 
@@ -101,6 +103,7 @@ export const revokeAgent = (userId: string, note?: string) =>
 export const getSchoolAuditLogs = (params: ListAuditLogsQuery) =>
   apiGet<{ data: AuditLog[]; total: number; page: number; limit: number }>(
     '/super-admin/school/audit-logs',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params as any
   );
 
@@ -126,6 +129,7 @@ export const deleteSchoolFaq = (faqId: string) =>
 
 // ─── Campus map admin ───────────────────────────────────────
 export const listMapFeatures = (schoolId: string, params?: { bbox?: string; category?: string; limit?: number }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<MapFeature[]>(`/super-admin/schools/${schoolId}/map/features`, params as any);
 
 export const listMapEntrances = (schoolId: string, featureId?: string) =>

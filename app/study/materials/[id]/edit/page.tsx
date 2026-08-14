@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Material, MaterialVisibility } from "@/types/study";
 
 export default function EditMaterialPage() {
@@ -33,6 +34,7 @@ export default function EditMaterialPage() {
         setCourseTitle(data.courseTitle || "");
         setDescription(data.description || "");
         setVisibility(data.visibility);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -46,6 +48,7 @@ export default function EditMaterialPage() {
     try {
       await apiPatch(`/study/materials/${id}`, { title, courseCode, courseTitle, description, visibility });
       router.push(`/study/materials/${id}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }

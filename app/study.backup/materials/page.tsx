@@ -25,6 +25,7 @@ export default function MaterialsListPage() {
         const data = await apiGet("/study/materials", { page: String(page), limit: String(limit) });
         setMaterials(data.data || data || []);
         setTotal(data.total || 0);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         const message = err?.message || "Failed to load materials";
         if (message.includes("No token") || err?.status === 401) {

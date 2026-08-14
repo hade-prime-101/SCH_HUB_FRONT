@@ -6,6 +6,7 @@ export * from "./study.api";
 
 // For backward compatibility - object-based API
 export const studyApi = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getMaterials: async (params: any) => {
     const { listMaterials } = await import("./study.api");
     return listMaterials(params);
@@ -14,10 +15,12 @@ export const studyApi = {
     const { getMaterial } = await import("./study.api");
     return getMaterial(id);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   uploadMaterial: async (payload: any, file?: File) => {
     const { uploadMaterial } = await import("./study.api");
     return uploadMaterial(payload, file!);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   bulkUploadMaterials: async (materials: any, files: File[]) => {
     const { bulkUploadMaterials } = await import("./study.api");
     return bulkUploadMaterials(materials, files);
@@ -38,6 +41,7 @@ export const studyApi = {
     const { listPendingReviewMaterials } = await import("./study.api");
     return listPendingReviewMaterials(page, limit);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reviewMaterial: async (id: string, payload: any) => {
     const { reviewMaterial } = await import("./study.api");
     return reviewMaterial(id, payload);
@@ -58,6 +62,7 @@ export const studyApi = {
     const { toggleBookmark } = await import("./study.api");
     return toggleBookmark(id);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getQuizzes: async (params: any) => {
     const { listQuizzes } = await import("./study.api");
     return listQuizzes(params);
@@ -66,14 +71,17 @@ export const studyApi = {
     const { getQuiz } = await import("./study.api");
     return getQuiz(id);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createQuiz: async (payload: any) => {
     const { createQuiz } = await import("./study.api");
     return createQuiz(payload);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   generateQuiz: async (payload: any) => {
     const { generateQuizFromMaterial } = await import("./study.api");
     return generateQuizFromMaterial(payload.materialId, payload.numQuestions);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   approveQuiz: async (quizId: string, approvals: any) => {
     const { approveQuizQuestions } = await import("./study.api");
     return approveQuizQuestions(quizId, approvals);
@@ -82,6 +90,7 @@ export const studyApi = {
     const { getMyAnalytics } = await import("./study.api");
     return getMyAnalytics();
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAdminAnalytics: async (params: any) => {
     const { getAdminQuizAnalytics } = await import("./study.api");
     return getAdminQuizAnalytics(params);

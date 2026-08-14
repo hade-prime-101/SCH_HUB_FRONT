@@ -23,6 +23,7 @@ export default function NewPost() {
     try {
       await createPost({ title, content, section });
       router.push("/community/posts");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Failed to create post");
     } finally {

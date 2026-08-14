@@ -23,6 +23,7 @@ export function normalizeError(err: unknown): Error {
  */
 export function isUnauthorized(error: Error): boolean {
   // Some API clients put status on the error object.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const maybeStatus = (error as any).status ?? (error as any).statusCode;
   if (typeof maybeStatus === "number" && maybeStatus === 401) {
     return true;

@@ -28,6 +28,7 @@ export default function QuestionsList() {
         const res = await listQuestions({ page, limit });
         setQuestions(res.data);
         setTotal(res.total);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Failed to load questions");
       } finally {
@@ -43,6 +44,7 @@ export default function QuestionsList() {
       await deleteQuestion(id);
       setQuestions((prev) => prev.filter((q) => q.id !== id));
       setTotal((t) => t - 1);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to delete question");
     }

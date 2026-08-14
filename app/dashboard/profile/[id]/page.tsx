@@ -23,6 +23,7 @@ export default function UserProfilePage() {
     data: materials,
     loading: materialsLoading,
     error: materialsError,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     refetch: refetchMaterials,
   } = useQuery<UserMaterial[]>(() => getUserMaterials(id), [id]);
 

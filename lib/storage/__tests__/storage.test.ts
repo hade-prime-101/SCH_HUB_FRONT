@@ -40,7 +40,9 @@ class MockStorage implements Storage {
 }
 
 // Setup global mocks
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 global.localStorage = new MockStorage() as any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 global.sessionStorage = new MockStorage() as any;
 
 // Now import after mocks are setup

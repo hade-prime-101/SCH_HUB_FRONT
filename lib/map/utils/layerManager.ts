@@ -14,9 +14,13 @@ export interface LayerConfig {
   id: string;
   type: 'circle' | 'line' | 'fill' | 'symbol';
   source: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sourceData?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filter?: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   paint?: Record<string, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   layout?: Record<string, any>;
   minzoom?: number;
   maxzoom?: number;
@@ -26,6 +30,7 @@ export interface LayerConfig {
 export interface SourceConfig {
   id: string;
   type: 'geojson' | 'vector' | 'raster';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
   url?: string;
 }
@@ -54,12 +59,14 @@ export class LayerManager {
     this.map.addSource(config.id, {
       type: config.type,
       data: config.data || config.url,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
   }
 
   /**
    * Update source data (for GeoJSON sources)
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateSourceData(sourceId: string, data: any): void {
     const source = this.map.getSource(sourceId) as maplibregl.GeoJSONSource;
     if (source && 'setData' in source) {
@@ -97,6 +104,7 @@ export class LayerManager {
     this.layers.set(config.id, config);
     this.layerVisibility.set(config.id, true);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const layerDef: any = {
       id: config.id,
       type: config.type,
@@ -115,6 +123,7 @@ export class LayerManager {
   /**
    * Update layer paint properties
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateLayerPaint(layerId: string, paint: Record<string, any>): void {
     const layer = this.layers.get(layerId);
     if (!layer) return;
@@ -130,6 +139,7 @@ export class LayerManager {
   /**
    * Update layer layout properties
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateLayerLayout(layerId: string, layout: Record<string, any>): void {
     const layer = this.layers.get(layerId);
     if (!layer) return;

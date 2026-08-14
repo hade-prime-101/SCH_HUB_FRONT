@@ -9,6 +9,7 @@ import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { listRoommates, deleteRoommateRequest } from "@/lib/api/marketplace.api";
 import type { RoommateRequest } from "@/types/marketplace";
 import { Users, Trash2 } from "lucide-react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

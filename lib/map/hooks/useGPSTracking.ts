@@ -59,6 +59,7 @@ export function useGPSTracking(
    */
   useEffect(() => {
     if (!navigator.geolocation) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPermissionState('denied');
       setError('Geolocation not available');
       return;

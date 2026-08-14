@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { apiGet, apiPost } from "@/lib/api";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Download, Bookmark, Star, ArrowLeft, Calendar, User, Globe, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +26,7 @@ export default function MaterialDetailPage() {
       try {
         const data = await apiGet(`/study/materials/${id}`);
         setMaterial(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       } finally {

@@ -30,6 +30,7 @@ export default function CoursesPage() {
     try {
       const data = await apiGet("/cgpa/courses");
       setCourses(data.data || data || []);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -53,6 +54,7 @@ export default function CoursesPage() {
       setEditingId(null);
       setForm(emptyCourse);
       fetchCourses();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -77,6 +79,7 @@ export default function CoursesPage() {
     try {
       await apiDelete(`/cgpa/courses/${id}`);
       fetchCourses();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }

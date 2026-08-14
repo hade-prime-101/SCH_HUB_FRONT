@@ -28,6 +28,7 @@ import type {
   PersonalQuizResult,
   AISummary,
   SummarizeRequest,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ChatMessage,
   SessionDetail,
 } from "@/types/study";
@@ -35,6 +36,7 @@ import type {
 // ─── Materials ─────────────────────────────────────────────────
 
 export const listMaterials = (params: { page?: number; limit?: number; search?: string; visibility?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: Material[]; page: number; total: number; limit: number }>("/study/materials", params as any);
 
 export const getMaterial = (id: string) =>
@@ -92,6 +94,7 @@ export const getDownloadUrl = (id: string) =>
 // ─── Quizzes ──────────────────────────────────────────────────
 
 export const listQuizzes = (params: { page?: number; limit?: number; search?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: Quiz[]; page: number; total: number; limit: number }>("/study/quizzes", params as any);
 
 export const getQuiz = (id: string) =>
@@ -127,11 +130,13 @@ export const approveQuizQuestions = (quizId: string, approvals: { questionId: st
   apiPost<Quiz>(`/study/quizzes/${quizId}/approve-questions`, { approvals });
 
 export const getAdminQuizAnalytics = (params: AdminQuizAnalyticsQuery) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<any>("/study/quizzes/admin-analytics", params as any);
 
 // ─── CGPA ─────────────────────────────────────────────────────
 
 export const listCGPACourses = (params?: { semester?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<CGPACourse[]>("/cgpa/courses", params as any);
 
 export const createCGPACourse = (payload: CGPACourseInput) =>

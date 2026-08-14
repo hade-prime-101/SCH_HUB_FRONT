@@ -22,6 +22,7 @@ import type {
 // ─── Posts ──────────────────────────────────────────────────
 
 export const listPosts = (params?: { page?: number; limit?: number; section?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: Post[]; page: number; total: number; limit: number }>('/community/posts', params as any);
 
 export const getPost = (id: string) =>
@@ -53,6 +54,7 @@ export const upvoteComment = (commentId: string) =>
 // ─── Questions ─────────────────────────────────────────────
 
 export const listQuestions = (params?: { page?: number; limit?: number; search?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: Question[]; page: number; total: number; limit: number }>('/community/questions', params as any);
 
 export const getQuestion = (id: string) =>
@@ -88,6 +90,7 @@ export const registerMentor = (payload: RegisterMentorPayload) =>
   apiPost<Mentor>('/community/mentors', payload);
 
 export const listMentors = (params?: { search?: string; expertise?: string[] }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<Mentor[]>('/community/mentors', params as any);
 
 export const getMyMentorships = () =>
@@ -107,15 +110,19 @@ export const deleteFaq = (id: string) =>
 // ─── Reactions & Reports ───────────────────────────────────
 
 export const react = (targetId: string, payload: ReactPayload) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiPost<any>(`/community/${targetId}/react`, payload);
 
 export const report = (targetId: string, payload: ReportPayload) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiPost<any>(`/community/${targetId}/report`, payload);
 
 export const listReports = (params: { page?: number; limit?: number; resolved?: boolean }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: Report[]; page: number; total: number; limit: number }>('/community/reports', params as any);
 
 export const resolveReport = (reportId: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiPost<any>(`/community/reports/${reportId}/resolve`, {});
 
 // ─── Community API Object ──────────────────────────────────
@@ -163,7 +170,9 @@ export const communityApi = {
   resolveReport,
 
   // Backward compatibility methods
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getFeed: async (params: any) => listPosts({ ...params, section: 'FEED' }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getNotices: async (params: any) => listPosts(params),
   getAllGroups: async () => {
     const { apiGet } = await import('./base');

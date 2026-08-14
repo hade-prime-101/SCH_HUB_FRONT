@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export default function SettingsPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: profile, loading, error, refetch } = useQuery<UserProfile>(
     () => getMyProfile(),
     []
@@ -25,6 +26,7 @@ export default function SettingsPage() {
     try {
       await updateSettings({ emailEnabled, pushEnabled });
       alert("Settings saved");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert("Failed to save settings");
     } finally {

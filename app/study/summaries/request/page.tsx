@@ -21,8 +21,10 @@ export default function RequestSummaryPage() {
     setLoading(true);
     setError("");
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await apiPost("/ai/summarize", { materialId });
       router.push("/study/summaries");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {

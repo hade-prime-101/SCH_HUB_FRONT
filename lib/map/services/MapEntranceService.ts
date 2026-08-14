@@ -12,6 +12,7 @@ import { campusMap } from '@/lib/api/campus-map.api';
 import { Entrance, sortEntrancesByPriority, hasEntranceCoordinates } from '../types/entrance';
 import { Location } from '../types/location';
 import {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   normalizeEntrance,
   normalizeEntrances,
   createFallbackEntrances,

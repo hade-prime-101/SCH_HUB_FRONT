@@ -55,6 +55,7 @@ export interface CreateShopPayload {
   banner?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateShopPayload extends Partial<CreateShopPayload> {}
 
 export interface RateSellerPayload {
@@ -102,6 +103,7 @@ export interface CreateAccommodationPayload {
   images?: string[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateAccommodationPayload extends Partial<CreateAccommodationPayload> {}
 
 export interface AgentProfile {
@@ -144,6 +146,7 @@ export interface CreateRoommatePayload {
   gender?: 'MALE' | 'FEMALE' | 'ANY';
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateRoommatePayload extends Partial<CreateRoommatePayload> {}
 
 export interface Service {
@@ -164,6 +167,7 @@ export interface CreateServicePayload {
   price: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateServicePayload extends Partial<CreateServicePayload> {}
 
 export interface Job {
@@ -186,6 +190,7 @@ export interface CreateJobPayload {
   salary?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateJobPayload extends Partial<CreateJobPayload> {}
 
 export interface RejectJobPayload {

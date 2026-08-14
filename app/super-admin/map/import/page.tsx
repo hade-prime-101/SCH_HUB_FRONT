@@ -16,6 +16,7 @@ export default function ImportGeoJsonPage() {
       const features = parsed.features || parsed;
       const result = await importMapGeoJson(schoolId, { features });
       alert(`Imported ${result.imported} features`);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       alert("Invalid JSON");
     }

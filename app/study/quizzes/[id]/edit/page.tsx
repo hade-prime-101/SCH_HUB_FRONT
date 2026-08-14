@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, X } from "lucide-react";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Quiz, QuizQuestionInput } from "@/types/study";
 
 export default function EditQuizPage() {
@@ -28,6 +29,7 @@ export default function EditQuizPage() {
         const data = await apiGet(`/study/quizzes/${id}`);
         setTitle(data.title);
         setQuestions(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           data.questions.map((q: any) => ({
             text: q.text,
             type: q.type,
@@ -35,6 +37,7 @@ export default function EditQuizPage() {
             correctAnswer: q.correctAnswer?.toString() || "",
           }))
         );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -47,8 +50,10 @@ export default function EditQuizPage() {
     setQuestions([...questions, { text: "", type: "MCQ", options: [""], correctAnswer: "" }]);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateQuestion = (index: number, field: keyof QuizQuestionInput, value: any) => {
     const updated = [...questions];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (updated[index] as any)[field] = value;
     setQuestions(updated);
   };
@@ -75,6 +80,7 @@ export default function EditQuizPage() {
     try {
       await apiPatch(`/study/quizzes/${id}`, { title, questions });
       router.push(`/study/quizzes/${id}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }

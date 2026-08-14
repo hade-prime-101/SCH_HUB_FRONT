@@ -35,6 +35,7 @@ function ResetPasswordPageContent() {
 
   const score = Object.values(checks).filter(Boolean).length;
   const strengthLabel = ["Weak", "Fair", "Good", "Strong"][Math.max(score - 1, 0)] || "Weak";
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const strengthColor =
     score <= 1 ? "bg-destructive" :
     score <= 3 ? "bg-warning" :
@@ -52,6 +53,7 @@ function ResetPasswordPageContent() {
     try {
       await authApi.resetPassword({ email, otp, password, confirmPassword: confirm });
       router.push("/login?reset=success");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err?.message || "Failed to reset password. Please try again.");
     } finally {

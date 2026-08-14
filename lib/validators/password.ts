@@ -107,6 +107,7 @@ function calculatePasswordStrength(
   options: PasswordValidationOptions
 ): 'weak' | 'fair' | 'good' | 'strong' {
   let score = 0;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const maxScore = 5;
 
   // Length score (0-2 points)

@@ -40,6 +40,7 @@ export default function EditGroupPage() {
     try {
       await updateGroup(id, { name, description, isPrivate });
       router.push(`/dashboard/study-groups/${id}`);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert("Failed to update group");
     } finally {

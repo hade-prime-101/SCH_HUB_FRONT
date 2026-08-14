@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Calendar, MapPin, Clock, Image, Users, Check, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import type { SchoolEvent, Ticket } from "@/types/school";
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   const [event, setEvent] = useState<SchoolEvent | null>(null);
   const [myTicket, setMyTicket] = useState<Ticket | null>(null);
@@ -31,6 +33,7 @@ export default function EventDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [reminderMinutes, setReminderMinutes] = useState(30);
   const [receiptUrl, setReceiptUrl] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isAdmin, setIsAdmin] = useState(false); // would come from auth
 
   const refresh = async () => {

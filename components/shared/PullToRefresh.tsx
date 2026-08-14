@@ -1,5 +1,6 @@
 "use client";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useRef } from "react";
 import { usePullToRefresh } from "@/lib/hooks/usePullToRefresh";
 

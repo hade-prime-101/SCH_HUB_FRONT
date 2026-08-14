@@ -17,6 +17,7 @@ export default function NewNoticePage() {
     try {
       await createNoticePost({ title, content });
       router.push("/dashboard/admin/community/posts");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }

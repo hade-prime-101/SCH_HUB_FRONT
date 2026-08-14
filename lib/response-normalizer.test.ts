@@ -4,7 +4,9 @@ import {
   normalizeSuccessResponse,
   normalizeErrorResponse,
   normalizeValidationError,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   type NormalizedSuccessResponse,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   type NormalizedErrorResponse,
 } from './response-normalizer';
 

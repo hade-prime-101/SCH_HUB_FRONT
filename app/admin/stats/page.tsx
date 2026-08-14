@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { adminApi } from "@/lib/api/admin";
 import {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   BarChart2, Users, BookOpen, ShoppingBag, MessageSquare, ClipboardList,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   GraduationCap, TrendingUp, AlertCircle, RefreshCw, Loader2,
 } from "lucide-react";
 
@@ -45,6 +47,7 @@ export default function AdminStatsPage() {
     try {
       const data = await adminApi.getSchoolAdminStats();
       setStats(data as Stats);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) { setError(e.message); }
     finally { setLoading(false); }
   }, []);

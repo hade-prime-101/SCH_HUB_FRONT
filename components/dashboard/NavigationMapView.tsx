@@ -55,8 +55,11 @@ export default function NavigationMapView({
   destination,
 }: Props) {
   const containerRef    = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef          = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const userMarkerRef   = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const destMarkerRef   = useRef<any>(null);
   // Last position that was actually committed to the marker / camera
   const lastCommittedRef = useRef<{ lat: number; lng: number } | null>(null);
@@ -74,6 +77,7 @@ export default function NavigationMapView({
   useEffect(() => {
     import("@/lib/api/campus-map.api").then(({ getMapConfig }) => {
       getMapConfig()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((cfg: any) => setMapTilerKey(cfg.maptilerApiKey || ""))
         .catch(() => setMapTilerKey(""));
     });

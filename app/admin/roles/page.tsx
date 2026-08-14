@@ -100,11 +100,13 @@ export default function RoleAssignmentPage() {
       setSearching(true); setSearchErr(null);
       try {
         const data = await usersApi.searchUsers({ q: query.trim(), page: 1, limit: 10 });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const items: UserResult[] = (Array.isArray(data) ? data : (data?.data ?? [])).map((u: any) => ({
           ...u,
           fullName: u.fullName || u.name || u.firstName + ' ' + u.lastName || u.email,
         }));
         setResults(items);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         setSearchErr(e.message ?? "Search failed.");
       } finally {
@@ -120,6 +122,7 @@ export default function RoleAssignmentPage() {
     try {
       await usersApi.assignRole({ userId: selected.id, role: newRole });
       setSuccess(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       setError(e.message ?? "Role assignment failed. Please try again.");
     } finally {

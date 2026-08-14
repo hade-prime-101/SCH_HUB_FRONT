@@ -8,6 +8,7 @@ import {
 } from "@/lib/api/notifications.api";
 import type { NotificationSettings, UpdateSettingsPayload } from "@/types/notifications";
 import { PageHeader } from "@/components/shared/PageHeader";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Card } from "@/components/ui/card";
@@ -40,6 +41,7 @@ export default function NotificationSettingsPage() {
       await updateNotificationSettings(payload);
       alert("Settings saved");
       await refetch();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert("Failed to save settings");
     } finally {

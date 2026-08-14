@@ -33,10 +33,12 @@ export default function AdminGroupsPage() {
   useEffect(() => {
     communityApi
       .getAllGroups()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((data: any) => {
         const items = data?.items ?? data?.groups ?? (Array.isArray(data) ? data : []);
         setGroups(items);
       })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .catch((e: any) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
@@ -47,6 +49,7 @@ export default function AdminGroupsPage() {
     try {
       await communityApi.deleteGroup(id);
       setGroups((prev) => prev.filter((g) => g.id !== id));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) { alert(e.message); }
     finally { setDeletingId(null); }
   }

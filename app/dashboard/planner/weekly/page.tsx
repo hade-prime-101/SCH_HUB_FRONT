@@ -5,6 +5,7 @@ import { useQuery } from "@/lib/hooks/useQuery";
 import { getWeeklyPlanner } from "@/lib/api/planner.api";
 import type { WeeklyPlanner } from "@/types/planner";
 import { PageHeader } from "@/components/shared/PageHeader";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Card } from "@/components/ui/card";

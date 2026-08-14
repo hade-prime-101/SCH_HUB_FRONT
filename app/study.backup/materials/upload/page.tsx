@@ -35,6 +35,7 @@ export default function UploadMaterialPage() {
     try {
       await apiPost("/study/materials", formData, true);
       router.push("/study/materials");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
@@ -57,6 +58,7 @@ export default function UploadMaterialPage() {
     try {
       await apiPost("/study/materials/bulk", formData, true);
       router.push("/study/materials");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
@@ -106,6 +108,7 @@ export default function UploadMaterialPage() {
             placeholder="Description" value={description}
             onChange={e => setDescription(e.target.value)} className="border p-2 w-full"
           />
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           <select value={visibility} onChange={e => setVisibility(e.target.value as any)} className="border p-2 w-full">
             <option value="PUBLIC">Public</option>
             <option value="PRIVATE">Private</option>

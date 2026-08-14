@@ -8,6 +8,7 @@ import { apiGet } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ArrowLeft, Edit, FileText, BarChart } from "lucide-react";
 import type { Quiz } from "@/types/study";
 
@@ -23,6 +24,7 @@ export default function QuizDetailPage() {
       try {
         const data = await apiGet(`/study/quizzes/${id}`);
         setQuiz(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       } finally {

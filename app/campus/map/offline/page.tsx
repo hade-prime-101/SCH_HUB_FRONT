@@ -72,6 +72,7 @@ const INCLUDED_ITEMS = [
 // ─── Page ─────────────────────────────────────────────────────────────────
 
 export default function OfflineMapPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
 
   const [meta, setMeta] = useState<TileMeta>(PLACEHOLDER_META);

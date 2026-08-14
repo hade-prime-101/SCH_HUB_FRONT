@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import BackButton from "@/components/shared/BackButton";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { calculateSimpleRoute } from "@/lib/api/campus-map.api";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { RouteResponse } from "@/types/campus-map";
 
 export default function RoutePlannerPage() {

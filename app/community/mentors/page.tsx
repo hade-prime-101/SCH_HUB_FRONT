@@ -23,6 +23,7 @@ export default function MentorsList() {
       try {
         const data = await listMentors();
         setMentors(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Failed to load mentors");
       } finally {

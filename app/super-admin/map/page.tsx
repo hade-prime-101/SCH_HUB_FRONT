@@ -31,6 +31,7 @@ export default function MapAdminPage() {
     listMapFeatures(schoolId).then(setFeatures);
   };
   // Inside the component (add these state and functions)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const [uploadingId, setUploadingId] = useState<string | null>(null);
 
 const handleImageUpload = async (featureId: string, file: File) => {

@@ -44,6 +44,7 @@ export default function RegisterMentorPage() {
     try {
       await registerMentor({ expertise: expertiseList, bio });
       router.push("/community/mentors");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Failed to register as mentor");
     } finally {

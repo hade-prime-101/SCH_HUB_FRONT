@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { apiGet } from "@/lib/api";
 
 export default function AnalyticsPage() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {

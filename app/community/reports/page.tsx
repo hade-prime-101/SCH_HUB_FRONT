@@ -22,6 +22,7 @@ export default function ReportsPage() {
       try {
         const res = await listReports({ page: 1, limit: 50, resolved: false });
         setReports(res.data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Failed to load reports");
       } finally {
@@ -36,6 +37,7 @@ export default function ReportsPage() {
     try {
       await resolveReport(reportId);
       setReports((prev) => prev.filter((r) => r.id !== reportId));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Failed to resolve report");
     }

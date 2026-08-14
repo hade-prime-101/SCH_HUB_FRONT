@@ -14,6 +14,7 @@ export interface MapFeature {
     building?: string;
     floor?: string;
     entranceId?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
 }
@@ -36,6 +37,7 @@ export interface CreateMapLocationPayload {
   lng: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateMapLocationPayload extends Partial<CreateMapLocationPayload> {}
 
 export interface RouteRequestPayload {

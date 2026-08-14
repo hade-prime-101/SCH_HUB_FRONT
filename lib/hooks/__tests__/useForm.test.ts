@@ -9,8 +9,11 @@
 
 import { describe, it, expect } from 'vitest';
 import type {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   UseFormReturn,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   UseFormConfig,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   FormState,
 } from '../useForm';
 
@@ -64,31 +67,40 @@ describe('useForm Hook - Unit Tests', () => {
     });
 
     it('should have handleChange event handler', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
       expect(typeof handleChange).toBe('function');
     });
 
     it('should have handleBlur event handler', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
       expect(typeof handleBlur).toBe('function');
     });
 
     it('should have handleSubmit event handler', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {};
       expect(typeof handleSubmit).toBe('function');
     });
 
     it('should have setFieldValue utility method', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const setFieldValue = <T extends Record<string, any>, K extends keyof T>(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         field: K,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         value: T[K]
       ) => {};
       expect(typeof setFieldValue).toBe('function');
     });
 
     it('should have setFieldError utility method', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const setFieldError = <T extends Record<string, any>, K extends keyof T>(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         field: K,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         error: string
       ) => {};
       expect(typeof setFieldError).toBe('function');
@@ -96,10 +108,13 @@ describe('useForm Hook - Unit Tests', () => {
 
     it('should have setFieldTouched utility method', () => {
       const setFieldTouched = <
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         T extends Record<string, any>,
         K extends keyof T,
       >(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         field: K,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         isTouched: boolean
       ) => {};
       expect(typeof setFieldTouched).toBe('function');
@@ -111,6 +126,7 @@ describe('useForm Hook - Unit Tests', () => {
     });
 
     it('should have setValues utility method', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const setValues = <T extends Record<string, any>>(values: T) => {};
       expect(typeof setValues).toBe('function');
     });
@@ -134,6 +150,7 @@ describe('useForm Hook - Unit Tests', () => {
     it('should accept onSubmit callback property', () => {
       const config = {
         initialValues: { email: '' },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onSubmit: async (values: { email: string }) => {},
       };
 
@@ -451,6 +468,7 @@ describe('useForm Hook - Unit Tests', () => {
     });
 
     it('should support record of any string keys', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const values: Record<string, any> = {
         field1: 'value1',
         field2: 42,

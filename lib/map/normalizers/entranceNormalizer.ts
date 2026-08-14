@@ -124,6 +124,7 @@ export function createFallbackEntrances(locationName: string, locationId: string
 
 // ─── Extraction helpers ────────────────────────────────────────────────────────
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractId(raw: any): string | null {
   const id = raw.id || raw._id || raw.properties?.id;
   return typeof id === 'string' && id.trim() ? id : null;
@@ -133,6 +134,7 @@ function generateId(): string {
   return `entrance-${crypto.randomUUID()}`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractName(raw: any): string | null {
   const name = raw.name || raw.properties?.name;
   if (typeof name === 'string' && name.trim()) return name.trim();
@@ -146,6 +148,7 @@ function extractName(raw: any): string | null {
   return null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractEntranceCoordinates(raw: any): [number, number] | null {
   // GeoJSON Point geometry
   if (raw.geometry?.type === 'Point' && Array.isArray(raw.geometry.coordinates)) {
@@ -174,6 +177,7 @@ function extractEntranceCoordinates(raw: any): [number, number] | null {
   return null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractEntranceKind(raw: any): EntranceKind | undefined {
   const kind = raw.kind || raw.tag || raw.type || raw.properties?.kind || raw.properties?.tag;
   return normalizeEntranceKindFromTag(kind);
@@ -199,6 +203,7 @@ function normalizeEntranceKindFromTag(tag: unknown): EntranceKind | undefined {
   return undefined;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractIsAccessible(raw: any): boolean | undefined {
   const accessible = raw.isAccessible ?? raw.accessible ?? raw.properties?.isAccessible;
 
@@ -213,6 +218,7 @@ function extractIsAccessible(raw: any): boolean | undefined {
   return undefined;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractAccessibility(raw: any): Entrance['accessibility'] | undefined {
   const a11y = raw.accessibility || raw.properties?.accessibility;
 
@@ -228,11 +234,13 @@ function extractAccessibility(raw: any): Entrance['accessibility'] | undefined {
   return undefined;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDescription(raw: any): string | null {
   const desc = raw.description || raw.properties?.description;
   return typeof desc === 'string' ? desc.trim() || null : null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractMetadata(raw: any): Entrance['metadata'] | undefined {
   const metadata: Entrance['metadata'] = {};
 

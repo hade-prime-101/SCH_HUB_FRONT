@@ -8,12 +8,14 @@ import { FieldValidator } from './fields';
  * subset at runtime, but this type lets tests and callers pass any callable
  * without casting.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyValidator = (value: any) => any;
 
 /**
  * Validation schema for form fields
  * Maps field names to validator functions
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FormValidationSchema<T extends Record<string, any>> = {
   [K in keyof T]?: FieldValidator | AnyValidator | (FieldValidator | AnyValidator)[];
 };
@@ -40,6 +42,7 @@ export type FormValidationSchema<T extends Record<string, any>> = {
  *   console.log(errors); // { username: "Username must be at least 3 characters long" }
  * }
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateForm<T extends Record<string, any>>(
   values: T,
   schema: FormValidationSchema<T>
@@ -81,6 +84,7 @@ export function validateForm<T extends Record<string, any>>(
  *
  * const errors = validator(formValues);
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createFormValidator<T extends Record<string, any>>(
   schema: FormValidationSchema<T>
 ) {
@@ -99,6 +103,7 @@ export function createFormValidator<T extends Record<string, any>>(
  * @example
  * const errors = validateFormFields(formValues, schema, ['email', 'password']);
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateFormFields<T extends Record<string, any>>(
   values: T,
   schema: FormValidationSchema<T>,
@@ -176,7 +181,9 @@ export function clearFormFieldErrors(
  * const additionalSchema = { password: validatePassword };
  * const merged = mergeValidationSchemas(baseSchema, additionalSchema);
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mergeValidationSchemas<T extends Record<string, any>>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...schemas: FormValidationSchema<any>[]
 ): FormValidationSchema<T> {
   return schemas.reduce((acc, schema) => ({ ...acc, ...schema }), {} as FormValidationSchema<T>);

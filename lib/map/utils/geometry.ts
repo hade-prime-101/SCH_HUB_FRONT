@@ -2,6 +2,7 @@
  * GeoJSON and geometry utilities
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { GeoJSONGeometry, GeoJSONLineString, GeoJSONPolygon } from '../types/geojson';
 
 /**

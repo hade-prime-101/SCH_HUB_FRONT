@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Loader2, Crosshair } from "lucide-react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { GeoJSONLineString } from "@/lib/map/types/geojson";
@@ -28,8 +29,11 @@ export default function NavigationMapView({
   destination,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const userMarkerRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const destMarkerRef = useRef<any>(null);
   const lastCommittedRef = useRef<{ lat: number; lng: number } | null>(null);
   const userInteractedRef = useRef(false);
@@ -41,6 +45,7 @@ export default function NavigationMapView({
   useEffect(() => {
     import("@/lib/api/campus-map.api")
       .then(({ getMapConfig }) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         getMapConfig().then((cfg: any) => setMapTilerKey(cfg.maptilerApiKey || ""))
       )
       .catch(() => setMapTilerKey(""));

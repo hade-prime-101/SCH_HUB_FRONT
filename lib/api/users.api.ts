@@ -52,6 +52,7 @@ export const revokeAllSessions = () =>
 export const searchUsers = (query: SearchUsersQuery) =>
   apiGet<{ data: UserProfile[]; total: number; page: number; limit: number; totalPages: number; hasMore: boolean }>(
     '/users/search',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     query as any
   );
 
@@ -64,6 +65,7 @@ export const assignRole = (payload: AssignRolePayload) =>
 export const listUsers = (query: ListUsersQuery) =>
   apiGet<{ data: UserProfile[]; total: number; page: number; limit: number; totalPages: number; hasMore: boolean }>(
     '/users',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     query as any
   );
 

@@ -25,6 +25,7 @@ export default function CGPAPage() {
         ]);
         setCgpaData(cgpa);
         setCourses(coursesData.data || coursesData || []);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         const message = err?.message || "Failed to load CGPA data";
         if (message.includes("No token") || err?.status === 401) {

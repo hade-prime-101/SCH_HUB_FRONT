@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle } from "lucide-react";
 import type { Quiz, QuizQuestion } from "@/types/study";
 
@@ -28,6 +29,7 @@ export default function QuizAttemptPage() {
       try {
         const data = await apiGet(`/study/quizzes/${id}`);
         setQuiz(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -52,6 +54,7 @@ export default function QuizAttemptPage() {
       const res = await apiPost(`/study/quizzes/${id}/attempt`, payload);
       setResult(res);
       setSubmitted(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }

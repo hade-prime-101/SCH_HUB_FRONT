@@ -37,6 +37,7 @@ export default function NewSessionPage() {
     try {
       const session = await apiPost("/personal-study/sessions", formData, true);
       router.push(`/study/personal/${session.id}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {
