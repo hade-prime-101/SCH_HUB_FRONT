@@ -12,7 +12,7 @@ export function withAuthInterceptor(fetchFn: FetchFn): FetchFn {
     const response = await fetchFn(input, init);
 
     // Skip interceptor for auth endpoints to avoid loops
-    const url = typeof input === 'string' ? input : input.url;
+    const url = typeof input === 'string' ? input : input instanceof URL ? input.href : (input as Request).url;
     const isAuthEndpoint =
       url.includes('/auth/login') ||
       url.includes('/auth/refresh') ||

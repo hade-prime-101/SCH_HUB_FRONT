@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { Pagination } from "@/components/ui/Pagination";
+import { Button } from "@/components/ui/button";
 import { GroupCard } from "@/components/study-groups/GroupCard";
 
 export default function MyGroupsPage() {
