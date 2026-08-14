@@ -1,0 +1,145 @@
+]633;E;{   echo "===== LOOPZ DASHBOARD AUDIT ====="\x3b   echo\x3b   echo "===== DIRECTORY TREE ====="\x3b   find app/dashboard -type d | sort\x3b   echo\x3b   echo "===== ALL FILES ====="\x3b   find app/dashboard -type f -printf '%p | %k KB\\n' | sort\x3b   echo\x3b   echo "===== ROUTE FILES ====="\x3b   find app/dashboard -type f \\(     -name 'page.tsx' -o     -name 'page.ts' -o     -name 'layout.tsx' -o     -name 'layout.ts' -o     -name 'loading.tsx' -o     -name 'error.tsx' -o     -name 'not-found.tsx'   \\) | sort\x3b   echo\x3b   echo "===== IMPORT DEPENDENCIES ====="\x3b   grep -RhoE 'from ["'\\'']@/[^"'\\'']+|import ["'\\'']@/[^"'\\'']+' app/dashboard 2>/dev/null | sort | uniq -c | sort -nr\x3b   echo\x3b   echo "===== LARGEST FILES ====="\x3b   find app/dashboard -type f -printf '%k KB\\t%p\\n' | sort -nr | head -30\x3b } > dashboard-audit.txt;20440632-8987-41ad-a5a7-ecbe57383631]633;C===== LOOPZ DASHBOARD AUDIT =====
+
+===== DIRECTORY TREE =====
+app/dashboard
+app/dashboard/bookmarks
+app/dashboard/my-materials
+app/dashboard/notifications
+app/dashboard/notifications/settings
+app/dashboard/planner
+app/dashboard/planner/weekly
+app/dashboard/profile
+app/dashboard/profile/[id]
+app/dashboard/profile/edit
+app/dashboard/profile/sessions
+app/dashboard/reminders
+app/dashboard/settings
+app/dashboard/study
+app/dashboard/study/ai
+app/dashboard/study/ai/personal
+app/dashboard/study/ai/personal/[sessionId]
+app/dashboard/study/ai/personal/[sessionId]/quiz
+app/dashboard/study/materials
+app/dashboard/study/materials/[materialId]
+app/dashboard/study/quizzes
+app/dashboard/study/quizzes/[quizId]
+app/dashboard/study/quizzes/[quizId]/approve
+app/dashboard/study/quizzes/[quizId]/attempts
+app/dashboard/study/quizzes/generate
+app/dashboard/study-groups
+app/dashboard/study-groups/[id]
+app/dashboard/study-groups/[id]/edit
+app/dashboard/study-groups/create
+app/dashboard/study-groups/discover
+app/dashboard/study-groups/invite
+app/dashboard/study-groups/invite/[token]
+app/dashboard/users
+app/dashboard/users/search
+
+===== ALL FILES =====
+app/dashboard/bookmarks/page.tsx | 4 KB
+app/dashboard/layout.tsx | 4 KB
+app/dashboard/my-materials/page.tsx | 1 KB
+app/dashboard/notifications/layout.tsx | 1 KB
+app/dashboard/notifications/page.tsx | 8 KB
+app/dashboard/notifications/settings/page.tsx | 4 KB
+app/dashboard/page.tsx | 40 KB
+app/dashboard/page.tsx.bak | 20 KB
+app/dashboard/planner/layout.tsx | 4 KB
+app/dashboard/planner/page.tsx | 4 KB
+app/dashboard/planner/weekly/page.tsx | 4 KB
+app/dashboard/profile/[id]/page.tsx | 4 KB
+app/dashboard/profile/edit/page.tsx | 4 KB
+app/dashboard/profile/layout.tsx | 4 KB
+app/dashboard/profile/page.tsx | 4 KB
+app/dashboard/profile/sessions/page.tsx | 12 KB
+app/dashboard/reminders/page.tsx | 8 KB
+app/dashboard/settings/page.tsx | 4 KB
+app/dashboard/study-groups/[id]/edit/page.tsx | 4 KB
+app/dashboard/study-groups/[id]/page.tsx | 12 KB
+app/dashboard/study-groups/create/page.tsx | 4 KB
+app/dashboard/study-groups/discover/page.tsx | 4 KB
+app/dashboard/study-groups/invite/[token]/page.tsx | 1 KB
+app/dashboard/study-groups/layout.tsx | 4 KB
+app/dashboard/study-groups/page.tsx | 4 KB
+app/dashboard/users/layout.tsx | 4 KB
+app/dashboard/users/page.tsx | 1 KB
+app/dashboard/users/search/page.tsx | 1 KB
+
+===== ROUTE FILES =====
+app/dashboard/bookmarks/page.tsx
+app/dashboard/layout.tsx
+app/dashboard/my-materials/page.tsx
+app/dashboard/notifications/layout.tsx
+app/dashboard/notifications/page.tsx
+app/dashboard/notifications/settings/page.tsx
+app/dashboard/page.tsx
+app/dashboard/planner/layout.tsx
+app/dashboard/planner/page.tsx
+app/dashboard/planner/weekly/page.tsx
+app/dashboard/profile/[id]/page.tsx
+app/dashboard/profile/edit/page.tsx
+app/dashboard/profile/layout.tsx
+app/dashboard/profile/page.tsx
+app/dashboard/profile/sessions/page.tsx
+app/dashboard/reminders/page.tsx
+app/dashboard/settings/page.tsx
+app/dashboard/study-groups/[id]/edit/page.tsx
+app/dashboard/study-groups/[id]/page.tsx
+app/dashboard/study-groups/create/page.tsx
+app/dashboard/study-groups/discover/page.tsx
+app/dashboard/study-groups/invite/[token]/page.tsx
+app/dashboard/study-groups/layout.tsx
+app/dashboard/study-groups/page.tsx
+app/dashboard/users/layout.tsx
+app/dashboard/users/page.tsx
+app/dashboard/users/search/page.tsx
+
+===== IMPORT DEPENDENCIES =====
+      7 from "@/lib/api/users.api
+      6 from "@/types/users
+      5 from "@/lib/api/study-groups.api
+      4 from "@/lib/api/planner.api
+      3 from "@/types/study-groups
+      2 from "@/types/planner
+      2 from "@/types/notifications
+      2 from "@/lib/api/school.api
+      2 from "@/lib/api/notifications.api
+      2 from "@/lib/api/community.api
+      2 from "@/components/shared/PullToRefresh
+      2 from "@/components/shared/BottomNav
+      1 from "@/types/reminders
+      1 from "@/lib/hooks/useAuth
+      1 from "@/lib/api/reminders.api
+      1 from "@/components/shared/DashboardPrimitives
+      1 from "@/components/shared/BackButton
+
+===== LARGEST FILES =====
+40 KB	app/dashboard/page.tsx
+20 KB	app/dashboard/page.tsx.bak
+12 KB	app/dashboard/study-groups/[id]/page.tsx
+12 KB	app/dashboard/profile/sessions/page.tsx
+8 KB	app/dashboard/reminders/page.tsx
+8 KB	app/dashboard/notifications/page.tsx
+4 KB	app/dashboard/users/layout.tsx
+4 KB	app/dashboard/study-groups/page.tsx
+4 KB	app/dashboard/study-groups/layout.tsx
+4 KB	app/dashboard/study-groups/discover/page.tsx
+4 KB	app/dashboard/study-groups/create/page.tsx
+4 KB	app/dashboard/study-groups/[id]/edit/page.tsx
+4 KB	app/dashboard/settings/page.tsx
+4 KB	app/dashboard/profile/page.tsx
+4 KB	app/dashboard/profile/layout.tsx
+4 KB	app/dashboard/profile/edit/page.tsx
+4 KB	app/dashboard/profile/[id]/page.tsx
+4 KB	app/dashboard/planner/weekly/page.tsx
+4 KB	app/dashboard/planner/page.tsx
+4 KB	app/dashboard/planner/layout.tsx
+4 KB	app/dashboard/notifications/settings/page.tsx
+4 KB	app/dashboard/layout.tsx
+4 KB	app/dashboard/bookmarks/page.tsx
+1 KB	app/dashboard/users/search/page.tsx
+1 KB	app/dashboard/users/page.tsx
+1 KB	app/dashboard/study-groups/invite/[token]/page.tsx
+1 KB	app/dashboard/notifications/layout.tsx
+1 KB	app/dashboard/my-materials/page.tsx

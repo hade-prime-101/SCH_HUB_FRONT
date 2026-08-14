@@ -1,0 +1,183 @@
+]633;E;{   echo "===== LOOPZ DASHBOARD FILE DEPENDENCY MAP ====="\x3b   echo\x3b    find app/dashboard -type f -name '*.tsx' | sort | while read -r file\x3b do     echo\x3b     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"\x3b     echo "FILE: $file"\x3b     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"\x3b      grep -E '^(import|export).*(@/|react|next/)' "$file" 2>/dev/null || true\x3b   done\x3b } > dashboard-dependency-map.txt;20440632-8987-41ad-a5a7-ecbe57383631]633;C===== LOOPZ DASHBOARD FILE DEPENDENCY MAP =====
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/bookmarks/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { getBookmarks } from "@/lib/api/users.api";
+import type { Bookmark } from "@/types/users";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/layout.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/my-materials/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { getMyMaterials } from "@/lib/api/users.api";
+import type { UserMaterial } from "@/types/users";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/notifications/layout.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/notifications/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import type { Notification } from "@/types/notifications";
+import Link from "next/link";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/notifications/settings/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import type { NotificationSettings, UpdateSettingsPayload } from "@/types/notifications";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import BottomNav from "@/components/shared/BottomNav";
+import PullToRefresh from "@/components/shared/PullToRefresh";
+import { plannerApi, notificationsApi } from "@/lib/api/planner.api";
+import { schoolApi } from "@/lib/api/school.api";
+import { communityApi } from "@/lib/api/community.api";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/planner/layout.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/planner/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { getTodayPlanner } from "@/lib/api/planner.api";
+import type { TodayPlanner } from "@/types/planner";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/planner/weekly/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { getWeeklyPlanner } from "@/lib/api/planner.api";
+import type { WeeklyPlanner } from "@/types/planner";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/profile/[id]/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { getProfile, getUserMaterials } from "@/lib/api/users.api";
+import type { UserProfile, UserMaterial } from "@/types/users";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/profile/edit/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getMyProfile, updateProfile, uploadAvatar } from "@/lib/api/users.api";
+import type { UserProfile } from "@/types/users";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/profile/layout.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/profile/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { getMyProfile } from "@/lib/api/users.api";
+import type { UserProfile } from "@/types/users";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/profile/sessions/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import BackButton from "@/components/shared/BackButton";
+import { usersApi } from "@/lib/api/users.api";
+import { useAuth } from "@/lib/hooks/useAuth";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/reminders/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import type { Reminder, CreateReminderPayload } from "@/types/reminders";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/settings/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { getMyProfile, updateSettings } from "@/lib/api/users.api";
+import type { UserSettings } from "@/types/users";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/study-groups/[id]/edit/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { getGroup, updateGroup } from "@/lib/api/study-groups.api";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/study-groups/[id]/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import type { StudyGroup, GroupMessage, GroupInvite, Challenge, GroupMember, QuizLeaderboardEntry } from "@/types/study-groups";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/study-groups/create/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createGroup } from "@/lib/api/study-groups.api";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/study-groups/discover/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { listAllGroups, joinGroup, leaveGroup } from "@/lib/api/study-groups.api";
+import type { StudyGroup } from "@/types/study-groups";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/study-groups/invite/[token]/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/study-groups/layout.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/study-groups/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { listGroups } from "@/lib/api/study-groups.api";
+import type { StudyGroup } from "@/types/study-groups";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/users/layout.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/users/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE: app/dashboard/users/search/page.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
