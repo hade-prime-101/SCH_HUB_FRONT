@@ -1,7 +1,10 @@
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { LoadingState } from "@/components/shared/DashboardPrimitives";
 
 export default function DashboardLayout({
   children,
@@ -9,18 +12,27 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [checked, setChecked] = useState(false);
+  const { isAuthenticated, loading } = useAuth();
 
   useEffect(() => {
-    const token = localStorage.getItem("auth_token");
-    if (!token) {
+    // If authentication check is complete and user is not authenticated, redirect to login
+    if (!loading && !isAuthenticated) {
       router.replace("/login");
-    } else {
-      setChecked(true);
     }
-  }, [router]);
+  }, [loading, isAuthenticated, router]);
 
-  if (!checked) return null;
+  // Show loading state while authentication is initialising
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingState label="Checking authentication..." />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null; // Will redirect via useEffect
+  }
 
   return <div className="min-h-screen bg-background">{children}</div>;
 }

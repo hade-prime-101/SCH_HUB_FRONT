@@ -1,4 +1,3 @@
-// app/dashboard/study-groups/layout.tsx
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,16 +11,18 @@ export default function StudyGroupsLayout({ children }: { children: React.ReactN
   ];
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-64 bg-muted border-r p-4">
-        <h2 className="text-lg font-bold mb-4">Study Groups</h2>
+    <div className="flex min-h-screen bg-muted/20">
+      <aside className="w-64 bg-card border-r border-border p-4 hidden md:block">
+        <h2 className="text-lg font-bold mb-4 text-foreground">Study Groups</h2>
         <nav className="space-y-1">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className={`block px-3 py-2 rounded text-sm ${
-                pathname === l.href ? "bg-accent text-primary font-medium" : "text-secondary-foreground hover:bg-muted/80"
+              className={`block px-3 py-2 rounded-lg text-sm transition-colors ${
+                pathname === l.href
+                  ? "bg-accent text-primary font-medium"
+                  : "text-muted-foreground hover:bg-muted"
               }`}
             >
               {l.label}
@@ -29,7 +30,7 @@ export default function StudyGroupsLayout({ children }: { children: React.ReactN
           ))}
         </nav>
       </aside>
-      <main className="flex-1 p-6">{children}</main>
+      <main className="flex-1 p-4 md:p-6">{children}</main>
     </div>
   );
 }

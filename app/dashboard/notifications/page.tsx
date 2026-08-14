@@ -1,6 +1,7 @@
-// app/dashboard/notifications/page.tsx
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
+import { usePaginatedQuery } from "@/lib/hooks/usePaginatedQuery";
 import {
   listNotifications,
   markAsRead,
@@ -9,126 +10,108 @@ import {
 } from "@/lib/api/notifications.api";
 import type { Notification } from "@/types/notifications";
 import Link from "next/link";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Pagination } from "@/components/ui/Pagination";
 
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [unreadCount, setUnreadCount] = useState(0);
   const limit = 10;
 
-  const fetchNotifications = () => {
-    listNotifications({ page, limit }).then((res) => {
-      setNotifications(res.data);
-      setTotal(res.total);
-      setUnreadCount(res.unreadCount);
-    });
-  };
+  const { data, total, loading, error, refetch } = usePaginatedQuery<Notification>(
+    ({ page, limit }) => listNotifications({ page, limit }),
+    { page, limit }
+  );
 
-  useEffect(() => {
-    fetchNotifications();
-  }, [page]);
+  const unreadCount = data?.filter((n) => !n.isRead).length ?? 0;
 
   const handleMarkRead = async (id: string) => {
     await markAsRead(id);
-    fetchNotifications();
+    refetch();
   };
 
   const handleDelete = async (id: string) => {
     await deleteNotification(id);
-    fetchNotifications();
+    refetch();
   };
 
   const handleMarkAllRead = async () => {
     await markAllAsRead();
-    fetchNotifications();
+    refetch();
   };
 
+  if (loading) return <LoadingState label="Loading notifications" />;
+  if (error) return <ErrorState title="Failed to load notifications" description={error.message} onRetry={refetch} />;
+
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Notifications</h1>
-        <div className="flex items-center gap-3">
-          {unreadCount > 0 && (
-            <span className="bg-red-500 text-primary-foreground text-xs font-bold px-2 py-1 rounded-full">
-              {unreadCount} unread
-            </span>
-          )}
-          <button
-            onClick={handleMarkAllRead}
-            className="text-sm bg-secondary/50 px-3 py-1 rounded hover:bg-gray-300"
-          >
-            Mark all read
-          </button>
-          <Link
-            href="/dashboard/notifications/settings"
-            className="text-sm text-primary hover:underline"
-          >
-            Settings
-          </Link>
-        </div>
-      </div>
+    <div className="max-w-3xl mx-auto p-4 md:p-6">
+      <PageHeader
+        title="Notifications"
+        description={unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            {unreadCount > 0 && (
+              <Badge variant="destructive" size="sm">
+                {unreadCount} unread
+              </Badge>
+            )}
+            <Button variant="outline" size="sm" onClick={handleMarkAllRead}>
+              Mark all read
+            </Button>
+            <Link href="/dashboard/notifications/settings" className="text-sm text-primary hover:underline">
+              Settings
+            </Link>
+          </div>
+        }
+      />
 
-      {notifications.length === 0 ? (
-        <p className="text-muted-foreground">No notifications.</p>
+      {!data || data.length === 0 ? (
+        <EmptyState>No notifications.</EmptyState>
       ) : (
-        <ul className="space-y-2">
-          {notifications.map((n) => (
-            <li
-              key={n.id}
-              className={`p-3 rounded border ${
-                n.isRead ? "bg-card" : "bg-blue-50 border-blue-200"
-              } flex justify-between items-start`}
-            >
-              <div>
-                <p className="font-medium">{n.title}</p>
-                <p className="text-sm text-muted-foreground">{n.body}</p>
-                <p className="text-xs text-muted-foreground/70 mt-1">
-                  {new Date(n.createdAt).toLocaleString()}
-                </p>
-              </div>
-              <div className="flex gap-2 text-sm">
-                {!n.isRead && (
-                  <button
-                    onClick={() => handleMarkRead(n.id)}
-                    className="text-primary hover:underline"
-                  >
-                    Mark read
-                  </button>
-                )}
-                <button
-                  onClick={() => handleDelete(n.id)}
-                  className="text-red-600 hover:underline"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+        <>
+          <div className="space-y-2 mt-4">
+            {data.map((n) => (
+              <Card
+                key={n.id}
+                compact
+                className={n.isRead ? "" : "border-l-4 border-primary bg-accent/10"}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                  <div>
+                    <p className="font-medium">{n.title}</p>
+                    <p className="text-sm text-muted-foreground">{n.body}</p>
+                    <p className="text-xs text-muted-foreground/70 mt-1">
+                      {new Date(n.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 shrink-0">
+                    {!n.isRead && (
+                      <Button variant="ghost" size="xs" onClick={() => handleMarkRead(n.id)}>
+                        Mark read
+                      </Button>
+                    )}
+                    <Button variant="destructive" size="xs" onClick={() => handleDelete(n.id)}>
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
 
-      {/* Pagination */}
-      {total > limit && (
-        <div className="flex justify-between mt-6">
-          <button
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span className="text-sm">
-            Page {page} of {Math.ceil(total / limit)}
-          </span>
-          <button
-            disabled={page * limit >= total}
-            onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-secondary/50 rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+          {total > limit && (
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(total / limit)}
+              onPageChange={setPage}
+              showPageNumber
+            />
+          )}
+        </>
       )}
     </div>
   );

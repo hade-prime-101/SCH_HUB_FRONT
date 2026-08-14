@@ -1,0 +1,404 @@
+]633;E;{   echo "===== LOOPZ DASHBOARD DEPENDENCY AUDIT ====="\x3b   echo\x3b    echo "===== API FILES ====="\x3b   find lib/api -type f | sort\x3b   echo\x3b    echo "===== TYPE FILES ====="\x3b   find types -type f | sort\x3b   echo\x3b    echo "===== SHARED COMPONENTS ====="\x3b   find components/shared -type f | sort\x3b   echo\x3b    echo "===== UI COMPONENTS ====="\x3b   find components/ui -type f | sort\x3b   echo\x3b    echo "===== HOOKS ====="\x3b   find lib/hooks -type f | sort\x3b   echo\x3b    echo "===== CSS / THEME ====="\x3b   find . -maxdepth 3 -type f \\(     -name 'globals.css' -o     -name 'tailwind.config.*' -o     -name 'postcss.config.*'   \\) | sort\x3b   echo\x3b    echo "===== DASHBOARD API IMPORTS ====="\x3b   grep -RhoE 'from ["'\\'']@/lib/api/[^"'\\'']+|import ["'\\'']@/lib/api/[^"'\\'']+' app/dashboard 2>/dev/null     | sort | uniq -c | sort -nr\x3b   echo\x3b    echo "===== DASHBOARD TYPE IMPORTS ====="\x3b   grep -RhoE 'from ["'\\'']@/types/[^"'\\'']+|import ["'\\'']@/types/[^"'\\'']+' app/dashboard 2>/dev/null     | sort | uniq -c | sort -nr\x3b   echo\x3b    echo "===== DASHBOARD SHARED COMPONENT IMPORTS ====="\x3b   grep -RhoE 'from ["'\\'']@/components/shared/[^"'\\'']+|import ["'\\'']@/components/shared/[^"'\\'']+' app/dashboard 2>/dev/null     | sort | uniq -c | sort -nr\x3b   echo\x3b    echo "===== AUTH REFERENCES ====="\x3b   grep -RniE 'useAuth|auth_token|localStorage|sessionStorage|Authorization|Bearer'     app/dashboard lib/api lib/hooks components/shared 2>/dev/null     | head -300\x3b   echo\x3b    echo "===== ERROR/LOADING INFRASTRUCTURE ====="\x3b   find app components lib -type f \\(     -name 'error.tsx' -o     -name 'loading.tsx' -o     -name 'not-found.tsx'   \\) | sort\x3b   echo\x3b    echo "===== DESIGN TOKEN USAGE ====="\x3b   grep -RhoE 'bg-[a-zA-Z0-9_-]+|text-[a-zA-Z0-9_-]+|border-[a-zA-Z0-9_-]+|rounded-[a-zA-Z0-9_-]+'     app/dashboard components/shared 2>/dev/null     | sort | uniq -c | sort -nr | head -100\x3b  } > dashboard-dependency-audit.txt;20440632-8987-41ad-a5a7-ecbe57383631]633;C===== LOOPZ DASHBOARD DEPENDENCY AUDIT =====
+
+===== API FILES =====
+lib/api/admin.ts
+lib/api/auth.ts
+lib/api/base.ts
+lib/api/campus-map.api.ts
+lib/api/community.api.ts
+lib/api/index.ts
+lib/api/marketplace.api.ts
+lib/api/notifications.api.ts
+lib/api/planner.api.ts
+lib/api/reminders.api.ts
+lib/api/school.api.ts
+lib/api/study.api.ts
+lib/api/study-groups.api.ts
+lib/api/super-admin.api.ts
+lib/api/users.api.ts
+
+===== TYPE FILES =====
+types/auth.ts
+types/campus-map.ts
+types/community.ts
+types/errors.ts
+types/icons.ts
+types/images.ts
+types/marketplace.ts
+types/notifications.ts
+types/planner.ts
+types/reminders.ts
+types/school.ts
+types/study.ts
+types/study-groups.ts
+types/super-admin.ts
+types/users.ts
+
+===== SHARED COMPONENTS =====
+components/shared/BackButton.tsx
+components/shared/BottomNav.tsx
+components/shared/DashboardPrimitives.tsx
+components/shared/LoginForm.test.tsx
+components/shared/LoginForm.tsx
+components/shared/ProgressDots.tsx
+components/shared/PullToRefresh.tsx
+components/shared/RefreshButton.tsx
+components/shared/SearchInput.tsx
+components/shared/SelectionList.tsx
+
+===== UI COMPONENTS =====
+components/ui/badge.tsx
+components/ui/button.tsx
+components/ui/card.tsx
+components/ui/ErrorMessage.tsx
+components/ui/input.tsx
+components/ui/LoadingSkeleton.tsx
+components/ui/Pagination.tsx
+components/ui/PasswordInput.tsx
+components/ui/password-strength.tsx
+
+===== HOOKS =====
+lib/hooks/__tests__/useAsync.test.ts
+lib/hooks/__tests__/useAuth.test.ts
+lib/hooks/__tests__/useForm.test.ts
+lib/hooks/__tests__/useLocalStorage.integration.test.ts
+lib/hooks/__tests__/useLocalStorage.test.ts
+lib/hooks/index.ts
+lib/hooks/useAsync.ts
+lib/hooks/useAuth.ts
+lib/hooks/useCurrentUser.ts
+lib/hooks/useDepartmentId.ts
+lib/hooks/useForm.ts
+lib/hooks/useLocalStorage.ts
+lib/hooks/usePullToRefresh.ts
+lib/hooks/useTheme.ts
+
+===== CSS / THEME =====
+./app/ui/globals.css
+./postcss.config.mjs
+
+===== DASHBOARD API IMPORTS =====
+      7 from "@/lib/api/users.api
+      5 from "@/lib/api/study-groups.api
+      4 from "@/lib/api/planner.api
+      2 from "@/lib/api/school.api
+      2 from "@/lib/api/notifications.api
+      2 from "@/lib/api/community.api
+      1 from "@/lib/api/reminders.api
+
+===== DASHBOARD TYPE IMPORTS =====
+      6 from "@/types/users
+      3 from "@/types/study-groups
+      2 from "@/types/planner
+      2 from "@/types/notifications
+      1 from "@/types/reminders
+
+===== DASHBOARD SHARED COMPONENT IMPORTS =====
+      2 from "@/components/shared/PullToRefresh
+      2 from "@/components/shared/BottomNav
+      1 from "@/components/shared/DashboardPrimitives
+      1 from "@/components/shared/BackButton
+
+===== AUTH REFERENCES =====
+app/dashboard/layout.tsx:15:    const token = localStorage.getItem("auth_token");
+app/dashboard/page.tsx:168:    const stored = localStorage.getItem("auth_user");
+app/dashboard/page.tsx.bak:100:      const stored = localStorage.getItem("auth_user");
+app/dashboard/profile/sessions/page.tsx:16:import { useAuth } from "@/lib/hooks/useAuth";
+app/dashboard/profile/sessions/page.tsx:40:  const { logout } = useAuth();
+app/dashboard/profile/sessions/page.tsx:72:      // Use the logout hook — clears localStorage tokens AND the HTTP-only cookie
+lib/api/base.ts:18: * - includes Authorization header with token from localStorage
+lib/api/base.ts:57:  // Add Authorization header if token exists in localStorage
+lib/api/base.ts:59:    const token = localStorage.getItem("auth_token") || localStorage.getItem("accessToken");
+lib/api/base.ts:61:      headers["Authorization"] = `Bearer ${token}`;
+lib/hooks/index.ts:1:export { useAuth } from './useAuth';
+lib/hooks/index.ts:2:export type { AuthState } from './useAuth';
+lib/hooks/index.ts:10:export { useLocalStorage } from './useLocalStorage';
+lib/hooks/useAuth.ts:16:export function useAuth() {
+lib/hooks/useAuth.ts:29:      localStorage.setItem('auth_token', accessToken);
+lib/hooks/useAuth.ts:30:      localStorage.setItem('refresh_token', refreshToken);
+lib/hooks/useAuth.ts:42:      localStorage.removeItem('auth_token');
+lib/hooks/useAuth.ts:43:      localStorage.removeItem('refresh_token');
+lib/hooks/useAuth.ts:44:      localStorage.removeItem('auth_user');
+lib/hooks/useAuth.ts:45:      localStorage.removeItem('dashboard_redirect');
+lib/hooks/useAuth.ts:50:    try { localStorage.setItem('auth_user', JSON.stringify(user)); } catch {}
+lib/hooks/useAuth.ts:55:      const u = localStorage.getItem('auth_user');
+lib/hooks/useAuth.ts:61:    try { return localStorage.getItem('auth_token'); } catch { return null; }
+lib/hooks/useAuth.ts:78:        localStorage.setItem('dashboard_redirect', dashboardRedirect);
+lib/hooks/useAuth.ts:94:      const refreshToken = localStorage.getItem('refresh_token');
+lib/hooks/useAuth.ts:116:        const redirect = (localStorage.getItem('dashboard_redirect') as DashboardRedirect) || null;
+lib/hooks/useCurrentUser.ts:5: * Hook to get the current logged-in user from localStorage.
+lib/hooks/useCurrentUser.ts:16:      const raw = localStorage.getItem("auth_user");
+lib/hooks/useCurrentUser.ts:21:      // Silently fail if localStorage is unavailable
+lib/hooks/useDepartmentId.ts:5: * First checks localStorage (set at login), then falls back to /users/me API call.
+lib/hooks/useDepartmentId.ts:6: * Updates localStorage on successful resolution so future uploads don't need API call.
+lib/hooks/useDepartmentId.ts:23:        // Check localStorage first (set at login time)
+lib/hooks/useDepartmentId.ts:24:        const raw = localStorage.getItem("auth_user");
+lib/hooks/useDepartmentId.ts:47:              const stored = localStorage.getItem("auth_user");
+lib/hooks/useDepartmentId.ts:49:              localStorage.setItem(
+lib/hooks/useLocalStorage.ts:6: * useLocalStorage Hook
+lib/hooks/useLocalStorage.ts:8: * Persists state to localStorage with automatic JSON serialization,
+lib/hooks/useLocalStorage.ts:12: * @param key - The localStorage key to persist to
+lib/hooks/useLocalStorage.ts:13: * @param initialValue - Initial value if key doesn't exist in localStorage
+lib/hooks/useLocalStorage.ts:19: * const [sidebarCollapsed, setSidebarCollapsed] = useLocalStorage(
+lib/hooks/useLocalStorage.ts:30: * const [preferences, setPreferences] = useLocalStorage<UserPreferences>(
+lib/hooks/useLocalStorage.ts:36:export function useLocalStorage<T>(
+lib/hooks/useLocalStorage.ts:45:    // SSR safety - only access localStorage on client
+lib/hooks/useLocalStorage.ts:51:      // Get from localStorage by key
+lib/hooks/useLocalStorage.ts:52:      const item = window.localStorage.getItem(key);
+lib/hooks/useLocalStorage.ts:61:      // If error reading localStorage, log and return initial value
+lib/hooks/useLocalStorage.ts:62:      console.warn(`Error reading localStorage key "${key}":`, error);
+lib/hooks/useLocalStorage.ts:68:   * Wrapped setValue that also updates localStorage
+lib/hooks/useLocalStorage.ts:82:        // SSR safety - only access localStorage on client
+lib/hooks/useLocalStorage.ts:87:        // Save to localStorage
+lib/hooks/useLocalStorage.ts:88:        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+lib/hooks/useLocalStorage.ts:94:              `localStorage quota exceeded for key "${key}". Unable to persist data.`,
+lib/hooks/useLocalStorage.ts:98:            console.warn(`Error saving to localStorage key "${key}":`, error);
+lib/hooks/useLocalStorage.ts:101:          console.warn(`Error saving to localStorage key "${key}":`, error);
+lib/hooks/useLocalStorage.ts:138:        console.warn(`Error syncing localStorage key "${key}" from another tab:`, error);
+lib/hooks/useTheme.ts:11:      const stored = localStorage.getItem("theme");
+lib/hooks/useTheme.ts:26:    try { localStorage.setItem("theme", theme); } catch {}
+lib/hooks/__tests__/useAuth.test.ts:2: * Unit Tests for useAuth Hook - API and State Management
+lib/hooks/__tests__/useAuth.test.ts:5: * and error handling for the useAuth hook.
+lib/hooks/__tests__/useAuth.test.ts:13:describe('useAuth Hook - Unit Tests', () => {
+lib/hooks/__tests__/useAuth.test.ts:110:    it('should store auth_token in localStorage on successful login', () => {
+lib/hooks/__tests__/useAuth.test.ts:112:      const tokenKey = 'auth_token';
+lib/hooks/__tests__/useAuth.test.ts:115:      expect(tokenKey).toBe('auth_token');
+lib/hooks/__tests__/useAuth.test.ts:119:    it('should store auth_user in localStorage', () => {
+lib/hooks/__tests__/useAuth.test.ts:133:    it('should handle localStorage quota exceeded errors gracefully', () => {
+lib/hooks/__tests__/useAuth.test.ts:290:    it('should handle JSON parse errors for corrupted localStorage data', () => {
+lib/hooks/__tests__/useAuth.test.ts:311:    it('should restore user from localStorage on mount', () => {
+lib/hooks/__tests__/useAuth.test.ts:319:    it('should restore tokens from localStorage on mount', () => {
+lib/hooks/__tests__/useAuth.test.ts:320:      const tokenKey = 'auth_token';
+lib/hooks/__tests__/useAuth.test.ts:323:      expect(tokenKey).toBe('auth_token');
+lib/hooks/__tests__/useAuth.test.ts:328:      // Pattern: after restoring from localStorage, call checkAuth
+lib/hooks/__tests__/useAuth.test.ts:384:    it('should check if window is defined before accessing localStorage', () => {
+lib/hooks/__tests__/useAuth.test.ts:389:    it('should handle case where localStorage is not available', () => {
+lib/hooks/__tests__/useAuth.test.ts:390:      // Pattern: gracefully handle when localStorage access fails
+lib/hooks/__tests__/useAuth.test.ts:393:          return localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:2: * Integration Tests for useLocalStorage Hook - JSON Serialization
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:12:import { useLocalStorage } from '../useLocalStorage';
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:14:// Polyfill localStorage for Node environment
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:15:if (typeof localStorage === 'undefined') {
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:18:  (global as any).localStorage = {
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:39:describe('useLocalStorage Hook - JSON Serialization Integration Tests', () => {
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:41:    localStorage.clear();
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:46:    localStorage.clear();
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:51:      const { result } = renderHook(() => useLocalStorage('test_string', 'initial'));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:61:      const stored = localStorage.getItem('test_string');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:67:      const { result } = renderHook(() => useLocalStorage('test_number', 0));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:76:      const stored = localStorage.getItem('test_number');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:82:      const { result } = renderHook(() => useLocalStorage('test_bool', false));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:91:      const stored = localStorage.getItem('test_bool');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:103:      const { result } = renderHook(() => useLocalStorage('user_prefs', initialPrefs));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:112:      const stored = localStorage.getItem('user_prefs');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:120:      const { result } = renderHook(() => useLocalStorage('test_array', initialArray));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:129:      const stored = localStorage.getItem('test_array');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:153:      const { result } = renderHook(() => useLocalStorage('complex', initialData));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:165:      const { result } = renderHook(() => useLocalStorage('special', initialValue));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:170:      const stored = localStorage.getItem('special');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:177:      const { result } = renderHook(() => useLocalStorage('unicode', initialValue));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:182:      const stored = localStorage.getItem('unicode');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:188:      const { result } = renderHook(() => useLocalStorage('null_test', null as any));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:197:      const stored = localStorage.getItem('null_test');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:216:      const { result } = renderHook(() => useLocalStorage('deep', initialValue));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:226:      const { result: zeroResult } = renderHook(() => useLocalStorage('zero', 0));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:227:      const { result: falseResult } = renderHook(() => useLocalStorage('false', false));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:236:      const storedZero = JSON.parse(localStorage.getItem('zero')!);
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:237:      const storedFalse = JSON.parse(localStorage.getItem('false')!);
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:245:      const { result } = renderHook(() => useLocalStorage('empty_str', ''));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:250:      const stored = localStorage.getItem('empty_str');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:256:      const { result } = renderHook(() => useLocalStorage('empty_obj', {}));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:261:      const stored = localStorage.getItem('empty_obj');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:266:      const { result } = renderHook(() => useLocalStorage('empty_arr', [] as string[]));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:272:      const stored = localStorage.getItem('empty_arr');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:289:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:305:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:329:      const { result } = renderHook(() => useLocalStorage('test_data', initialData));
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:340:      // Check localStorage has correct JSON
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:341:      const stored = localStorage.getItem('test_data');
+lib/hooks/__tests__/useLocalStorage.integration.test.ts:374:      const { result } = renderHook(() => useLocalStorage('user', user));
+lib/hooks/__tests__/useLocalStorage.test.ts:2: * Unit Tests for useLocalStorage Hook - localStorage Persistence
+lib/hooks/__tests__/useLocalStorage.test.ts:4: * Tests localStorage persistence, JSON serialization/deserialization,
+lib/hooks/__tests__/useLocalStorage.test.ts:12:describe('useLocalStorage Hook - Unit Tests', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:18:    // Clear localStorage before each test
+lib/hooks/__tests__/useLocalStorage.test.ts:19:    localStorage.clear();
+lib/hooks/__tests__/useLocalStorage.test.ts:24:    localStorage.clear();
+lib/hooks/__tests__/useLocalStorage.test.ts:32:    it('should define a useLocalStorage function', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:34:      const hookName = 'useLocalStorage';
+lib/hooks/__tests__/useLocalStorage.test.ts:36:      expect(hookName).toBe('useLocalStorage');
+lib/hooks/__tests__/useLocalStorage.test.ts:56:      const hookName = 'useLocalStorage';
+lib/hooks/__tests__/useLocalStorage.test.ts:65:  describe('localStorage Persistence', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:66:    it('should persist string values to localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:69:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:71:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:75:    it('should persist number values to localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:78:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:80:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:84:    it('should persist boolean values to localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:87:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:89:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:93:    it('should persist object values to localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:96:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:98:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:102:    it('should persist array values to localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:105:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:107:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:111:    it('should persist null values to localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:114:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:116:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:120:    it('should use provided key for localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:123:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:125:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:135:      localStorage.setItem(key1, JSON.stringify(value1));
+lib/hooks/__tests__/useLocalStorage.test.ts:136:      localStorage.setItem(key2, JSON.stringify(value2));
+lib/hooks/__tests__/useLocalStorage.test.ts:138:      expect(localStorage.getItem(key1)).toBe(JSON.stringify(value1));
+lib/hooks/__tests__/useLocalStorage.test.ts:139:      expect(localStorage.getItem(key2)).toBe(JSON.stringify(value2));
+lib/hooks/__tests__/useLocalStorage.test.ts:153:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:155:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:258:    it('should use initialValue if key is not in localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:262:      localStorage.removeItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:263:      expect(localStorage.getItem(key)).toBeNull();
+lib/hooks/__tests__/useLocalStorage.test.ts:275:      localStorage.setItem(key, JSON.stringify(storedValue));
+lib/hooks/__tests__/useLocalStorage.test.ts:278:      const item = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:294:        localStorage.removeItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:295:        expect(localStorage.getItem(key)).toBeNull();
+lib/hooks/__tests__/useLocalStorage.test.ts:304:      localStorage.removeItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:306:      const item = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:315:      localStorage.removeItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:317:      const item = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:330:      localStorage.setItem(key, '{invalid json}');
+lib/hooks/__tests__/useLocalStorage.test.ts:335:        const item = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:353:        localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:370:    it('should handle localStorage being disabled', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:371:      // Some browsers disable localStorage in private mode
+lib/hooks/__tests__/useLocalStorage.test.ts:375:        localStorage.setItem(test, test);
+lib/hooks/__tests__/useLocalStorage.test.ts:376:        localStorage.removeItem(test);
+lib/hooks/__tests__/useLocalStorage.test.ts:411:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.test.ts:426:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.test.ts:441:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.test.ts:456:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.test.ts:470:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.test.ts:477:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.test.ts:496:    it('should not throw when accessing localStorage', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:498:        localStorage.getItem('test');
+lib/hooks/__tests__/useLocalStorage.test.ts:502:    it('should handle localStorage operations safely', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:507:        localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:508:        const item = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:509:        localStorage.removeItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:581:    it('should persist values to localStorage - requirement 2.4', () => {
+lib/hooks/__tests__/useLocalStorage.test.ts:586:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:587:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:610:        storageArea: localStorage,
+lib/hooks/__tests__/useLocalStorage.test.ts:636:        localStorage.setItem('test', 'value');
+lib/hooks/__tests__/useLocalStorage.test.ts:655:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:656:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:665:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:666:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:676:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:677:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:698:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:699:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:709:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:710:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:721:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:722:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:732:      localStorage.setItem(key, JSON.stringify(value));
+lib/hooks/__tests__/useLocalStorage.test.ts:733:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:743:      localStorage.setItem(zeroKey, JSON.stringify(0));
+lib/hooks/__tests__/useLocalStorage.test.ts:744:      localStorage.setItem(falseKey, JSON.stringify(false));
+lib/hooks/__tests__/useLocalStorage.test.ts:746:      expect(JSON.parse(localStorage.getItem(zeroKey)!)).toBe(0);
+lib/hooks/__tests__/useLocalStorage.test.ts:747:      expect(JSON.parse(localStorage.getItem(falseKey)!)).toBe(false);
+lib/hooks/__tests__/useLocalStorage.test.ts:763:      localStorage.setItem(key, JSON.stringify(true));
+lib/hooks/__tests__/useLocalStorage.test.ts:764:      const stored = JSON.parse(localStorage.getItem(key)!);
+lib/hooks/__tests__/useLocalStorage.test.ts:784:      localStorage.setItem(key, JSON.stringify(preferences));
+lib/hooks/__tests__/useLocalStorage.test.ts:785:      const stored = JSON.parse(localStorage.getItem(key)!);
+lib/hooks/__tests__/useLocalStorage.test.ts:793:      const key = 'auth_token';
+lib/hooks/__tests__/useLocalStorage.test.ts:796:      localStorage.setItem(key, JSON.stringify(token));
+lib/hooks/__tests__/useLocalStorage.test.ts:797:      const stored = localStorage.getItem(key);
+lib/hooks/__tests__/useLocalStorage.test.ts:816:      localStorage.setItem(key, JSON.stringify(cart));
+lib/hooks/__tests__/useLocalStorage.test.ts:817:      const stored = JSON.parse(localStorage.getItem(key)!);
+lib/hooks/__tests__/useLocalStorage.test.ts:837:      localStorage.setItem(key, JSON.stringify(formState));
+lib/hooks/__tests__/useLocalStorage.test.ts:838:      const stored = JSON.parse(localStorage.getItem(key)!);
+
+===== ERROR/LOADING INFRASTRUCTURE =====
+
+===== DESIGN TOKEN USAGE =====
+     76 text-muted-foreground
+     67 text-sm
+     39 bg-card
+     35 text-primary
+     27 text-primary-foreground
+     27 text-foreground
+     27 rounded-full
+     26 bg-primary
+     25 text-xs
+     23 rounded-2xl
+     23 bg-muted
+     20 text-2xl
+     12 rounded-xl
+     12 bg-secondary
+     11 bg-accent
+      8 text-lg
+      8 rounded-3xl
+      7 text-center
+      7 border-border
+      6 text-xl
+      5 text-slate-400
+      5 text-red-600
+      5 border-primary
+      4 bg-success
+      4 bg-destructive
+      3 text-slate-900
+      3 text-secondary-foreground
+      3 border-r
+      3 border-b
+      3 border-2
+      3 bg-gray-300
+      2 text-warning
+      2 text-slate-500
+      2 text-rose-400
+      2 text-green-600
+      2 text-destructive
+      2 rounded-r-lg
+      2 rounded-lg
+      2 border-t
+      2 border-l-4
+      2 bg-slate-50
+      2 bg-rose-500
+      2 bg-rose-50
+      2 bg-rose-100
+      2 bg-primary-foreground
+      2 bg-black
+      2 bg-background
+      1 text-success
+      1 text-slate-700
+      1 text-slate-300
+      1 text-slate-200
+      1 text-rose-600
+      1 text-rose-500
+      1 text-indigo-500
+      1 text-indigo-400
+      1 text-category-timetable
+      1 text-category-events
+      1 text-border
+      1 text-base
+      1 text-4xl
+      1 border-warning
+      1 border-t-transparent
+      1 border-slate-200
+      1 border-slate-100
+      1 border-ring
+      1 border-destructive
+      1 border-current
+      1 border-blue-200
+      1 border-b-2
+      1 bg-warning
+      1 bg-red-500
+      1 bg-opacity-30
+      1 bg-muted-foreground
+      1 bg-info
+      1 bg-indigo-50
+      1 bg-category-timetable-bg
+      1 bg-category-events-bg
+      1 bg-border
+      1 bg-blue-50

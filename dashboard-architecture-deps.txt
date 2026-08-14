@@ -1,0 +1,18 @@
+]633;E;{   echo "===== LOOPZ DASHBOARD API USAGE ====="\x3b   echo\x3b    grep -RhoE '@/lib/api/[A-Za-z0-9._/-]+' app/dashboard 2>/dev/null     | sort | uniq -c | sort -nr\x3b    echo\x3b   echo "===== LOOPZ DASHBOARD HOOK USAGE ====="\x3b    grep -RhoE '@/lib/hooks/[A-Za-z0-9._/-]+' app/dashboard 2>/dev/null     | sort | uniq -c | sort -nr\x3b    echo\x3b   echo "===== LOOPZ DASHBOARD SHARED COMPONENT USAGE ====="\x3b    grep -RhoE '@/components/[A-Za-z0-9._/-]+' app/dashboard 2>/dev/null     | sort | uniq -c | sort -nr\x3b } > dashboard-architecture-deps.txt;20440632-8987-41ad-a5a7-ecbe57383631]633;C===== LOOPZ DASHBOARD API USAGE =====
+
+      7 @/lib/api/users.api
+      5 @/lib/api/study-groups.api
+      4 @/lib/api/planner.api
+      2 @/lib/api/school.api
+      2 @/lib/api/notifications.api
+      2 @/lib/api/community.api
+      1 @/lib/api/reminders.api
+
+===== LOOPZ DASHBOARD HOOK USAGE =====
+      1 @/lib/hooks/useAuth
+
+===== LOOPZ DASHBOARD SHARED COMPONENT USAGE =====
+      2 @/components/shared/PullToRefresh
+      2 @/components/shared/BottomNav
+      1 @/components/shared/DashboardPrimitives
+      1 @/components/shared/BackButton
