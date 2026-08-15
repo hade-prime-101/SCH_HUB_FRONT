@@ -11,11 +11,12 @@ export function useCurrentUser() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
     try {
       const raw = localStorage.getItem("auth_user");
       if (raw) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setUser(JSON.parse(raw) as User);
       }
     } catch {

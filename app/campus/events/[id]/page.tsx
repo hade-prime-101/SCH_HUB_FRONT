@@ -56,6 +56,7 @@ export default function EventDetailPage() {
 
   useEffect(() => {
     refresh();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,6 +151,7 @@ export default function EventDetailPage() {
 
             {/* Image */}
             {event.imageUrl && (
+               
               <div className="rounded-xl overflow-hidden">
                 <img
                   src={event.imageUrl}

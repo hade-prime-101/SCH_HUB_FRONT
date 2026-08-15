@@ -66,7 +66,7 @@ export const useMapStore = create<MapStore>()(
       ...createRouteSlice()(set),
 
       // UI slice — needs both set and get
-      ...createUISlice()(set, get),
+      ...createUISlice()(set),
 
       // User slice
       ...createUserSlice()(set),

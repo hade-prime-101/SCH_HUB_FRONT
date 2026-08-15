@@ -25,6 +25,7 @@ export default function AdminStructurePage() {
     finally { setLoading(false); }
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
   async function toggle(faculty: Faculty) {
@@ -46,7 +47,7 @@ export default function AdminStructurePage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Faculties & Departments</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your school's academic structure (read-only)</p>
+          <p className="text-muted-foreground text-sm mt-1">Your school&apos;s academic structure (read-only)</p>
         </div>
         <button onClick={load} disabled={loading} className="p-2 rounded-xl border border-border hover:bg-accent disabled:opacity-50 transition-colors">
           <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />

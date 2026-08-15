@@ -24,6 +24,7 @@ export default function AdminEventDetailPage() {
     listTickets(id).then(setTickets).catch(() => setTickets([]));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { refresh(); }, [id]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,8 +69,9 @@ export default function AdminEventDetailPage() {
       </div>
 
       <p className="text-muted-foreground mb-2">{event.description}</p>
+      // eslint-disable-next-line @next/next/no-img-element
       <p className="text-sm text-muted-foreground">{new Date(event.date).toLocaleString()} @ {event.venue}</p>
-      {event.imageUrl && <img src={event.imageUrl} className="mt-4 max-w-md rounded" />}
+      {event.imageUrl && <img src={event.imageUrl} alt={event.title} className="mt-4 max-w-md rounded" />}
 
       {/* Image upload */}
       <div className="mt-4">

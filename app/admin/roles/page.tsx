@@ -95,6 +95,7 @@ export default function RoleAssignmentPage() {
 
   // Debounced search
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!query.trim()) { setResults([]); return; }
     const t = setTimeout(async () => {
       setSearching(true); setSearchErr(null);
@@ -206,6 +207,7 @@ export default function RoleAssignmentPage() {
                 onClick={() => { setSelected(user); setQuery(user.fullName); setResults([]); }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-accent transition-colors"
               >
+                // eslint-disable-next-line @next/next/no-img-element
                 {user.profilePictureUrl ? (
                   <img src={user.profilePictureUrl} alt={user.fullName} className="w-9 h-9 rounded-full object-cover shrink-0" />
                 ) : (
@@ -228,6 +230,7 @@ export default function RoleAssignmentPage() {
         {/* Selected user */}
         {selected && (
           <div className="flex items-center gap-3 bg-primary/5 rounded-xl px-4 py-3 border border-primary/20">
+            // eslint-disable-next-line @next/next/no-img-element
             {selected.profilePictureUrl ? (
               <img src={selected.profilePictureUrl} alt={selected.fullName} className="w-10 h-10 rounded-full object-cover shrink-0" />
             ) : (

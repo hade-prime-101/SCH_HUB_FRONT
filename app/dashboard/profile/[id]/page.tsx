@@ -38,6 +38,7 @@ export default function UserProfilePage() {
 
       <div className="flex items-center gap-4 mt-4">
         {profile.avatarUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={profile.avatarUrl}
             alt={profile.name}

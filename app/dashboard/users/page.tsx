@@ -50,6 +50,7 @@ export default function UsersPage() {
               <Card key={user.id} compact className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
                   {user.avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={user.avatarUrl}
                       alt={user.name}

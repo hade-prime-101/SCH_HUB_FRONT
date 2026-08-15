@@ -88,7 +88,7 @@ function StatusCard({ profile }: { profile: AgentProfile }) {
         </div>
         {profile.status === "PENDING" && (
           <p className="text-sm text-muted-foreground">
-            Your application is being reviewed. We'll notify you within 24–48 hours.
+            Your application is being reviewed. We&apos;ll notify you within 24–48 hours.
           </p>
         )}
         {profile.status === "APPROVED" && (
@@ -130,6 +130,7 @@ function StatusCard({ profile }: { profile: AgentProfile }) {
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Student ID</p>
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={profile.studentIdUrl}
                 alt="Student ID"

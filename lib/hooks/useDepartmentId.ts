@@ -13,7 +13,7 @@ export function useDepartmentId() {
   const [error, setError] = useState<string | null>(null);
   const cancelledRef = useRef(false);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
     let cancelled = false;
     cancelledRef.current = false;

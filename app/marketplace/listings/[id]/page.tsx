@@ -89,6 +89,7 @@ export default function ListingDetailPage() {
         {/* Images */}
         <div className="aspect-video w-full overflow-hidden rounded-2xl bg-muted">
           {listing.images?.[0] ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img src={listing.images[0]} alt={listing.title} className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">

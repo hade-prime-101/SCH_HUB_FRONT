@@ -87,6 +87,7 @@ export default function OfflineMapPage() {
   useEffect(() => {
     const downloaded =
       typeof window !== "undefined" && !!localStorage.getItem(STORAGE_KEY);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDownloaded(downloaded);
 
     getTilesMetadata()

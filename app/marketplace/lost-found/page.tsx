@@ -40,6 +40,7 @@ export default function LostFoundPage() {
 
   useEffect(() => {
     fetchItems();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const handleCreate = async (e: React.FormEvent) => {

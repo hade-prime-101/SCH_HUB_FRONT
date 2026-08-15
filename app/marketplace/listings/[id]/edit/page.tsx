@@ -103,6 +103,7 @@ export default function EditListingPage() {
           <div className="flex flex-wrap gap-3">
             {images.map((url, index) => (
               <div key={index} className="relative h-24 w-24 rounded-lg border border-border overflow-hidden">
+                // eslint-disable-next-line @next/next/no-img-element
                 <img src={url} alt="Upload" className="h-full w-full object-cover" />
                 <button
                   type="button"

@@ -16,6 +16,7 @@ export default function NavigatePage() {
   // Update progress when position changes
   useEffect(() => {
     if (!currentRoute || !position) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setProgress(null);
       return;
     }

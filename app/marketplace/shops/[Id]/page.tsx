@@ -1,5 +1,6 @@
-import Link from "next/link";
 "use client";
+
+import Link from "next/link";
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -62,6 +63,7 @@ export default function ShopDetailPage() {
         <div className="flex items-start gap-4">
           <div className="h-20 w-20 rounded-2xl bg-muted overflow-hidden shrink-0">
             {shop.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={shop.logo} alt={shop.name} className="h-full w-full object-cover" />
             ) : (
               <div className="flex h-full items-center justify-center text-muted-foreground">Logo</div>

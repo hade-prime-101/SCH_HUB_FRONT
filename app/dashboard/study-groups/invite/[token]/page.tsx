@@ -40,7 +40,7 @@ export default function InvitePage() {
     <div className="max-w-md mx-auto p-4 md:p-6 text-center">
       <Card className="p-6">
         <h1 className="text-2xl font-bold text-foreground">Group Invite</h1>
-        <p className="text-muted-foreground mt-2">You've been invited to join a study group.</p>
+        <p className="text-muted-foreground mt-2">You&apos;ve been invited to join a study group.</p>
         <div className="mt-6 flex gap-3 justify-center">
           <Button variant="outline" onClick={() => router.push("/dashboard/study-groups")}>
             Cancel

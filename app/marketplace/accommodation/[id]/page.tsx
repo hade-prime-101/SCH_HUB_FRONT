@@ -56,6 +56,7 @@ export default function AccommodationDetailPage() {
       <div className="space-y-4">
         <div className="aspect-video w-full overflow-hidden rounded-2xl bg-muted">
           {acc.images?.[0] ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img src={acc.images[0]} alt={acc.title} className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">No image</div>

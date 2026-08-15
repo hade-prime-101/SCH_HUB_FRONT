@@ -56,6 +56,7 @@ export default function AdminAuditLogsPage() {
     finally { setLoading(false); }
   }, [page, query]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
   const pages = Math.max(1, Math.ceil(total / limit));

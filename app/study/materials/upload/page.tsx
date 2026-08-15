@@ -1,6 +1,7 @@
+"use client";
+
 import * as React from "react";
 // app/study/materials/upload/page.tsx
-"use client";
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";

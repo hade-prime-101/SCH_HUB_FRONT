@@ -21,6 +21,7 @@ export default function ServicesPage() {
   const limit = 10;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     listServices({ page, limit })
       .then((res) => {

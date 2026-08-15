@@ -102,7 +102,7 @@ export function NavigationProvider({
   }, [isSidebarCollapsed]);
 
   // EFFECT: Load expanded groups from sessionStorage
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = sessionStorage.getItem('nav_expanded_groups');
@@ -130,14 +130,14 @@ export function NavigationProvider({
   }, [expandedGroups]);
 
   // EFFECT: Sync activeItemId with current route pathname
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
     const activeId = findActiveItemId(navigationConfig, pathname);
     setActiveItemId(activeId);
   }, [pathname, navigationConfig]);
 
   // EFFECT: Auto-expand ancestor groups when activeItemId changes
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
     if (activeItemId) {
       const groupsToExpand = getGroupsToExpand(navigationConfig, activeItemId);

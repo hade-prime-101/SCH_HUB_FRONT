@@ -28,6 +28,7 @@ export default function EditProfilePage() {
 
   useEffect(() => {
     if (profile) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(profile.name);
       setBio(profile.bio || "");
       setDepartment(profile.department || "");

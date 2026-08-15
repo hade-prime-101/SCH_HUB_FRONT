@@ -17,9 +17,11 @@ interface Props {
   locations: MapLocation[];
   onSelectLocation?: (location: MapLocation) => void;
   selectedId?: string;
+   
   userLocation?: { lat: number; lng: number } | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   routeGeoJson?: any | null;
+ 
 }
 
 const TYPE_COLORS: Record<string, string> = {

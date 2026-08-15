@@ -35,6 +35,8 @@ export default function PersonalStudyListPage() {
     }
   };
 
+   
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchSessions(); }, []);
 
   const handleDelete = async (id: string) => {

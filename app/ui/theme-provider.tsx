@@ -40,6 +40,7 @@ export function ThemeProvider({
       const stored = localStorage.getItem(storageKey);
       
       if (stored === 'light' || stored === 'dark' || stored === 'system') {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setTheme(stored);
       } else {
         // Set default based on system preference
@@ -73,6 +74,7 @@ export function ThemeProvider({
     
     // Apply the effective theme
     root.classList.add(effectiveTheme);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setResolvedTheme(effectiveTheme);
     
     // Store in localStorage

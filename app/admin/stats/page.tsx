@@ -52,6 +52,7 @@ export default function AdminStatsPage() {
     finally { setLoading(false); }
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
   const CARDS = [
@@ -68,7 +69,7 @@ export default function AdminStatsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">School Stats</h1>
-          <p className="text-muted-foreground text-sm mt-1">Overview of your school's activity</p>
+          <p className="text-muted-foreground text-sm mt-1">Overview of your school&apos;s activity</p>
         </div>
         <button onClick={load} disabled={loading} className="p-2 rounded-xl border border-border hover:bg-accent disabled:opacity-50 transition-colors">
           <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />

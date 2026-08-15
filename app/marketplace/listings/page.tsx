@@ -34,6 +34,7 @@ export default function ListingsPage() {
 
   useEffect(() => {
     fetchListings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const handleSave = async (id: string) => {

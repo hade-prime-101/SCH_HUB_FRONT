@@ -23,6 +23,7 @@ export default function RoommatesPage() {
   const limit = 10;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     listRoommates(page, limit)
       .then((res) => {

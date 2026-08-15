@@ -1,5 +1,6 @@
-import { X } from "lucide-react";
 "use client";
+
+import { X } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -48,6 +49,7 @@ export default function TimetablePage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refresh();
   }, []);
 

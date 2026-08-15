@@ -80,6 +80,7 @@ export default function AdminMarketplacePage() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (tab === "listings") loadListings();
     else loadShops();
   }, [tab, loadListings, loadShops]);

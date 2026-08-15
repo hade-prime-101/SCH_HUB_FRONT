@@ -36,7 +36,7 @@ export default function MyGroupsPage() {
       />
 
       {!data || data.length === 0 ? (
-        <EmptyState>You haven't joined any groups yet.</EmptyState>
+        <EmptyState>You haven&apos;t joined any groups yet.</EmptyState>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">

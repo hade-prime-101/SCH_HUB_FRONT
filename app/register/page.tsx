@@ -98,6 +98,7 @@ export default function RegisterPage() {
   // Fetch faculties when school is selected
   useEffect(() => {
     if (!selectedSchool) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFaculties([]);
       setSelectedFaculty(null);
       setDepartments([]);
@@ -128,6 +129,7 @@ export default function RegisterPage() {
   // Fetch departments when faculty is selected
   useEffect(() => {
     if (!selectedFaculty) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDepartments([]);
       setSelectedDepartment(null);
       return;
@@ -278,7 +280,7 @@ export default function RegisterPage() {
               Select Your School
             </h1>
             <p className="text-muted-foreground mb-6">
-              Choose the institution you're enrolled in
+              Choose the institution you&apos;re enrolled in
             </p>
 
             {schoolError && <ErrorMessage message={schoolError} />}

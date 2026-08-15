@@ -162,6 +162,7 @@ export default function CourseRepNominationPage() {
                 }`}
               >
                 {user.profilePictureUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={user.profilePictureUrl} alt={user.fullName} className="w-10 h-10 rounded-full object-cover shrink-0" />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sm font-bold text-primary shrink-0">
@@ -183,6 +184,7 @@ export default function CourseRepNominationPage() {
         {selected && (
           <div className="bg-card rounded-2xl px-4 py-4 flex items-center gap-3 border-2 border-primary/30">
             {selected.profilePictureUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={selected.profilePictureUrl} alt={selected.fullName} className="w-12 h-12 rounded-full object-cover shrink-0" />
             ) : (
               <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-base font-bold text-primary shrink-0">

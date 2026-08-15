@@ -11,11 +11,13 @@ interface Props {
   routeGeometry: GeoJSONLineString | null;
   userPosition: { lat: number; lng: number } | null;
   nearestVertexIdx: number;
+   
   destination: { lat: number; lng: number } | null;
 }
 
 const ROUTE_COLOR_REMAINING = "#FBBC04";
 const ROUTE_CASING_COLOR = "#9A6E00";
+ 
 const ROUTE_WIDTH_REMAINING = 8;
 const ROUTE_WIDTH_CASING = 12;
 const ROUTE_COLOR_TRAVELED = "#94a3b8";

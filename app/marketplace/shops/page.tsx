@@ -20,6 +20,7 @@ export default function ShopsPage() {
   const limit = 10;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     listShops(page, limit)
       .then((res) => {

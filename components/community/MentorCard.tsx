@@ -16,6 +16,7 @@ export function MentorCard({ mentor }: MentorCardProps) {
             alt={mentor.name}
             className="w-12 h-12 rounded-full object-cover"
           />
+         
         )}
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-foreground">{mentor.name}</h3>

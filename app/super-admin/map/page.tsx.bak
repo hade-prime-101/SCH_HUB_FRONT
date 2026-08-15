@@ -1,11 +1,11 @@
 // map/page.tsx
 "use client";
-import { Suspense,  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { listMapFeatures, deleteMapFeature, upsertMapFeature, uploadMapFeatureImage, deleteMapFeatureImage } from "@/lib/api/super-admin.api";
 import type { MapFeature, UpsertMapFeaturePayload } from "@/types/super-admin";
 import { useSearchParams } from "next/navigation";
 
-function MapAdminContent() {
+export default function MapAdminPage() {
   const searchParams = useSearchParams();
   const schoolId = searchParams.get("schoolId") || "";
   const [features, setFeatures] = useState<MapFeature[]>([]);
@@ -98,13 +98,5 @@ const handleImageDelete = async (featureId: string, imageUrl: string) => {
         ))}
       </ul>
     </div>
-  );
-}
-
-export default function MapAdminPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <MapAdminContent />
-    </Suspense>
   );
 }

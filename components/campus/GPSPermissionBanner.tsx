@@ -36,7 +36,7 @@ export function GPSPermissionBanner({
           </p>
           {isUnknown && (
             <p className="text-xs text-muted-foreground mt-0.5">
-              Tap "Enable" to allow location sharing.
+              Tap &quot;Enable&quot; to allow location sharing.
             </p>
           )}
         </div>

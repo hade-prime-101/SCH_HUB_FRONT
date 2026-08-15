@@ -26,32 +26,6 @@ function LoginPageContent() {
   );
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
-  // Detect mobile device and biometric availability on mount
-  useEffect(() => {
-    checkMobileDevice();
-    checkBiometricAvailability();
-    setIsCheckingAuth(false);
-  }, []);
-
-  // Redirect already-authenticated users away from the login page
-  useEffect(() => {
-    if (!authLoading && isAuthenticated) {
-      const redirect = localStorage.getItem("dashboard_redirect");
-      const destination =
-        redirect === "admin_dashboard"       ? "/admin" :
-        redirect === "super_admin_dashboard" ? "/super-admin" :
-        "/dashboard";
-      window.location.replace(destination);
-    }
-  }, [isAuthenticated, authLoading]);
-
-  // Update login error when auth error changes
-  useEffect(() => {
-    if (authError) {
-      setLoginError(authError);
-    }
-  }, [authError]);
-
   const checkMobileDevice = () => {
     const userAgent =
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -83,6 +57,35 @@ function LoginPageContent() {
       console.error("Biometric availability check error:", error);
     }
   };
+
+  // Detect mobile device and biometric availability on mount
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    checkMobileDevice();
+    checkBiometricAvailability();
+    setIsCheckingAuth(false);
+   
+  }, []);
+
+  // Redirect already-authenticated users away from the login page
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      const redirect = localStorage.getItem("dashboard_redirect");
+      const destination =
+        redirect === "admin_dashboard"       ? "/admin" :
+        redirect === "super_admin_dashboard" ? "/super-admin" :
+        "/dashboard";
+      window.location.replace(destination);
+    }
+  }, [isAuthenticated, authLoading]);
+
+  // Update login error when auth error changes
+  useEffect(() => {
+    if (authError) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoginError(authError);
+    }
+  }, [authError]);
 
   const handleBiometricAuth = async () => {
     if (!isMobileDevice || !isBiometricAvailable) {

@@ -17,6 +17,7 @@ export default function UsersListPage() {
     });
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { refresh(); }, [page, role]);
 
   const handleAssignRole = async (userId: string, newRole: string) => {

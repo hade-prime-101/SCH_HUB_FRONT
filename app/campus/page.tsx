@@ -81,7 +81,7 @@ export default function CampusHomePage() {
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
-              Today's Classes
+              Today&apos;s Classes
             </h2>
             <Link href="/campus/timetable" className="text-sm text-primary font-medium">
               View all

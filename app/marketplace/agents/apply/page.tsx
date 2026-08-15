@@ -190,6 +190,7 @@ export default function ApplyAgentPage() {
 
           {idPreview ? (
             <div className="relative rounded-xl overflow-hidden border border-border">
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={idPreview} alt="Student ID preview" className="h-48 w-full object-cover" />
               <button
                 type="button"

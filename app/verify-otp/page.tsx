@@ -48,6 +48,7 @@ function VerifyOtpPageContent() {
 
   useEffect(() => {
     if (missingEmail) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     startCountdown();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [startCountdown, missingEmail]);

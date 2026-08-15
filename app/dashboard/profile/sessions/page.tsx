@@ -152,7 +152,7 @@ export default function SessionsPage() {
             </div>
             <h2 className="text-xl font-bold text-foreground">Log out everywhere?</h2>
             <p className="text-sm text-muted-foreground mt-2">
-              All active sessions will be revoked. You'll need to log in again on all devices.
+              All active sessions will be revoked. You&apos;ll need to log in again on all devices.
             </p>
             <div className="flex gap-3 mt-6">
               <Button variant="outline" className="flex-1" onClick={() => setShowConfirm(false)} disabled={loggingOut}>

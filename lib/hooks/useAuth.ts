@@ -129,8 +129,9 @@ export function useAuth() {
     }
   }, [getStoredToken, storeUser, clearTokens, getStoredUser]);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     checkAuth();
     return () => { isMountedRef.current = false; };
   }, [checkAuth]);

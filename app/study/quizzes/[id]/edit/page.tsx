@@ -1,6 +1,7 @@
+"use client";
+
 import * as React from "react";
 // app/study/quizzes/[id]/edit/page.tsx
-"use client";
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";

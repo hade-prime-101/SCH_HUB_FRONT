@@ -234,8 +234,9 @@ export default function InteractiveMapPicker({
 
   // ── Keep form type synced ─────────────────────────────────────────────────
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm(f => ({ ...f, type: f.category }));
   }, [form.category]);
 
