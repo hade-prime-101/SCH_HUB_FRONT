@@ -22,6 +22,7 @@ import { ProgressDots } from "@/components/shared/ProgressDots";
 import { SearchInput } from "@/components/shared/SearchInput";
 import {
   SelectionList,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   type SelectionItem,
 } from "@/components/shared/SelectionList";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
@@ -33,6 +34,7 @@ import type {
   RegistrationFormData,
   RegistrationStep,
 } from "@/types/auth";
+import { Check, Circle } from "lucide-react";
 
 export default function RegisterPage() {
   const [currentStep, setCurrentStep] = useState<RegistrationStep>("school");
@@ -96,6 +98,7 @@ export default function RegisterPage() {
   // Fetch faculties when school is selected
   useEffect(() => {
     if (!selectedSchool) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFaculties([]);
       setSelectedFaculty(null);
       setDepartments([]);
@@ -126,6 +129,7 @@ export default function RegisterPage() {
   // Fetch departments when faculty is selected
   useEffect(() => {
     if (!selectedFaculty) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDepartments([]);
       setSelectedDepartment(null);
       return;
@@ -224,12 +228,17 @@ export default function RegisterPage() {
         // Sync to HTTP-only cookie so the splash auth check works
         await fetch("/api/auth/set-cookie", {
           method:  "POST",
-          headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify({ accessToken: res.tokens.accessToken }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            accessToken: res.tokens.accessToken,
+          }),
         });
       }
 
       window.location.href = `/verify-otp?email=${encodeURIComponent(formData.email)}&type=email-verification`;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setSubmitError(error?.message || "An error occurred. Please try again.");
     } finally {
@@ -237,6 +246,7 @@ export default function RegisterPage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getStepIndex = (): number => {
     const steps: RegistrationStep[] = [
       "school",
@@ -270,7 +280,7 @@ export default function RegisterPage() {
               Select Your School
             </h1>
             <p className="text-muted-foreground mb-6">
-              Choose the institution you're enrolled in
+              Choose the institution you&apos;re enrolled in
             </p>
 
             {schoolError && <ErrorMessage message={schoolError} />}
@@ -553,6 +563,25 @@ export default function RegisterPage() {
                   ))}
                 </div>
               )}
+            </div>
+            {/* Password Requirements Checklist (always visible) */}
+            <div className="mt-3 space-y-1.5">
+              {[
+                { key: "length", label: "At least 8 characters", check: formData.password.length >= 8 },
+                { key: "case", label: "Uppercase and lowercase letters", check: /[a-z]/.test(formData.password) && /[A-Z]/.test(formData.password) },
+                { key: "number", label: "At least one number", check: /[0-9]/.test(formData.password) },
+                { key: "special", label: "At least one special character", check: /[^A-Za-z0-9]/.test(formData.password) },
+              ].map(({ key, label, check }) => (
+                <div key={key} className="flex items-center gap-2">
+                  {check
+                    ? <Check className="w-4 h-4 text-success shrink-0" />
+                    : <Circle className="w-4 h-4 text-muted shrink-0" />
+                  }
+                  <span className={`text-sm ${check ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
+                    {label}
+                  </span>
+                </div>
+              ))}
             </div>
 
             {/* Confirm Password */}

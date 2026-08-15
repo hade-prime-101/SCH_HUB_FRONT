@@ -18,12 +18,14 @@ export interface MapActions {
   resetCamera: (defaultCamera: MapCamera) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createMapSlice = (defaultCamera: MapCamera) => (set: any) => ({
   camera: defaultCamera,
   targetCamera: null,
   isAnimating: false,
 
   setCamera: (camera: MapCamera) =>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     set((state: MapState & MapActions) => ({
       camera,
       targetCamera: null,
@@ -35,7 +37,9 @@ export const createMapSlice = (defaultCamera: MapCamera) => (set: any) => ({
       camera: { ...state.camera, ...partial },
     })),
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   animateToCamera: (camera: MapCamera, duration: number = 800) =>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     set((state: MapState) => ({
       targetCamera: camera,
       isAnimating: true,

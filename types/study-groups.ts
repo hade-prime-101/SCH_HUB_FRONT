@@ -68,6 +68,7 @@ export interface CreateGroupPayload {
   isPrivate?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateGroupPayload extends Partial<CreateGroupPayload> {}
 
 export interface UpdateMemberRolePayload {

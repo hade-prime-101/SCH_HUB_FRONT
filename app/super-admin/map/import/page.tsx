@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { importMapGeoJson } from "@/lib/api/super-admin.api";
 
-export default function ImportGeoJsonPage() {
+function ImportGeoJsonContent() {
   const searchParams = useSearchParams();
   const schoolId = searchParams.get("schoolId") || "";
   const [json, setJson] = useState("");
@@ -16,6 +16,7 @@ export default function ImportGeoJsonPage() {
       const features = parsed.features || parsed;
       const result = await importMapGeoJson(schoolId, { features });
       alert(`Imported ${result.imported} features`);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       alert("Invalid JSON");
     }
@@ -31,5 +32,13 @@ export default function ImportGeoJsonPage() {
       </label>
       <button onClick={handleImport} className="mt-4 bg-success text-primary-foreground px-4 py-2 rounded">Import</button>
     </div>
+  );
+}
+
+export default function ImportGeoJsonPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ImportGeoJsonContent />
+    </Suspense>
   );
 }

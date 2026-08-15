@@ -1,35 +1,69 @@
-// app/dashboard/planner/page.tsx
 "use client";
-import { useEffect, useState } from "react";
-import { getTodayPlanner } from "@/lib/api/planner.api";
-import type { TodayPlanner } from "@/types/planner";
 
-export default function TodayPlannerPage() {
-  const [data, setData] = useState<TodayPlanner | null>(null);
+import Link from "next/link";
+import { useQuery } from "@/lib/hooks/useQuery";
+import { getMyProfile } from "@/lib/api/users.api";
+import type { UserProfile } from "@/types/users";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-  useEffect(() => {
-    getTodayPlanner().then(setData);
-  }, []);
+export default function MyProfilePage() {
+  const { data: profile, loading, error, refetch } = useQuery<UserProfile>(
+    () => getMyProfile(),
+    []
+  );
 
-  if (!data) return <p>Loading today's schedule...</p>;
+  if (loading) return <LoadingState label="Loading profile" />;
+  if (error) return <ErrorState title="Failed to load profile" description={error.message} onRetry={refetch} />;
+  if (!profile) return null;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Today's Schedule</h1>
-      {data.events.length === 0 ? (
-        <p className="text-muted-foreground">No events scheduled for today.</p>
-      ) : (
-        <div className="space-y-3">
-          {data.events.map((event) => (
-            <div key={event.id} className="bg-card shadow rounded p-4">
-              <p className="font-medium">{event.title}</p>
-              <p className="text-sm text-muted-foreground">
-                {event.startTime} - {event.endTime} {event.location && `· ${event.location}`}
-              </p>
-            </div>
-          ))}
+    <div className="max-w-2xl mx-auto p-4 md:p-6">
+      <PageHeader
+        title="My Profile"
+        actions={
+          <Link href="/dashboard/profile/edit">
+            <Button>Edit Profile</Button>
+          </Link>
+        }
+      />
+
+      <div className="flex items-center gap-4 mt-4">
+        {profile.avatarUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={profile.avatarUrl}
+            alt={profile.name}
+            className="w-20 h-20 rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center text-2xl font-bold text-foreground">
+            {profile.name.charAt(0).toUpperCase()}
+          </div>
+        )}
+        <div>
+          <h2 className="text-2xl font-bold">{profile.name}</h2>
+          <p className="text-muted-foreground">{profile.email}</p>
+          <p className="text-sm text-muted-foreground">Role: {profile.role}</p>
         </div>
-      )}
+      </div>
+
+      <Card className="mt-4">
+        <div className="space-y-2">
+          <p>
+            <strong>Bio:</strong> {profile.bio || "No bio yet"}
+          </p>
+          <p>
+            <strong>Department:</strong> {profile.department || "N/A"}
+          </p>
+          <p>
+            <strong>Level:</strong> {profile.level || "N/A"}
+          </p>
+        </div>
+      </Card>
     </div>
   );
 }

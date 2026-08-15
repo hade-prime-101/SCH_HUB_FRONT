@@ -29,6 +29,7 @@ export interface RouteActions {
   clearRoute: () => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createRouteSlice = () => (set: any) => ({
   currentRoute: null,
   alternativeRoutes: [],

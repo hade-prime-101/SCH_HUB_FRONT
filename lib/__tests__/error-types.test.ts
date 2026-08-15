@@ -53,9 +53,13 @@ describe('ApiError Types and Validation', () => {
     });
 
     it('should reject null or non-object errors', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(validateApiError(null as any)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(validateApiError(undefined as any)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(validateApiError('error' as any)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(validateApiError(123 as any)).toBe(false);
     });
 
@@ -73,6 +77,7 @@ describe('ApiError Types and Validation', () => {
     });
 
     it('should reject missing required fields', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error: any = {
         status: 400,
         code: 'TEST',
@@ -112,6 +117,7 @@ describe('ApiError Types and Validation', () => {
     });
 
     it('should reject invalid isRetriable type', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error: any = {
         status: 400,
         message: 'Test',
@@ -174,6 +180,7 @@ describe('ApiError Types and Validation', () => {
     });
 
     it('should reject invalid validationErrors type', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error: any = {
         status: 400,
         message: 'Test',

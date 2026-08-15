@@ -6,6 +6,7 @@ export interface Notification {
   title: string;
   body: string;
   type: string;             // e.g. 'event_reminder', 'ticket_update', 'mention'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: Record<string, any>; // optional payload (eventId, etc.)
   isRead: boolean;
   createdAt: string;

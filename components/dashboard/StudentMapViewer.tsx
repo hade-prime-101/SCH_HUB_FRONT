@@ -26,6 +26,7 @@ interface Props {
   onSelectLocation?: (location: MapLocation) => void;
   selectedId?: string;
   userLocation?: { lat: number; lng: number } | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   routeGeoJson?: any | null;
 }
 
@@ -67,8 +68,11 @@ export default function StudentMapViewer({
   routeGeoJson,
 }: Props) {
   const containerRef    = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef          = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const markersRef      = useRef<Map<string, any>>(new Map());
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const userMarkerRef   = useRef<any>(null);
   const [mapTilerKey, setMapTilerKey] = React.useState<string | undefined>(undefined);
   const [mapReady, setMapReady]       = React.useState(false);
@@ -78,6 +82,7 @@ export default function StudentMapViewer({
   React.useEffect(() => {
     import("@/lib/api/campus-map.api").then(({ getMapConfig }) => {
       getMapConfig()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((cfg: any) => setMapTilerKey(cfg.maptilerApiKey || ""))
         .catch(() => setMapTilerKey(""));
     });
@@ -142,6 +147,7 @@ export default function StudentMapViewer({
         if (mapTilerKey) {
           // Find the first symbol layer to insert buildings below labels
           const firstSymbolId = map.getStyle().layers?.find(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (l: any) => l.type === "symbol"
           )?.id;
 
@@ -339,9 +345,11 @@ export default function StudentMapViewer({
 
       // Fit map to route bounds
       const coords: [number, number][] = [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       function collectCoords(geom: any) {
         if (!geom) return;
         if (geom.type === "LineString") coords.push(...geom.coordinates);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (geom.type === "FeatureCollection") geom.features?.forEach((f: any) => collectCoords(f.geometry));
         if (geom.type === "Feature") collectCoords(geom.geometry);
       }

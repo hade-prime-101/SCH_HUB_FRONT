@@ -2,7 +2,7 @@
  * Route and navigation types
  */
 
-import { GeoJSONLineString, GeoJSONFeature } from './geojson';
+import { GeoJSONLineString } from './geojson';
 
 export type RoutingMode = 'walking' | 'driving' | 'cycling';
 export type NavigationMode = 'overview' | 'turn-by-turn' | 'live';
@@ -59,6 +59,7 @@ export interface RouteProgress {
   onRoute: boolean;
   deviationDistance?: number; // off-route threshold exceeded
   accuracy: number; // GPS accuracy in meters
+  nearestVertexIndex?: number; // index of nearest point on route
 }
 
 /**
@@ -80,3 +81,7 @@ export interface NavigationState {
 export function calculateETA(route: Route, startTime: Date = new Date()): Date {
   return new Date(startTime.getTime() + route.duration * 1000);
 }
+
+// Aliases for page imports (ensuring only one declaration)
+export type RouteResponse = Route;
+export type RouteProgressResult = RouteProgress;

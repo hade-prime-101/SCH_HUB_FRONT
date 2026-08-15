@@ -46,12 +46,13 @@ export const getSessions = () => apiGet<UserSession[]>('/users/me/sessions');
 export const revokeSession = (sessionId: string) =>
   apiPost<{ message: string }>('/users/me/sessions/revoke', { sessionId });
 export const revokeAllSessions = () =>
-  apiPost<{ message: string }>('/users/me/sessions/revoke-all');
+  apiPost<{ message: string }>('/users/me/sessions/revoke-all', {});
 
 // ─── User management (roles, search, list) ─────────────────
 export const searchUsers = (query: SearchUsersQuery) =>
   apiGet<{ data: UserProfile[]; total: number; page: number; limit: number; totalPages: number; hasMore: boolean }>(
     '/users/search',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     query as any
   );
 
@@ -64,6 +65,7 @@ export const assignRole = (payload: AssignRolePayload) =>
 export const listUsers = (query: ListUsersQuery) =>
   apiGet<{ data: UserProfile[]; total: number; page: number; limit: number; totalPages: number; hasMore: boolean }>(
     '/users',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     query as any
   );
 

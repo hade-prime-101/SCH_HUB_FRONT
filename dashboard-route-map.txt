@@ -1,0 +1,23 @@
+]633;E;{   echo "===== LOOPZ DASHBOARD ROUTE MAP ====="\x3b   echo\x3b    find app/dashboard -type f -name 'page.tsx' | sort | while read -r file\x3b do     route=$(echo "$file" \\\x0a| sed 's#^app##' \\\x0a| sed 's#/page\\.tsx$##' \\\x0a| sed 's#/\\[id\\]#/:id#g' \\\x0a| sed 's#/\\[sessionId\\]#/:sessionId#g' \\\x0a| sed 's#/\\[quizId\\]#/:quizId#g' \\\x0a| sed 's#/\\[materialId\\]#/:materialId#g' \\\x0a| sed 's#/\\[token\\]#/:token#g')\x3b      [ -z "$route" ] && route="/"\x3b      echo "$route -> $file"\x3b   done\x3b } > dashboard-route-map.txt;20440632-8987-41ad-a5a7-ecbe57383631]633;C===== LOOPZ DASHBOARD ROUTE MAP =====
+
+/dashboard/bookmarks -> app/dashboard/bookmarks/page.tsx
+/dashboard/my-materials -> app/dashboard/my-materials/page.tsx
+/dashboard/notifications -> app/dashboard/notifications/page.tsx
+/dashboard/notifications/settings -> app/dashboard/notifications/settings/page.tsx
+/dashboard -> app/dashboard/page.tsx
+/dashboard/planner -> app/dashboard/planner/page.tsx
+/dashboard/planner/weekly -> app/dashboard/planner/weekly/page.tsx
+/dashboard/profile/:id -> app/dashboard/profile/[id]/page.tsx
+/dashboard/profile/edit -> app/dashboard/profile/edit/page.tsx
+/dashboard/profile -> app/dashboard/profile/page.tsx
+/dashboard/profile/sessions -> app/dashboard/profile/sessions/page.tsx
+/dashboard/reminders -> app/dashboard/reminders/page.tsx
+/dashboard/settings -> app/dashboard/settings/page.tsx
+/dashboard/study-groups/:id/edit -> app/dashboard/study-groups/[id]/edit/page.tsx
+/dashboard/study-groups/:id -> app/dashboard/study-groups/[id]/page.tsx
+/dashboard/study-groups/create -> app/dashboard/study-groups/create/page.tsx
+/dashboard/study-groups/discover -> app/dashboard/study-groups/discover/page.tsx
+/dashboard/study-groups/invite/:token -> app/dashboard/study-groups/invite/[token]/page.tsx
+/dashboard/study-groups -> app/dashboard/study-groups/page.tsx
+/dashboard/users -> app/dashboard/users/page.tsx
+/dashboard/users/search -> app/dashboard/users/search/page.tsx

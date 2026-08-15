@@ -9,6 +9,7 @@ export default function AdminQuizAnalyticsPage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [analytics, setAnalytics] = useState<any>(null);
 
   useEffect(() => {

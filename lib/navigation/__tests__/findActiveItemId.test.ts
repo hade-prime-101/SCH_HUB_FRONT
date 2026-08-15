@@ -9,6 +9,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { findActiveItemId } from '../navigation.utils';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { NavigationConfig, UserRole, FeatureFlagKey } from '../navigation.types';
 
 describe('findActiveItemId', () => {

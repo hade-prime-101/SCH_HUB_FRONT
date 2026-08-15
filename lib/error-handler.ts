@@ -196,6 +196,7 @@ export class ErrorHandler {
   private static getUserFriendlyMessage(status: number, data: unknown): string {
     // If response contains a custom message, use it
     if (data && typeof data === 'object') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const obj = data as Record<string, any>;
       if (obj.message && typeof obj.message === 'string') {
         return obj.message;

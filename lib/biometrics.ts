@@ -66,6 +66,7 @@ export const isMobileDevice = (): boolean | number => {
   if (typeof navigator === "undefined") return false;
 
   const userAgent =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     navigator.userAgent || navigator.vendor || (window as any).opera;
   const isMobile =
     /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
@@ -128,6 +129,7 @@ export const base64ToArrayBuffer = (base64: string): ArrayBuffer => {
 /**
  * Handle WebAuthn errors with user-friendly messages
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getErrorMessage = (error: any): string => {
   if (!error) return "An unknown error occurred";
 

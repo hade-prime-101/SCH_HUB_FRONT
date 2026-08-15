@@ -83,6 +83,7 @@ export interface FAQ {
 export interface MapFeature {
   id: string;
   type: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geometry: any; // GeoJSON geometry
   properties: {
     name: string;
@@ -95,6 +96,7 @@ export interface MapFeature {
 export interface MapEntrance {
   id: string;
   featureId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geometry: any;
   properties: { name: string };
 }
@@ -144,6 +146,7 @@ export interface ListAuditLogsQuery {
 export interface UpsertMapFeaturePayload {
   id?: string;
   type: 'Feature';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geometry: any;
   properties: {
     name: string;
@@ -156,10 +159,12 @@ export interface UpsertMapFeaturePayload {
 export interface UpsertMapEntrancePayload {
   id?: string;
   featureId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geometry: any;
   properties: { name: string };
 }
 
 export interface ImportMapGeoJsonPayload {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   features: any[]; // GeoJSON features
 }

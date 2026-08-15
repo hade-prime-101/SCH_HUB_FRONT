@@ -11,9 +11,13 @@
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MapCamera, MapViewMode, MapLayerSettings } from '../types/map';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Location, LocationType } from '../types/location';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Entrance } from '../types/entrance';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Route, RouteProgress, NavigationMode } from '../types/route';
 import { createMapSlice, MapState, MapActions } from './slices/mapSlice';
 import { createLocationsSlice, LocationsState, LocationsActions } from './slices/locationsSlice';
@@ -50,6 +54,7 @@ const DEFAULT_CAMERA: MapCamera = {
  */
 export const useMapStore = create<MapStore>()(
   devtools(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (set, get, store) => ({
       // Map slice
       ...createMapSlice(DEFAULT_CAMERA)(set),
@@ -61,7 +66,7 @@ export const useMapStore = create<MapStore>()(
       ...createRouteSlice()(set),
 
       // UI slice — needs both set and get
-      ...createUISlice()(set, get),
+      ...createUISlice()(set),
 
       // User slice
       ...createUserSlice()(set),

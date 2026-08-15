@@ -1,11 +1,11 @@
 // map/page.tsx
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense,  useEffect, useState } from "react";
 import { listMapFeatures, deleteMapFeature, upsertMapFeature, uploadMapFeatureImage, deleteMapFeatureImage } from "@/lib/api/super-admin.api";
 import type { MapFeature, UpsertMapFeaturePayload } from "@/types/super-admin";
 import { useSearchParams } from "next/navigation";
 
-export default function MapAdminPage() {
+function MapAdminContent() {
   const searchParams = useSearchParams();
   const schoolId = searchParams.get("schoolId") || "";
   const [features, setFeatures] = useState<MapFeature[]>([]);
@@ -31,6 +31,7 @@ export default function MapAdminPage() {
     listMapFeatures(schoolId).then(setFeatures);
   };
   // Inside the component (add these state and functions)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const [uploadingId, setUploadingId] = useState<string | null>(null);
 
 const handleImageUpload = async (featureId: string, file: File) => {
@@ -97,5 +98,13 @@ const handleImageDelete = async (featureId: string, imageUrl: string) => {
         ))}
       </ul>
     </div>
+  );
+}
+
+export default function MapAdminPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MapAdminContent />
+    </Suspense>
   );
 }

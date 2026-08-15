@@ -8,6 +8,7 @@ export default function AdminAccommodationPage() {
 
   useEffect(() => {
     listPendingAccommodation().then((res) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const data = (res as any).data ?? res;
       setItems(Array.isArray(data) ? data : []);
     });

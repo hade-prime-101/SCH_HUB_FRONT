@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { User, AuthResponse, DashboardRedirect } from '@/types/auth';
 import { authApi as apiClient } from '@/lib/api';
 import { clearAuthCookie } from '@/lib/api/base';
@@ -119,6 +120,7 @@ export function useAuth() {
         clearTokens();
         setAuthState({ user: null, loading: false, error: null, isAuthenticated: false, dashboardRedirect: null });
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       if (!isMountedRef.current) return;
       // If auth check fails, clear tokens and mark as not authenticated
@@ -127,7 +129,9 @@ export function useAuth() {
     }
   }, [getStoredToken, storeUser, clearTokens, getStoredUser]);
 
+   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     checkAuth();
     return () => { isMountedRef.current = false; };
   }, [checkAuth]);

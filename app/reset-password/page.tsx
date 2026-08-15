@@ -4,6 +4,8 @@ import { useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, Lock, Eye, EyeOff, Check, Circle, AlertTriangle } from "lucide-react";
 import { authApi } from "@/lib/api/auth";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 function ResetPasswordPageContent() {
   const router      = useRouter();
@@ -19,7 +21,6 @@ function ResetPasswordPageContent() {
   const [isLoading, setIsLoading]       = useState(false);
   const [error, setError]               = useState<string | null>(null);
 
-  // Guard: if required params are missing the user landed here incorrectly
   const missingParams = !email || !otp;
 
   const checks = useMemo(
@@ -34,10 +35,11 @@ function ResetPasswordPageContent() {
 
   const score = Object.values(checks).filter(Boolean).length;
   const strengthLabel = ["Weak", "Fair", "Good", "Strong"][Math.max(score - 1, 0)] || "Weak";
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const strengthColor =
-    score <= 1 ? "bg-red-400" :
-    score <= 3 ? "bg-amber-400" :
-                 "bg-emerald-400";
+    score <= 1 ? "bg-destructive" :
+    score <= 3 ? "bg-warning" :
+                 "bg-success";
 
   const isValid = score === 4 && password === confirm && password.length > 0;
 
@@ -51,6 +53,7 @@ function ResetPasswordPageContent() {
     try {
       await authApi.resetPassword({ email, otp, password, confirmPassword: confirm });
       router.push("/login?reset=success");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err?.message || "Failed to reset password. Please try again.");
     } finally {
@@ -61,21 +64,23 @@ function ResetPasswordPageContent() {
   if (missingParams) {
     return (
       <div className="min-h-screen w-full bg-background px-6 py-8 flex flex-col items-center justify-center gap-5">
-        <div className="w-16 h-16 rounded-lg bg-destructive/10 flex items-center justify-center">
-          <AlertTriangle className="w-7 h-7 text-destructive" />
-        </div>
-        <div className="text-center">
+        <Card className="max-w-sm w-full p-6 text-center">
+          <div className="w-16 h-16 rounded-lg bg-destructive/10 flex items-center justify-center mx-auto mb-4">
+            <AlertTriangle className="w-7 h-7 text-destructive" />
+          </div>
           <h1 className="text-xl font-bold text-foreground mb-2">Invalid Reset Link</h1>
-          <p className="text-muted-foreground text-sm max-w-xs">
-            This link is missing required information. Please request a new password reset.
+          <p className="text-muted-foreground text-sm max-w-xs mx-auto">
+            This password reset link is missing, invalid, or has expired.
           </p>
-        </div>
-        <button
-          onClick={() => router.push("/forgot-password")}
-          className="w-full max-w-xs rounded-lg bg-primary py-4 text-primary-foreground font-semibold hover:bg-primary/90 transition"
-        >
-          Request New Reset
-        </button>
+          <div className="mt-6">
+            <Button
+              onClick={() => router.push("/forgot-password")}
+              className="w-full"
+            >
+              Request New Reset
+            </Button>
+          </div>
+        </Card>
       </div>
     );
   }
@@ -102,7 +107,6 @@ function ResetPasswordPageContent() {
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
-        {/* New password */}
         <div className="relative">
           <Lock className="w-5 h-5 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" />
           <input
@@ -124,7 +128,6 @@ function ResetPasswordPageContent() {
           </button>
         </div>
 
-        {/* Confirm password */}
         <div className="relative">
           <Lock className="w-5 h-5 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" />
           <input
@@ -146,12 +149,10 @@ function ResetPasswordPageContent() {
           </button>
         </div>
 
-        {/* Mismatch hint */}
         {confirm.length > 0 && password !== confirm && (
           <p className="text-sm text-destructive -mt-2">Passwords do not match.</p>
         )}
 
-        {/* Strength meter */}
         {password.length > 0 && (
           <div>
             <div className="flex gap-1.5 mb-2">

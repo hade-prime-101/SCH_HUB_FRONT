@@ -1,23 +1,38 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useQuery } from "@/lib/hooks/useQuery";
 import { getBookmarks } from "@/lib/api/users.api";
 import type { Bookmark } from "@/types/users";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Card } from "@/components/ui/card";
 
 export default function BookmarksPage() {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
-  useEffect(() => { getBookmarks().then(setBookmarks); }, []);
+  const { data, loading, error, refetch } = useQuery<Bookmark[]>(
+    () => getBookmarks(),
+    []
+  );
+
+  if (loading) return <LoadingState label="Loading bookmarks" />;
+  if (error) return <ErrorState title="Failed to load bookmarks" description={error.message} onRetry={refetch} />;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Bookmarks</h1>
-      {bookmarks.length === 0 ? <p>No bookmarks.</p> : (
-        <ul className="space-y-2">
-          {bookmarks.map(b => (
-            <li key={b.id} className="bg-card shadow rounded p-3">
-              {b.targetType}: {b.targetId}
-            </li>
+    <div className="max-w-3xl mx-auto p-4 md:p-6">
+      <PageHeader title="Bookmarks" description="Your saved items" />
+
+      {!data || data.length === 0 ? (
+        <EmptyState>No bookmarks.</EmptyState>
+      ) : (
+        <div className="space-y-2 mt-4">
+          {data.map((b) => (
+            <Card key={b.id} compact>
+              <p>
+                {b.targetType}: {b.targetId}
+              </p>
+            </Card>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

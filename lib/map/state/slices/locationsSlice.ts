@@ -29,6 +29,7 @@ export interface LocationsActions {
   clearError: () => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createLocationsSlice = () => (set: any) => ({
   locations: [],
   filteredLocations: [],

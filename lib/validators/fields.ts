@@ -1,6 +1,7 @@
 /**
  * Validator function type
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FieldValidator = (value: any) => string | undefined;
 
 /**
@@ -18,8 +19,10 @@ export type FieldValidator = (value: any) => string | undefined;
  * const error = validateRequired(email, 'Email');
  */
 export function validateRequired(fieldName?: string): FieldValidator;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateRequired(value: any, fieldName?: string): string | undefined;
 export function validateRequired(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueOrFieldName?: any,
   fieldName?: string,
 ): FieldValidator | string | undefined {
@@ -27,6 +30,7 @@ export function validateRequired(
   // Detect factory call: single arg that is a string (treated as fieldName), or no args
   if (fieldName === undefined && (valueOrFieldName === undefined || typeof valueOrFieldName === 'string')) {
     const name = valueOrFieldName ?? 'Field';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (value: any): string | undefined => {
       if (value === null || value === undefined || value === '') {
         return `${name} is required`;
@@ -59,6 +63,7 @@ export function validateMinLength(
   minLength: number,
   fieldName: string = 'Field'
 ): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined) {
       return undefined; // Let validateRequired handle empty values
@@ -87,6 +92,7 @@ export function validateMaxLength(
   maxLength: number,
   fieldName: string = 'Field'
 ): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined) {
       return undefined;
@@ -117,6 +123,7 @@ export function validatePattern(
   fieldName: string = 'Field',
   message?: string
 ): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined || value === '') {
       return undefined;
@@ -142,9 +149,11 @@ export function validatePattern(
  * if (error) console.log(error); // "Role must be one of: admin, user, guest"
  */
 export function validateOneOf(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   allowedValues: any[],
   fieldName: string = 'Field'
 ): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined) {
       return undefined;
@@ -168,6 +177,7 @@ export function validateOneOf(
  * if (error) console.log(error); // "Age must be a valid number"
  */
 export function validateNumber(fieldName: string = 'Field'): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined || value === '') {
       return undefined;
@@ -198,6 +208,7 @@ export function validateRange(
   max: number,
   fieldName: string = 'Field'
 ): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined || value === '') {
       return undefined;
@@ -226,9 +237,11 @@ export function validateRange(
  * if (error) console.log(error); // "Confirm Password must match Password"
  */
 export function validateMatches(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   compareValue: any,
   fieldName: string = 'Field'
 ): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value !== compareValue) {
       return `${fieldName} must match`;
@@ -249,6 +262,7 @@ export function validateMatches(
  * if (error) console.log(error); // "Username must contain only alphanumeric characters"
  */
 export function validateAlphanumeric(fieldName: string = 'Field'): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined || value === '') {
       return undefined;
@@ -273,6 +287,7 @@ export function validateAlphanumeric(fieldName: string = 'Field'): FieldValidato
  * if (error) console.log(error); // "Website must be a valid URL"
  */
 export function validateUrl(fieldName: string = 'Field'): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     if (value === null || value === undefined || value === '') {
       return undefined;
@@ -302,6 +317,7 @@ export function validateUrl(fieldName: string = 'Field'): FieldValidator {
  * const error = validator(email);
  */
 export function composeValidators(...validators: FieldValidator[]): FieldValidator {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (value: any): string | undefined => {
     for (const validator of validators) {
       const error = validator(value);

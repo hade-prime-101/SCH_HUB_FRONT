@@ -20,20 +20,20 @@ export const deleteAdmin = (adminId: string) =>
   apiDelete<{ message: string }>(`/super-admin/admins/${adminId}`);
 
 export const deactivateAdmin = (adminId: string) =>
-  apiPost<AdminUser>(`/super-admin/admins/${adminId}/deactivate`);
+  apiPost<AdminUser>(`/super-admin/admins/${adminId}/deactivate`, {});
 
 export const reactivateAdmin = (adminId: string) =>
-  apiPost<AdminUser>(`/super-admin/admins/${adminId}/reactivate`);
+  apiPost<AdminUser>(`/super-admin/admins/${adminId}/reactivate`, {});
 
 export const resetAdminPassword = (adminId: string, payload: ResetAdminPasswordPayload) =>
   apiPost<{ message: string }>(`/super-admin/admins/${adminId}/reset-password`, payload);
 
 // ─── User block/unblock ─────────────────────────────────────
 export const blockUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/users/${userId}/block`);
+  apiPost<{ message: string }>(`/super-admin/users/${userId}/block`, {});
 
 export const unblockUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/users/${userId}/unblock`);
+  apiPost<{ message: string }>(`/super-admin/users/${userId}/unblock`, {});
 
 // ─── School management ──────────────────────────────────────
 export const createSchool = (payload: CreateSchoolPayload) =>
@@ -68,6 +68,7 @@ export const deleteDepartment = (departmentId: string) =>
 export const getAuditLogs = (params: ListAuditLogsQuery) =>
   apiGet<{ data: AuditLog[]; total: number; page: number; limit: number }>(
     '/super-admin/audit-logs',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params as any
   );
 
@@ -82,14 +83,15 @@ export const getSchoolStats = () =>
 export const listSchoolUsers = (params?: { page?: number; limit?: number; search?: string; role?: string }) =>
   apiGet<{ data: SchoolUser[]; total: number; page: number; limit: number; pages: number }>(
     '/super-admin/school/users',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params as any
   );
 
 export const blockSchoolUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/block`);
+  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/block`, {});
 
 export const unblockSchoolUser = (userId: string) =>
-  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/unblock`);
+  apiPost<{ message: string }>(`/super-admin/school/users/${userId}/unblock`, {});
 
 export const listAllAgents = (status?: string) =>
   apiGet<Agent[]>('/super-admin/agents', { status });
@@ -101,6 +103,7 @@ export const revokeAgent = (userId: string, note?: string) =>
 export const getSchoolAuditLogs = (params: ListAuditLogsQuery) =>
   apiGet<{ data: AuditLog[]; total: number; page: number; limit: number }>(
     '/super-admin/school/audit-logs',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params as any
   );
 
@@ -126,6 +129,7 @@ export const deleteSchoolFaq = (faqId: string) =>
 
 // ─── Campus map admin ───────────────────────────────────────
 export const listMapFeatures = (schoolId: string, params?: { bbox?: string; category?: string; limit?: number }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<MapFeature[]>(`/super-admin/schools/${schoolId}/map/features`, params as any);
 
 export const listMapEntrances = (schoolId: string, featureId?: string) =>

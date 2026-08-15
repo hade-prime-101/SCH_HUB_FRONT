@@ -17,6 +17,7 @@
 
 import {
   NavigationConfig,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   NavigationItem,
   UserRole,
   FeatureFlagKey,

@@ -1,6 +1,6 @@
 // app/dashboard/super-admin/map/entrances/page.tsx
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense,  useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   listMapEntrances,
@@ -9,7 +9,7 @@ import {
 } from "@/lib/api/super-admin.api";
 import type { MapEntrance, UpsertMapEntrancePayload } from "@/types/super-admin";
 
-export default function MapEntrancesPage() {
+function MapEntrancesContent() {
   const searchParams = useSearchParams();
   const schoolId = searchParams.get("schoolId") || "";
   const [entrances, setEntrances] = useState<MapEntrance[]>([]);
@@ -117,5 +117,13 @@ export default function MapEntrancesPage() {
         ))}
       </ul>
     </div>
+  );
+}
+
+export default function MapEntrancesPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MapEntrancesContent />
+    </Suspense>
   );
 }

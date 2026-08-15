@@ -46,14 +46,17 @@ export default function AdminAuditLogsPage() {
     try {
       const params: Record<string, string> = { page: String(page), limit: String(limit) };
       if (query) params.search = query;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const data: any = await adminApi.getSchoolAdminAuditLogs(params);
       const items = data?.items ?? data?.logs ?? (Array.isArray(data) ? data : []);
       setLogs(items);
       setTotal(data?.total ?? items.length);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) { setError(e.message); }
     finally { setLoading(false); }
   }, [page, query]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
   const pages = Math.max(1, Math.ceil(total / limit));

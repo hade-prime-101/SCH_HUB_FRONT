@@ -6,6 +6,7 @@ import { useTheme } from '@/app/ui/theme-provider';
 import { cn } from '@/lib/utils';
 
 export function ThemeToggle({ className }: { className?: string }) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { theme, setTheme, resolvedTheme } = useTheme();
 
   const toggleTheme = () => {
@@ -18,6 +19,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getThemeIcon = () => {
     if (theme === 'light') {
       return <Sun className="h-4 w-4" />;

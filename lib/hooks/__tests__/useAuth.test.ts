@@ -7,6 +7,7 @@
  * **Validates: Requirements 2.1**
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import type { User, AuthResponse } from '@/types/auth';
 
@@ -256,6 +257,7 @@ describe('useAuth Hook - Unit Tests', () => {
     it('should check mounted status before state updates', () => {
       let isMounted = true;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const updateState = (newState: any) => {
         if (isMounted) {
           expect(newState).toBeDefined();

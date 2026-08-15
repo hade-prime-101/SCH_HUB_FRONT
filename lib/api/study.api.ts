@@ -28,6 +28,7 @@ import type {
   PersonalQuizResult,
   AISummary,
   SummarizeRequest,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ChatMessage,
   SessionDetail,
 } from "@/types/study";
@@ -35,6 +36,7 @@ import type {
 // ─── Materials ─────────────────────────────────────────────────
 
 export const listMaterials = (params: { page?: number; limit?: number; search?: string; visibility?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: Material[]; page: number; total: number; limit: number }>("/study/materials", params as any);
 
 export const getMaterial = (id: string) =>
@@ -69,7 +71,7 @@ export const adminDeleteMaterial = (id: string) =>
   apiDelete<{ message: string }>(`/study/materials/${id}/admin`);
 
 export const verifyMaterial = (id: string) =>
-  apiPost<Material>(`/study/materials/${id}/verify`);
+  apiPost<Material>(`/study/materials/${id}/verify`, {});
 
 export const listPendingReviewMaterials = (page = 1, limit = 20) =>
   apiGet<{ data: Material[]; page: number; total: number; limit: number }>("/study/materials/pending-review", { page, limit });
@@ -78,13 +80,13 @@ export const reviewMaterial = (id: string, payload: MaterialReviewPayload) =>
   apiPost<Material>(`/study/materials/${id}/review`, payload);
 
 export const incrementDownload = (id: string) =>
-  apiPost<{ downloads: number }>(`/study/materials/${id}/download/increment`);
+  apiPost<{ downloads: number }>(`/study/materials/${id}/download/increment`, {});
 
 export const rateMaterial = (id: string, payload: MaterialRatePayload) =>
   apiPost<Material>(`/study/materials/${id}/rate`, payload);
 
 export const toggleBookmark = (id: string) =>
-  apiPost<{ bookmarked: boolean }>(`/study/materials/${id}/bookmark`);
+  apiPost<{ bookmarked: boolean }>(`/study/materials/${id}/bookmark`, {});
 
 export const getDownloadUrl = (id: string) =>
   apiGet<{ url: string }>(`/study/materials/${id}/download-url`);
@@ -92,6 +94,7 @@ export const getDownloadUrl = (id: string) =>
 // ─── Quizzes ──────────────────────────────────────────────────
 
 export const listQuizzes = (params: { page?: number; limit?: number; search?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<{ data: Quiz[]; page: number; total: number; limit: number }>("/study/quizzes", params as any);
 
 export const getQuiz = (id: string) =>
@@ -127,11 +130,13 @@ export const approveQuizQuestions = (quizId: string, approvals: { questionId: st
   apiPost<Quiz>(`/study/quizzes/${quizId}/approve-questions`, { approvals });
 
 export const getAdminQuizAnalytics = (params: AdminQuizAnalyticsQuery) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<any>("/study/quizzes/admin-analytics", params as any);
 
 // ─── CGPA ─────────────────────────────────────────────────────
 
 export const listCGPACourses = (params?: { semester?: string }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiGet<CGPACourse[]>("/cgpa/courses", params as any);
 
 export const createCGPACourse = (payload: CGPACourseInput) =>

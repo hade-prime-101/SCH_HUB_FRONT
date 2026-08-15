@@ -1,59 +1,67 @@
-// app/dashboard/study-groups/discover/page.tsx
 "use client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+
+import { useState } from "react";
+import { usePaginatedQuery } from "@/lib/hooks/usePaginatedQuery";
 import { listAllGroups, joinGroup, leaveGroup } from "@/lib/api/study-groups.api";
 import type { StudyGroup } from "@/types/study-groups";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { Pagination } from "@/components/ui/Pagination";
+import { GroupCard } from "@/components/study-groups/GroupCard";
 
 export default function DiscoverGroupsPage() {
-  const [groups, setGroups] = useState<StudyGroup[]>([]);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
   const limit = 20;
 
-  const fetchGroups = () => {
-    listAllGroups(page, limit).then((res) => {
-      setGroups(res.data);
-      setTotal(res.total);
-    });
-  };
-
-  useEffect(() => { fetchGroups(); }, [page]);
+  const { data, total, loading, error, refetch } = usePaginatedQuery<StudyGroup>(
+    ({ page, limit }) => listAllGroups(page, limit),
+    { page, limit }
+  );
 
   const handleJoin = async (id: string) => {
     await joinGroup(id);
-    fetchGroups();
+    refetch();
   };
 
   const handleLeave = async (id: string) => {
     await leaveGroup(id);
-    fetchGroups();
+    refetch();
   };
+
+  if (loading) return <LoadingState label="Loading groups" />;
+  if (error) return <ErrorState title="Failed to load groups" description={error.message} onRetry={refetch} />;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Discover Study Groups</h1>
-      {groups.map((g) => (
-        <div key={g.id} className="bg-card shadow rounded p-4 mb-3 flex justify-between items-center">
-          <div>
-            <Link href={`/dashboard/study-groups/${g.id}`} className="font-medium text-primary">
-              {g.name}
-            </Link>
-            <p className="text-sm text-muted-foreground">{g.description}</p>
-            <p className="text-xs text-muted-foreground/70">{g.memberCount} members</p>
+      <PageHeader title="Discover Study Groups" />
+
+      {!data || data.length === 0 ? (
+        <EmptyState>No groups available.</EmptyState>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            {data.map((group) => (
+              <GroupCard
+                key={group.id}
+                group={group}
+                onJoin={handleJoin}
+                onLeave={handleLeave}
+                showActions
+              />
+            ))}
           </div>
-          <div>
-            {/* Assume we know if user is a member; in real app track membership */}
-            <button onClick={() => handleJoin(g.id)} className="bg-success text-primary-foreground px-3 py-1 rounded text-sm">Join</button>
-            <button onClick={() => handleLeave(g.id)} className="ml-2 bg-secondary/50 px-3 py-1 rounded text-sm">Leave</button>
-          </div>
-        </div>
-      ))}
-      <div className="flex justify-between mt-4">
-        <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="btn">Prev</button>
-        <span>Page {page}</span>
-        <button disabled={page * limit >= total} onClick={() => setPage(p => p + 1)} className="btn">Next</button>
-      </div>
+
+          {total > limit && (
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(total / limit)}
+              onPageChange={setPage}
+              showPageNumber
+            />
+          )}
+        </>
+      )}
     </div>
   );
 }

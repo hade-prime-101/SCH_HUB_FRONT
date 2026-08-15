@@ -16,6 +16,7 @@ export interface FormState<T> {
 /**
  * useForm Hook Configuration
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface UseFormConfig<T extends Record<string, any>> {
   initialValues: T;
   onSubmit: (values: T) => Promise<void> | void;
@@ -25,6 +26,7 @@ export interface UseFormConfig<T extends Record<string, any>> {
 /**
  * useForm Hook Return Type
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface UseFormReturn<T extends Record<string, any>> {
   values: T;
   errors: Record<keyof T, string>;
@@ -87,6 +89,7 @@ export interface UseFormReturn<T extends Record<string, any>> {
  * );
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useForm<T extends Record<string, any>>({
   initialValues,
   onSubmit,

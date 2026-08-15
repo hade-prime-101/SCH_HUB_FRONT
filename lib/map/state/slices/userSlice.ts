@@ -29,6 +29,7 @@ export interface UserActions {
   clearTrackingError: () => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createUserSlice = () => (set: any) => ({
   position: null,
   accuracy: null,

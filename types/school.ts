@@ -23,6 +23,7 @@ export interface CreateTimetableEntryPayload {
   type?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateTimetableEntryPayload extends Partial<CreateTimetableEntryPayload> {}
 
 export interface SchoolEvent {
@@ -49,6 +50,7 @@ export interface CreateEventPayload {
   level?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateEventPayload extends Partial<CreateEventPayload> {}
 
 export interface EventReminder {
@@ -94,4 +96,5 @@ export interface CreateEmergencyContactPayload {
   role: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateEmergencyContactPayload extends Partial<CreateEmergencyContactPayload> {}

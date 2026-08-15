@@ -1,0 +1,356 @@
+"use client";
+
+import Link from "next/link";
+import BottomNav from "@/components/shared/BottomNav";
+import PullToRefresh from "@/components/shared/PullToRefresh";
+import { useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import {
+  Bell,
+  ChevronRight,
+  AlertCircle,
+  Clock,
+  Calendar,
+  CalendarDays,
+  CheckCircle2,
+  MapPin,
+  PhoneCall,
+  ClipboardList,
+  Sparkles,
+  Store,
+  GraduationCap,
+  Loader2,
+} from "lucide-react";
+import { plannerApi, notificationsApi } from "@/lib/api/planner.api";
+import { schoolApi } from "@/lib/api/school.api";
+import { communityApi } from "@/lib/api/community.api";
+
+const QUICK_LINKS = [
+  { icon: CalendarDays, label: "Timetable",   href: "/dashboard/timetable",         accent: "bg-[color-category-timetable-bg] text-[color-category-timetable]" },
+  { icon: CheckCircle2, label: "Planner",     href: "/dashboard/planner",           accent: "bg-[color-category-planner-bg] text-[color-category-planner]" },
+  { icon: ClipboardList,label: "Reminders",   href: "/dashboard/planner/reminders", accent: "bg-[color-warning/10] text-warning" },
+  { icon: Calendar,     label: "Events",      href: "/dashboard/events",            accent: "bg-[color-category-events-bg] text-[color-category-events]" },
+  { icon: MapPin,       label: "Campus Map",  href: "/dashboard/map",               accent: "bg-[color-category-campus-bg] text-[color-category-campus]" },
+  { icon: PhoneCall,    label: "Emergency",   href: "/dashboard/emergency",         accent: "bg-[color-category-emergency-bg] text-[color-category-emergency]" },
+  { icon: GraduationCap,label: "Study",       href: "/dashboard/study",             accent: "bg-primary/10 text-primary" },
+  { icon: Sparkles,     label: "AI Tools",    href: "/dashboard/study/ai",          accent: "bg-[color-category-ai-bg] text-[color-category-ai]" },
+  { icon: Store,        label: "Marketplace", href: "/marketplace",       accent: "bg-[color-category-marketplace-bg] text-[color-category-marketplace]" },
+];
+
+function SectionHeader({ title, action = "View all", href }: { title: string; action?: string; href?: string }) {
+  return (
+    <div className="mb-4">
+      <h2 className="font-serif text-2xl font-bold text-foreground leading-tight">{title}</h2>
+      {href && (
+        <Link href={href} className="flex items-center gap-1 text-primary text-sm font-medium mt-1">
+          {action} <ChevronRight className="w-4 h-4" />
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function formatTime(t: string) {
+  if (!t) return "";
+  const [h, m] = t.split(":").map(Number);
+  const ampm = h >= 12 ? "PM" : "AM";
+  const hour = h % 12 || 12;
+  return `${hour}:${String(m).padStart(2, "0")} ${ampm}`;
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-NG", { month: "short", day: "numeric" });
+}
+
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(mins / 60);
+  if (mins < 60) return `${mins}m ago`;
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+}
+
+export default function DashboardPage() {
+  const router = useRouter();
+
+  const [user, setUser] = useState<{ fullName: string; profilePictureUrl?: string | null } | null>(null);
+  const [agenda, setAgenda] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [feed, setFeed] = useState<any[]>([]);
+  const [notices, setNotices] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const initials = user?.fullName
+    ? user.fullName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
+    : "";
+
+  const greeting = () => {
+    const h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 17) return "Good afternoon";
+    return "Good evening";
+  };
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const stored = localStorage.getItem("auth_user");
+      if (stored) setUser(JSON.parse(stored));
+    } catch {}
+
+    const [agendaRes, eventsRes, feedRes, notifsRes, noticesRes] = await Promise.allSettled([
+      plannerApi.getTodayPlanner(),
+      schoolApi.listEvents({ upcoming: true, limit: 3 } as any),
+      communityApi.getFeed({ limit: "3" }),
+      notificationsApi.listNotifications({ limit: 5 }),
+      communityApi.getNotices({ section: "NOTICE_BOARD", limit: "3" }),
+    ]);
+
+    // If any request came back with a 401, the token is expired — send to login
+    const results = [agendaRes, eventsRes, feedRes, notifsRes, noticesRes];
+    const has401 = results.some(
+      (r) => r.status === "rejected" && (r.reason?.status === 401 || r.reason?.statusCode === 401),
+    );
+    if (has401) {
+      router.replace("/login");
+      return;
+    }
+
+    if (agendaRes.status === "fulfilled") {
+      const d = agendaRes.value as any;
+      setAgenda(Array.isArray(d) ? d : (d?.items ?? d?.agenda ?? []));
+    }
+    if (eventsRes.status === "fulfilled") {
+      const d = eventsRes.value as any;
+      setEvents(Array.isArray(d) ? d : (d?.items ?? d?.events ?? []));
+    }
+    if (feedRes.status === "fulfilled") {
+      const data = feedRes.value as any;
+      setFeed(Array.isArray(data) ? data.slice(0, 3) : (data?.items ?? []).slice(0, 3));
+    }
+    if (notifsRes.status === "fulfilled") {
+      const data = notifsRes.value;
+      const items = Array.isArray(data) ? data : (data?.data ?? []);
+      setNotifications(items.slice(0, 3));
+      setUnreadCount(Array.isArray(data) ? data.length : (data?.total ?? 0));
+    }
+    if (noticesRes.status === "fulfilled") {
+      const data = noticesRes.value as any;
+      setNotices(Array.isArray(data) ? data.slice(0, 3) : (data?.data ?? []).slice(0, 3));
+    }
+
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const classes = agenda.filter((a) => a.sourceType === "TIMETABLE");
+  const reminders = agenda.filter((a) => a.sourceType === "REMINDER" || a.sourceType === "DEPT_REMINDER");
+
+  async function handleRefresh() {
+    await load();
+  }
+
+  return (
+    <>
+      {/* Header — outside scroll area so it's always visible */}
+      <div className="w-full bg-muted px-6 pt-8 pb-2 flex items-start justify-between sticky top-0 z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-primary font-semibold overflow-hidden shrink-0">
+            {user?.profilePictureUrl ? (
+              <img src={user.profilePictureUrl} alt={user.fullName} className="w-full h-full object-cover" />
+            ) : (
+              <span>{initials}</span>
+            )}
+          </div>
+          <div>
+            <p className="text-muted-foreground text-sm">{greeting()}</p>
+            <p className="text-foreground font-bold text-lg leading-tight">{user?.fullName ?? ""}</p>
+          </div>
+        </div>
+        <Link
+          href="/dashboard/notifications"
+          className="relative w-11 h-11 rounded-full bg-card shadow-sm flex items-center justify-center shrink-0"
+          aria-label="Notifications"
+        >
+          <Bell className="w-5 h-5 text-foreground" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-destructive text-primary-foreground text-[11px] font-bold flex items-center justify-center">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
+        </Link>
+      </div>
+
+      {/* Scrollable body */}
+      <PullToRefresh onRefresh={handleRefresh} className="min-h-screen">
+        <div className="w-full bg-muted pb-24">
+
+          <div className="px-6 pt-4 pb-6">
+            <h1 className="font-serif text-4xl font-bold text-foreground">Dashboard</h1>
+            <p className="text-muted-foreground mt-1">Here&apos;s what&apos;s happening today</p>
+          </div>
+
+          {/* Quick Links */}
+          <div className="px-6 mb-5">
+            <h2 className="font-serif text-xl font-bold text-foreground mb-3">Quick Links</h2>
+            <div className="grid grid-cols-3 gap-3">
+              {QUICK_LINKS.map(({ icon: Icon, label, href, accent }) => (
+                <Link key={label} href={href} className="bg-card rounded-2xl p-3 flex flex-col items-center gap-2 active:scale-95 transition-transform">
+                  <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${accent}`}>
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <span className="text-xs font-semibold text-foreground text-center leading-tight">{label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="px-6 flex flex-col gap-5">
+
+            {/* Notice Board */}
+            <div className="bg-card rounded-3xl p-5">
+              <SectionHeader title="Notice Board" action="View all" href="/community/notices" />
+              {loading ? (
+                <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+              ) : notices.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No notices at the moment.</p>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {notices.map((post: any) => (
+                    <Link key={post.id} href={`/community/${post.id}`} className="flex items-start gap-3 rounded-2xl bg-[color-warning/5] border border-[color-warning/20] p-3 active:opacity-80">
+                      <span className="w-2 h-2 rounded-full bg-warning mt-1.5 shrink-0" />
+                      <p className="text-sm font-medium text-foreground line-clamp-2">{post.content}</p>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="bg-card rounded-3xl p-5">
+              <SectionHeader title="Today's Classes" action="View full timetable" href="/dashboard/timetable" />
+              {loading ? (
+                <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+              ) : classes.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No classes today.</p>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {classes.map((c) => (
+                    <div key={c.id} className="flex items-center gap-4 rounded-2xl bg-accent p-4">
+                      <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex flex-col items-center justify-center text-xs font-bold leading-tight shrink-0">
+                        {formatTime(c.startTime).split(" ").map((p: string, i: number) => <span key={i}>{p}</span>)}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground">{c.title}</p>
+                        <p className="text-sm text-muted-foreground">{c.startTime}{c.endTime ? ` - ${c.endTime}` : ""}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Due Reminders */}
+            <div className="bg-card rounded-3xl p-5">
+              <SectionHeader title="Due Reminders" href="/dashboard/planner" />
+              {loading ? (
+                <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+              ) : reminders.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No reminders due today.</p>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {reminders.map((r) => (
+                    <div key={r.id} className="flex items-center gap-3 rounded-2xl bg-muted p-4">
+                      <Clock className="w-5 h-5 text-muted-foreground shrink-0" />
+                      <div className="flex-1">
+                        <p className="font-semibold text-foreground">{r.title}</p>
+                        <p className="text-sm text-muted-foreground">{r.startTime ?? ""}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Notifications */}
+            <div className="bg-card rounded-3xl p-5">
+              <SectionHeader title="Notifications" href="/dashboard/notifications" />
+              {loading ? (
+                <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+              ) : notifications.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No new notifications.</p>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {notifications.map((n) => (
+                    <div key={n.id} className="flex gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
+                      <div>
+                        <p className="text-sm font-medium text-foreground leading-tight">{n.title ?? n.message}</p>
+                        <p className="text-xs text-muted-foreground">{timeAgo(n.createdAt)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Upcoming Events */}
+            <div className="bg-card rounded-3xl p-5">
+              <SectionHeader title="Upcoming Events" href="/dashboard/events" />
+              {loading ? (
+                <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+              ) : events.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No upcoming events.</p>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {events.map((e) => (
+                    <div key={e.id} className="flex items-center gap-4 rounded-2xl bg-[color-category-events-bg] p-4">
+                      <div className="w-11 h-11 rounded-xl bg-[color-category-events] flex items-center justify-center shrink-0">
+                        <Calendar className="w-5 h-5 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground">{e.title}</p>
+                        <p className="text-sm text-muted-foreground">{formatDate(e.startDate)} · {e.venue ?? ""}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Community Highlights */}
+            <div className="bg-card rounded-3xl p-5">
+              <SectionHeader title="Community Highlights" action="View feed" href="/community" />
+              {loading ? (
+                <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+              ) : feed.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No posts yet.</p>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  {feed.map((post) => (
+                    <div key={post.id} className="rounded-2xl bg-muted p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-9 h-9 rounded-full bg-border shrink-0" />
+                        <p className="font-semibold text-foreground">
+                          {post.isAnonymous ? "Anonymous" : (post.author?.fullName ?? "Unknown")}
+                        </p>
+                        {post.isPinned && (
+                          <span className="text-xs font-medium text-primary border border-ring rounded-full px-2 py-0.5">Pinned</span>
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2">{post.content}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+      </PullToRefresh>
+      <BottomNav />
+    </>
+  );
+}

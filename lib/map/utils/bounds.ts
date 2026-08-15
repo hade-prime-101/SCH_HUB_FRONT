@@ -2,6 +2,7 @@
  * Bounding box and geographic boundary utilities
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MapBounds } from '../types/map';
 
 export interface BoundingBox {

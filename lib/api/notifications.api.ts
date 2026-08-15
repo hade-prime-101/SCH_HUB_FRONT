@@ -15,13 +15,14 @@ export const listNotifications = (params?: { page?: number; limit?: number }) =>
     unreadCount: number;
     page: number;
     limit: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }>('/notifications', params as any);
 
 export const markAsRead = (id: string) =>
-  apiPost<Notification>(`/notifications/${id}/read`);
+  apiPost<Notification>(`/notifications/${id}/read`, {});
 
 export const markAllAsRead = () =>
-  apiPost<{ modified: number }>('/notifications/read-all');
+  apiPost<{ modified: number }>('/notifications/read-all', {});
 
 export const deleteNotification = (id: string) =>
   apiDelete<{ message: string }>(`/notifications/${id}`);

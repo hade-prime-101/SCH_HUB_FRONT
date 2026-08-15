@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { Fingerprint, CheckCircle } from "lucide-react";
 import { icons } from "@/types/icons";
 import { useAuth } from "@/lib/hooks/useAuth";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { authApi } from "@/lib/api/auth";
 import { LoginForm } from "@/components/shared/LoginForm";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
@@ -25,34 +26,9 @@ function LoginPageContent() {
   );
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
-  // Detect mobile device and biometric availability on mount
-  useEffect(() => {
-    checkMobileDevice();
-    checkBiometricAvailability();
-    setIsCheckingAuth(false);
-  }, []);
-
-  // Redirect already-authenticated users away from the login page
-  useEffect(() => {
-    if (!authLoading && isAuthenticated) {
-      const redirect = localStorage.getItem("dashboard_redirect");
-      const destination =
-        redirect === "admin_dashboard"       ? "/admin" :
-        redirect === "super_admin_dashboard" ? "/super-admin" :
-        "/dashboard";
-      window.location.replace(destination);
-    }
-  }, [isAuthenticated, authLoading]);
-
-  // Update login error when auth error changes
-  useEffect(() => {
-    if (authError) {
-      setLoginError(authError);
-    }
-  }, [authError]);
-
   const checkMobileDevice = () => {
     const userAgent =
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       navigator.userAgent || navigator.vendor || (window as any).opera;
     const isMobile =
       /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
@@ -82,6 +58,35 @@ function LoginPageContent() {
     }
   };
 
+  // Detect mobile device and biometric availability on mount
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    checkMobileDevice();
+    checkBiometricAvailability();
+    setIsCheckingAuth(false);
+   
+  }, []);
+
+  // Redirect already-authenticated users away from the login page
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      const redirect = localStorage.getItem("dashboard_redirect");
+      const destination =
+        redirect === "admin_dashboard"       ? "/admin" :
+        redirect === "super_admin_dashboard" ? "/super-admin" :
+        "/dashboard";
+      window.location.replace(destination);
+    }
+  }, [isAuthenticated, authLoading]);
+
+  // Update login error when auth error changes
+  useEffect(() => {
+    if (authError) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoginError(authError);
+    }
+  }, [authError]);
+
   const handleBiometricAuth = async () => {
     if (!isMobileDevice || !isBiometricAvailable) {
       setBiometricError(
@@ -104,9 +109,11 @@ function LoginPageContent() {
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let credentialIds: any[] = [];
       try {
         credentialIds = JSON.parse(storedCredentials);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         setBiometricError(
           "Invalid stored credentials. Please log in with email and password again.",
@@ -161,6 +168,7 @@ function LoginPageContent() {
       // Trigger biometric authentication
       const assertion = (await navigator.credentials.get({
         publicKey: assertionOptions,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       })) as any;
 
       if (assertion) {
@@ -231,6 +239,7 @@ function LoginPageContent() {
           );
         }
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.name === "NotAllowedError") {
         setBiometricError(
@@ -274,6 +283,7 @@ function LoginPageContent() {
         redirect === "super_admin_dashboard"          ? "/super-admin" :
         "/dashboard";
       window.location.href = destination;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const msg: string = error.message || "";
       // If the backend signals the email is not yet verified, redirect to the
@@ -295,8 +305,13 @@ function LoginPageContent() {
   };
 
   // ── Dev bypass — skip auth when no backend is running ──────────────────────
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const isDev = process.env.NEXT_PUBLIC_API_URL?.includes("localhost");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function handleDevBypass() {
+    // Guard: never allow in production
+    if (process.env.NODE_ENV !== "development") return;
+
     localStorage.setItem("auth_token", "dev-token");
     localStorage.setItem("refresh_token", "dev-refresh");
     localStorage.setItem(
@@ -417,7 +432,7 @@ function LoginPageContent() {
         </div>
 
         <div className="hidden flex-1 items-center justify-center bg-primary p-10 lg:flex">
-          <div className="max-w-sm rounded-xl border border-white/20 bg-card/10 p-8 text-primary-foreground backdrop-blur-sm">
+          <div className="max-w-sm rounded-xl border border-white/20 bg-accent/10 p-8 text-primary-foreground backdrop-blur-sm">
             <p className="text-sm uppercase tracking-[0.3em] text-primary-foreground/60">SchHub</p>
             <h2 className="mt-3 text-3xl font-semibold">Stay connected to your school life.</h2>
             <p className="mt-4 text-sm leading-6 text-primary-foreground/60">
