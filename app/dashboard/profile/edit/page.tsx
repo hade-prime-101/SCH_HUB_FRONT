@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@/lib/hooks/useQuery";
 import { getMyProfile, updateProfile, uploadAvatar } from "@/lib/api/users.api";
@@ -15,8 +15,12 @@ import { Input } from "@/components/ui/input";
 
 export default function EditProfilePage() {
   const router = useRouter();
+  
+  // Memoize the fetcher to prevent infinite refetch loop
+  const fetcher = useCallback(() => getMyProfile(), []);
+  
   const { data: profile, loading, error, refetch } = useQuery<UserProfile>(
-    () => getMyProfile(),
+    fetcher,
     []
   );
 

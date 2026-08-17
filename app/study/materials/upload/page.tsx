@@ -4,9 +4,7 @@ import * as React from "react";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { apiPost } from "@/lib/api";
-import { authApi } from "@/lib/api/auth";
-import { getDepartments } from "@/lib/api/school.api";
-import { Upload, File, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,10 +35,8 @@ export default function UploadMaterialPage() {
   const [type, setType] = useState("NOTE");
   const [courseCode, setCourseCode] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
-  const [departmentId, setDepartmentId] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState<MaterialVisibility>("PUBLIC");
-  const [departments, setDepartments] = useState<Array<{ id: string; name: string }>>([]);
 
   // Bulk upload
   const [bulkFiles, setBulkFiles] = useState<File[]>([]);
@@ -48,22 +44,7 @@ export default function UploadMaterialPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load user's department on mount
-  React.useEffect(() => {
-    const loadDepartments = async () => {
-      try {
-        const user = await authApi.getMe();
-        if (user.departmentId) {
-          setDepartmentId(user.departmentId);
-          const depts = await getDepartments(user.departmentId);
-          setDepartments(Array.isArray(depts) ? depts : (depts?.data || []));
-        }
-      } catch (err) {
-        console.error('Failed to load departments:', err);
-      }
-    };
-    loadDepartments();
-  }, []);
+
 
   const handleSingle = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +53,6 @@ export default function UploadMaterialPage() {
     if (!type) return setError("Type is required");
     if (!courseCode) return setError("Course code is required");
     if (!courseTitle) return setError("Course title is required");
-    if (!departmentId) return setError("Department is required");
 
     setUploading(true);
     setError(null);
@@ -82,7 +62,6 @@ export default function UploadMaterialPage() {
     formData.append("type", type);
     formData.append("courseCode", courseCode);
     formData.append("courseTitle", courseTitle);
-    formData.append("departmentId", departmentId);
     formData.append("visibility", visibility);
     if (description) formData.append("description", description);
     try {
@@ -90,7 +69,8 @@ export default function UploadMaterialPage() {
       router.push("/study/materials");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setError(err.message);
+      const errorMsg = err.message || "Failed to upload material";
+      setError(errorMsg);
     } finally {
       setUploading(false);
     }
@@ -154,8 +134,8 @@ export default function UploadMaterialPage() {
       </div>
 
       {error && (
-        <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4 text-destructive text-sm">
-          {error}
+        <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4 text-destructive text-sm space-y-2">
+          <p>{error}</p>
         </div>
       )}
 
@@ -229,27 +209,11 @@ export default function UploadMaterialPage() {
           </div>
 
           <div>
-            <Label htmlFor="departmentId">Department <span className="text-destructive">*</span></Label>
-            <Select value={departmentId} onValueChange={setDepartmentId} disabled={uploading || departments.length === 0}>
-              <SelectTrigger id="departmentId">
-                <SelectValue placeholder="Select a department" />
-              </SelectTrigger>
-              <SelectContent>
-                {departments.map((dept) => (
-                  <SelectItem key={dept.id} value={dept.id}>
-                    {dept.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
             <Label htmlFor="description">Description (optional)</Label>
             <Textarea 
               id="description" 
               value={description} 
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} 
+              onChange={(e) => setDescription(e.currentTarget.value)} 
               rows={3}
               disabled={uploading}
               placeholder="Add details about this material..."

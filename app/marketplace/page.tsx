@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ListingCard } from "@/components/marketplace/ListingCard";
 import { listListings, toggleSaveListing } from "@/lib/api/marketplace.api";
+import { extractData } from "@/lib/api/response-helpers";
 import type { Listing } from "@/types/marketplace";
 
 const categories = [
@@ -39,7 +40,7 @@ export default function MarketplaceHome() {
 
   useEffect(() => {
     listListings({ page: 1, limit: 4 })
-      .then((res) => setRecentListings(res.data))
+      .then((res) => setRecentListings(extractData(res)))
       .finally(() => setLoading(false));
   }, []);
 

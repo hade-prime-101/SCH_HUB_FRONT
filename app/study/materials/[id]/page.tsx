@@ -5,8 +5,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { apiGet, apiPost } from "@/lib/api";
+import { useAuth } from "@/lib/providers/AuthProvider";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Download, Bookmark, Star, ArrowLeft, Calendar, User, Globe, Lock } from "lucide-react";
+import { Download, Bookmark, Star, ArrowLeft, Calendar, User, Globe, Lock, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
@@ -15,6 +16,7 @@ import type { Material } from "@/types/study";
 export default function MaterialDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { user } = useAuth();
   const [material, setMaterial] = useState<Material | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -106,6 +108,16 @@ export default function MaterialDetailPage() {
             </div>
           </div>
           <div className="flex gap-2">
+            {user?.id === material.uploader?.id && (
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => router.push(`/study/materials/${id}/edit`)}
+                title="Edit material"
+              >
+                <Edit className="w-4 h-4" />
+              </Button>
+            )}
             <Button
               variant="outline"
               size="icon"

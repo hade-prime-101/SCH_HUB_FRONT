@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createGroup } from "@/lib/api/study-groups.api";
-import { authApi } from "@/lib/api/auth";
-import { getDepartments } from "@/lib/api/school.api";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,41 +21,26 @@ export default function CreateGroupPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [type, setType] = useState<GroupType>('GENERAL');
-  const [departmentId, setDepartmentId] = useState("");
   const [courseTag, setCourseTag] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [departments, setDepartments] = useState<Array<{ id: string; name: string }>>([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const user = await authApi.getMe();
-        if (user.departmentId) {
-          setDepartmentId(user.departmentId);
-          const depts = await getDepartments(user.departmentId);
-          setDepartments(Array.isArray(depts) ? depts : (depts?.data || []));
-        }
-      } catch (err) {
-        console.error('Failed to load user data:', err);
-      }
-    })();
-  }, []);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !type || !departmentId) {
-      alert("Please fill in all required fields");
+    if (!name || !type) {
+      setError("Please fill in all required fields");
       return;
     }
     
     setLoading(true);
+    setError(null);
     try {
-      await createGroup({ name, type, departmentId, isPrivate, courseTag: courseTag || undefined });
+      await createGroup({ name, type, isPrivate, courseTag: courseTag || undefined });
       router.push("/dashboard/study-groups");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      alert("Failed to create group");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message || "Failed to create group");
     } finally {
       setLoading(false);
     }
@@ -66,6 +49,12 @@ export default function CreateGroupPage() {
   return (
     <div className="max-w-xl mx-auto">
       <PageHeader title="Create Study Group" backHref="/dashboard/study-groups" />
+
+      {error && (
+        <div className="mt-4 bg-destructive/5 border border-destructive/20 rounded-xl p-4 text-destructive text-sm">
+          {error}
+        </div>
+      )}
 
       <Card className="mt-4">
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -91,26 +80,6 @@ export default function CreateGroupPage() {
               {GROUP_TYPES.map((t) => (
                 <option key={t.value} value={t.value}>
                   {t.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Department <span className="text-destructive">*</span>
-            </label>
-            <select
-              value={departmentId}
-              onChange={(e) => setDepartmentId(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground disabled:opacity-50"
-              disabled={loading || departments.length === 0}
-              required
-            >
-              <option value="">Select a department</option>
-              {departments.map((dept) => (
-                <option key={dept.id} value={dept.id}>
-                  {dept.name}
                 </option>
               ))}
             </select>

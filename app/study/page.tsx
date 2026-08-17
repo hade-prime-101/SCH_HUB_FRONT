@@ -137,7 +137,7 @@ export default function StudyOverviewPage() {
             <BookOpen className="w-5 h-5 text-primary" />
             Recent Materials
           </h2>
-          {stats.recentMaterials.length === 0 ? (
+          {!stats.recentMaterials || stats.recentMaterials.length === 0 ? (
             <div className="bg-card rounded-2xl p-5 border border-border text-center text-muted-foreground">
               No materials yet. <Link href="/study/materials/upload" className="text-primary hover:underline">Upload one</Link>.
             </div>
@@ -167,7 +167,7 @@ export default function StudyOverviewPage() {
             <Brain className="w-5 h-5 text-primary" />
             Recent Quizzes
           </h2>
-          {stats.recentQuizzes.length === 0 ? (
+          {!stats.recentQuizzes || stats.recentQuizzes.length === 0 ? (
             <div className="bg-card rounded-2xl p-5 border border-border text-center text-muted-foreground">
               No quiz attempts yet. <Link href="/study/quizzes" className="text-primary hover:underline">Browse quizzes</Link>.
             </div>

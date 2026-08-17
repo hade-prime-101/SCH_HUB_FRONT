@@ -21,15 +21,13 @@ export default function EditGroupPage() {
     [id]
   );
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (group) {
       setName(group.name);
-      setDescription(group.description || "");
       setIsPrivate(group.isPrivate);
     }
   }, [group]);
@@ -38,7 +36,7 @@ export default function EditGroupPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      await updateGroup(id, { name, description, isPrivate });
+      await updateGroup(id, { name, isPrivate });
       router.push(`/dashboard/study-groups/${id}`);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
@@ -63,12 +61,6 @@ export default function EditGroupPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            disabled={saving}
-          />
-          <Input
-            label="Description (optional)"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
             disabled={saving}
           />
           <label className="flex items-center gap-2 cursor-pointer">

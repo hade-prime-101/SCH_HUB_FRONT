@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@/lib/hooks/useQuery";
 import { usersApi } from "@/lib/api/users.api";
-import { useAuth } from "@/lib/hooks/useAuth";
+import { useAuth } from "@/lib/providers/AuthProvider";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { LoadingState, EmptyState } from "@/components/shared/DashboardPrimitives";
 import { ErrorState } from "@/components/shared/ErrorState";

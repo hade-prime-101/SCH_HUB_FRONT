@@ -19,7 +19,7 @@ export default function MyProfilePage() {
 
   if (loading) return <LoadingState label="Loading profile" />;
   if (error) return <ErrorState title="Failed to load profile" description={error.message} onRetry={refetch} />;
-  if (!profile) return null;
+  if (!profile || !profile.name) return <EmptyState />;
 
   return (
     <div className="max-w-2xl mx-auto p-4 md:p-6">
@@ -37,18 +37,18 @@ export default function MyProfilePage() {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={profile.avatarUrl}
-            alt={profile.name}
+            alt={profile.name || "Avatar"}
             className="w-20 h-20 rounded-full object-cover"
           />
         ) : (
           <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center text-2xl font-bold text-foreground">
-            {profile.name.charAt(0).toUpperCase()}
+            {profile.name ? profile.name.charAt(0).toUpperCase() : "?"}
           </div>
         )}
         <div>
-          <h2 className="text-2xl font-bold">{profile.name}</h2>
-          <p className="text-muted-foreground">{profile.email}</p>
-          <p className="text-sm text-muted-foreground">Role: {profile.role}</p>
+          <h2 className="text-2xl font-bold">{profile.name || "Anonymous"}</h2>
+          <p className="text-muted-foreground">{profile.email || "No email"}</p>
+          <p className="text-sm text-muted-foreground">Role: {profile.role || "N/A"}</p>
         </div>
       </div>
 

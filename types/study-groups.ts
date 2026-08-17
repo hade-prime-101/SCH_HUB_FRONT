@@ -1,15 +1,16 @@
 // types/study-groups.ts
 
+export type GroupType = 'EXAM_PREP' | 'ASSIGNMENT' | 'TUTORIAL' | 'PROJECT' | 'GENERAL';
+
 export interface StudyGroup {
   id: string;
   name: string;
-  description?: string;
   type: GroupType;
-  departmentId: string;
   schoolId: string;
   createdBy: string;
   isPrivate: boolean;
   courseTag?: string;
+  departmentId?: string;
   memberCount: number;
   createdAt: string;
 }
@@ -65,15 +66,12 @@ export interface GroupQA {
 
 // ─── Payloads ─────────────────────────────────────────────────
 
-export type GroupType = 'EXAM_PREP' | 'ASSIGNMENT' | 'TUTORIAL' | 'PROJECT' | 'GENERAL';
-
 export interface CreateGroupPayload {
   name: string;
-  description?: string;
   type: GroupType;
-  departmentId: string;
   isPrivate?: boolean;
   courseTag?: string;
+  departmentId?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

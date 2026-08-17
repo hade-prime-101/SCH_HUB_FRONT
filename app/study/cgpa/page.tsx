@@ -70,16 +70,16 @@ export default function CGPAPage() {
       </div>
 
       {/* CGPA Display */}
-      {cgpaData ? (
+      {cgpaData && cgpaData.currentCGPA !== undefined ? (
         <Card>
           <CardContent className="p-6 flex flex-wrap justify-between items-center gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Current CGPA</p>
-              <p className="text-4xl font-bold text-primary">{cgpaData.currentCGPA.toFixed(2)}</p>
+              <p className="text-4xl font-bold text-primary">{(cgpaData.currentCGPA as number).toFixed(2)}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Total Credits</p>
-              <p className="text-2xl font-bold">{cgpaData.totalCredits}</p>
+              <p className="text-2xl font-bold">{cgpaData.totalCredits || 0}</p>
             </div>
             <Link href="/study/cgpa/courses">
               <Button variant="outline">Manage Courses</Button>
