@@ -3,6 +3,7 @@
 export interface StudyGroup {
   id: string;
   name: string;
+  description?: string;
   type: GroupType;
   departmentId: string;
   schoolId: string;
@@ -68,6 +69,7 @@ export type GroupType = 'EXAM_PREP' | 'ASSIGNMENT' | 'TUTORIAL' | 'PROJECT' | 'G
 
 export interface CreateGroupPayload {
   name: string;
+  description?: string;
   type: GroupType;
   departmentId: string;
   isPrivate?: boolean;
