@@ -30,6 +30,7 @@ import {
   reviewMaterial,
   submitQuizAttempt,
   toggleBookmark,
+  updateMaterial,
   updateQuiz,
   updateVisibility,
   uploadMaterial,
@@ -300,6 +301,7 @@ studyRoutes.post(
 );
 
 studyRoutes.get(   '/materials/:id',                   validateId, getMaterial);
+studyRoutes.patch( '/materials/:id',                   validateId, updateMaterial);
 studyRoutes.patch( '/materials/:id/visibility',         validateId, updateVisibility);
 studyRoutes.delete('/materials/:id',                   validateId, deleteMaterial);
 

@@ -49,8 +49,8 @@ export const usersService = {
         ? user.receivedRatings.reduce((sum: number, r: typeof user.receivedRatings[number]) => sum + r.rating, 0) / user.receivedRatings.length
         : null;
 
-    const { receivedRatings, ...rest } = user;
-    return { ...rest, sellerRating };
+    const { receivedRatings, fullName, ...rest } = user;
+    return { ...rest, name: fullName, sellerRating };
   },
 
   async updateProfile(userId: string, input: UpdateProfileInput) {

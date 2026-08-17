@@ -13,9 +13,9 @@ export const uploadMaterialSchema = z.object({
   year: z.coerce.number().int().min(2000).max(new Date().getFullYear()).optional(),
   level: z.enum(MATERIAL_LEVELS).optional(),
   description: z.string().max(1000).optional(),
-  departmentId: z.string().min(1),
+  departmentId: z.string().min(1).optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
   visibility: z.enum(MATERIAL_VISIBILITIES).default('PUBLIC'),
-  studyGroupId: z.string().optional(),
+  studyGroupId: z.string().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
 });
 
 export const bulkUploadMaterialSchema = z.object({
@@ -41,6 +41,14 @@ export const rateMaterialSchema = z.object({
 export const updateVisibilitySchema = z.object({
   visibility: z.enum(MATERIAL_VISIBILITIES),
   studyGroupId: z.string().optional(),
+});
+
+export const updateMaterialSchema = z.object({
+  title: z.string().min(3).max(200).optional(),
+  description: z.string().max(1000).optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  level: z.enum(MATERIAL_LEVELS).optional(),
+  visibility: z.enum(MATERIAL_VISIBILITIES).optional(),
+  studyGroupId: z.string().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
 });
 
 export const createQuizSchema = z.object({

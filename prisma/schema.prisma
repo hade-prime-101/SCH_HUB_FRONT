@@ -1532,6 +1532,7 @@ enum SemesterType {
 // ============================================================
 
 enum SectionType {
+  FEED
   NOTICE_BOARD
   QNA
   STUDY_GROUPS

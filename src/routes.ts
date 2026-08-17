@@ -28,6 +28,7 @@ routes.use('/study', studyRoutes);
 routes.use('/cgpa', cgpaRoutes);
 routes.use('/ai', aiRoutes);
 routes.use('/ai/personal-study', personalStudyRoutes);
+routes.use('/personal-study', personalStudyRoutes);
 routes.use('/community', communityRoutes);
 routes.use('/community/groups', studyGroupRoutes);
 routes.use('/marketplace', marketplaceRoutes);

@@ -9,8 +9,11 @@ marketplaceRoutes.use(authenticate);
 
 // ── Image upload ──────────────────────────────────────────────────────────
 const [limitImgSize, uploadImage, handleImgErr] = createImageUpload({ fieldName: 'image', maxFileSizeBytes: 5 * 1024 * 1024 });
+const [limitFileSize, uploadFile, handleFileErr] = createImageUpload({ fieldName: 'file', maxFileSizeBytes: 5 * 1024 * 1024 });
 
 // ── Listings ──────────────────────────────────────────────────────────────
+marketplaceRoutes.post('/images/upload', limitImgSize, uploadImage, handleImgErr, c.uploadListingImage);
+marketplaceRoutes.post('/images/upload', limitFileSize, uploadFile, handleFileErr, c.uploadListingImage);
 marketplaceRoutes.post('/listings/upload-image', limitImgSize, uploadImage, handleImgErr, c.uploadListingImage);
 marketplaceRoutes.get('/listings', c.listListings);
 marketplaceRoutes.get('/listings/saved', c.getSavedListings);

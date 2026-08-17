@@ -31,9 +31,11 @@ type CreateFaqInput      = z.infer<typeof createFaqSchema>;
 
 const DEPT_SECTION_LIST: SectionType[] = ['NOTICE_BOARD', 'QNA', 'DEPT_UPDATES', 'CROSS_LEVEL', 'FRESHERS_CORNER'];
 const SCHOOL_SECTION_LIST: SectionType[] = ['CAMPUS_CULTURE', 'LOUNGE', 'ANONYMOUS'];
+const FEED_SECTION_LIST: SectionType[] = ['FEED'];
 const ANNOUNCEMENT_SECTION_LIST: SectionType[] = ['NOTICE_BOARD', 'DEPT_UPDATES'];
 const DEPT_SECTIONS = new Set<SectionType>(DEPT_SECTION_LIST);
 const ANNOUNCEMENT_SECTIONS = new Set<SectionType>(ANNOUNCEMENT_SECTION_LIST);
+const FEED_SECTIONS = new Set<SectionType>(FEED_SECTION_LIST);
 const LOUNGE_UNLOCK_THRESHOLD = 50;
 const SPAM_KEYWORDS = ['join our whatsapp', 'click here to win', 'free airtime', 'send me your number'];
 
@@ -77,12 +79,19 @@ export const communityService = {
     const where: Prisma.CommunityPostWhereInput = {
       isDeleted: false,
       ...(section
-        ? {
-            section,
-            ...(DEPT_SECTIONS.has(section)
-              ? { departmentId: departmentId ?? user.departmentId }
-              : { schoolId: user.schoolId }),
-          }
+        ? section === 'FEED'
+          ? {
+              OR: [
+                { section: { in: DEPT_SECTION_LIST }, departmentId: user.departmentId },
+                { section: { in: SCHOOL_SECTION_LIST }, schoolId: user.schoolId },
+              ],
+            }
+          : {
+              section,
+              ...(DEPT_SECTIONS.has(section)
+                ? { departmentId: departmentId ?? user.departmentId }
+                : { schoolId: user.schoolId }),
+            }
         : {
             OR: [
               { section: { in: DEPT_SECTION_LIST }, departmentId: user.departmentId },

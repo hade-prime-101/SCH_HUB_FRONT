@@ -12,6 +12,7 @@ import {
   reviewMaterialSchema,
   submitQuizAttemptSchema,
   updateVisibilitySchema,
+  updateMaterialSchema,
   uploadMaterialSchema,
 } from '@/modules/study/study.validators.js';
 import { AppError, sendPaginated, sendSuccess } from '@/utils/response.js';
@@ -80,6 +81,13 @@ export const bulkUploadMaterials: RequestHandler = async (req, res, next) => {
 export const updateVisibility: RequestHandler = async (req, res, next) => {
   try {
     const result = await studyService.updateVisibility(req.params.id, updateVisibilitySchema.parse(req.body), req.user!.id, req.user!.role, req.ip);
+    sendSuccess(res, result);
+  } catch (error) { next(error); }
+};
+
+export const updateMaterial: RequestHandler = async (req, res, next) => {
+  try {
+    const result = await studyService.updateMaterial(req.params.id, updateMaterialSchema.parse(req.body), req.user!.id, req.user!.role, req.ip);
     sendSuccess(res, result);
   } catch (error) { next(error); }
 };

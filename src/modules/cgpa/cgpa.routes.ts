@@ -22,3 +22,4 @@ cgpaRoutes.delete('/courses/:id', deleteCourse);
 cgpaRoutes.post('/calculate', calculate);
 cgpaRoutes.get('/records', getRecords);
 cgpaRoutes.get('/records/current', getCurrentCGPA);
+cgpaRoutes.get('/current', getCurrentCGPA);

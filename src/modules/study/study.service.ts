@@ -16,6 +16,7 @@ import type {
   submitQuizAttemptSchema,
   uploadMaterialSchema,
   updateVisibilitySchema,
+  updateMaterialSchema,
   adminQuizAnalyticsSchema,
 } from '@/modules/study/study.validators.js';
 import type { z } from 'zod';
@@ -27,6 +28,7 @@ type CreateQuizInput = z.infer<typeof createQuizSchema>;
 type ListQuizzesInput = z.infer<typeof listQuizzesSchema>;
 type SubmitAttemptInput = z.infer<typeof submitQuizAttemptSchema>;
 type UpdateVisibilityInput = z.infer<typeof updateVisibilitySchema>;
+type UpdateMaterialInput = z.infer<typeof updateMaterialSchema>;
 type GenerateQuizInput = z.infer<typeof generateQuizFromMaterialSchema>;
 type AdminAnalyticsInput = z.infer<typeof adminQuizAnalyticsSchema>;
 
@@ -357,6 +359,11 @@ export const studyService = {
     const isPrivileged = PRIVILEGED_UPLOADER_ROLES.has(userRole);
     const reviewStatus = isPrivileged ? 'APPROVED' : 'PENDING_REVIEW';
 
+    // Get user's department if not provided
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { departmentId: true } });
+    const departmentId = input.departmentId || user?.departmentId;
+    if (!departmentId) throw new AppError('Department information is required', 400);
+
     // Extract text — tries text layer first, then Groq Vision → Gemini OCR for scanned PDFs.
     // Throws 422 only if all methods are exhausted and file remains unreadable.
     const extraction = await extractTextOrReject(file.buffer, file.mimetype, file.originalname);
@@ -375,7 +382,7 @@ export const studyService = {
         extractedText: extraction.text,
         extractedTextPreview: extraction.preview,
         textExtractionStatus: extraction.status,
-        uploadedById: userId, departmentId: input.departmentId,
+        uploadedById: userId, departmentId: departmentId as string,
         visibility: input.visibility, studyGroupId: input.studyGroupId,
         reviewStatus,
         // Student uploads default to PRIVATE until reviewed so they don't appear in public feed
@@ -404,6 +411,11 @@ export const studyService = {
     const reviewStatus = isPrivileged ? 'APPROVED' : 'PENDING_REVIEW';
     const results: { success: boolean; title: string; error?: string }[] = [];
 
+    // Get user's department once
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { departmentId: true } });
+    const userDepartmentId = user?.departmentId;
+    if (!userDepartmentId) throw new AppError('Department information is required', 400);
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const input = inputs[i];
@@ -413,6 +425,7 @@ export const studyService = {
         const duplicate = await prisma.material.findFirst({ where: { contentHash, isDeleted: false } });
         if (duplicate) { results.push({ success: false, title: input.title, error: `Duplicate: already exists as "${duplicate.title}"` }); continue; }
         const { key, url } = await r2.upload(file.buffer, file.originalname, file.mimetype);
+        const departmentId = input.departmentId || userDepartmentId;
         const material = await prisma.material.create({
           data: {
             title: input.title, type: input.type, courseCode: input.courseCode, courseTitle: input.courseTitle,
@@ -421,7 +434,7 @@ export const studyService = {
             extractedText: extraction.text,
             extractedTextPreview: extraction.preview,
             textExtractionStatus: extraction.status,
-            uploadedById: userId, departmentId: input.departmentId,
+            uploadedById: userId, departmentId: departmentId as string,
             visibility: reviewStatus === 'PENDING_REVIEW' ? 'PRIVATE' : input.visibility,
             studyGroupId: input.studyGroupId,
             reviewStatus,
@@ -460,6 +473,33 @@ export const studyService = {
     });
 
     await auditService.log({ action: 'MATERIAL_VISIBILITY_CHANGED', performedById: userId, targetId: id, targetType: 'Material', meta: { from: material.visibility, to: input.visibility }, ipAddress }).catch(() => null);
+    return updated;
+  },
+
+  async updateMaterial(id: string, input: UpdateMaterialInput, userId: string, userRole: string, ipAddress?: string) {
+    const material = await prisma.material.findUnique({ where: { id, isDeleted: false } });
+    if (!material) throw new AppError('Material not found', 404);
+
+    const isAdmin = userRole === 'SCHOOL_ADMIN' || userRole === 'SUPER_ADMIN';
+    if (!isAdmin && material.uploadedById !== userId) throw new AppError('Not authorized', 403);
+
+    if (input.visibility === 'STUDY_GROUP' && !input.studyGroupId) throw new AppError('studyGroupId is required for STUDY_GROUP visibility', 400);
+
+    const updated = await prisma.material.update({
+      where: { id },
+      data: {
+        ...(input.title && { title: input.title }),
+        ...(input.description !== undefined && { description: input.description }),
+        ...(input.level && { level: input.level }),
+        ...(input.visibility && { visibility: input.visibility, studyGroupId: input.visibility === 'STUDY_GROUP' ? input.studyGroupId : null }),
+      },
+      select: MATERIAL_SELECT,
+    });
+
+    // Log audit only if visibility changed
+    if (input.visibility) {
+      await auditService.log({ action: 'MATERIAL_VISIBILITY_CHANGED', performedById: userId, targetId: id, targetType: 'Material', meta: { from: material.visibility, to: input.visibility }, ipAddress }).catch(() => null);
+    }
     return updated;
   },
 
@@ -973,7 +1013,7 @@ export const studyService = {
   },
 
   async getOverview(userId: string) {
-    const [user, materialsCount, quizAttempts, cgpa] = await Promise.all([
+    const [user, materialsCount, quizAttempts, cgpaRecord, recentMaterials] = await Promise.all([
       prisma.user.findUnique({ where: { id: userId }, select: { id: true, fullName: true, level: true } }),
       prisma.material.count({ where: { uploadedById: userId, isDeleted: false } }),
       prisma.quizAttempt.findMany({
@@ -981,37 +1021,36 @@ export const studyService = {
         select: { score: true, totalQuestions: true, percentage: true, completedAt: true, quiz: { select: { title: true, courseCode: true, id: true } } },
         orderBy: { completedAt: 'desc' },
       }),
-      prisma.cgpa.findUnique({ where: { userId }, select: { gpa: true } }),
+      prisma.cGPARecord.findFirst({ where: { userId }, select: { gpa: true, cgpa: true }, orderBy: { createdAt: 'desc' } }),
+      prisma.material.findMany({
+        where: { uploadedById: userId, isDeleted: false },
+        select: { id: true, title: true, courseCode: true, createdAt: true },
+        orderBy: { createdAt: 'desc' },
+        take: 3,
+      }),
     ]);
 
     if (!user) throw new AppError('User not found', 404);
 
     const quizzesTaken = quizAttempts.length;
-    const averageQuizScore = quizAttempts.length > 0
-      ? Math.round(quizAttempts.reduce((sum, a) => sum + a.percentage, 0) / quizAttempts.length * 10) / 10
+    const averageQuizScore = quizzesTaken > 0
+      ? Math.round(quizAttempts.reduce((sum: number, a: typeof quizAttempts[number]) => sum + (a.percentage || 0), 0) / quizzesTaken * 10) / 10
       : 0;
 
-    const recentMaterials = await prisma.material.findMany({
-      where: { uploadedById: userId, isDeleted: false },
-      select: { id: true, title: true, courseCode: true, createdAt: true },
-      orderBy: { createdAt: 'desc' },
-      take: 3,
-    });
-
-    const recentQuizzes = quizAttempts.slice(0, 3).map((attempt) => ({
-      id: attempt.quiz.id,
-      title: attempt.quiz.title,
+    const recentQuizzes = quizAttempts.slice(0, 3).map((attempt: typeof quizAttempts[number]) => ({
+      id: attempt.quiz?.id || '',
+      title: attempt.quiz?.title || 'Unknown Quiz',
       attemptedAt: attempt.completedAt,
-      score: attempt.score,
+      score: attempt.score || 0,
     }));
 
     return {
-      materialsCount,
+      materialsCount: materialsCount || 0,
       quizzesTaken,
       averageQuizScore,
-      cgpa: cgpa?.gpa ?? 0,
-      recentMaterials,
-      recentQuizzes,
+      cgpa: cgpaRecord?.cgpa ?? 0,
+      recentMaterials: recentMaterials && recentMaterials.length > 0 ? recentMaterials : [],
+      recentQuizzes: recentQuizzes && recentQuizzes.length > 0 ? recentQuizzes : [],
     };
   },
 
