@@ -86,17 +86,23 @@ export const deleteEmergencyContact = (id: string) =>
   apiDelete<{ message: string }>(`/school/emergency-contacts/${id}`);
 
 // ─── School Configuration ───────────────────────────────────
-export const getSchools = () =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  apiGet<any[]>('/schools');
+export const getSchools = async () => {
+  const data = await apiGet<any>('/schools');
+  // Always return an array - handle both { data: [] } and [] responses
+  return Array.isArray(data) ? data : (data?.data || []);
+};
 
-export const getFaculties = (schoolId: string) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  apiGet<any[]>(`/schools/${schoolId}/faculties`);
+export const getFaculties = async (schoolId: string) => {
+  const data = await apiGet<any>(`/schools/${schoolId}/faculties`);
+  // Always return an array - handle both { data: [] } and [] responses
+  return Array.isArray(data) ? data : (data?.data || []);
+};
 
-export const getDepartments = (facultyId: string) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  apiGet<any[]>(`/faculties/${facultyId}/departments`);
+export const getDepartments = async (facultyId: string) => {
+  const data = await apiGet<any>(`/faculties/${facultyId}/departments`);
+  // Always return an array - handle both { data: [] } and [] responses
+  return Array.isArray(data) ? data : (data?.data || []);
+};
 
 export const getMapConfig = () =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -83,8 +83,8 @@ export default function RegisterPage() {
       setLoadingSchools(true);
       setSchoolError(null);
       try {
-        const data = await schoolApi.getSchools();
-        setSchools(data);
+        const schoolsArray = await schoolApi.getSchools();
+        setSchools(schoolsArray);
       } catch (error) {
         console.error("Error fetching schools:", error);
         setSchoolError("Failed to load schools. Please refresh the page.");

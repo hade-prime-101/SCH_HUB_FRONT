@@ -1,21 +1,29 @@
 "use client";
 
 import * as React from "react";
-// app/study/materials/upload/page.tsx
-
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { apiPost } from "@/lib/api";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Upload, File, X, Plus } from "lucide-react";
+import { authApi } from "@/lib/api/auth";
+import { getDepartments } from "@/lib/api/school.api";
+import { Upload, File, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Card } from "@/components/ui/card";
 import type { MaterialVisibility } from "@/types/study";
+
+const MATERIAL_TYPES = [
+  { value: 'PAST_QUESTION', label: 'Past Question' },
+  { value: 'NOTE', label: 'Note' },
+  { value: 'HANDOUT', label: 'Handout' },
+  { value: 'ASSIGNMENT', label: 'Assignment' },
+  { value: 'SUMMARY', label: 'Summary' },
+  { value: 'SLIDES', label: 'Slides' },
+  { value: 'OTHER', label: 'Other' },
+];
 
 export default function UploadMaterialPage() {
   const router = useRouter();
@@ -26,10 +34,13 @@ export default function UploadMaterialPage() {
   // Single upload
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
+  const [type, setType] = useState("NOTE");
   const [courseCode, setCourseCode] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState<MaterialVisibility>("PUBLIC");
+  const [departments, setDepartments] = useState<Array<{ id: string; name: string }>>([]);
 
   // Bulk upload
   const [bulkFiles, setBulkFiles] = useState<File[]>([]);
@@ -37,17 +48,42 @@ export default function UploadMaterialPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Load user's department on mount
+  React.useEffect(() => {
+    const loadDepartments = async () => {
+      try {
+        const user = await authApi.getMe();
+        if (user.departmentId) {
+          setDepartmentId(user.departmentId);
+          const depts = await getDepartments(user.departmentId);
+          setDepartments(Array.isArray(depts) ? depts : (depts?.data || []));
+        }
+      } catch (err) {
+        console.error('Failed to load departments:', err);
+      }
+    };
+    loadDepartments();
+  }, []);
+
   const handleSingle = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) return setError("Please select a file");
+    if (!title) return setError("Title is required");
+    if (!type) return setError("Type is required");
+    if (!courseCode) return setError("Course code is required");
+    if (!courseTitle) return setError("Course title is required");
+    if (!departmentId) return setError("Department is required");
+
     setUploading(true);
     setError(null);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
+    formData.append("type", type);
+    formData.append("courseCode", courseCode);
+    formData.append("courseTitle", courseTitle);
+    formData.append("departmentId", departmentId);
     formData.append("visibility", visibility);
-    if (courseCode) formData.append("courseCode", courseCode);
-    if (courseTitle) formData.append("courseTitle", courseTitle);
     if (description) formData.append("description", description);
     try {
       await apiPost("/study/materials", formData, true);
@@ -126,7 +162,7 @@ export default function UploadMaterialPage() {
       {mode === "single" ? (
         <form onSubmit={handleSingle} className="bg-card rounded-2xl border border-border p-6 space-y-4">
           <div>
-            <Label htmlFor="file">File *</Label>
+            <Label htmlFor="file">File <span className="text-destructive">*</span></Label>
             <div className="mt-1 flex items-center gap-3">
               <Input
                 id="file"
@@ -140,37 +176,101 @@ export default function UploadMaterialPage() {
               )}
             </div>
           </div>
+
           <div>
-            <Label htmlFor="title">Title *</Label>
-            <Input id="title" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} required />
+            <Label htmlFor="title">Title <span className="text-destructive">*</span></Label>
+            <Input 
+              id="title" 
+              value={title} 
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} 
+              required 
+              disabled={uploading}
+            />
           </div>
+
           <div>
-            <Label htmlFor="courseCode">Course Code</Label>
-            <Input id="courseCode" value={courseCode} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseCode(e.target.value)} />
+            <Label htmlFor="type">Type <span className="text-destructive">*</span></Label>
+            <Select value={type} onValueChange={setType} disabled={uploading}>
+              <SelectTrigger id="type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {MATERIAL_TYPES.map((t) => (
+                  <SelectItem key={t.value} value={t.value}>
+                    {t.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
+
           <div>
-            <Label htmlFor="courseTitle">Course Title</Label>
-            <Input id="courseTitle" value={courseTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseTitle(e.target.value)} />
+            <Label htmlFor="courseCode">Course Code <span className="text-destructive">*</span></Label>
+            <Input 
+              id="courseCode" 
+              value={courseCode} 
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseCode(e.target.value)} 
+              required
+              disabled={uploading}
+              placeholder="e.g., CSC101"
+            />
           </div>
+
           <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea id="description" value={description} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)} rows={3} />
+            <Label htmlFor="courseTitle">Course Title <span className="text-destructive">*</span></Label>
+            <Input 
+              id="courseTitle" 
+              value={courseTitle} 
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCourseTitle(e.target.value)} 
+              required
+              disabled={uploading}
+              placeholder="e.g., Introduction to Computer Science"
+            />
           </div>
+
+          <div>
+            <Label htmlFor="departmentId">Department <span className="text-destructive">*</span></Label>
+            <Select value={departmentId} onValueChange={setDepartmentId} disabled={uploading || departments.length === 0}>
+              <SelectTrigger id="departmentId">
+                <SelectValue placeholder="Select a department" />
+              </SelectTrigger>
+              <SelectContent>
+                {departments.map((dept) => (
+                  <SelectItem key={dept.id} value={dept.id}>
+                    {dept.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="description">Description (optional)</Label>
+            <Textarea 
+              id="description" 
+              value={description} 
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} 
+              rows={3}
+              disabled={uploading}
+              placeholder="Add details about this material..."
+            />
+          </div>
+
           <div>
             <Label htmlFor="visibility">Visibility</Label>
-            <Select value={visibility} onValueChange={(val) => setVisibility(val as MaterialVisibility)}>
-              <SelectTrigger>
+            <Select value={visibility} onValueChange={(val) => setVisibility(val as MaterialVisibility)} disabled={uploading}>
+              <SelectTrigger id="visibility">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="PUBLIC">Public</SelectItem>
                 <SelectItem value="PRIVATE">Private</SelectItem>
-                <SelectItem value="LINK_ONLY">Link Only</SelectItem>
                 <SelectItem value="DEPARTMENT">Department</SelectItem>
                 <SelectItem value="LEVEL">Level</SelectItem>
               </SelectContent>
             </Select>
           </div>
+
           <Button type="submit" disabled={uploading} className="w-full sm:w-auto">
             {uploading ? "Uploading..." : "Upload"}
           </Button>
@@ -178,7 +278,7 @@ export default function UploadMaterialPage() {
       ) : (
         <div className="bg-card rounded-2xl border border-border p-6 space-y-4">
           <div>
-            <Label>Select Files *</Label>
+            <Label>Select Files <span className="text-destructive">*</span></Label>
             <Input
               type="file"
               multiple
@@ -187,13 +287,19 @@ export default function UploadMaterialPage() {
                 setBulkFiles(prev => [...prev, ...files]);
               }}
               className="mt-1"
+              disabled={uploading}
             />
             {bulkFiles.length > 0 && (
               <div className="mt-3 space-y-2">
                 {bulkFiles.map((f, i) => (
                   <div key={i} className="flex items-center justify-between bg-muted/50 rounded-lg px-3 py-2 text-sm">
                     <span className="truncate">{f.name}</span>
-                    <button type="button" onClick={() => removeBulkFile(i)} className="text-destructive hover:text-destructive/80">
+                    <button 
+                      type="button" 
+                      onClick={() => removeBulkFile(i)} 
+                      className="text-destructive hover:text-destructive/80"
+                      disabled={uploading}
+                    >
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -205,11 +311,12 @@ export default function UploadMaterialPage() {
             <Label htmlFor="bulkJson">Materials JSON (array of objects)</Label>
             <Textarea
               id="bulkJson"
-              placeholder='[{"title":"Math Notes","visibility":"PUBLIC"}]'
+              placeholder='[{"title":"Math Notes","type":"NOTE","courseCode":"MTH101","courseTitle":"Calculus I","departmentId":"...","visibility":"PUBLIC"}]'
               value={bulkJson}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBulkJson(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBulkJson(e.target.value)}
               rows={5}
               className="mt-1 font-mono text-sm"
+              disabled={uploading}
             />
           </div>
           <Button onClick={handleBulk} disabled={uploading || bulkFiles.length === 0}>

@@ -13,6 +13,9 @@ export const authApi = {
     apiFetch<LoginResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
+    }).then((res) => {
+      // Unwrap if the response is wrapped in a 'data' property
+      return (res as any)?.data || res;
     }),
 
   register: (data: {
@@ -44,7 +47,11 @@ export const authApi = {
       body: JSON.stringify({ refreshToken }),
     }),
 
-  getMe: () => apiFetch<User>("/auth/me"),
+  getMe: () => 
+    apiFetch<User>("/auth/me").then((res) => {
+      // Unwrap if the response is wrapped in a 'data' property
+      return (res as any)?.data || res;
+    }),
 
   forgotPassword: (email: string) =>
     apiFetch<{ message: string }>("/auth/forgot-password", {

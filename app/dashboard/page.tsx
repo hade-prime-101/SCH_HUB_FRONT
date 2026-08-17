@@ -101,9 +101,9 @@ export default function DashboardPage() {
         await Promise.allSettled([
           plannerApi.getTodayPlanner(),
           schoolApi.listEvents({ upcoming: true }),
-          communityApi.getFeed({ limit: "3" }),
+          communityApi.getFeed({ limit: 3 }),
           notificationsApi.listNotifications({ limit: 5 }),
-          communityApi.getNotices({ section: "NOTICE_BOARD", limit: "3" }),
+          communityApi.getNotices({ section: "NOTICE_BOARD", limit: 3 }),
         ]);
 
       if (

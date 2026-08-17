@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import '@/app/ui/globals.css';
 import { geist } from '@/app/ui/fonts';
 import { ThemeProvider } from '@/app/ui/theme-provider';
+import { AuthProvider } from '@/lib/providers/AuthProvider';
 
 export const metadata: Metadata = {
   title: "LOOPZ",
@@ -47,7 +48,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geist.className} antialiased`}>
         <ThemeProvider>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

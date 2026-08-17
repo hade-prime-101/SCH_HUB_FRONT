@@ -105,10 +105,37 @@ export function useAuth() {
 
   const checkAuth = useCallback(async () => {
     const token = getStoredToken();
+    const storedUser = getStoredUser();
+    
     if (!token) {
       setAuthState(prev => ({ ...prev, loading: false, isAuthenticated: false }));
       return;
     }
+    
+    // If we have stored user data, trust it immediately and verify in the background
+    if (storedUser) {
+      const redirect = (localStorage.getItem('dashboard_redirect') as DashboardRedirect) || null;
+      setAuthState({ user: storedUser, loading: false, error: null, isAuthenticated: true, dashboardRedirect: redirect });
+      
+      // Verify token is still valid in the background
+      try {
+        const user = await apiClient.getMe();
+        if (!isMountedRef.current) return;
+        if (user) {
+          storeUser(user);
+        } else {
+          clearTokens();
+          setAuthState({ user: null, loading: false, error: null, isAuthenticated: false, dashboardRedirect: null });
+        }
+      } catch (err) {
+        // Token is invalid
+        clearTokens();
+        setAuthState({ user: null, loading: false, error: null, isAuthenticated: false, dashboardRedirect: null });
+      }
+      return;
+    }
+    
+    // No stored user, try to fetch from API
     try {
       const user = await apiClient.getMe();
       if (!isMountedRef.current) return;
@@ -120,10 +147,9 @@ export function useAuth() {
         clearTokens();
         setAuthState({ user: null, loading: false, error: null, isAuthenticated: false, dashboardRedirect: null });
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       if (!isMountedRef.current) return;
-      // If auth check fails, clear tokens and mark as not authenticated
+      console.error('Auth check failed:', err);
       clearTokens();
       setAuthState({ user: null, loading: false, error: null, isAuthenticated: false, dashboardRedirect: null });
     }
