@@ -21,6 +21,7 @@ export const routes = Router();
 
 routes.use('/health', healthRoutes);
 routes.use('/auth', authRoutes);
+routes.use('/', schoolLookupRoutes);
 routes.use('/school', schoolLookupRoutes);
 routes.use('/users', usersRoutes);
 routes.use('/study', studyRoutes);

@@ -23,7 +23,7 @@ const attachmentsField = z.preprocess(
   z.array(attachmentSchema).max(5).optional(),
 );
 
-const SECTIONS = ['NOTICE_BOARD', 'QNA', 'DEPT_UPDATES', 'CROSS_LEVEL', 'FRESHERS_CORNER', 'ANONYMOUS', 'CAMPUS_CULTURE', 'LOUNGE'] as const;
+const SECTIONS = ['FEED', 'NOTICE_BOARD', 'QNA', 'DEPT_UPDATES', 'CROSS_LEVEL', 'FRESHERS_CORNER', 'ANONYMOUS', 'CAMPUS_CULTURE', 'LOUNGE'] as const;
 const QUESTION_TYPES = ['COURSE_HELP', 'ASSIGNMENT_HELP', 'CONCEPT_EXPLANATION', 'EXAM_PREP', 'PROJECT_GUIDANCE'] as const;
 
 // ── 6.1 Announcements / Posts ─────────────────────────────────────────────

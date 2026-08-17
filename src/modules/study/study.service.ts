@@ -972,6 +972,49 @@ export const studyService = {
     };
   },
 
+  async getOverview(userId: string) {
+    const [user, materialsCount, quizAttempts, cgpa] = await Promise.all([
+      prisma.user.findUnique({ where: { id: userId }, select: { id: true, fullName: true, level: true } }),
+      prisma.material.count({ where: { uploadedById: userId, isDeleted: false } }),
+      prisma.quizAttempt.findMany({
+        where: { userId },
+        select: { score: true, totalQuestions: true, percentage: true, completedAt: true, quiz: { select: { title: true, courseCode: true, id: true } } },
+        orderBy: { completedAt: 'desc' },
+      }),
+      prisma.cgpa.findUnique({ where: { userId }, select: { gpa: true } }),
+    ]);
+
+    if (!user) throw new AppError('User not found', 404);
+
+    const quizzesTaken = quizAttempts.length;
+    const averageQuizScore = quizAttempts.length > 0
+      ? Math.round(quizAttempts.reduce((sum, a) => sum + a.percentage, 0) / quizAttempts.length * 10) / 10
+      : 0;
+
+    const recentMaterials = await prisma.material.findMany({
+      where: { uploadedById: userId, isDeleted: false },
+      select: { id: true, title: true, courseCode: true, createdAt: true },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+    });
+
+    const recentQuizzes = quizAttempts.slice(0, 3).map((attempt) => ({
+      id: attempt.quiz.id,
+      title: attempt.quiz.title,
+      attemptedAt: attempt.completedAt,
+      score: attempt.score,
+    }));
+
+    return {
+      materialsCount,
+      quizzesTaken,
+      averageQuizScore,
+      cgpa: cgpa?.gpa ?? 0,
+      recentMaterials,
+      recentQuizzes,
+    };
+  },
+
   // ── Admin Analytics ───────────────────────────────────────────
 
   async getAdminQuizAnalytics(input: AdminAnalyticsInput, userRole: string) {

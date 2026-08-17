@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express from 'express';
+import express, { type ErrorRequestHandler } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'node:path';
@@ -44,6 +44,19 @@ app.use(cors({
 
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+
+// Custom error handler for JSON parsing errors
+const jsonErrorHandler: ErrorRequestHandler = (err: any, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (err instanceof SyntaxError && 'body' in err) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid JSON: ' + err.message,
+      hint: 'Ensure the request body is valid JSON and Content-Type header is set to application/json',
+    });
+  }
+  next(err);
+};
+app.use(jsonErrorHandler);
 
 if (env.NODE_ENV === 'production') {
   morgan.token('id', (req) => (req as express.Request).id ?? '-');

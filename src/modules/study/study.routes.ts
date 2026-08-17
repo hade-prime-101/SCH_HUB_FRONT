@@ -17,6 +17,7 @@ import {
   getDownloadUrl,
   getMaterial,
   getMyAnalytics,
+  getOverview,
   getQuiz,
   getQuizAttempts,
   incrementDownload,
@@ -378,6 +379,7 @@ studyRoutes.delete(
 // ── Analytics ─────────────────────────────────────────────────────────────
 
 studyRoutes.get('/analytics/me', getMyAnalytics);
+studyRoutes.get('/overview', getOverview);
 
 studyRoutes.get(
   '/analytics/admin',

@@ -212,6 +212,12 @@ export const getMyAnalytics: RequestHandler = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+export const getOverview: RequestHandler = async (req, res, next) => {
+  try {
+    sendSuccess(res, await studyService.getOverview(req.user!.id));
+  } catch (error) { next(error); }
+};
+
 export const approveQuizQuestions: RequestHandler = async (req, res, next) => {
   try {
     const { approvals } = approveQuizQuestionsSchema.parse(req.body);
