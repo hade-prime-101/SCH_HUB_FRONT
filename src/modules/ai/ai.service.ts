@@ -12,7 +12,6 @@ export const aiService = {
     });
 
     if (!material) throw new AppError('Material not found', 404);
-    if (material.mimeType !== 'application/pdf') throw new AppError('Only PDF files can be summarized', 400);
 
     // Check if completed summary already exists (cache by materialId)
     if (material.aiSummary?.status === 'COMPLETED') {
@@ -51,7 +50,7 @@ export const aiService = {
   },
 
   async getSummary(materialId: string) {
-    const summary = await prisma.aISummary.findUnique({
+    let summary = await prisma.aISummary.findUnique({
       where: { materialId },
       include: {
         chunks: {
@@ -61,7 +60,18 @@ export const aiService = {
       },
     });
 
-    if (!summary) throw new AppError('No summary found for this material', 404);
+    // If no summary exists, create a PENDING one so frontend can poll
+    if (!summary) {
+      summary = await prisma.aISummary.create({
+        data: { materialId, status: 'PENDING', progress: 0 },
+        include: {
+          chunks: {
+            select: { chunkNumber: true, status: true },
+            orderBy: { chunkNumber: 'asc' },
+          },
+        },
+      });
+    }
 
     return {
       id: summary.id,

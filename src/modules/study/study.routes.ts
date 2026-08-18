@@ -350,6 +350,7 @@ studyRoutes.post(
 );
 
 studyRoutes.post('/quizzes/generate', generateQuizFromMaterial);
+studyRoutes.post('/quizzes/generate-from-material', generateQuizFromMaterial);
 
 studyRoutes.get(   '/quizzes/:id',         validateId, getQuiz);
 studyRoutes.post(  '/quizzes/:id/attempt', validateId, submitQuizAttempt);

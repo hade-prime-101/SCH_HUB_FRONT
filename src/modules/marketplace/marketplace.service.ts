@@ -141,7 +141,7 @@ export const marketplaceService = {
     return prisma.listing.create({
       data: {
         title: input.title, description: input.description,
-        price: input.price, category: input.category, condition: input.condition,
+        price: input.price, category: input.category, condition: input.condition ?? 'GOOD',
         images: input.images, location: input.location ?? null,
         whatsapp: input.whatsapp ?? null,
         sellerId: userId, shopId: input.shopId ?? null,

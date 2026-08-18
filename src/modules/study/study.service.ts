@@ -393,13 +393,11 @@ export const studyService = {
 
     await auditService.log({ action: 'MATERIAL_UPLOADED', performedById: userId, targetId: material.id, targetType: 'Material', meta: { title: material.title, visibility: material.visibility, courseCode: material.courseCode, reviewStatus }, ipAddress }).catch(() => null);
 
-    // Auto-trigger AI summary generation for PDF files (smooth UX — summary ready on detail page load)
-    if (material.mimeType === 'application/pdf') {
-      aiService.requestSummary(material.id, userId).catch((err) => {
-        // Log but don't fail upload if summary generation fails to start
-        console.error(`Failed to start summary generation for material ${material.id}:`, err.message);
-      });
-    }
+    // Auto-trigger AI summary generation for all supported file types (smooth UX — summary ready on detail page load)
+    aiService.requestSummary(material.id, userId).catch((err) => {
+      // Log but don't fail upload if summary generation fails to start
+      console.error(`Failed to start summary generation for material ${material.id}:`, err.message);
+    });
 
     return { ...material, reviewStatus, pendingReview: reviewStatus === 'PENDING_REVIEW' };
   },
@@ -442,12 +440,10 @@ export const studyService = {
         });
         await auditService.log({ action: 'MATERIAL_UPLOADED', performedById: userId, targetId: material.id, targetType: 'Material', meta: { title: material.title, visibility: material.visibility }, ipAddress }).catch(() => null);
         
-        // Auto-trigger AI summary generation for PDF files
-        if (material.mimeType === 'application/pdf') {
-          aiService.requestSummary(material.id, userId).catch((err) => {
-            console.error(`Failed to start summary generation for material ${material.id}:`, err.message);
-          });
-        }
+        // Auto-trigger AI summary generation for all supported file types
+        aiService.requestSummary(material.id, userId).catch((err) => {
+          console.error(`Failed to start summary generation for material ${material.id}:`, err.message);
+        });
 
         results.push({ success: true, title: input.title });
       } catch (err) {
@@ -691,6 +687,11 @@ export const studyService = {
       throw new AppError('studyGroupId is required for STUDY_GROUP visibility', 400);
     }
 
+    // Get user's department if not provided
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { departmentId: true } });
+    const departmentId = input.departmentId || user?.departmentId;
+    if (!departmentId) throw new AppError('Department information is required', 400);
+
     const quiz = await prisma.quiz.create({
       data: {
         title: input.title,
@@ -698,7 +699,7 @@ export const studyService = {
         description: input.description,
         level: input.level,
         timeLimit: input.timeLimit,
-        departmentId: input.departmentId,
+        departmentId: departmentId as string,
         createdById: userId,
         creatorRole: userRole,
         visibility: input.visibility,
@@ -802,6 +803,11 @@ export const studyService = {
       throw new AppError('AI summary must be completed before generating a quiz. Request a summary first.', 400);
     }
 
+    // Get user's department if not provided
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { departmentId: true } });
+    const departmentId = input.departmentId || user?.departmentId;
+    if (!departmentId) throw new AppError('Department information is required', 400);
+
     // Collect all AI-generated questions from summary chunks
     type RawQuestion = { question: string; options: string[]; correctAnswer: number; explanation: string };
     const allQuestions: RawQuestion[] = material.aiSummary.chunks
@@ -829,7 +835,7 @@ export const studyService = {
         courseCode: material.courseCode,
         description: `Auto-generated from "${material.title}". Review and edit before publishing.`,
         timeLimit: unique.length * 60,
-        departmentId: input.departmentId,
+        departmentId: departmentId as string,
         createdById: userId,
         creatorRole: 'STUDENT',
         visibility: input.visibility,

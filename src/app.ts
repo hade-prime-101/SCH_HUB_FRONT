@@ -24,6 +24,7 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: env.NODE_ENV === 'production' ? undefined : false,
   referrerPolicy: { policy: 'no-referrer' },
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
 const allowedOrigins = env.CORS_ORIGIN.split(',')

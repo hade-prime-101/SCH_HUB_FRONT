@@ -5,10 +5,10 @@ import { z } from 'zod';
 export const createListingSchema = z.object({
   title: z.string().min(3).max(200),
   description: z.string().min(10).max(2000),
-  price: z.number().min(0).max(10_000_000),
+  price: z.coerce.number().min(0).max(10_000_000),
   category: z.enum(['BOOKS', 'ELECTRONICS', 'CLOTHING', 'FOOD', 'FURNITURE', 'HANDOUTS', 'SERVICES', 'OTHER']),
-  condition: z.enum(['NEW', 'LIKE_NEW', 'GOOD', 'FAIR']),
-  images: z.array(z.string().url()).min(1).max(5),
+  condition: z.enum(['NEW', 'LIKE_NEW', 'GOOD', 'FAIR']).optional(),
+  images: z.array(z.string()).max(5).default([]),
   location: z.string().max(200).optional(),
   whatsapp: z.string().max(20).optional(),
   shopId: z.string().optional(),

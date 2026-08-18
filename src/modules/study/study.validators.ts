@@ -31,7 +31,7 @@ export const listMaterialsSchema = z.object({
   studyGroupId: z.string().optional(),
   search: z.string().max(100).optional(),
   page: z.coerce.number().int().min(1).default(1),
-  limit: z.coerce.number().int().min(1).max(50).default(20),
+  limit: z.coerce.number().int().min(1).max(100).default(20),
 });
 
 export const rateMaterialSchema = z.object({
@@ -57,7 +57,7 @@ export const createQuizSchema = z.object({
   description: z.string().max(1000).optional(),
   level: z.enum(MATERIAL_LEVELS).optional(),
   timeLimit: z.number().int().min(60).max(7200),
-  departmentId: z.string().min(1),
+  departmentId: z.string().optional(),
   visibility: z.enum(QUIZ_VISIBILITIES).default('DEPARTMENT'),
   studyGroupId: z.string().optional(),
   isDraft: z.boolean().default(false),
@@ -91,7 +91,7 @@ export const publishQuizSchema = z.object({
 export const generateQuizFromMaterialSchema = z.object({
   materialId: z.string().min(1),
   questionCount: z.number().int().min(5).max(30).default(15),
-  departmentId: z.string().min(1),
+  departmentId: z.string().optional(),
   visibility: z.enum(QUIZ_VISIBILITIES).default('DEPARTMENT'),
   studyGroupId: z.string().nullish(), // null when quiz is not scoped to a study group
 });
