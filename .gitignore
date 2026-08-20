@@ -67,3 +67,4 @@ scripts/.admin-session
 
 # ── Admin bootstrap scripts (sensitive — never commit) ────────
 scripts/create-super-admin.sh
+opencode.json
